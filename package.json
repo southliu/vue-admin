@@ -28,5 +28,10 @@
     "vite-plugin-style-import": "^1.4.1",
     "vite-plugin-theme": "^0.8.1",
     "vue-tsc": "^0.29.8"
+  },
+  "husky": {
+    "hooks": {
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
   }
 }
