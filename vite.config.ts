@@ -1,14 +1,25 @@
 import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import { viteThemePlugin, mixLighten, mixDarken, tinycolor } from 'vite-plugin-theme'
+import Components from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
-    viteThemePlugin({
-      // Match the color to be modified
-       colorVariables: [],
+    Components({
+      resolvers: [
+        AntDesignVueResolver(),
+      ],
     })
-  ]
+  ],
+  resolve: {
+    alias: {
+      '@': '/src'
+    }
+  },
+  server: {
+    port: 8080,
+    open: true
+  },
 })
