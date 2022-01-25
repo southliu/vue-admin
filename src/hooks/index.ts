@@ -1,2 +1,2 @@
 export { default as useToken } from './useToken'
-export { default as useGoPath } from './useGoPath'
+export { default as useHistory } from './useHistory'
