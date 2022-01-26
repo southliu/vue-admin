@@ -1,5 +1,4 @@
 <template>
-  Login
   <div class="go" @click="goHome">to Home</div>
 </template>
 

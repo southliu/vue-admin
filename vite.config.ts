@@ -1,5 +1,6 @@
 import { defineConfig, Plugin } from 'vite'
 import vue from '@vitejs/plugin-vue'
+import windiCSS from 'vite-plugin-windicss';
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 
@@ -7,6 +8,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 export default defineConfig({
   plugins: [
     vue(),
+    windiCSS(),
     Components({
       resolvers: [
         AntDesignVueResolver(),
@@ -17,6 +19,9 @@ export default defineConfig({
     alias: {
       '@': '/src'
     }
+  },
+  define: {
+    'process.env': {}
   },
   server: {
     port: 8080,
