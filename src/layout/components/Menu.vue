@@ -1,16 +1,16 @@
 <template>
   <div
-    class="menu box-border transition-all"
-    :class="{ 'menu_close': collapsed }"
+    class="menu py-2 box-border transition-all"
+    :class="{ 'menu-close': collapsed }"
   >
     <div
-      class="flex content-center p-3 cursor-pointer"
+      class="flex content-center px-5 py-2 cursor-pointer"
       :class="{ 'justify-center': collapsed }"
     >
       <img class="logo object-contain" src="@/assets/logo.png">
       <span
-        class="title ml-2 text-xl font-bold transition"
-        :class="{ 'title_close': collapsed }"
+        class="title ml-2 text-xl font-bold truncate"
+        :class="{ 'title-close': collapsed }"
       >
         后台系统
       </span>
@@ -116,8 +116,8 @@ export default defineComponent({
   width: @layout_left;
 }
 
-.menu_close {
-  width: @layout_left_close;
+.menu-close {
+  width: @layout_left_close !important;
 }
 
 .logo {
@@ -128,7 +128,7 @@ export default defineComponent({
   color: #fff;
 }
 
-.title_close {
+.title-close {
   display: none;
 }
 </style>

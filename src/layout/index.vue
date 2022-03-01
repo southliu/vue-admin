@@ -1,7 +1,10 @@
 <template>
   <Header :collapsed="collapsed" @toggleCollapsed="toggleCollapsed" />
   <Menu :collapsed="collapsed" />
-  <div class="con p-4 overflow-y-auto h-full">
+  <div
+    class="con p-4 overflow-y-auto h-full transition-all"
+    :class="{ 'con-close-menu': collapsed }"
+  >
     <router-view></router-view>
   </div>
 </template>
@@ -38,5 +41,9 @@ export default defineComponent({
   right: 0;
   bottom: 0;
   background-color: @bg;
+}
+
+.con-close-menu {
+  left: @layout_left_close;
 }
 </style>
