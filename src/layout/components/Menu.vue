@@ -1,8 +1,19 @@
 <template>
-  <div class="menu box-border">
-    <div class="flex content-center p-3 cursor-pointer">
+  <div
+    class="menu box-border transition-all"
+    :class="{ 'menu_close': collapsed }"
+  >
+    <div
+      class="flex content-center p-3 cursor-pointer"
+      :class="{ 'justify-center': collapsed }"
+    >
       <img class="logo object-contain" src="@/assets/logo.png">
-      <span class="title ml-2 text-xl font-bold">后台系统</span>
+      <span
+        class="title ml-2 text-xl font-bold transition"
+        :class="{ 'title_close': collapsed }"
+      >
+        后台系统
+      </span>
     </div>
     <a-menu
       v-model:openKeys="openKeys"
@@ -10,6 +21,7 @@
       class="overflow-y-auto h-full"
       mode="inline"
       theme="dark"
+      :inline-collapsed="collapsed"
       @click="handleClick"
     >
       <a-sub-menu key="sub1" @titleClick="titleClick">
@@ -17,14 +29,6 @@
           <MailOutlined />
         </template>
         <template #title>Navigation One</template>
-        <a-menu-item-group key="g1">
-          <template #icon>
-            <QqOutlined />
-          </template>
-          <template #title>Item 1</template>
-          <a-menu-item key="1">Option 1</a-menu-item>
-          <a-menu-item key="2">Option 2</a-menu-item>
-        </a-menu-item-group>
         <a-menu-item-group key="g2" title="Item 2">
           <a-menu-item key="3">Option 3</a-menu-item>
           <a-menu-item key="4">Option 4</a-menu-item>
@@ -42,16 +46,6 @@
           <a-menu-item key="8">Option 8</a-menu-item>
         </a-sub-menu>
       </a-sub-menu>
-      <a-sub-menu key="sub4">
-        <template #icon>
-          <SettingOutlined />
-        </template>
-        <template #title>Navigation Three</template>
-        <a-menu-item key="9">Option 9</a-menu-item>
-        <a-menu-item key="10">Option 10</a-menu-item>
-        <a-menu-item key="11">Option 11</a-menu-item>
-        <a-menu-item key="12">Option 12</a-menu-item>
-      </a-sub-menu>
     </a-menu>
   </div>
 </template>
@@ -60,12 +54,33 @@
 import { defineComponent, ref, watch } from 'vue'
 import { menus } from '@/router/menus'
 import type { MenuProps } from 'ant-design-vue';
+import {
+  PieChartOutlined,
+  MailOutlined,
+  DesktopOutlined,
+  InboxOutlined,
+  AppstoreOutlined,
+} from '@ant-design/icons-vue';
 
 export default defineComponent({
+  components: {
+    PieChartOutlined,
+    MailOutlined,
+    DesktopOutlined,
+    InboxOutlined,
+    AppstoreOutlined,
+  },
+  props: {
+    collapsed: {
+      type: Boolean,
+      required: true
+    }
+  },
   setup() {
     const list = ref(menus)
     const selectedKeys = ref<string[]>(['1']);
     const openKeys = ref<string[]>(['sub1']);
+
     const handleClick: MenuProps['onClick'] = e => {
       console.log('click', e);
     };
@@ -101,11 +116,19 @@ export default defineComponent({
   width: @layout_left;
 }
 
+.menu_close {
+  width: @layout_left_close;
+}
+
 .logo {
   height: 30px;
 }
 
 .title {
   color: #fff;
+}
+
+.title_close {
+  display: none;
 }
 </style>
