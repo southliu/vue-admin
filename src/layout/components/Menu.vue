@@ -1,15 +1,91 @@
 <template>
-  <nav class="menu box-border">
-    Menu
-  </nav>
+  <div class="menu box-border">
+    <div class="flex content-center p-3 cursor-pointer">
+      <img class="logo object-contain" src="@/assets/logo.png">
+      <span class="title ml-2 text-xl font-bold">后台系统</span>
+    </div>
+    <a-menu
+      v-model:openKeys="openKeys"
+      v-model:selectedKeys="selectedKeys"
+      class="overflow-y-auto h-full"
+      mode="inline"
+      theme="dark"
+      @click="handleClick"
+    >
+      <a-sub-menu key="sub1" @titleClick="titleClick">
+        <template #icon>
+          <MailOutlined />
+        </template>
+        <template #title>Navigation One</template>
+        <a-menu-item-group key="g1">
+          <template #icon>
+            <QqOutlined />
+          </template>
+          <template #title>Item 1</template>
+          <a-menu-item key="1">Option 1</a-menu-item>
+          <a-menu-item key="2">Option 2</a-menu-item>
+        </a-menu-item-group>
+        <a-menu-item-group key="g2" title="Item 2">
+          <a-menu-item key="3">Option 3</a-menu-item>
+          <a-menu-item key="4">Option 4</a-menu-item>
+        </a-menu-item-group>
+      </a-sub-menu>
+      <a-sub-menu key="sub2" @titleClick="titleClick">
+        <template #icon>
+          <AppstoreOutlined />
+        </template>
+        <template #title>Navigation Two</template>
+        <a-menu-item key="5">Option 5</a-menu-item>
+        <a-menu-item key="6">Option 6</a-menu-item>
+        <a-sub-menu key="sub3" title="Submenu">
+          <a-menu-item key="7">Option 7</a-menu-item>
+          <a-menu-item key="8">Option 8</a-menu-item>
+        </a-sub-menu>
+      </a-sub-menu>
+      <a-sub-menu key="sub4">
+        <template #icon>
+          <SettingOutlined />
+        </template>
+        <template #title>Navigation Three</template>
+        <a-menu-item key="9">Option 9</a-menu-item>
+        <a-menu-item key="10">Option 10</a-menu-item>
+        <a-menu-item key="11">Option 11</a-menu-item>
+        <a-menu-item key="12">Option 12</a-menu-item>
+      </a-sub-menu>
+    </a-menu>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
+import { menus } from '@/router/menus'
+import type { MenuProps } from 'ant-design-vue';
 
 export default defineComponent({
   setup() {
-    
+    const list = ref(menus)
+    const selectedKeys = ref<string[]>(['1']);
+    const openKeys = ref<string[]>(['sub1']);
+    const handleClick: MenuProps['onClick'] = e => {
+      console.log('click', e);
+    };
+    const titleClick = (e: Event) => {
+      console.log('titleClick', e);
+    };
+    watch(
+      () => openKeys,
+      val => {
+        console.log('openKeys', val);
+      },
+    );
+
+    return {
+      list,
+      selectedKeys,
+      openKeys,
+      handleClick,
+      titleClick,
+    }
   }
 })
 </script>
@@ -19,9 +95,17 @@ export default defineComponent({
 
 .menu {
   position: fixed;
-  top: @layout_top;
+  top: 0;
   bottom: 0;
+  background-color: #000;
   width: @layout_left;
-  border-right: 1px solid gray;
+}
+
+.logo {
+  height: 30px;
+}
+
+.title {
+  color: #fff;
 }
 </style>

@@ -8,7 +8,8 @@
     "analysis": "windicss-analysis"
   },
   "dependencies": {
-    "ant-design-vue": "^3.0.0-beta.8",
+    "@ant-design/icons-vue": "^6.0.1",
+    "ant-design-vue": "^3.0.0-beta.10",
     "axios": "^0.24.0",
     "dayjs": "^1.10.7",
     "js-cookie": "^3.0.1",
@@ -30,6 +31,7 @@
     "less": "^4.1.2",
     "lint-staged": "^12.3.1",
     "typescript": "^4.4.4",
+    "unplugin-vue-components": "^0.17.21",
     "vite": "^2.7.2",
     "vite-plugin-style-import": "^1.4.1",
     "vite-plugin-theme": "^0.8.1",

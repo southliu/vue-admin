@@ -1,7 +1,7 @@
 <template>
   <Header />
   <Menu />
-  <div class="con">
+  <div class="con p-4 overflow-y-auto h-full">
     <router-view></router-view>
   </div>
 </template>
@@ -27,5 +27,6 @@ export default defineComponent({
   top: @layout_top;
   right: 0;
   bottom: 0;
+  background-color: @bg;
 }
 </style>
