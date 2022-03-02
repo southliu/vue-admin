@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent } from 'vue'
 import { useFullscreen } from '@vueuse/core';
 import {
   FullscreenOutlined,
@@ -22,8 +22,7 @@ export default defineComponent({
     FullscreenExitOutlined
   },
   setup() {
-    const el = ref<HTMLElement | null>(null)
-    const { isFullscreen, toggle } = useFullscreen(el)
+    const { isFullscreen, toggle } = useFullscreen()
 
     return {
       isFullscreen,

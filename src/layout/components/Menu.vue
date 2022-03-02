@@ -1,6 +1,6 @@
 <template>
   <div
-    class="menu py-2 box-border transition-all"
+    class="menu py-1 box-border transition-all"
     :class="{ 'menu-close': collapsed }"
   >
     <div
@@ -9,7 +9,7 @@
     >
       <img class="logo object-contain" src="@/assets/logo.png">
       <span
-        class="title ml-2 text-xl font-bold truncate"
+        class="title ml-3 text-xl font-bold truncate"
         :class="{ 'title-close': collapsed }"
       >
         后台系统
