@@ -13,3 +13,5 @@ dist
 .local
 /bin
 Dockerfile
+.eslintrc.json
+.commitlintrc.json

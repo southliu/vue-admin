@@ -55,19 +55,13 @@ import { defineComponent, ref, watch } from 'vue'
 import { menus } from '@/router/menus'
 import type { MenuProps } from 'ant-design-vue';
 import {
-  PieChartOutlined,
   MailOutlined,
-  DesktopOutlined,
-  InboxOutlined,
   AppstoreOutlined,
 } from '@ant-design/icons-vue';
 
 export default defineComponent({
   components: {
-    PieChartOutlined,
     MailOutlined,
-    DesktopOutlined,
-    InboxOutlined,
     AppstoreOutlined,
   },
   props: {

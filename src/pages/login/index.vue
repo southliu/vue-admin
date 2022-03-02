@@ -2,11 +2,11 @@
   <div class="bg-light-400 w-screen h-screen">
     <div class="box w-300px h-290px p-30px rounded-5px bg-white">
       <div class="pb-30px pt-10px flex items-center justify-center">
-          <img
-            class="w-30px h-30px mr-2 object-contain"
-            src="@/assets/logo.png"
-            alt="LOGO"
-          >
+        <img
+          class="w-30px h-30px mr-2 object-contain"
+          src="@/assets/logo.png"
+          alt="LOGO"
+        >
         <span class="text-xl font-bold tracking-2px">系统登录</span>
       </div>
       <a-form
@@ -60,13 +60,9 @@
 import { defineComponent, reactive } from 'vue';
 import { useRouter } from 'vue-router'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-import type { UnwrapRef } from 'vue';
 import type { FormProps } from 'ant-design-vue';
-
-interface IFormState {
-  username: string;
-  password: string;
-}
+import { ILogin } from './model'
+import API from '@/servers/user'
 
 export default defineComponent({
   components: {
@@ -76,7 +72,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
 
-    const formState: UnwrapRef<IFormState> = reactive({
+    const formState = reactive<ILogin>({
       username: '',
       password: '',
     });
@@ -84,7 +80,10 @@ export default defineComponent({
     // 处理登录
     const handleFinish: FormProps['onFinish'] = values => {
       console.log(values, formState);
-      router.push('/')
+      API.login(values).then(e => {
+        console.log('e:', e)
+        router.push('/')
+      })
     };
 
     // 处理失败
