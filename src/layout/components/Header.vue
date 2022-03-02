@@ -15,18 +15,19 @@
       <a-dropdown class="min-w-100px">
         <a class="ant-dropdown-link flex items-center" @click.prevent>
           <img
-            class="avatar rounded-1/2 overflow-hidden object-cover"
+            class="w-30px h-30px rounded-1/2 overflow-hidden object-cover bg-light-500"
             src="@/assets/logo.png"
+            alt="LOGO"
           >
           <span class="ml-2 text-base">South</span>
         </a>
         <template #overlay>
-          <a-menu>
-            <a-menu-item>
+          <a-menu @click="onClickDropdown">
+            <a-menu-item :key="Dropdowns.update">
               <form-outlined class="mr-1" />
               <span>修改密码</span>
             </a-menu-item>
-            <a-menu-item>
+            <a-menu-item :key="Dropdowns.logout">
               <logout-outlined class="mr-1" />
               <span>退出登录</span>
             </a-menu-item>
@@ -40,12 +41,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Fullscreen from '@/components/Fullscreen.vue'
+import type { MenuProps } from 'ant-design-vue';
+import { useRouter } from 'vue-router'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   LogoutOutlined,
   FormOutlined,
 } from '@ant-design/icons-vue';
+
+// 下拉菜单枚举
+enum Dropdowns {
+  update,
+  logout
+}
 
 export default defineComponent({
   components: {
@@ -62,12 +71,34 @@ export default defineComponent({
     }
   },
   setup(props, context) {
+    const router = useRouter()
+
+    // 收缩菜单
     const toggleCollapsed = () => {
       context.emit('toggleCollapsed')
     }
 
+    // 点击下拉菜单
+    const onClickDropdown: MenuProps['onClick'] = ({ key }) => {
+      switch (key) {
+        // 修改密码
+        case Dropdowns.update:
+          break
+
+        // 退出登录
+        case Dropdowns.logout:
+          router.push('/login')
+          break
+
+        default:
+          break
+      }
+    };
+
     return {
-      toggleCollapsed
+      Dropdowns,
+      toggleCollapsed,
+      onClickDropdown
     }
   }
 })
@@ -87,11 +118,5 @@ export default defineComponent({
 
 .header-close-menu {
   left: @layout_left_close !important;
-}
-
-.avatar {
-  width: 30px;
-  height: 30px;
-  background-color: #e2e2e2;
 }
 </style>

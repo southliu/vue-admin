@@ -19,6 +19,7 @@ export default defineComponent({
   setup() {
     const collapsed = ref(false)
 
+    // 收缩菜单
     const toggleCollapsed = () => {
       collapsed.value = !collapsed.value
     }
