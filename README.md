@@ -17,7 +17,7 @@ Vue Vite Admin 是一个免费开源的后台模版。使用了最新的`vue3`,`
 - 获取项目代码
 
 ```bash
-git clone https://github.com/anncwb/vue-vben-admin.git
+git clone https://github.com/Southliu/vue-vite-admin.git
 ```
 
 - 安装依赖
@@ -38,6 +38,10 @@ pnpm serve
 ```bash
 pnpm build
 ```
+
+## 图标(iconfont)
+
+### 参考 [iconfont](https://www.iconfont.cn/),如需修改,自行替换`./src/assets/css/iconfont.css`
 
 ## Git 贡献提交规范
 

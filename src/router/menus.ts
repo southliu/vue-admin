@@ -1,7 +1,7 @@
-import { RouteRecordRaw } from 'vue-router';
-import Layout from '@/layout/index.vue'
+import Layout from '@/layouts/index.vue'
+import { IMenus } from './model';
 
-export const menus: RouteRecordRaw[] = [
+export const menus: IMenus[] = [
   {
     name: 'Login',
     path: '/login',
@@ -31,7 +31,7 @@ export const menus: RouteRecordRaw[] = [
     path: '/system',
     meta: {
       title: '系统管理',
-      iconfont: 'icon-system'
+      iconfont: 'icon-xitongguanli'
     },
     component: () => Layout,
     redirect: '/system/user',
@@ -40,19 +40,17 @@ export const menus: RouteRecordRaw[] = [
         name: 'SystemUser',
         path: '/system/user',
         meta: {
-          title: '用户管理',
-          iconfont: 'icon-yonghuguanli'
+          title: '用户管理'
         },
-        component: () => import('@/pages/system/user.vue')
+        component: () => import('@/pages/system/user/index.vue')
       },
       {
         name: 'SystemRole',
         path: '/system/role',
         meta: {
-          title: '角色管理',
-          iconfont: 'icon-jiaoseguanli'
+          title: '角色管理'
         },
-        component: () => import('@/pages/system/role.vue')
+        component: () => import('@/pages/system/role/index.vue')
       },
     ]
   }

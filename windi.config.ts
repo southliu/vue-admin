@@ -12,10 +12,7 @@ export default defineConfig({
         '2xl': '1536px',
       },
       colors: {
-        gray: '#ececec',
-        // blue: colors.sky,
-        // red: colors.rose,
-        // pink: colors.fuchsia,
+        gray: '#ececec'
       },
       fontFamily: {
         sans: ['Graphik', 'sans-serif'],

@@ -24,39 +24,34 @@
       :inline-collapsed="collapsed"
       @click="handleClick"
     >
-      <a-sub-menu key="sub1" @titleClick="titleClick">
-        <template #icon>
-          <MailOutlined />
+      <a-sub-menu v-for="item in list" :key="item.key" @titleClick="titleClick">
+        <template v-if="item?.icon" #icon>
+          <div class="iconfont" :class="item.icon"></div>
         </template>
-        <template #title>Navigation One</template>
-        <a-menu-item-group key="g2" title="Item 2">
-          <a-menu-item key="3">Option 3</a-menu-item>
-          <a-menu-item key="4">Option 4</a-menu-item>
-        </a-menu-item-group>
-      </a-sub-menu>
-      <a-sub-menu key="sub2" @titleClick="titleClick">
-        <template #icon>
-          <AppstoreOutlined />
-        </template>
-        <template #title>Navigation Two</template>
-        <a-menu-item key="5">Option 5</a-menu-item>
-        <a-menu-item key="6">Option 6</a-menu-item>
-        <a-sub-menu key="sub3" title="Submenu">
-          <a-menu-item key="7">Option 7</a-menu-item>
-          <a-menu-item key="8">Option 8</a-menu-item>
-        </a-sub-menu>
+        <template #title>{{ item.title }}</template>
+        <a-menu-item v-for="child in item.children" :key="child.key">
+          {{ child.title }}
+        </a-menu-item>
       </a-sub-menu>
     </a-menu>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { menus } from '@/router/menus'
 import {
   MailOutlined,
   AppstoreOutlined,
 } from '@ant-design/icons-vue';
+import { IMenus } from '@/router/model';
+
+interface ISidebar {
+  key: string | number;
+  title: string;
+  icon?: string;
+  children?: ISidebar[]
+}
 
 export default defineComponent({
   components: {
@@ -70,22 +65,49 @@ export default defineComponent({
     }
   },
   setup() {
-    const list = ref(menus)
-    const selectedKeys = ref<string[]>(['1']);
-    const openKeys = ref<string[]>(['sub1']);
+    const list = ref<ISidebar[]>([])
+    const selectedKeys = ref<string[]>([]);
+    const openKeys = ref<string[]>([]);
+
+    // 过滤菜单数据
+    const filterMenus = (menus: IMenus[], list: ISidebar[]): ISidebar[] => {
+      for (let i = 0; i < menus.length; i++) {
+        const item = menus[i];
+        // 不符合list条件则跳到下次循环
+        if (item?.meta?.isHidden) continue
+
+        // 获取子数据
+        const isChildren = item.children && item.children?.length > 0
+        const children = isChildren ? filterMenus(item.children as IMenus[], []) : undefined
+
+        // 菜单第一个展开
+        if (isChildren && openKeys.value.length === 0) {
+          // const selectedKeys = item.children?.[0] || []
+          // selectedKeys.value = selectedKeys
+          openKeys.value = [item.name as string]
+        }
+
+        list.push({
+          key: item.name as string,
+          title: item?.meta?.title || '',
+          icon: item.meta.iconfont,
+          children
+        })
+      }
+      return list
+    }
+
+    onMounted(() => {
+      list.value = filterMenus(menus, [])
+    })
 
     const handleClick = (e: MouseEvent) => {
       console.log('click', e);
     };
+
     const titleClick = (e: Event) => {
       console.log('titleClick', e);
     };
-    watch(
-      () => openKeys,
-      val => {
-        console.log('openKeys', val);
-      },
-    );
 
     return {
       list,

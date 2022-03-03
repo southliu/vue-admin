@@ -48,6 +48,7 @@ import {
   LogoutOutlined,
   FormOutlined,
 } from '@ant-design/icons-vue';
+import { useToken } from '@/hooks';
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -86,6 +87,7 @@ export default defineComponent({
 
         // 退出登录
         case Dropdowns.logout:
+          useToken(null, true)
           router.push('/login')
           break
 

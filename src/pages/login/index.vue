@@ -63,6 +63,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import type { FormProps } from 'ant-design-vue';
 import { ILogin } from './model'
 import API from '@/servers/user'
+import { useToken } from '@/hooks';
 
 export default defineComponent({
   components: {
@@ -80,11 +81,12 @@ export default defineComponent({
     // 处理登录
     const handleFinish: FormProps['onFinish'] = values => {
       console.log(values, formState);
+      useToken("123")
+      router.push('/')
       API.login(values).then(e => {
         console.log('e:', e)
         router.push('/')
       })
-      router.push('/')
     };
 
     // 处理失败
