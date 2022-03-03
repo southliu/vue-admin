@@ -41,7 +41,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import Fullscreen from '@/components/Fullscreen.vue'
-import type { MenuProps } from 'ant-design-vue';
 import { useRouter } from 'vue-router'
 import {
   MenuFoldOutlined,
@@ -79,8 +78,8 @@ export default defineComponent({
     }
 
     // 点击下拉菜单
-    const onClickDropdown: MenuProps['onClick'] = ({ key }) => {
-      switch (key) {
+    const onClickDropdown = (e: MouseEvent) => {
+      switch ((e as MouseEvent & { key: Dropdowns }).key) {
         // 修改密码
         case Dropdowns.update:
           break

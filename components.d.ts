@@ -20,7 +20,6 @@ declare module 'vue' {
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     Fullscreen: typeof import('./src/components/Fullscreen.vue')['default']
-    HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
   }
 }
 

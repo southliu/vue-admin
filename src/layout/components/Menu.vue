@@ -53,7 +53,6 @@
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
 import { menus } from '@/router/menus'
-import type { MenuProps } from 'ant-design-vue';
 import {
   MailOutlined,
   AppstoreOutlined,
@@ -75,7 +74,7 @@ export default defineComponent({
     const selectedKeys = ref<string[]>(['1']);
     const openKeys = ref<string[]>(['sub1']);
 
-    const handleClick: MenuProps['onClick'] = e => {
+    const handleClick = (e: MouseEvent) => {
       console.log('click', e);
     };
     const titleClick = (e: Event) => {

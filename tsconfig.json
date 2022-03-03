@@ -9,6 +9,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "noUnusedLocals": true, // 有未使用的变量时，抛出错误
     "lib": ["esnext", "dom"],
     "baseUrl": "./",
     "paths": {

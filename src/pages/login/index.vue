@@ -84,6 +84,7 @@ export default defineComponent({
         console.log('e:', e)
         router.push('/')
       })
+      router.push('/')
     };
 
     // 处理失败
