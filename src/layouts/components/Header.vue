@@ -1,7 +1,6 @@
 <template>
   <header
-    class="header flex items-center justify-between px-6 box-border transition-all"
-    :class="{ 'header-close-menu': collapsed }"
+    class="flex items-center justify-between px-6 py-1 box-border transition-all"
   >
     <div class="header-left">
       <div class="text-lg cursor-pointer" @click="toggleCollapsed">
@@ -39,7 +38,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, createVNode } from 'vue'
 import Fullscreen from '@/components/Fullscreen.vue'
 import { useRouter } from 'vue-router'
 import {
@@ -47,8 +46,10 @@ import {
   MenuUnfoldOutlined,
   LogoutOutlined,
   FormOutlined,
+  ExclamationCircleOutlined
 } from '@ant-design/icons-vue';
-import { useToken } from '@/hooks';
+import { useToken } from '@/hooks'
+import { Modal } from 'ant-design-vue'
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -63,6 +64,7 @@ export default defineComponent({
     MenuUnfoldOutlined,
     LogoutOutlined,
     FormOutlined,
+    ExclamationCircleOutlined
   },
   props: {
     collapsed: {
@@ -78,6 +80,19 @@ export default defineComponent({
       context.emit('toggleCollapsed')
     }
 
+    // 退出登录
+    const handleLogout = () => {
+      Modal.confirm({
+        title: '温馨提示',
+        icon: createVNode(ExclamationCircleOutlined),
+        content: '是否确定退出系统?',
+        onOk() {
+          useToken(null, true)
+          router.push('/login')
+        }
+      })
+    }
+
     // 点击下拉菜单
     const onClickDropdown = (e: MouseEvent) => {
       switch ((e as MouseEvent & { key: Dropdowns }).key) {
@@ -87,8 +102,7 @@ export default defineComponent({
 
         // 退出登录
         case Dropdowns.logout:
-          useToken(null, true)
-          router.push('/login')
+          handleLogout()
           break
 
         default:
@@ -104,20 +118,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="less" scoped>
-@import '@/assets/css/default.less';
-
-.header {
-  position: fixed;
-  top: 0;
-  left: @layout_left;
-  right: 0;
-  height: @layout_top;
-  border-bottom: 1px solid #eee;
-}
-
-.header-close-menu {
-  left: @layout_left_close !important;
-}
-</style>

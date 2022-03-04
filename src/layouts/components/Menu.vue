@@ -1,8 +1,5 @@
 <template>
-  <div
-    class="menu py-1 box-border transition-all"
-    :class="{ 'menu-close': collapsed }"
-  >
+  <div class="py-1 box-border transition-all">
     <div
       class="flex content-center px-5 py-2 cursor-pointer"
       :class="{ 'justify-center': collapsed }"
@@ -22,14 +19,21 @@
       mode="inline"
       theme="dark"
       :inline-collapsed="collapsed"
-      @click="handleClick"
     >
-      <a-sub-menu v-for="item in list" :key="item.key" @titleClick="titleClick">
+      <a-sub-menu
+        v-for="item in list"
+        :key="item.key"
+        :data-title="item.title"
+      >
         <template v-if="item?.icon" #icon>
           <div class="iconfont" :class="item.icon"></div>
         </template>
         <template #title>{{ item.title }}</template>
-        <a-menu-item v-for="child in item.children" :key="child.key">
+        <a-menu-item
+          v-for="child in item.children"
+          :key="child.key"
+          @click="handleClick(child.key, child.title)"
+        >
           {{ child.title }}
         </a-menu-item>
       </a-sub-menu>
@@ -40,24 +44,18 @@
 <script lang="ts">
 import { defineComponent, onMounted, ref } from 'vue'
 import { menus } from '@/router/menus'
-import {
-  MailOutlined,
-  AppstoreOutlined,
-} from '@ant-design/icons-vue';
-import { IMenus } from '@/router/model';
+import { IMenus } from '@/router/model'
+import { useTabStore } from '@/stores/tabs'
+import { useRoute, useRouter } from 'vue-router'
 
 interface ISidebar {
-  key: string | number;
+  key: string;
   title: string;
   icon?: string;
   children?: ISidebar[]
 }
 
 export default defineComponent({
-  components: {
-    MailOutlined,
-    AppstoreOutlined,
-  },
   props: {
     collapsed: {
       type: Boolean,
@@ -65,6 +63,9 @@ export default defineComponent({
     }
   },
   setup() {
+    const route = useRoute()
+    const router = useRouter()
+    const tabStore = useTabStore()
     const list = ref<ISidebar[]>([])
     const selectedKeys = ref<string[]>([]);
     const openKeys = ref<string[]>([]);
@@ -73,6 +74,7 @@ export default defineComponent({
     const filterMenus = (menus: IMenus[], list: ISidebar[]): ISidebar[] => {
       for (let i = 0; i < menus.length; i++) {
         const item = menus[i];
+
         // 不符合list条件则跳到下次循环
         if (item?.meta?.isHidden) continue
 
@@ -82,13 +84,16 @@ export default defineComponent({
 
         // 菜单第一个展开
         if (isChildren && openKeys.value.length === 0) {
-          // const selectedKeys = item.children?.[0] || []
-          // selectedKeys.value = selectedKeys
-          openKeys.value = [item.name as string]
+          openKeys.value = [item.path]
+        }
+
+        // 第一个标签选中
+        if (!isChildren && tabStore.tabs.length === 0) {
+          tabStore.addTabs({ key: item.path, title: item?.meta?.title || '' })
         }
 
         list.push({
-          key: item.name as string,
+          key: item.path,
           title: item?.meta?.title || '',
           icon: item.meta.iconfont,
           children
@@ -99,42 +104,28 @@ export default defineComponent({
 
     onMounted(() => {
       list.value = filterMenus(menus, [])
+
+      // 选中路由当前项
+      selectedKeys.value = [route.path]
     })
 
-    const handleClick = (e: MouseEvent) => {
-      console.log('click', e);
-    };
-
-    const titleClick = (e: Event) => {
-      console.log('titleClick', e);
-    };
+    // 点击菜单
+    const handleClick = (key: string, title: string) => {
+      router.push(key)
+      tabStore.addTabs({ title, key })
+    }
 
     return {
       list,
       selectedKeys,
       openKeys,
       handleClick,
-      titleClick,
     }
   }
 })
 </script>
 
 <style lang="less" scoped>
-@import '@/assets/css/default.less';
-
-.menu {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  background-color: #000;
-  width: @layout_left;
-}
-
-.menu-close {
-  width: @layout_left_close !important;
-}
-
 .logo {
   height: 30px;
 }
