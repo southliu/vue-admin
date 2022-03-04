@@ -4,7 +4,7 @@
       <div class="pb-30px pt-10px flex items-center justify-center">
         <img
           class="w-30px h-30px mr-2 object-contain"
-          src="@/assets/logo.png"
+          src="@/assets/images/logo.png"
           alt="LOGO"
         >
         <span class="text-xl font-bold tracking-2px">系统登录</span>

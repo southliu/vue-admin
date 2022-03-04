@@ -4,6 +4,7 @@ specifiers:
   '@ant-design/icons-vue': ^6.0.1
   '@commitlint/cli': ^16.0.2
   '@commitlint/config-conventional': ^16.0.0
+  '@types/js-cookie': ^3.0.1
   '@types/node': ^17.0.8
   '@types/nprogress': ^0.2.0
   '@typescript-eslint/eslint-plugin': ^5.13.0
@@ -53,6 +54,7 @@ dependencies:
 devDependencies:
   '@commitlint/cli': 16.2.1
   '@commitlint/config-conventional': 16.2.1
+  '@types/js-cookie': 3.0.1
   '@types/node': 17.0.21
   '@types/nprogress': 0.2.0
   '@typescript-eslint/eslint-plugin': 5.13.0_33fffc354ccfa91fbe7d1677b9395a0a
@@ -431,6 +433,10 @@ packages:
 
   /@tsconfig/node16/1.0.2:
     resolution: {integrity: sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==}
+    dev: true
+
+  /@types/js-cookie/3.0.1:
+    resolution: {integrity: sha512-7wg/8gfHltklehP+oyJnZrz9XBuX5ZPP4zB6UsI84utdlkRYLnOm2HfpLXazTwZA+fpGn0ir8tGNgVnMEleBGQ==}
     dev: true
 
   /@types/json-schema/7.0.9:

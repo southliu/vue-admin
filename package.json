@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
+    "build": "vue-tsc --noEmit --skipLibCheck && cross-env NODE_ENV=production vite build",
     "preview": "vite preview",
     "analysis": "windicss-analysis",
     "postinstall": "husky install"
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@commitlint/cli": "^16.0.2",
     "@commitlint/config-conventional": "^16.0.0",
+    "@types/js-cookie": "^3.0.1",
     "@types/node": "^17.0.8",
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^5.13.0",

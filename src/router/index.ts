@@ -14,10 +14,10 @@ router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, n
   const token = useToken()
   NProgress.start()
 
-  // // 无token返回登录页
+  // 无token返回登录页
   if (!token && to.path !== '/login') next({ path: `/login?redirect=${to.path}` })
 
-  //   // 有token情况返回首页
+  // 有token情况返回首页
   if (token && to.path === '/login') next({ path: '/system/user' })
 
   next()
