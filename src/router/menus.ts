@@ -1,5 +1,6 @@
-import Layout from '@/layouts/index.vue'
 import { IMenus } from './model';
+
+// 如果Layout是以import Layout from '@/layouts/index.vue'形式引入,打包会报错
 
 export const menus: IMenus[] = [
   {
@@ -14,16 +15,16 @@ export const menus: IMenus[] = [
   {
     name: 'Layout',
     path: '/',
-    redirect: '/system/user',
+    redirect: '/dashboard',
     meta: { isHidden: true },
-    component: () => Layout,
+    component: () => import('@/layouts/index.vue'),
     children: [
       {
         name: 'Dashboard',
         path: '/dashboard',
         meta: { title: '首页' },
         component: () => import('@/pages/dashboard/index.vue')
-      }
+      },
     ]
   },
   {
@@ -33,7 +34,7 @@ export const menus: IMenus[] = [
       title: '系统管理',
       iconfont: 'icon-xitongguanli'
     },
-    component: () => Layout,
+    component: () => import('@/layouts/index.vue'),
     redirect: '/system/user',
     children: [
       {

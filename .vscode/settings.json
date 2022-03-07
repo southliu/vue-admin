@@ -23,6 +23,10 @@
     "Appstore",
     "paren",
     "xitongguanli",
-    "iconfont"
+    "iconfont",
+    "parens",
+    "eqeqeq",
+    "builtins",
+    "camelcase",
   ]
 }

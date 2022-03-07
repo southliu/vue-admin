@@ -1,5 +1,5 @@
 import axios from 'axios'
-import router from '@/router'
+import { router } from '@/router'
 import { message } from 'ant-design-vue'
 import { useToken } from '@/hooks';
 
