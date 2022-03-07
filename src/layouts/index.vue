@@ -1,14 +1,16 @@
 <template>
   <div
-    class="header flex flex-col"
+    class="header flex flex-col box-border"
     :class="{ 'header-close-menu': collapsed }"
   >
     <Header
+      class="border-b-1 border-b-light-700  box-border"
       :collapsed="collapsed"
       @toggleCollapsed="toggleCollapsed"
     />
-    <a-divider class="h-1px m-0" />
-    <Tabs />
+    <div class="px-2px">
+      <Tabs />
+    </div>
   </div>
   <Menu
     class="menu"

@@ -12,14 +12,14 @@
     <div class="header-right flex items-center">
       <Fullscreen />
       <a-dropdown class="min-w-100px">
-        <a class="ant-dropdown-link flex items-center" @click.prevent>
+        <div class="ant-dropdown-link flex items-center cursor-pointer" @click.prevent>
           <img
             class="w-30px h-30px rounded-1/2 overflow-hidden object-cover bg-light-500"
             src="@/assets/images/logo.png"
             alt="LOGO"
           >
           <span class="ml-2 text-base">South</span>
-        </a>
+        </div>
         <template #overlay>
           <a-menu @click="onClickDropdown">
             <a-menu-item :key="Dropdowns.update">
