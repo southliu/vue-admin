@@ -9,105 +9,117 @@
         >
         <span class="text-xl font-bold tracking-2px">系统登录</span>
       </div>
-      <a-form
+      <Form
         :model="formState"
         name="horizontal_login"
         autocomplete="on"
         @finish="handleFinish"
         @finishFailed="handleFinishFailed"
       >
-        <a-form-item
+        <FormItem
           name="username"
           :rules="[{ required: true, message: '请输入用户名!' }]"
         >
-          <a-input v-model:value="formState.username" placeholder="用户名">
+          <Input v-model:value="formState.username" placeholder="用户名">
             <template #prefix>
               <UserOutlined class="site-form-item-icon" />
             </template>
-          </a-input>
-        </a-form-item>
+          </Input>
+        </FormItem>
 
-        <a-form-item
+        <FormItem
           name="password"
           :rules="[
             { required: true, message: '请输入密码!' },
             { min: 6, message: '密码最少6位!' }
           ]"
         >
-          <a-input-password v-model:value="formState.password">
+          <InputPassword v-model:value="formState.password">
             <template #prefix>
               <LockOutlined class="site-form-item-icon" />
             </template>
-          </a-input-password>
-        </a-form-item>
+          </InputPassword>
+        </FormItem>
 
-        <a-form-item>
-          <a-button
+        <FormItem>
+          <Button
             type="primary"
             html-type="submit"
             class="w-full mt-5px rounded-5px tracking-2px"
             :disabled="formState.username === '' || formState.password.length < 6"
           >
             登录
-          </a-button>
-        </a-form-item>
-      </a-form>
+          </Button>
+        </FormItem>
+      </Form>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue';
-import { useRouter } from 'vue-router'
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-import type { FormProps } from 'ant-design-vue';
-import { ILogin } from './model'
-import API from '@/servers/user'
-import { useToken } from '@/hooks';
+  import { defineComponent, reactive } from 'vue'
+  import { useRouter } from 'vue-router'
+  import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+  import type { FormProps } from 'ant-design-vue';
+  import type { ILogin } from './model'
+  import API from '@/servers/login'
+  import { useToken } from '@/hooks';
+  import {
+    Form,
+    FormItem,
+    Button,
+    Input,
+    InputPassword
+  } from 'ant-design-vue'
 
-export default defineComponent({
-  components: {
-    UserOutlined,
-    LockOutlined,
-  },
-  setup() {
-    const router = useRouter()
+  export default defineComponent({
+    components: {
+      UserOutlined,
+      LockOutlined,
+      Form,
+      FormItem,
+      Button,
+      Input,
+      InputPassword
+    },
+    setup() {
+      const router = useRouter()
 
-    const formState = reactive<ILogin>({
-      username: '',
-      password: '',
-    });
+      const formState = reactive<ILogin>({
+        username: '',
+        password: '',
+      });
 
-    // 处理登录
-    const handleFinish: FormProps['onFinish'] = values => {
-      console.log(values, formState);
-      useToken("123")
-      router.push('/')
-      API.login(values).then(e => {
-        console.log('e:', e)
-        router.push('/')
-      })
-    };
+      // 处理登录
+      const handleFinish: FormProps['onFinish'] = values => {
+        console.log(values, formState);
+        useToken("123")
+        router.push('/system/user')
+        API.login(values).then(e => {
+          console.log('e:', e)
+          router.push('/system/user')
+        })
+      };
 
-    // 处理失败
-    const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
-      console.log(errors);
-    };
+      // 处理失败
+      const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
+        console.log(errors);
+      };
 
-    return {
-      formState,
-      handleFinish,
-      handleFinishFailed,
+      return {
+        formState,
+        handleFinish,
+        handleFinishFailed,
+      }
     }
-  }
-})
+  })
 </script>
 
 <style lang="less" scoped>
-.box {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-}
+  .box {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
 </style>

@@ -12,7 +12,7 @@
         后台系统
       </span>
     </div>
-    <a-menu
+    <Menu
       v-model:openKeys="openKeys"
       v-model:selectedKeys="selectedKeys"
       class="overflow-y-auto h-full"
@@ -20,7 +20,7 @@
       theme="dark"
       :inline-collapsed="collapsed"
     >
-      <a-sub-menu
+      <SubMenu
         v-for="item in list"
         :key="item.key"
         :data-title="item.title"
@@ -29,112 +29,118 @@
           <div class="iconfont" :class="item.icon"></div>
         </template>
         <template #title>{{ item.title }}</template>
-        <a-menu-item
+        <MenuItem
           v-for="child in item.children"
           :key="child.key"
           @click="handleClick(child.key, child.title)"
         >
           {{ child.title }}
-        </a-menu-item>
-      </a-sub-menu>
-    </a-menu>
+        </MenuItem>
+      </SubMenu>
+    </Menu>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
-import { menus } from '@/router/menus'
-import { IMenus } from '@/router/model'
-import { useTabStore } from '@/stores/tabs'
-import { useRoute, useRouter } from 'vue-router'
+  import { defineComponent, onMounted, ref } from 'vue'
+  import { menus } from '@/router/menus'
+  import type { IMenus } from '@/router/model'
+  import { useTabStore } from '@/stores/tabs'
+  import { useRoute, useRouter } from 'vue-router'
+  import { Menu, MenuItem, SubMenu } from 'ant-design-vue'
 
-interface ISidebar {
-  key: string;
-  title: string;
-  icon?: string;
-  children?: ISidebar[]
-}
-
-export default defineComponent({
-  props: {
-    collapsed: {
-      type: Boolean,
-      required: true
-    }
-  },
-  setup() {
-    const route = useRoute()
-    const router = useRouter()
-    const tabStore = useTabStore()
-    const list = ref<ISidebar[]>([])
-    const selectedKeys = ref<string[]>([]);
-    const openKeys = ref<string[]>([]);
-
-    // 过滤菜单数据
-    const filterMenus = (menus: IMenus[], list: ISidebar[]): ISidebar[] => {
-      for (let i = 0; i < menus.length; i++) {
-        const item = menus[i];
-
-        // 不符合list条件则跳到下次循环
-        if (item?.meta?.isHidden) continue
-
-        // 获取子数据
-        const isChildren = item.children && item.children?.length > 0
-        const children = isChildren ? filterMenus(item.children as IMenus[], []) : undefined
-
-        // 菜单第一个展开
-        if (isChildren && openKeys.value.length === 0) {
-          openKeys.value = [item.path]
-        }
-
-        // 第一个标签选中
-        if (!isChildren && tabStore.tabs.length === 0) {
-          tabStore.addTabs({ key: item.path, title: item?.meta?.title || '' })
-        }
-
-        list.push({
-          key: item.path,
-          title: item?.meta?.title || '',
-          icon: item.meta.iconfont,
-          children
-        })
-      }
-      return list
-    }
-
-    onMounted(() => {
-      list.value = filterMenus(menus, [])
-
-      // 选中路由当前项
-      selectedKeys.value = [route.path]
-    })
-
-    // 点击菜单
-    const handleClick = (key: string, title: string) => {
-      router.push(key)
-      tabStore.addTabs({ title, key })
-    }
-
-    return {
-      list,
-      selectedKeys,
-      openKeys,
-      handleClick,
-    }
+  interface ISidebar {
+    key: string;
+    title: string;
+    icon?: string;
+    children?: ISidebar[]
   }
-})
+
+  export default defineComponent({
+    props: {
+      collapsed: {
+        type: Boolean,
+        required: true
+      }
+    },
+    components: {
+      Menu,
+      MenuItem,
+      SubMenu
+    },
+    setup() {
+      const route = useRoute()
+      const router = useRouter()
+      const tabStore = useTabStore()
+      const list = ref<ISidebar[]>([])
+      const selectedKeys = ref<string[]>([]);
+      const openKeys = ref<string[]>([]);
+
+      // 过滤菜单数据
+      const filterMenus = (menus: IMenus[], list: ISidebar[]): ISidebar[] => {
+        for (let i = 0; i < menus.length; i++) {
+          const item = menus[i];
+
+          // 不符合list条件则跳到下次循环
+          if (item?.meta?.isHidden) continue
+
+          // 获取子数据
+          const isChildren = item.children && item.children?.length > 0
+          const children = isChildren ? filterMenus(item.children as IMenus[], []) : undefined
+
+          // 菜单第一个展开
+          if (isChildren && openKeys.value.length === 0) {
+            openKeys.value = [item.path]
+          }
+
+          // 第一个标签选中
+          if (!isChildren && tabStore.tabs.length === 0) {
+            tabStore.addTabs({ key: item.path, title: item?.meta?.title || '' })
+          }
+
+          list.push({
+            key: item.path,
+            title: item?.meta?.title || '',
+            icon: item.meta.iconfont,
+            children
+          })
+        }
+        return list
+      }
+
+      onMounted(() => {
+        list.value = filterMenus(menus, [])
+
+        // 选中路由当前项
+        selectedKeys.value = [route.path]
+      })
+
+      // 点击菜单
+      const handleClick = (key: string, title: string) => {
+        router.push(key)
+        tabStore.addTabs({ title, key })
+      }
+
+      return {
+        list,
+        selectedKeys,
+        openKeys,
+        handleClick,
+      }
+    }
+  })
 </script>
 
 <style lang="less" scoped>
-.logo {
-  height: 30px;
-}
+  .logo {
+    height: 30px;
+  }
 
-.title {
-  color: #fff;
-}
+  .title {
+    color: #fff;
+  }
 
-.title-close {
-  display: none;
-}
+  .title-close {
+    display: none;
+  }
 </style>

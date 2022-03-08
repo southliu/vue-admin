@@ -1,4 +1,4 @@
-import { IMenus } from './model';
+import type { IMenus } from './model';
 
 // 如果Layout是以import Layout from '@/layouts/index.vue'形式引入,打包会报错
 
@@ -44,7 +44,7 @@ export const menus: IMenus[] = [
           title: '用户管理',
           isKeepAlive: true
         },
-        component: () => import('@/pages/system/user/index.vue')
+        component: () => import('@/pages/systems/user/index.vue')
       },
       {
         name: 'SystemRole',
@@ -53,7 +53,7 @@ export const menus: IMenus[] = [
           title: '角色管理',
           isKeepAlive: true
         },
-        component: () => import('@/pages/system/role/index.vue')
+        component: () => import('@/pages/systems/role/index.vue')
       },
     ]
   }

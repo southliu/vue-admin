@@ -1,5 +1,5 @@
-import request from '@/utils/request'
-import { ILogin } from '@/pages/login/model'
+import { request } from '@/utils/request'
+import type { ILogin } from '@/pages/login/model'
 
 // 登录
 function login(data: ILogin) {

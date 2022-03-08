@@ -4,29 +4,9 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    AButton: typeof import('ant-design-vue/es')['Button']
-    AConfigProvider: typeof import('ant-design-vue/es')['ConfigProvider']
-    ADivider: typeof import('ant-design-vue/es')['Divider']
-    ADropdown: typeof import('ant-design-vue/es')['Dropdown']
-    AForm: typeof import('ant-design-vue/es')['Form']
-    AFormItem: typeof import('ant-design-vue/es')['FormItem']
-    AInput: typeof import('ant-design-vue/es')['Input']
-    AInputPassword: typeof import('ant-design-vue/es')['InputPassword']
-    AMenu: typeof import('ant-design-vue/es')['Menu']
-    AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
-    ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
-    ATable: typeof import('ant-design-vue/es')['Table']
-    ATabPane: typeof import('ant-design-vue/es')['TabPane']
-    ATabs: typeof import('ant-design-vue/es')['Tabs']
-    ATag: typeof import('ant-design-vue/es')['Tag']
-    ATooltip: typeof import('ant-design-vue/es')['Tooltip']
     CommonSearch: typeof import('./src/components/CommonSearch.vue')['default']
     CommonTable: typeof import('./src/components/CommonTable.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen.vue')['default']
-    MyTable: typeof import('./src/components/MyTable.vue')['default']
-    Search: typeof import('./src/components/Search.vue')['default']
-    'Search copy': typeof import('./src/components/Search copy.vue')['default']
-    Table: typeof import('./src/components/Table.vue')['default']
   }
 }
 

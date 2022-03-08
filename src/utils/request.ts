@@ -9,7 +9,7 @@ const requestList: string[] = [];
 const CancelToken = axios.CancelToken;
 const source = CancelToken.source()
 
-const service = axios.create({
+const request = axios.create({
   baseURL: prefixUrl,
   timeout: 180 * 1000
 })
@@ -22,7 +22,7 @@ const handleError = (error: string): Promise<string> => {
 }
 
 // 请求拦截
-service.interceptors.request.use(
+request.interceptors.request.use(
   (config) => {
     if (config?.headers) config.headers['Authorization'] = `Bearer ${useToken()}`
 
@@ -43,7 +43,7 @@ service.interceptors.request.use(
 )
 
 // 响应拦截
-service.interceptors.response.use(
+request.interceptors.response.use(
   (response) => {
     const res = response.data
     // 请求返回后，将请求标记从requestList中移除
@@ -74,4 +74,4 @@ service.interceptors.response.use(
   }
 )
 
-export default service
+export { request }
