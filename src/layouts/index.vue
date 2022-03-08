@@ -21,7 +21,12 @@
     class="con p-4 overflow-y-auto h-full transition-all"
     :class="{ 'con-close-menu': collapsed }"
   >
-    <router-view></router-view>
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component"  v-if="$route.meta.isKeepAlive"/>
+      </keep-alive>
+      <component :is="Component"  v-if="!$route.meta.isKeepAlive"/>
+    </router-view>
   </div>
 </template>
 

@@ -20,7 +20,13 @@ declare module 'vue' {
     ATabs: typeof import('ant-design-vue/es')['Tabs']
     ATag: typeof import('ant-design-vue/es')['Tag']
     ATooltip: typeof import('ant-design-vue/es')['Tooltip']
+    CommonSearch: typeof import('./src/components/CommonSearch.vue')['default']
+    CommonTable: typeof import('./src/components/CommonTable.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen.vue')['default']
+    MyTable: typeof import('./src/components/MyTable.vue')['default']
+    Search: typeof import('./src/components/Search.vue')['default']
+    'Search copy': typeof import('./src/components/Search copy.vue')['default']
+    Table: typeof import('./src/components/Table.vue')['default']
   }
 }
 

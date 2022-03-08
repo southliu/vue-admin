@@ -1,4 +1,6 @@
 <template>
+  <CommonSearch />
+
   <div class="bg-white pt-6 px-5">
     <div class="font-bold text-base mb-2">Table:</div>
     <a-table :columns="columns" :data-source="data">
@@ -45,8 +47,10 @@
   </div>
 </template>
 <script lang="ts">
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue';
-import { defineComponent } from 'vue';
+import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
+import { defineComponent } from 'vue'
+import CommonSearch from '@/components/CommonSearch.vue'
+
 const columns = [
   {
     name: 'Name',
@@ -102,6 +106,7 @@ export default defineComponent({
   components: {
     SmileOutlined,
     DownOutlined,
+    CommonSearch,
   },
   setup() {
     return {

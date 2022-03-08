@@ -41,7 +41,8 @@ export const menus: IMenus[] = [
         name: 'SystemUser',
         path: '/system/user',
         meta: {
-          title: '用户管理'
+          title: '用户管理',
+          isKeepAlive: true
         },
         component: () => import('@/pages/system/user/index.vue')
       },
@@ -49,7 +50,8 @@ export const menus: IMenus[] = [
         name: 'SystemRole',
         path: '/system/role',
         meta: {
-          title: '角色管理'
+          title: '角色管理',
+          isKeepAlive: true
         },
         component: () => import('@/pages/system/role/index.vue')
       },

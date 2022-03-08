@@ -5,6 +5,7 @@ interface IMeta {
   meta: {
     title?: string;
     isHidden?: boolean;
+    isKeepAlive?: boolean;
     iconfont?: string;
   }
 }
