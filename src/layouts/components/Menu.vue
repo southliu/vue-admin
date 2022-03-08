@@ -46,8 +46,9 @@
   import { menus } from '@/router/menus'
   import type { IMenus } from '@/router/model'
   import { useTabStore } from '@/stores/tabs'
-  import { useRoute, useRouter } from 'vue-router'
+  import { useRoute } from 'vue-router'
   import { Menu, MenuItem, SubMenu } from 'ant-design-vue'
+import { useHistory } from '@/hooks'
 
   interface ISidebar {
     key: string;
@@ -70,7 +71,6 @@
     },
     setup() {
       const route = useRoute()
-      const router = useRouter()
       const tabStore = useTabStore()
       const list = ref<ISidebar[]>([])
       const selectedKeys = ref<string[]>([]);
@@ -117,7 +117,7 @@
 
       // 点击菜单
       const handleClick = (key: string, title: string) => {
-        router.push(key)
+        useHistory(key)
         tabStore.addTabs({ title, key })
       }
 

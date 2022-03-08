@@ -58,12 +58,11 @@
 
 <script lang="ts">
   import { defineComponent, reactive } from 'vue'
-  import { useRouter } from 'vue-router'
   import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
   import type { FormProps } from 'ant-design-vue';
   import type { ILogin } from './model'
   import API from '@/servers/login'
-  import { useToken } from '@/hooks';
+  import { useToken, useHistory } from '@/hooks';
   import {
     Form,
     FormItem,
@@ -83,8 +82,6 @@
       InputPassword
     },
     setup() {
-      const router = useRouter()
-
       const formState = reactive<ILogin>({
         username: '',
         password: '',
@@ -94,10 +91,10 @@
       const handleFinish: FormProps['onFinish'] = values => {
         console.log(values, formState);
         useToken("123")
-        router.push('/system/user')
+        useHistory('/system/user')
         API.login(values).then(e => {
           console.log('e:', e)
-          router.push('/system/user')
+          useHistory('/system/user')
         })
       };
 

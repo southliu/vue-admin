@@ -33,7 +33,7 @@
             <a>Delete</a>
             <a class="ant-dropdown-link">
               More actions
-              <down-outlined />
+              <DownOutlined />
             </a>
           </span>
         </template>

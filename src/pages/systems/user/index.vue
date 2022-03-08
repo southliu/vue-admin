@@ -1,12 +1,12 @@
 <template>
-  <CommonSearch />
-  <CommonTable :columns="columns" :data="data" />
+  <BasicSearch :columns="columns" :data="data" />
+  <BasicTable :columns="columns" :data="data" />
 </template>
 <script lang="ts">
   import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
   import { defineComponent } from 'vue'
-  import CommonSearch from '@/components/CommonSearch.vue'
-  import CommonTable from '@/components/CommonTable.vue'
+  import BasicSearch from '@/components/BasicSearch.vue'
+  import BasicTable from '@/components/BasicTable.vue'
 
   const columns = [
     {
@@ -63,8 +63,8 @@
     components: {
       SmileOutlined,
       DownOutlined,
-      CommonSearch,
-      CommonTable
+      BasicSearch,
+      BasicTable
     },
     setup() {
       return {

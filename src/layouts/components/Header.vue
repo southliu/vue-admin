@@ -40,7 +40,6 @@
 <script lang="ts">
   import { defineComponent, createVNode } from 'vue'
   import Fullscreen from '@/components/Fullscreen.vue'
-  import { useRouter } from 'vue-router'
   import { Menu, MenuItem, Dropdown, MenuProps } from 'ant-design-vue'
   import {
     MenuFoldOutlined,
@@ -49,7 +48,7 @@
     FormOutlined,
     ExclamationCircleOutlined
   } from '@ant-design/icons-vue';
-  import { useToken } from '@/hooks'
+  import { useHistory, useToken } from '@/hooks'
   import { Modal } from 'ant-design-vue'
 
   // 下拉菜单枚举
@@ -77,8 +76,6 @@
       }
     },
     setup(props, context) {
-      const router = useRouter()
-
       // 收缩菜单
       const toggleCollapsed = () => {
         context.emit('toggleCollapsed')
@@ -92,7 +89,7 @@
           content: '是否确定退出系统?',
           onOk() {
             useToken(null, true)
-            router.push('/login')
+            useHistory('/login')
           }
         })
       }
