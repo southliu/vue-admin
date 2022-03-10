@@ -57,66 +57,69 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent, reactive } from 'vue'
-  import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-  import type { FormProps } from 'ant-design-vue';
-  import type { ILogin } from './model'
-  import API from '@/servers/login'
-  import { useToken, useHistory } from '@/hooks';
-  import {
+import { defineComponent, reactive } from 'vue'
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
+import type { FormProps } from 'ant-design-vue';
+import type { ILogin } from './model'
+import API from '@/servers/login'
+import { useToken } from '@/hooks';
+import { useRouter } from 'vue-router'
+import {
+  Form,
+  FormItem,
+  Button,
+  Input,
+  InputPassword
+} from 'ant-design-vue'
+
+export default defineComponent({
+  components: {
+    UserOutlined,
+    LockOutlined,
     Form,
     FormItem,
     Button,
     Input,
     InputPassword
-  } from 'ant-design-vue'
+  },
+  setup() {
+    const router = useRouter()
 
-  export default defineComponent({
-    components: {
-      UserOutlined,
-      LockOutlined,
-      Form,
-      FormItem,
-      Button,
-      Input,
-      InputPassword
-    },
-    setup() {
-      const formState = reactive<ILogin>({
-        username: '',
-        password: '',
-      });
+    const formState = reactive<ILogin>({
+      username: '',
+      password: '',
+    });
 
-      // 处理登录
-      const handleFinish: FormProps['onFinish'] = values => {
-        console.log(values, formState);
-        useToken("123")
-        useHistory('/system/user')
-        API.login(values).then(e => {
-          console.log('e:', e)
-          useHistory('/system/user')
-        })
-      };
+    // 处理登录
+    const handleFinish: FormProps['onFinish'] = values => {
+      console.log(values, formState);
+      useToken("123")
+      router.push('/system/user')
+      API.login(values).then(e => {
+        console.log('e:', e)
+        router.push('/system/user')
+      })
+    };
 
-      // 处理失败
-      const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
-        console.log(errors);
-      };
+    // 处理失败
+    const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
+      console.log(errors);
+    };
 
-      return {
-        formState,
-        handleFinish,
-        handleFinishFailed,
-      }
+    return {
+      formState,
+      handleFinish,
+      handleFinishFailed,
     }
-  })
+  }
+})
 </script>
 
 <style lang="less" scoped>
-  .box {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-  }
+.box {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
 </style>
