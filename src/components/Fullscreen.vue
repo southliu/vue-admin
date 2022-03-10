@@ -9,24 +9,24 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from 'vue'
-  import { useFullscreen } from '@vueuse/core';
-  import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue';
-  import { Tooltip } from 'ant-design-vue'
+import { defineComponent } from 'vue'
+import { useFullscreen } from '@vueuse/core';
+import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue';
+import { Tooltip } from 'ant-design-vue'
 
-  export default defineComponent({
-    components: {
-      FullscreenOutlined,
-      FullscreenExitOutlined,
-      Tooltip
-    },
-    setup() {
-      const { isFullscreen, toggle } = useFullscreen()
+export default defineComponent({
+  components: {
+    FullscreenOutlined,
+    FullscreenExitOutlined,
+    Tooltip
+  },
+  setup() {
+    const { isFullscreen, toggle } = useFullscreen()
 
-      return {
-        isFullscreen,
-        toggle
-      }
+    return {
+      isFullscreen,
+      toggle
     }
-  })
+  }
+})
 </script>
