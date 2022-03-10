@@ -1,46 +1,48 @@
 <template>
-  <Form
-    layout="inline"
-    name="basic"
-    :model="formState"
-    :label-col="{ span: 6 }"
-    :wrapper-col="{ span: 18 }"
-    autocomplete="off"
-    @finish="onFinish"
-    @finishFailed="onFinishFailed"
-  >
-    
-    <FormItem
-      v-for="item in list"
-      :key="item.key"
-      :name="item.key"
-      :label="item.title"
+  <div>
+    <Form
+      layout="inline"
+      name="basic"
+      :model="formState"
+      :label-col="{ span: 6 }"
+      :wrapper-col="{ span: 18 }"
+      autocomplete="off"
+      @finish="onFinish"
+      @finishFailed="onFinishFailed"
     >
-      <template v-if="item.type === 'string'">
-        <Input v-model:value="formState[item.key]" />
-      </template>
-  
-      <template v-if="item.type === 'number'">
-        <InputNumber v-model:value="formState[item.key]" />
-      </template>
-
-      <template v-if="item.type === 'select'">
-        <Select
-          v-model:value="formState[item.key]"
-          :options="item.selectList"
-        />
-      </template>
-    </FormItem>
-
-    <FormItem v-if="list.length > 0">
-      <Button
-        type="primary"
-        html-type="submit"
+      
+      <FormItem
+        v-for="item in list"
+        :key="item.key"
+        :name="item.key"
+        :label="item.title"
       >
-        搜索
-      </Button>
-    </FormItem>
-  </Form>
+        <template v-if="item.type === 'string'">
+          <Input v-model:value="formState[item.key]" />
+        </template>
+    
+        <template v-if="item.type === 'number'">
+          <InputNumber v-model:value="formState[item.key]" />
+        </template>
+
+        <template v-if="item.type === 'select'">
+          <Select
+            v-model:value="formState[item.key]"
+            :options="item.selectList"
+          />
+        </template>
+      </FormItem>
+
+      <FormItem v-if="list.length > 0">
+        <Button
+          type="primary"
+          html-type="submit"
+        >
+          搜索
+        </Button>
+      </FormItem>
+    </Form>
+  </div>
 </template>
 
 <script lang="ts">

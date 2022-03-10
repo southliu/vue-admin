@@ -18,7 +18,7 @@
     :collapsed="collapsed"
   />
   <div
-    class="con p-4 overflow-y-auto h-full transition-all"
+    class="con overflow-y-auto h-full transition-all"
     :class="{ 'con-close-menu': collapsed }"
   >
     <router-view v-slot="{ Component }">
@@ -95,7 +95,6 @@ export default defineComponent({
   top: @layout_top;
   right: 0;
   bottom: 0;
-  background-color: @bg;
 }
 
 .con-close-menu {

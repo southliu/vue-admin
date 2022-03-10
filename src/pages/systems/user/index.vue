@@ -1,14 +1,21 @@
 <template>
-  <BasicSearch>
-    <BasicForm :list="searchLists" :data="searchData" />
-  </BasicSearch>
-  <BasicTable :columns="columns" :data="data" />
+  <BasicContent>
+    <BasicForm
+      class="mb-20px"
+      :list="searchLists"
+      :data="searchData"
+    />
+    <BasicTable
+      :columns="columns"
+      :data="data"
+    />
+  </BasicContent>
 </template>
 
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { defineComponent, reactive } from 'vue'
-import BasicSearch from '@/components/BasicSearch.vue'
+import BasicContent from '@/components/BasicContent.vue'
 import BasicTable from '@/components/BasicTable.vue'
 import BasicForm from '@/components/BasicForm.vue'
 import { Input } from 'ant-design-vue'
@@ -64,7 +71,7 @@ export default defineComponent({
   components: {
     SmileOutlined,
     DownOutlined,
-    BasicSearch,
+    BasicContent,
     BasicTable,
     BasicForm,
     Input
