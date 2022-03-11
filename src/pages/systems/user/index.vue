@@ -1,6 +1,7 @@
 <template>
   <BasicContent>
     <BasicForm
+      type="search"
       class="mb-20px"
       :list="searchLists"
       :data="searchData"
@@ -19,7 +20,7 @@ import BasicContent from '@/components/BasicContent.vue'
 import BasicTable from '@/components/BasicTable.vue'
 import BasicForm from '@/components/BasicForm.vue'
 import { Input } from 'ant-design-vue'
-import type { ISearchData, ISearchList } from '@/types/search'
+import type { IFormData, IFormList } from '@/types/form'
 
 const columns = [
   {
@@ -78,7 +79,7 @@ export default defineComponent({
   },
   setup() {
     // 搜索列表
-    const searchLists = reactive<ISearchList[]>([
+    const searchLists = reactive<IFormList[]>([
       { title: '年龄', key: 'age', type: 'number' },
       { title: '名字', key: 'name', type: 'string' },
       { title: '类型', key: 'type', type: 'select', selectList: [
@@ -88,13 +89,13 @@ export default defineComponent({
     ])
     
     // 搜索数据
-    const searchData = reactive<ISearchData>({
+    const searchData = reactive<IFormData>({
       age: 0,
       name: '',
       tags: []
     })
 
-    const formStatues = reactive<ISearchData>({
+    const formStatues = reactive<IFormData>({
       age: 0,
       tabs: []
     })
