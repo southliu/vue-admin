@@ -1,29 +1,41 @@
-import type { ISelectData } from "./select"
 import type { IAllDataType } from './public';
-import type { ICheckboxData } from "./checkbox";
-import type { IRadioData } from "./radio";
-import type { IDateData } from "./date";
+import type {
+  InputProps,
+  SelectProps,
+  RadioProps,
+  CheckboxGroupProps,
+  DatePickerProps,
+} from "ant-design-vue";
 
 // 数据类型
 export type IFormData = Record<string, IAllDataType>
 
-// 基础数据类型
-type IDefaultDataTypes = 'string' | 'number' | 'text' |  'password'  | 'autoComplete' | 'customize'
+// 基础数据组件
+type IDefaultDataComponents = 'Input' |
+                              'InputNumber' |
+                              'Textarea' |
+                              'InputPassword'  |
+                              'AutoComplete' |
+                              'customize'
 
-// 下拉类型
-type ISelectTypes = 'select' | 'treeSelect'
+// 下拉组件
+type ISelectComponents = 'Select' | 'TreeSelect'
 
-// 复选框
-type ICheckboxTypes = 'checkbox' | 'checkboxGroup'
+// 复选框组件
+type ICheckboxComponents = 'Checkbox' | 'CheckboxGroup'
 
-// 单选框
-type IRadioTypes = 'radio' | 'switch'
+// 单选框组件
+type IRadioComponents = 'RadioGroup' | 'Switch'
 
-// 时间类型
-type ITimeTypes = 'date' | 'dateRange'
+// 时间组件
+type ITimeComponents = 'DatePicker' | 'RangePicker'
 
-// 类型集合
-type ITypes = IDefaultDataTypes | ISelectTypes | ICheckboxTypes | ITimeTypes | IRadioTypes
+// 组件集合
+type IComponents =  IDefaultDataComponents |
+                    ISelectComponents |
+                    ICheckboxComponents |
+                    ITimeComponents |
+                    IRadioComponents
 
 // 公共树形
 interface IPublic {
@@ -31,23 +43,18 @@ interface IPublic {
   isNotClear: boolean; // 是否不开启清除
 }
 
-// Col
-export interface IFromCol {
-  flex: string|number; // 布局填充
-  offset: number; // 栅格左侧的间隔格数，间隔内不可以有栅格
-  order: number; // 栅格顺序，flex 布局模式下有效
-  pull: number; // 栅格向左移动格数
-  push: number; // 栅格向右移动格数
-  span: number; // 栅格占位格数，为 0 时相当于 display: none
-}
+// 组件参数
+export type IComponentProps =  Partial<IPublic> &
+                        Partial<InputProps> &
+                        Partial<SelectProps> &
+                        Partial<CheckboxGroupProps> &
+                        Partial<RadioProps> &
+                        Partial<DatePickerProps> 
 
 // 表单数据
 export type IFormList = {
   key: string; // 唯一标识
   title: string; // 标题
-  type: ITypes; // 类型
-} & Partial<IPublic>
-  & Partial<ISelectData>
-  & Partial<ICheckboxData>
-  & Partial<IRadioData>
-  & Partial<IDateData>
+  component: IComponents; // 组件
+  componentProps?: IComponentProps; // 组件参数
+}

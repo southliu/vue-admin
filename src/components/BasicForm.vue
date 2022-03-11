@@ -10,7 +10,6 @@
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
-      
       <FormItem
         v-for="item in list"
         :key="item.key"
@@ -18,21 +17,30 @@
         :label="item.title"
       >
         <!-- 自定义 -->
-        <template v-if="item.type === 'customize'">
+        <template v-if="item.component === 'customize'">
           <slot name="customize"></slot>
         </template>
 
         <!-- 输入框 -->
-        <template v-if="item.type === 'string'">
+        <template v-if="item.component === 'Input'">
           <Input
             v-model:value="formState[item.key]"
             class="min-w-100px"
             placeholder="请输入"
-            :allow-clear="!item.isNotClear"
+            :allow-clear="!item?.componentProps?.isNotClear"
+          />
+        </template>
+
+        <template v-if="item.component === 'InputPassword'">
+          <InputPassword
+            v-model:value="formState[item.key]"
+            class="min-w-100px"
+            placeholder="请输入"
+            :allow-clear="!item?.componentProps?.isNotClear"
           />
         </template>
     
-        <template v-if="item.type === 'number'">
+        <template v-if="item.component === 'InputNumber'">
           <InputNumber
             v-model:value="formState[item.key]"
             class="min-w-100px"
@@ -40,7 +48,15 @@
           />
         </template>
     
-        <template v-if="item.type === 'text'">
+        <template v-if="item.component === 'AutoComplete'">
+          <AutoComplete
+            v-model:value="formState[item.key]"
+            class="min-w-100px"
+            placeholder="请输入"
+          />
+        </template>
+    
+        <template v-if="item.component === 'Textarea'">
           <Textarea
             v-model:value="formState[item.key]"
             class="min-w-100px"
@@ -49,42 +65,42 @@
         </template>
 
         <!-- 下拉框 -->
-        <template v-if="item.type === 'select'">
+        <template v-if="item.component === 'Select'">
           <Select
             v-model:value="formState[item.key]"
             class="min-w-100px"
             placeholder="请选择"
-            :options="item.selectList"
-            :loading="item.isSelectLoading"
-            :allow-clear="!item.isNotClear"
-            :multiple="!!item.isMultiple"
-            @change="item.handleSelectChange"
+            :options="item?.componentProps?.options"
+            :loading="item?.componentProps?.loading"
+            :allow-clear="!item?.componentProps?.isNotClear"
+            :mode="item?.componentProps?.mode"
+            @change="item?.componentProps?.onChange"
           />
         </template>
         
-        <template v-if="item.type === 'treeSelect'">
+        <template v-if="item.component === 'TreeSelect'">
           <TreeSelect
             v-model:value="formState[item.key]"
             class="min-w-100px"
             placeholder="请选择"
-            :options="item.selectList"
-            :loading="item.isSelectLoading"
-            :allow-clear="!item.isNotClear"
-            :multiple="!!item.isMultiple"
-            @change="item.handleSelectChange"
+            :options="item?.componentProps?.options"
+            :loading="item?.componentProps?.loading"
+            :allow-clear="!item?.componentProps?.isNotClear"
+            :mode="item?.componentProps?.mode"
+            @change="item?.componentProps?.onChange"
           />
         </template>
 
         <!-- 单选框 -->
-        <template v-if="item.type === 'radio'">
+        <template v-if="item.component === 'RadioGroup'">
           <RadioGroup
             v-model:checked="formState[item.key]"
             class="min-w-100px"
-            :options="item.radioList"
+            :options="item?.componentProps?.options"
           />
         </template>
 
-        <template v-if="item.type === 'switch'">
+        <template v-if="item.component === 'Switch'">
           <Switch
             v-model:checked="formState[item.key]"
             class="min-w-100px"
@@ -92,43 +108,43 @@
         </template>
 
         <!-- 复选框 -->
-        <template v-if="item.type === 'checkbox'">
+        <template v-if="item.component === 'Checkbox'">
           <Checkbox
             v-model:checked="formState[item.key]"
             class="min-w-100px"
           >
-            {{ item.checkboxName || '' }}
+            {{ item?.componentProps?.name || '' }}
           </Checkbox>
         </template>
 
-        <template v-if="item.type === 'checkboxGroup'">
+        <template v-if="item.component === 'CheckboxGroup'">
           <CheckboxGroup
             v-model:checked="formState[item.key]"
             class="min-w-100px"
-            :options="item.checkboxList"
+            :options="item?.componentProps?.options"
           />
         </template>
 
         <!-- 时间类 -->
-        <template v-if="item.type === 'date'">
+        <template v-if="item.component === 'DatePicker'">
           <DatePicker
             v-model:value="formState[item.key]"
             class="min-w-100px"
-            :picker="item.datePicker"
+            :picker="item?.componentProps?.picker"
           />
         </template>
         
-        <template v-if="item.type === 'dateRange'">
+        <template v-if="item.component === 'RangePicker'">
           <RangePicker
             v-model:value="formState[item.key]"
             class="min-w-100px"
-            :picker="item.datePicker"
-            :show-time="!!item.isShowTime"
+            :picker="item?.componentProps?.picker"
+            :show-time="!!item?.componentProps?.showTime"
           />
         </template>
       </FormItem>
 
-      <FormItem v-if="list.length > 0">
+      <FormItem v-if="isSearch">
         <Button
           type="primary"
           html-type="submit"
@@ -138,6 +154,21 @@
           </template>
           <span>搜索</span>
         </Button>
+      </FormItem>
+
+      <FormItem v-if="isCreate">
+        <Button
+          v-if="isCreate"
+          type="primary"
+        >
+          <template #icon>
+            <PlusOutlined />
+          </template>
+          <span>新增</span>
+        </Button>
+      </FormItem>
+
+      <FormItem>
         <slot name="otherBtn"></slot>
       </FormItem>
     </Form>
@@ -152,6 +183,8 @@ import {
   FormItem,
   Input,
   InputNumber,
+  InputPassword,
+  AutoComplete,
   Textarea,
   Select,
   TreeSelect,
@@ -161,12 +194,12 @@ import {
   RadioGroup,
   Switch,
   DatePicker,
-  RangePicker
+  RangePicker,
 } from 'ant-design-vue'
-import { SearchOutlined } from '@ant-design/icons-vue'
+import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import type { IFormData, IFormList } from '@/types/form';
+import type { ColProps } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
-import { IFromCol } from '@/types/form';
 
 type IFinish = (values: IFormData) => void
 
@@ -185,18 +218,24 @@ export default defineComponent({
       required: true
     },
     labelCol: {
-      type: Object as PropType<Partial<IFromCol>>,
+      type: Object as PropType<Partial<ColProps>>,
       required: false,
       default: () => {
         return { span: 6 }
       }
     },
     wrapperCol: {
-      type: Object as PropType<Partial<IFromCol>>,
+      type: Object as PropType<Partial<ColProps>>,
       required: false,
       default: () => {
         return { span: 18 }
       }
+    },
+    isSearch: {
+      type: Boolean
+    },
+    isCreate: {
+      type: Boolean
     },
     handleFinish: {
       type: Function as PropType<IFinish>
@@ -204,10 +243,13 @@ export default defineComponent({
   },
   components: {
     SearchOutlined,
+    PlusOutlined,
     Form,
     FormItem,
     Input,
     InputNumber,
+    InputPassword,
+    AutoComplete,
     Textarea,
     Button,
     Select,

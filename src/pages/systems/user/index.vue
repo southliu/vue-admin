@@ -1,10 +1,13 @@
 <template>
+  <!-- <BasicInput :component-props="{}" /> -->
   <BasicContent>
     <BasicForm
       type="search"
       class="mb-20px"
       :list="searchLists"
       :data="searchData"
+      :is-search="true"
+      :is-create="true"
     />
     <BasicTable
       :columns="columns"
@@ -19,8 +22,8 @@ import { defineComponent, reactive } from 'vue'
 import BasicContent from '@/components/BasicContent.vue'
 import BasicTable from '@/components/BasicTable.vue'
 import BasicForm from '@/components/BasicForm.vue'
-import { Input } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
+import BasicInput from '@/components/BasicInput.vue'
 
 const columns = [
   {
@@ -75,17 +78,21 @@ export default defineComponent({
     BasicContent,
     BasicTable,
     BasicForm,
-    Input
+    BasicInput
   },
   setup() {
     // 搜索列表
     const searchLists = reactive<IFormList[]>([
-      { title: '年龄', key: 'age', type: 'number' },
-      { title: '名字', key: 'name', type: 'string' },
-      { title: '类型', key: 'type', type: 'select', selectList: [
-        { label: '123', value: '123' },
-        { label: '456', value: '456' },
-      ] },
+      { title: '年龄', key: 'age', component: 'InputNumber' },
+      { title: '名字', key: 'name', component: 'Input' },
+      { title: '类型', key: 'type', component: 'Select',
+        componentProps: {
+          options: [
+            { label: '123', value: '123' },
+            { label: '456', value: '456' },
+          ]
+        }
+      },
     ])
     
     // 搜索数据
