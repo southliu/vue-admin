@@ -1,3 +1,4 @@
+import type { TableProps } from "ant-design-vue";
 import type { IFormData, IFormList } from "./form";
 
 export {}
@@ -16,4 +17,7 @@ declare global {
     data: IFormData;
     list: IFormList[];
   }
+
+  // 表格数据
+  type ITableData = TableProps
 }

@@ -8,13 +8,14 @@
       :data="searches.data"
       :is-search="true"
       :is-create="true"
-      :on-create="onCreate"
-      :handle-finish="handleSearch"
+      :onCreate="onCreate"
+      :handleFinish="handleSearch"
     />
-    <BasicTable
-      :columns="columns"
-      :data="data"
-    />
+    <BasicTable :data="tables">
+      <template #action>
+        <DeleteBtn :handleDelete="handleDelete" />
+      </template>
+    </BasicTable>
   </BasicContent>
 
   <BasicModal
@@ -40,55 +41,9 @@ import BasicContent from '@/components/BasicContent.vue'
 import BasicTable from '@/components/BasicTable.vue'
 import BasicForm from '@/components/BasicForm.vue'
 import BasicModal from '@/components/BasicModal.vue'
-import { Modal } from 'ant-design-vue'
+import DeleteBtn from '@/components/DeleteBtn.vue'
 import type { IBasicForm } from '@/components/BasicForm.vue'
 import type { IFormData } from '@/types/form'
-
-const columns = [
-  {
-    title: '年龄',
-    dataIndex: 'age',
-    key: 'age',
-  },
-  {
-    title: '地址',
-    dataIndex: 'address',
-    key: 'address',
-  },
-  {
-    title: '标签',
-    key: 'tags',
-    dataIndex: 'tags',
-  },
-  {
-    title: '操作',
-    key: 'action',
-  },
-];
-
-const data = [
-  {
-    key: '1',
-    name: 'John Brown',
-    age: 32,
-    address: 'New York No. 1 Lake Park',
-    tags: ['nice', 'developer'],
-  },
-  {
-    key: '2',
-    name: 'Jim Green',
-    age: 42,
-    address: 'London No. 1 Lake Park',
-    tags: ['loser'],
-  },
-  {
-    key: '3',
-    name: 'Joe Black',
-    age: 32,
-    address: 'Sidney No. 1 Lake Park',
-    tags: ['cool', 'teacher'],
-  },
-];
 
 export default defineComponent({
   components: {
@@ -98,7 +53,7 @@ export default defineComponent({
     BasicTable,
     BasicForm,
     BasicModal,
-    Modal
+    DeleteBtn
   },
   setup() {
     const searchFormRef = ref<IBasicForm>()
@@ -138,6 +93,54 @@ export default defineComponent({
         }
       ]
     })
+    
+    // 表格数据
+    const tables = reactive<ITableData>({
+      columns: [
+        {
+          title: '年龄',
+          dataIndex: 'age',
+          key: 'age',
+        },
+        {
+          title: '地址',
+          dataIndex: 'address',
+          key: 'address',
+        },
+        {
+          title: '标签',
+          key: 'tags',
+          dataIndex: 'tags',
+        },
+        {
+          title: '操作',
+          key: 'action',
+        },
+      ],
+      dataSource: [
+        {
+          key: '1',
+          name: 'John Brown',
+          age: 32,
+          address: 'New York No. 1 Lake Park',
+          tags: ['nice', 'developer'].join(''),
+        },
+        {
+          key: '2',
+          name: 'Jim Green',
+          age: 42,
+          address: 'London No. 1 Lake Park',
+          tags: ['loser'].join(''),
+        },
+        {
+          key: '3',
+          name: 'Joe Black',
+          age: 32,
+          address: 'Sidney No. 1 Lake Park',
+          tags: ['cool', 'teacher'].join(''),
+        },
+      ]
+    })
 
     // 表格提交
     const handleSubmit = (type: 'search' | 'create') => {
@@ -167,17 +170,22 @@ export default defineComponent({
       console.log('handleCreate:', values)
     }
 
+    // 删除
+    const handleDelete = () => {
+      console.log('handleDelete')
+    }
+
     return {
       searchFormRef,
       createFormRef,
       searches,
       creates,
-      columns,
-      data,
+      tables,
       onCreate,
       handleSubmit,
       handleSearch,
-      handleCreate
+      handleCreate,
+      handleDelete
     }
   }
 })
