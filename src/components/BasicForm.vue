@@ -1,7 +1,7 @@
 <template>
   <div>
     <Form
-      name="basic"
+      ref="formRef"
       :layout="type === 'search' ? 'inline' : 'horizontal'"
       :model="formState"
       :label-col="labelCol"
@@ -148,6 +148,7 @@
         <Button
           type="primary"
           html-type="submit"
+          :loading="isLoading"
         >
           <template #icon>
             <SearchOutlined />
@@ -160,6 +161,8 @@
         <Button
           v-if="isCreate"
           type="primary"
+          :loading="isLoading"
+          @click="onCreate"
         >
           <template #icon>
             <PlusOutlined />
@@ -168,15 +171,13 @@
         </Button>
       </FormItem>
 
-      <FormItem>
-        <slot name="otherBtn"></slot>
-      </FormItem>
+      <slot name="otherBtn"></slot>
     </Form>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, reactive, ref } from 'vue'
 import type { PropType } from 'vue'
 import {
   Form,
@@ -197,11 +198,18 @@ import {
   RangePicker,
 } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form';
 import type { ColProps } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
 
-type IFinish = (values: IFormData) => void
+type ICreateFun = (event: MouseEvent) => void
+type IFinishFun = (values: IFormData) => void
+
+export type IBasicForm = {
+  handleReset: () => void;
+  handleSubmit: () => void;
+}
 
 export default defineComponent({
   props: {
@@ -231,14 +239,20 @@ export default defineComponent({
         return { span: 18 }
       }
     },
+    isLoading: {
+      type: Boolean
+    },
     isSearch: {
       type: Boolean
     },
     isCreate: {
       type: Boolean
     },
+    onCreate: {
+      type: Function as PropType<ICreateFun>
+    },
     handleFinish: {
-      type: Function as PropType<IFinish>
+      type: Function as PropType<IFinishFun>
     }
   },
   components: {
@@ -262,11 +276,32 @@ export default defineComponent({
     RangePicker
   },
   setup(props) {
+    const formRef = ref<FormInstance>()
     const formState = reactive(props.data)
 
+    // 外部调内部提交方法
+    const handleSubmit = () => {
+      formRef.value && formRef.value
+        .validateFields()
+        .then(values => {
+          const { handleFinish } = props
+          handleFinish && handleFinish(values)
+          // formRef.value?.resetFields();
+        })
+        .catch(info => {
+          console.log('错误信息:', info);
+        });
+    }
+
+    // 外部调内部重置方法
+    const handleReset = () => {
+      formRef.value?.resetFields();
+    }
+
     // 提交处理
-    const onFinish: IFinish = values => {
-      console.log('Success:', values);
+    const onFinish: IFinishFun = values => {
+      const { handleFinish } = props
+      handleFinish && handleFinish(values)
     };
 
     // 错误处理
@@ -275,9 +310,12 @@ export default defineComponent({
     };
 
     return {
+      formRef,
       formState,
       onFinish,
       onFinishFailed,
+      handleReset,
+      handleSubmit,
     };
   }
 })

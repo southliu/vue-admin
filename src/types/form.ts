@@ -31,7 +31,7 @@ type IRadioComponents = 'RadioGroup' | 'Switch'
 type ITimeComponents = 'DatePicker' | 'RangePicker'
 
 // 组件集合
-type IComponents =  IDefaultDataComponents |
+export type IComponents =  IDefaultDataComponents |
                     ISelectComponents |
                     ICheckboxComponents |
                     ITimeComponents |
