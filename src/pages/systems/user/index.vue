@@ -12,8 +12,8 @@
       :handleFinish="handleSearch"
     />
     <BasicTable :data="tables">
-      <template #action>
-        <DeleteBtn :handleDelete="handleDelete" />
+      <template v-slot:action='record'>
+        <DeleteBtn :handleDelete="() => handleDelete(record.record.age)" />
       </template>
     </BasicTable>
   </BasicContent>
@@ -171,8 +171,8 @@ export default defineComponent({
     }
 
     // 删除
-    const handleDelete = () => {
-      console.log('handleDelete')
+    const handleDelete = (id: string | number) => {
+      console.log('handleDelete:', id)
     }
 
     return {

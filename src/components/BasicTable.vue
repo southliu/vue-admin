@@ -1,8 +1,8 @@
 <template>
   <Table :columns="data.columns" :data-source="data.dataSource">
-    <template #bodyCell="{ column }">
+    <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'action'">
-        <slot name="action"></slot>
+        <slot name="action" :record="record"></slot>
       </template>
     </template>
   </Table>
