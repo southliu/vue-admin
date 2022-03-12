@@ -1,7 +1,6 @@
 <template>
   <BasicContent>
     <BasicForm
-      ref="searchFormRef"
       type="search"
       class="mb-20px"
       :list="searches.list"
@@ -12,8 +11,10 @@
       :handleFinish="handleSearch"
     />
     <BasicTable :data="tables">
-      <template v-slot:action='record'>
-        <DeleteBtn :handleDelete="() => handleDelete(record.record.age)" />
+      <template v-slot:action='item'>
+        <DeleteBtn
+          :handleDelete="() => handleDelete(item.record.age)"
+        />
       </template>
     </BasicTable>
   </BasicContent>
@@ -21,7 +22,7 @@
   <BasicModal
     v-model:visible="creates.isVisible"
     :title="creates.title"
-    :handle-finish="() => handleSubmit('create')"
+    :handle-finish="createSubmit"
     :handle-cancel="onCreate"
   >
     <BasicForm
@@ -56,7 +57,6 @@ export default defineComponent({
     DeleteBtn
   },
   setup() {
-    const searchFormRef = ref<IBasicForm>()
     const createFormRef = ref<IBasicForm>()
 
     // 搜索数据
@@ -143,16 +143,8 @@ export default defineComponent({
     })
 
     // 表格提交
-    const handleSubmit = (type: 'search' | 'create') => {
-      switch (type) {
-        case 'search':
-          searchFormRef.value?.handleSubmit()
-          break
-        
-        case 'create':
-          createFormRef.value?.handleSubmit()
-          break
-      }
+    const createSubmit = () => {
+      createFormRef.value?.handleSubmit()
     }
 
     // 搜索提交
@@ -176,13 +168,12 @@ export default defineComponent({
     }
 
     return {
-      searchFormRef,
       createFormRef,
       searches,
       creates,
       tables,
       onCreate,
-      handleSubmit,
+      createSubmit,
       handleSearch,
       handleCreate,
       handleDelete

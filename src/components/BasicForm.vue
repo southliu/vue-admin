@@ -286,7 +286,6 @@ export default defineComponent({
         .then(values => {
           const { handleFinish } = props
           handleFinish && handleFinish(values)
-          // formRef.value?.resetFields();
         })
         .catch(info => {
           console.log('错误信息:', info);
