@@ -4,8 +4,8 @@
       ref="searchFormRef"
       type="search"
       class="mb-20px"
-      :list="searchLists"
-      :data="searchData"
+      :list="searches.list"
+      :data="searches.data"
       :is-search="true"
       :is-create="true"
       :on-create="onCreate"
@@ -26,8 +26,8 @@
     <BasicForm
       ref="createFormRef"
       type="create"
-      :list="searchLists"
-      :data="searchData"
+      :list="creates.list"
+      :data="creates.data"
       :handle-finish="handleCreate"
     />
   </BasicModal>
@@ -42,7 +42,7 @@ import BasicForm from '@/components/BasicForm.vue'
 import BasicModal from '@/components/BasicModal.vue'
 import { Modal } from 'ant-design-vue'
 import type { IBasicForm } from '@/components/BasicForm.vue'
-import type { IFormData, IFormList } from '@/types/form'
+import type { IFormData } from '@/types/form'
 
 const columns = [
   {
@@ -104,35 +104,39 @@ export default defineComponent({
     const searchFormRef = ref<IBasicForm>()
     const createFormRef = ref<IBasicForm>()
 
-    const creates = reactive({
-      isVisible: false,
-      title: '新增'
-    })
-
-    // 搜索列表
-    const searchLists = reactive<IFormList[]>([
-      { title: '年龄', key: 'age', component: 'InputNumber' },
-      { title: '名字', key: 'name', component: 'Input' },
-      { title: '类型', key: 'type', component: 'Select',
-        componentProps: {
-          options: [
-            { label: '123', value: '123' },
-            { label: '456', value: '456' },
-          ]
-        }
-      },
-    ])
-    
     // 搜索数据
-    const searchData = reactive<IFormData>({
-      age: 0,
-      name: '',
-      tags: []
+    const searches = reactive<ISearchData>({
+      data: {
+        age: 0,
+        name: ''
+      },
+      list: [
+        { title: '年龄', key: 'age', component: 'InputNumber' },
+        { title: '名字', key: 'name', component: 'Input' }
+      ]
     })
 
-    const formStatues = reactive<IFormData>({
-      age: 0,
-      tabs: []
+    // 新增数据
+    const creates = reactive<ICreateData>({
+      isVisible: false,
+      title: '新增',
+      data: {
+        age: 0,
+        name: '',
+        tags: []
+      },
+      list: [
+        { title: '年龄', key: 'age', component: 'InputNumber' },
+        { title: '名字', key: 'name', component: 'Input' },
+        { title: '类型', key: 'type', component: 'Select',
+          componentProps: {
+            options: [
+              { label: '123', value: '123' },
+              { label: '456', value: '456' },
+            ]
+          }
+        }
+      ]
     })
 
     // 表格提交
@@ -166,12 +170,10 @@ export default defineComponent({
     return {
       searchFormRef,
       createFormRef,
+      searches,
       creates,
       columns,
       data,
-      formStatues,
-      searchData,
-      searchLists,
       onCreate,
       handleSubmit,
       handleSearch,
