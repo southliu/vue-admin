@@ -12,6 +12,7 @@
     />
     <BasicTable :data="tables">
       <template v-slot:action='item'>
+        <Button class="mr-2" @click="onUpdate(item.record)">编辑</Button>
         <DeleteBtn
           :handleDelete="() => handleDelete(item.record.age)"
         />
@@ -38,6 +39,7 @@
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { defineComponent, reactive, ref } from 'vue'
+import { Button } from 'ant-design-vue'
 import BasicContent from '@/components/BasicContent.vue'
 import BasicTable from '@/components/BasicTable.vue'
 import BasicForm from '@/components/BasicForm.vue'
@@ -54,7 +56,8 @@ export default defineComponent({
     BasicTable,
     BasicForm,
     BasicModal,
-    DeleteBtn
+    DeleteBtn,
+    Button
   },
   setup() {
     const createFormRef = ref<IBasicForm>()
@@ -77,12 +80,12 @@ export default defineComponent({
       title: '新增',
       data: {
         age: 0,
-        name: '',
+        address: '',
         tags: []
       },
       list: [
         { title: '年龄', key: 'age', component: 'InputNumber' },
-        { title: '名字', key: 'name', component: 'Input' },
+        { title: '地址', key: 'address', component: 'Input' },
         { title: '类型', key: 'type', component: 'Select',
           componentProps: {
             options: [
@@ -157,7 +160,13 @@ export default defineComponent({
       creates.isVisible = !creates.isVisible
     }
 
-    // 新增提交
+    // 点击编辑
+    const onUpdate = (record: IFormData) => {
+      creates.isVisible = !creates.isVisible
+      creates.data = record
+    }
+
+    // 新增/编辑提交
     const handleCreate = (values: IFormData) => {
       console.log('handleCreate:', values)
     }
@@ -173,6 +182,7 @@ export default defineComponent({
       creates,
       tables,
       onCreate,
+      onUpdate,
       createSubmit,
       handleSearch,
       handleCreate,

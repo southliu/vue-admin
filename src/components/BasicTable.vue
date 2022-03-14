@@ -1,5 +1,8 @@
 <template>
-  <Table :columns="data.columns" :data-source="data.dataSource">
+  <Table
+    :columns="data.columns"
+    :data-source="data.dataSource"
+  >
     <template #bodyCell="{ column, record }">
       <template v-if="column.key === 'action'">
         <slot name="action" :record="record"></slot>
@@ -11,7 +14,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import type { PropType } from 'vue'
-import { Table, Tag } from 'ant-design-vue'
+import { Table } from 'ant-design-vue'
 import type { TableProps } from 'ant-design-vue'
 
 export default defineComponent({
@@ -22,8 +25,7 @@ export default defineComponent({
     }
   },
   components: {
-    Table,
-    Tag
+    Table
   },
   setup() {
     return {
