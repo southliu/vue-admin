@@ -11,10 +11,10 @@
       :handleFinish="handleSearch"
     />
     <BasicTable :data="tables">
-      <template v-slot:action='item'>
-        <Button class="mr-2" @click="onUpdate(item.record)">编辑</Button>
+      <template v-slot:operate='row'>
+        <Button class="mr-2" @click="onUpdate(row.record)">编辑</Button>
         <DeleteBtn
-          :handleDelete="() => handleDelete(item.record.age)"
+          :handleDelete="() => handleDelete(row.record.age)"
         />
       </template>
     </BasicTable>
@@ -102,25 +102,23 @@ export default defineComponent({
       columns: [
         {
           title: '年龄',
-          dataIndex: 'age',
-          key: 'age',
+          field: 'age',
         },
         {
           title: '地址',
-          dataIndex: 'address',
-          key: 'address',
+          field: 'address',
         },
         {
           title: '标签',
-          key: 'tags',
-          dataIndex: 'tags',
+          field: 'tags',
         },
         {
           title: '操作',
-          key: 'action',
+          field: 'operate',
+          slots: { default: 'operate' }
         },
       ],
-      dataSource: [
+      data: [
         {
           key: '1',
           name: 'John Brown',
