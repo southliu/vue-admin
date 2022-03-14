@@ -6,7 +6,7 @@ import '@/assets/css/scrollbar.less'
 import '@/assets/css/iconfont.css'
 import 'nprogress/nprogress.css'
 import 'virtual:windi.css'
-import 'ant-design-vue/dist/antd.css'
+import 'ant-design-vue/dist/antd.min.css'
 
 const app = createApp(App)
 app

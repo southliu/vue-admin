@@ -19,7 +19,9 @@
     "pinia": "^2.0.9",
     "vite-plugin-windicss": "^1.6.3",
     "vue": "^3.2.25",
-    "vue-router": "^4.0.13"
+    "vue-router": "^4.0.13",
+    "vxe-table": "^4.2.2-beta.0",
+    "xe-utils": "^3.5.4"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.0.2",

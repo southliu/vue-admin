@@ -18,6 +18,23 @@ declare global {
     list: IFormList[];
   }
 
+  // 点击行属性
+  type IOnRow = (record: IFormData, index: number) => {
+    onClick: (even: MouseEvent) => void; // 点击行
+    onDoubleClick: (even: MouseEvent) => void;
+    onContextMenu: (even: MouseEvent) => void;
+    onMouseEnter: (even: MouseEvent) => void; // 鼠标移入行
+    onMouseLeave: (even: MouseEvent) => void;
+  }
+
+  // 点击表头
+  type IOnHeader = (columns: IFormData, index: number) => {
+    onClick: () => void;
+  }
+
   // 表格数据
-  type ITableData = TableProps
+  type ITableData = {
+    onRow?: IOnRow;
+    onHeaderRow?: IOnHeader;
+  } & TableProps
 }

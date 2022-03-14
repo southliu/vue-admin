@@ -3,6 +3,9 @@ import vue from '@vitejs/plugin-vue'
 import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import Components from 'unplugin-vue-components/vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -12,12 +15,14 @@ export default defineConfig({
     vueJsx(),
     windiCSS(),
     AutoImport({
-      imports: [
-        'vue',
-        'vue-router',
-        '@vueuse/core',
-      ],
-      dts: true,
+      resolvers: [
+        AntDesignVueResolver()
+      ]
+    }),
+    Components({
+      resolvers: [
+        AntDesignVueResolver()
+      ]
     }),
   ],
   resolve: {
@@ -43,5 +48,14 @@ export default defineConfig({
         drop_debugger: true
       },
     },
+    rollupOptions:{
+      output:{
+        manualChunks(id){ // 分包
+          if(id.includes('node_modules')){
+            return id.toString().split('node_modules/')[1].split('/')[0].toString();
+          }
+        }
+      }
+    }
   }
 })

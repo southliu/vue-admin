@@ -2,11 +2,11 @@
   <div>
     <Form
       ref="formRef"
+      scrollToFirstError
       :layout="type === 'search' ? 'inline' : 'horizontal'"
       :model="formState"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
-      :scrollToFirstError="true"
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
@@ -162,7 +162,7 @@
           v-if="isCreate"
           type="primary"
           :loading="isLoading"
-          @click="onCreate"
+          @click="() => onCreate && onCreate()"
         >
           <template #icon>
             <PlusOutlined />
@@ -203,7 +203,7 @@ import type { IFormData, IFormList } from '@/types/form';
 import type { ColProps } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
 
-type ICreateFun = (event: MouseEvent) => void
+type ICreateFun = () => void
 type IFinishFun = (values: IFormData) => void
 
 export type IBasicForm = {
