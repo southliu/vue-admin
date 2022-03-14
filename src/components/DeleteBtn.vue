@@ -9,7 +9,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, createVNode, PropType } from 'vue'
+import { defineComponent, createVNode } from 'vue'
 import { Button, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
@@ -17,13 +17,7 @@ export default defineComponent({
   components: {
     Button
   },
-  props: {
-    handleDelete: {
-      type: Function as PropType<() => void>,
-      required: true
-    }
-  },
-  setup(props) {
+  setup(props, context) {
     // 点击删除
     const onClick = () => {
       Modal.confirm({
@@ -34,7 +28,7 @@ export default defineComponent({
         okType: 'danger',
         cancelText: '取消',
         onOk() {
-          props.handleDelete()
+          context.emit('handleDelete')
         }
       });
     }

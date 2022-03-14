@@ -4,9 +4,11 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    Basic: typeof import('./src/components/Basic.vue')['default']
     BasicContent: typeof import('./src/components/BasicContent.vue')['default']
     BasicForm: typeof import('./src/components/BasicForm.vue')['default']
     BasicModal: typeof import('./src/components/BasicModal.vue')['default']
+    BasicPagination: typeof import('./src/components/BasicPagination.vue')['default']
     BasicTable: typeof import('./src/components/BasicTable.vue')['default']
     DeleteBtn: typeof import('./src/components/DeleteBtn.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen.vue')['default']

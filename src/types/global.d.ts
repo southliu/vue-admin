@@ -20,5 +20,6 @@ declare global {
 
   // 表格数据
   type ITableData = {
+    total: number;
   } & VxeGridProps
 }

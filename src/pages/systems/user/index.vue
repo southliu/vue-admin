@@ -7,17 +7,25 @@
       :data="searches.data"
       :is-search="true"
       :is-create="true"
-      :onCreate="onCreate"
-      :handleFinish="handleSearch"
+      @onCreate="onCreate"
+      @handleFinish="handleSearch"
     />
+
     <BasicTable :data="tables">
       <template v-slot:operate='row'>
-        <Button class="mr-2" @click="onUpdate(row.record)">编辑</Button>
+        <Button class="mr-2" @click="onUpdate(row.record)">
+          编辑
+        </Button>
         <DeleteBtn
-          :handleDelete="() => handleDelete(row.record.age)"
+          @handleDelete="handleDelete(row.record.age)"
         />
       </template>
     </BasicTable>
+
+    <BasicPagination
+      :total="tables.total"
+      @handleChange="handlePagination"
+    />
   </BasicContent>
 
   <BasicModal
@@ -31,7 +39,7 @@
       type="create"
       :list="creates.list"
       :data="creates.data"
-      :handle-finish="handleCreate"
+      @handleFinish="handleCreate"
     />
   </BasicModal>
 </template>
@@ -42,6 +50,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { Button } from 'ant-design-vue'
 import BasicContent from '@/components/BasicContent.vue'
 import BasicTable from '@/components/BasicTable.vue'
+import BasicPagination from '@/components/BasicPagination.vue'
 import BasicForm from '@/components/BasicForm.vue'
 import BasicModal from '@/components/BasicModal.vue'
 import DeleteBtn from '@/components/DeleteBtn.vue'
@@ -54,6 +63,7 @@ export default defineComponent({
     DownOutlined,
     BasicContent,
     BasicTable,
+    BasicPagination,
     BasicForm,
     BasicModal,
     DeleteBtn,
@@ -99,6 +109,7 @@ export default defineComponent({
     
     // 表格数据
     const tables = reactive<ITableData>({
+      total: 50,
       columns: [
         {
           title: '年龄',
@@ -174,6 +185,11 @@ export default defineComponent({
       console.log('handleDelete:', id)
     }
 
+    // 分页
+    const handlePagination = (page: number, pageSize: number) => {
+      console.log(page, pageSize)
+    }
+
     return {
       createFormRef,
       searches,
@@ -184,7 +200,8 @@ export default defineComponent({
       createSubmit,
       handleSearch,
       handleCreate,
-      handleDelete
+      handleDelete,
+      handlePagination
     }
   }
 })

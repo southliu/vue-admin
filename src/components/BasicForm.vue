@@ -162,7 +162,7 @@
           v-if="isCreate"
           type="primary"
           :loading="isLoading"
-          @click="() => onCreate && onCreate()"
+          @click="onCreate"
         >
           <template #icon>
             <PlusOutlined />
@@ -203,7 +203,6 @@ import type { IFormData, IFormList } from '@/types/form';
 import type { ColProps } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
 
-type ICreateFun = () => void
 type IFinishFun = (values: IFormData) => void
 
 export type IBasicForm = {
@@ -247,12 +246,6 @@ export default defineComponent({
     },
     isCreate: {
       type: Boolean
-    },
-    onCreate: {
-      type: Function as PropType<ICreateFun>
-    },
-    handleFinish: {
-      type: Function as PropType<IFinishFun>
     }
   },
   components: {
@@ -275,7 +268,7 @@ export default defineComponent({
     DatePicker,
     RangePicker
   },
-  setup(props) {
+  setup(props, context) {
     const formRef = ref<FormInstance>()
     const formState = reactive(props.data)
 
@@ -284,8 +277,7 @@ export default defineComponent({
       formRef.value && formRef.value
         .validateFields()
         .then(values => {
-          const { handleFinish } = props
-          handleFinish && handleFinish(values)
+          context.emit('handleFinish', values)
         })
         .catch(info => {
           console.log('错误信息:', info);
@@ -297,20 +289,25 @@ export default defineComponent({
       formRef.value?.resetFields();
     }
 
+    // 点击新增
+    const onCreate = () => {
+      context.emit('onCreate')
+    }
+
     // 提交处理
     const onFinish: IFinishFun = values => {
-      const { handleFinish } = props
-      handleFinish && handleFinish(values)
-    };
+      context.emit('handleFinish', values)
+    }
 
     // 错误处理
     const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
       console.log('错误信息:', errorInfo);
-    };
+    }
 
     return {
       formRef,
       formState,
+      onCreate,
       onFinish,
       onFinishFailed,
       handleReset,
