@@ -1,31 +1,30 @@
 <template>
-
   <Tabs
     v-model:activeKey="activeKey"
     hide-add
-    :tabBarGutter="12"
+    :tabBarGutter="5"
     @change="onChange"
   >
     <TabPane
       class="overflow-auto"
-      v-for="item in tabs"
+      v-for="(item, index) in tabs"
       :key="item.key"
     >
       <template #tab>
         <Dropdown :trigger="['contextmenu']">
           <div
-            class="flex items-center w-full px-3 py-1 -mt-5px mr-0 border border-light-900"
+            class="flex items-center w-full px-3 py-1 -mt-10px mr-0 border border-light-900"
             :class="{
               'bg-blue-600': isActive(item.key),
               'text-white': isActive(item.key)
             }"
           >
             <div class="mr-5px">{{ item.title }}</div>
-            <div @click.stop="handleRemove(item.key)">
+            <div v-if="tabs.length > 1" @click.stop="handleRemove(item.key)">
               <CloseOutlined
-                class="p-1 rounded-1/2 text-10px"
+                class="p-1 rounded-1/2 text-11px"
                 :class="{
-                  'hover:bg-light-600': !isActive(item.key),
+                  'hover:bg-light-900': !isActive(item.key),
                   'hover:bg-blue-800': isActive(item.key),
                 }"
                 style="margin-right: 0 !important"
@@ -34,24 +33,44 @@
           </div>
           <template #overlay>
             <Menu>
-              <MenuItem key="1">
-                <RedoOutlined class="mr-1 transform rotate-270" />
+              <MenuItem
+                :key="TabEnums.REFRESH_PAGE"
+                :disabled="activeKey !== item.key"
+                @click="handleDropdown(TabEnums.REFRESH_PAGE, item.key)"
+              >
+                <RedoOutlined class="mr-5px transform rotate-270" />
                 <span>重新加载</span>
               </MenuItem>
-              <MenuItem key="2">
-                <CloseOutlined class="mr-1" />
+              <MenuItem
+                :key="TabEnums.CLOSE_CURRENT"
+                :disabled="tabs.length < 2"
+                @click="handleDropdown(TabEnums.CLOSE_CURRENT, item.key)"
+              >
+                <CloseOutlined class="mr-5px" />
                 <span>关闭标签</span>
               </MenuItem>
-              <MenuItem key="3">
-                <VerticalAlignMiddleOutlined class="mr-1 transform rotate-90" />
+              <MenuItem
+                :key="TabEnums.CLOSE_OTHER"
+                :disabled="tabs.length < 2"
+                @click="handleDropdown(TabEnums.CLOSE_OTHER, item.key)"
+              >
+                <VerticalAlignMiddleOutlined class="mr-5px transform rotate-90" />
                 <span>关闭其他</span>
               </MenuItem>
-              <MenuItem key="4">
-                <VerticalAlignTopOutlined class="mr-1 transform rotate-270" />
+              <MenuItem
+                :key="TabEnums.CLOSE_LEFT"
+                :disabled="index === 0"
+                @click="handleDropdown(TabEnums.CLOSE_LEFT, item.key)"
+              >
+                <VerticalAlignTopOutlined class="mr-5px transform rotate-270" />
                 <span>关闭左侧</span>
               </MenuItem>
-              <MenuItem key="5">
-                <VerticalAlignTopOutlined class="mr-1 transform rotate-90" />
+              <MenuItem
+                :key="TabEnums.CLOSE_RIGHT"
+                :disabled="index === tabs.length - 1"
+                @click="handleDropdown(TabEnums.CLOSE_RIGHT, item.key)"
+              >
+                <VerticalAlignTopOutlined class="mr-5px transform rotate-90" />
                 <span>关闭右侧</span>
               </MenuItem>
             </Menu>
@@ -64,8 +83,8 @@
 
 <script lang="ts">
 import { defineComponent, watch } from 'vue'
-import { useTabStore } from '@/stores/tabs'
 import { storeToRefs } from 'pinia'
+import { useTabStore, TabEnums } from '@/stores/tabs'
 import {
   Tabs,
   TabPane,
@@ -101,18 +120,14 @@ export default defineComponent({
     const router = useRouter()
     const tabStore = useTabStore()
     const { tabs, activeKey } = storeToRefs(tabStore)
-    const { clickTabs, removeTabs } = tabStore
+    const {
+      clickTabs,
+      removeCurrent,
+      removeOther,
+      removeLeft,
+      removeRight
+    } = tabStore
     const isActive = (key: string) => key === activeKey.value
-
-    // 点击
-    const onChange = (targetKey: Key) => {
-      clickTabs(targetKey as string)
-    }
-    
-    // 移除当前标签页
-    const handleRemove = (targetKey: string) => {
-      removeTabs(targetKey)
-    }
 
     // 监听所选向变化，标签页跟随变化
     watch(() => activeKey.value, value => {
@@ -121,12 +136,57 @@ export default defineComponent({
       }
     })
 
+    // 点击
+    const onChange = (targetKey: Key) => {
+      clickTabs(targetKey as string)
+    }
+    
+    // 移除当前标签页
+    const handleRemove = (targetKey: string) => {
+      removeCurrent(targetKey)
+    }
+
+    // 点击右键功能
+    const handleDropdown = (type: TabEnums, key: string) => {
+      switch (type) {
+        // 刷新当前页
+        case TabEnums.REFRESH_PAGE:
+          router.push('/empty')
+          setTimeout(() => {
+            router.push(activeKey.value)
+          }, 100);
+          break
+
+        // 关闭标签
+        case TabEnums.CLOSE_CURRENT:
+          removeCurrent(key)
+          break
+
+        // 关闭其他
+        case TabEnums.CLOSE_OTHER:
+          removeOther(key)
+          break
+
+        // 关闭左侧
+        case TabEnums.CLOSE_LEFT:
+          removeLeft(key)
+          break
+
+        // 关闭右侧
+        case TabEnums.CLOSE_RIGHT:
+          removeRight(key)
+          break
+      }
+    }
+
     return {
       tabs,
       activeKey,
+      TabEnums,
       isActive,
       handleRemove,
-      onChange
+      onChange,
+      handleDropdown
     };
   }
 })

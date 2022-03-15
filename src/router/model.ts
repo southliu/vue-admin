@@ -2,7 +2,7 @@ import type { RouteRecordRaw } from "vue-router"
 
 // 更改meta值
 interface IMeta {
-  meta: {
+  meta?: {
     title?: string;
     isHidden?: boolean;
     isKeepAlive?: boolean;

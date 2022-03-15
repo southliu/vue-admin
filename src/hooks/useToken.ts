@@ -1,3 +1,6 @@
+/**
+ * token存取方法
+ */
 import { TOKEN } from '@/utils/config';
 import Cookies from 'js-cookie'
 

@@ -46,7 +46,7 @@
 
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, onActivated, onMounted, reactive, ref } from 'vue'
 import { Button } from 'ant-design-vue'
 import BasicContent from '@/components/BasicContent.vue'
 import BasicTable from '@/components/BasicTable.vue'
@@ -152,6 +152,14 @@ export default defineComponent({
           tags: ['cool', 'teacher'].join(''),
         },
       ]
+    })
+
+    onActivated(() => {
+      console.log('activated')
+    })
+
+    onMounted(() => {
+      console.log('onMounted')
     })
 
     // 表格提交

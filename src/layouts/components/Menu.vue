@@ -76,6 +76,13 @@ export default defineComponent({
     const selectedKeys = ref<string[]>([]);
     const openKeys = ref<string[]>([]);
 
+    // 监听路由变化，菜单跟随变化
+    watch(() => route.path, value => {
+      if ([value] !== selectedKeys.value) {
+        selectedKeys.value = [route.path]
+      }
+    })
+
     // 过滤菜单数据
     const filterMenus = (menus: IMenus[], list: ISidebar[]): ISidebar[] => {
       for (let i = 0; i < menus.length; i++) {
@@ -101,7 +108,7 @@ export default defineComponent({
         list.push({
           key: item.path,
           title: item?.meta?.title || '',
-          icon: item.meta.iconfont,
+          icon: item?.meta?.iconfont,
           children
         })
       }
@@ -120,14 +127,6 @@ export default defineComponent({
       router.push(key)
       tabStore.addTabs({ title, key })
     }
-
-    // 监听路由变化，菜单跟随变化
-    watch(() => route.path, value => {
-      if ([value] !== selectedKeys.value) {
-        selectedKeys.value = [route.path]
-      }
-    })
-
     return {
       list,
       selectedKeys,

@@ -11,6 +11,14 @@ interface IState {
   tabs: ITabs[];
 }
 
+export enum TabEnums {
+  REFRESH_PAGE, // 刷新当前页
+  CLOSE_CURRENT,
+  CLOSE_OTHER,
+  CLOSE_LEFT,
+  CLOSE_RIGHT
+}
+
 export const useTabStore = defineStore({
   id: 'tabs',
   state: () => ({
@@ -35,7 +43,7 @@ export const useTabStore = defineStore({
       this.tabs.push(tab)
     },
     // 移除当前标签页
-    removeTabs(targetKey: string) {
+    removeCurrent(targetKey: string) {
       // 获取当前key的最后一位位置
       let lastIndex = 0
       for (let i = 0; i < this.tabs.length; i++) {
@@ -56,5 +64,47 @@ export const useTabStore = defineStore({
         }
       }
     },
-  },
+    // 关闭其他
+    removeOther(targetKey: string) {
+      this.tabs = this.tabs.filter(item => item.key === targetKey)
+      this.activeKey = targetKey
+    },
+    // 关闭左侧
+    removeLeft(targetKey: string) {
+      let tabs: ITabs[] = [], isCurrent = false
+
+      for (let i = 0; i < this.tabs.length; i++) {
+        const element = this.tabs[i];
+        // 当前项之后的数据都保存
+        if (element.key === targetKey) {
+          isCurrent = true
+        }
+        if (isCurrent) tabs.push(element)
+      }
+
+      this.tabs = tabs
+      this.activeKey = targetKey
+    },
+    // 关闭右侧
+    removeRight(targetKey: string) {
+      let tabs: ITabs[] = [], index = 0
+
+      // 获取下标
+      for (let i = this.tabs.length - 1; i >= 0; i--) {
+        const element = this.tabs[i];
+        if (element.key === targetKey) {
+          index = i
+        }
+      }
+
+      // 重构数据
+      for (let i = 0; i <= index; i++) {
+        const element = this.tabs[i];
+        tabs.push(element)
+      }
+      
+      this.tabs = tabs
+      this.activeKey = targetKey
+    },
+  }
 })
