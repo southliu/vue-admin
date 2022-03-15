@@ -11,12 +11,17 @@ interface IState {
   tabs: ITabs[];
 }
 
-export const useTabStore = defineStore('tabs', {
+export const useTabStore = defineStore({
+  id: 'tabs',
   state: () => ({
     activeKey: '',
     tabs: []
   } as IState),
   actions: {
+    // 点击当前
+    clickTabs(targetKey: string) {
+      this.activeKey = targetKey
+    },
     // 添加标签页
     addTabs(tab: ITabs) {
       this.activeKey = tab.key

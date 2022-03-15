@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, onMounted, ref, watch } from 'vue'
 import { menus } from '@/router/menus'
 import type { IMenus } from '@/router/model'
 import { useTabStore } from '@/stores/tabs'
@@ -120,6 +120,13 @@ export default defineComponent({
       router.push(key)
       tabStore.addTabs({ title, key })
     }
+
+    // 监听路由变化，菜单跟随变化
+    watch(() => route.path, value => {
+      if ([value] !== selectedKeys.value) {
+        selectedKeys.value = [route.path]
+      }
+    })
 
     return {
       list,
