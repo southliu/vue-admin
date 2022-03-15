@@ -3,10 +3,13 @@ import type { App } from 'vue'
 import { createPinia } from 'pinia'
 import { router } from './router'
 import Element from './App.vue'
+
+// 样式
+import 'uno.css'
+import 'virtual:windi.css'
+import 'nprogress/nprogress.css'
 import '@/assets/css/scrollbar.less'
 import '@/assets/css/iconfont.css'
-import 'nprogress/nprogress.css'
-import 'virtual:windi.css'
 
 // antv
 import 'ant-design-vue/dist/antd.min.css'

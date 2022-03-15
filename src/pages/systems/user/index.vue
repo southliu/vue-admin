@@ -1,5 +1,7 @@
 <template>
   <BasicContent>
+    123
+<Icon icon="eva:people-outline"> </Icon>
     <BasicForm
       type="search"
       class="mb-20px"
@@ -56,6 +58,7 @@ import BasicModal from '@/components/BasicModal.vue'
 import DeleteBtn from '@/components/DeleteBtn.vue'
 import type { IBasicForm } from '@/components/BasicForm.vue'
 import type { IFormData } from '@/types/form'
+import { Icon } from '@iconify/vue';
 
 export default defineComponent({
   components: {
@@ -203,6 +206,7 @@ export default defineComponent({
       searches,
       creates,
       tables,
+      Icon,
       onCreate,
       onUpdate,
       createSubmit,

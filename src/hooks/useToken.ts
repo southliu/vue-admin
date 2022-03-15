@@ -1,9 +1,11 @@
-/**
- * token存取方法
- */
 import { TOKEN } from '@/utils/config';
 import Cookies from 'js-cookie'
 
+/**
+ * token存取方法
+ * @param token - token值
+ * @param remove - 是否删除token
+ */
 function useToken(token?: string | null, remove?: boolean) {
   if (remove) {
     Cookies.remove(TOKEN)

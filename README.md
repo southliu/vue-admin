@@ -29,9 +29,10 @@ pnpm dev
 pnpm build
 ```
 
-## 图标(iconfont)
+## 图标(iconify)
 
-### 参考 [iconfont](https://www.iconfont.cn/),如需修改,自行替换`./src/assets/css/iconfont.css`
+- 参考 [iconify官方地址](https://icon-sets.iconify.design/)
+- VS Code安装Iconify IntelliSense - 图标内联显示和自动补全
 
 ## Git 贡献提交规范
 
@@ -55,7 +56,6 @@ pnpm build
 
 - [ ] 主题换肤功能
 - [ ] 嵌套菜单组件
-- [ ] 标签页右键刷新和关闭右侧
-- [ ] 优化刷新当前标签
+- [x] 标签页右键刷新和关闭右侧
 - [ ] 修改密码弹窗
 - [x] antv按需加载

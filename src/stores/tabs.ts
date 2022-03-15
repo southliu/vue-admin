@@ -13,10 +13,10 @@ interface IState {
 
 export enum TabEnums {
   REFRESH_PAGE, // 刷新当前页
-  CLOSE_CURRENT,
-  CLOSE_OTHER,
-  CLOSE_LEFT,
-  CLOSE_RIGHT
+  CLOSE_CURRENT, // 关闭当前
+  CLOSE_OTHER, // 关闭其他
+  CLOSE_LEFT, // 关闭左侧
+  CLOSE_RIGHT // 关闭右侧
 }
 
 export const useTabStore = defineStore({

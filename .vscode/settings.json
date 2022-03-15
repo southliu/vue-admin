@@ -28,5 +28,8 @@
     "eqeqeq",
     "builtins",
     "camelcase",
+    "iconify",
+    "unocss",
+    "attributify",
   ]
 }

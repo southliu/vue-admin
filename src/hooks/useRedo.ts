@@ -1,12 +1,13 @@
-/**
- * 重新跳转当前页面
- */
 import { unref } from 'vue'
 import { useRouter } from 'vue-router'
 import type { Router } from 'vue-router'
 
 const REDIRECT_NAME = '/empty'
 
+/**
+ * 重新跳转当前页面
+ * @param _router - 路由参数
+ */
 export const useRedo = (_router: Router) => {
   const { push, currentRoute } = _router || useRouter();
   const { query, params = {}, name, fullPath } = unref(currentRoute.value);
