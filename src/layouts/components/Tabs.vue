@@ -3,6 +3,7 @@
   <Tabs
     v-model:activeKey="activeKey"
     hide-add
+    :tabBarGutter="12"
     @change="onChange"
   >
     <TabPane
@@ -12,9 +13,24 @@
     >
       <template #tab>
         <Dropdown :trigger="['contextmenu']">
-          <div class="flex w-full p-2 -mt-5px border">
-            <div class="mr-2">{{ item.title }}</div>
-            <div @click.stop="handleRemove(item.key)">X</div>
+          <div
+            class="flex items-center w-full px-3 py-1 -mt-5px mr-0 border border-light-900"
+            :class="{
+              'bg-blue-600': isActive(item.key),
+              'text-white': isActive(item.key)
+            }"
+          >
+            <div class="mr-5px">{{ item.title }}</div>
+            <div @click.stop="handleRemove(item.key)">
+              <CloseOutlined
+                class="p-1 rounded-1/2 text-10px"
+                :class="{
+                  'hover:bg-light-600': !isActive(item.key),
+                  'hover:bg-blue-800': isActive(item.key),
+                }"
+                style="margin-right: 0 !important"
+              />
+            </div>
           </div>
           <template #overlay>
             <Menu>
@@ -86,6 +102,7 @@ export default defineComponent({
     const tabStore = useTabStore()
     const { tabs, activeKey } = storeToRefs(tabStore)
     const { clickTabs, removeTabs } = tabStore
+    const isActive = (key: string) => key === activeKey.value
 
     // 点击
     const onChange = (targetKey: Key) => {
@@ -107,6 +124,7 @@ export default defineComponent({
     return {
       tabs,
       activeKey,
+      isActive,
       handleRemove,
       onChange
     };
