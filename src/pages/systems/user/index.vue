@@ -22,10 +22,12 @@
       </template>
     </BasicTable>
 
-    <BasicPagination
-      :total="tables.total"
-      @handleChange="handlePagination"
-    />
+    <template #pagination>
+      <BasicPagination
+        :total="tables.total"
+        @handleChange="handlePagination"
+      />
+    </template>
   </BasicContent>
 
   <BasicModal

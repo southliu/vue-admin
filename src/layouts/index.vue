@@ -18,7 +18,7 @@
     :collapsed="collapsed"
   />
   <div
-    class="con overflow-y-auto h-full transition-all"
+    class="con transition-all overflow-hidden"
     :class="{ 'con-close-menu': collapsed }"
   >
     <router-view v-slot="{ Component }">

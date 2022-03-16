@@ -1,12 +1,12 @@
 <template>
-  <div class="flex justify-end pt-3">
-    <Pagination
-      showSizeChanger
-      :defaultCurrent="defaultCurrent"
-      :total="total"
-      :onChange="onChange"
-    />
-  </div>
+  <Pagination
+    showSizeChanger
+    showQuickJumper
+    size="small"
+    :defaultCurrent="defaultCurrent"
+    :total="total"
+    :onChange="onChange"
+  />
 </template>
 
 <script lang="ts">
