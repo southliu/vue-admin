@@ -9,7 +9,9 @@ import 'uno.css'
 import 'virtual:windi.css'
 import 'nprogress/nprogress.css'
 import '@/assets/css/scrollbar.less'
-import '@/assets/css/iconfont.css'
+
+// iconify
+import '@purge-icons/generated'
 
 // antv
 import 'ant-design-vue/dist/antd.min.css'

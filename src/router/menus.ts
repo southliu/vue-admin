@@ -37,7 +37,7 @@ export const menus: IMenus[] = [
     path: '/system',
     meta: {
       title: '系统管理',
-      iconfont: 'icon-xitongguanli'
+      icon: 'ion:settings-outline'
     },
     component: () => import('@/layouts/index.vue'),
     redirect: '/system/user',

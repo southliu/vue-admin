@@ -37,7 +37,6 @@ specifiers:
   typescript: ^4.4.4
   unocss: ^0.28.1
   unplugin-auto-import: ^0.6.1
-  unplugin-icons: ^0.13.4
   unplugin-vue-components: ^0.17.21
   vite: ^2.7.2
   vite-plugin-purge-icons: ^0.8.1
@@ -94,7 +93,6 @@ devDependencies:
   typescript: 4.6.2
   unocss: 0.28.1_less@4.1.2
   unplugin-auto-import: 0.6.1_@vueuse+core@7.7.0+vite@2.8.6
-  unplugin-icons: 0.13.4_5dbb0cc878f3ab9caa0bd7b169eded43
   unplugin-vue-components: 0.17.21_vite@2.8.6+vue@3.2.31
   vite: 2.8.6_less@4.1.2
   vite-plugin-purge-icons: 0.8.1_vite@2.8.6
@@ -1570,7 +1568,7 @@ packages:
   /axios/0.26.1_debug@4.3.3:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.3
     transitivePeerDependencies:
       - debug
     dev: true
@@ -2678,6 +2676,18 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
+
+  /follow-redirects/1.14.9_debug@4.3.3:
+    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.3
+    dev: true
 
   /fs-extra/10.0.1:
     resolution: {integrity: sha512-NbdoVMZso2Lsrn/QwLXOy6rm0ufY2zEOKCDzJR/0kBsb0E6qed0P3iYK+Ath3BfvXEeu4JhEtXLgILx5psUfag==}
@@ -4433,39 +4443,6 @@ packages:
       - webpack
     dev: true
 
-  /unplugin-icons/0.13.4_5dbb0cc878f3ab9caa0bd7b169eded43:
-    resolution: {integrity: sha512-gyp5H4WADnXEE1uk8+NW6gnnALOlSpU8M5GwzNCYbUgjM4QudjcFbacHKuuqETk4VeSJyzM9Z2ufbuZFMuxvuQ==}
-    peerDependencies:
-      '@svgr/core': '>=5.5.0'
-      '@vue/compiler-sfc': ^3.0.2
-      vue-template-compiler: ^2.6.12
-      vue-template-es2015-compiler: ^1.9.0
-    peerDependenciesMeta:
-      '@svgr/core':
-        optional: true
-      '@vue/compiler-sfc':
-        optional: true
-      vue-template-compiler:
-        optional: true
-      vue-template-es2015-compiler:
-        optional: true
-    dependencies:
-      '@antfu/install-pkg': 0.1.0
-      '@antfu/utils': 0.5.0
-      '@iconify/utils': 1.0.24
-      '@vue/compiler-sfc': 3.2.31
-      debug: 4.3.3
-      kolorist: 1.5.1
-      local-pkg: 0.4.1
-      unplugin: 0.4.0_vite@2.8.6
-    transitivePeerDependencies:
-      - esbuild
-      - rollup
-      - supports-color
-      - vite
-      - webpack
-    dev: true
-
   /unplugin-vue-components/0.17.21_vite@2.8.6+vue@3.2.31:
     resolution: {integrity: sha512-jkXksUF6zkNbzHQbw1DdrsQyVoMZGESRZDIGd9x7nUP+65nHdpBCY/JmlxSjKbuTrOwfMsk6FQFa0RpRueOCKg==}
     engines: {node: '>=14'}
@@ -4515,28 +4492,6 @@ packages:
       webpack:
         optional: true
     dependencies:
-      vite: 2.8.6_less@4.1.2
-      webpack-virtual-modules: 0.4.3
-    dev: true
-
-  /unplugin/0.4.0_vite@2.8.6:
-    resolution: {integrity: sha512-4ScITEmzlz1iZW3tkz+3L1V5k/xMQ6kjgm4lEXKxH0ozd8/OUWfiSA7RMRyrawsvq/t50JIzPpp1UyuSL/AXkA==}
-    peerDependencies:
-      esbuild: '>=0.13'
-      rollup: ^2.50.0
-      vite: ^2.3.0
-      webpack: 4 || 5
-    peerDependenciesMeta:
-      esbuild:
-        optional: true
-      rollup:
-        optional: true
-      vite:
-        optional: true
-      webpack:
-        optional: true
-    dependencies:
-      chokidar: 3.5.3
       vite: 2.8.6_less@4.1.2
       webpack-virtual-modules: 0.4.3
     dev: true

@@ -6,7 +6,7 @@ interface IMeta {
     title?: string;
     isHidden?: boolean;
     isKeepAlive?: boolean;
-    iconfont?: string;
+    icon?: string;
   }
 }
 

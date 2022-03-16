@@ -26,7 +26,7 @@
         :data-title="item.title"
       >
         <template v-if="item?.icon" #icon>
-          <div class="iconfont" :class="item.icon"></div>
+          <span class="iconify" :data-icon="item.icon"></span>
         </template>
         <template #title>{{ item.title }}</template>
         <MenuItem
@@ -108,7 +108,7 @@ export default defineComponent({
         list.push({
           key: item.path,
           title: item?.meta?.title || '',
-          icon: item?.meta?.iconfont,
+          icon: item?.meta?.icon,
           children
         })
       }

@@ -3,13 +3,11 @@ import vue from '@vitejs/plugin-vue'
 import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
-// import PurgeIcons from 'vite-plugin-purge-icons'
-import Icons from 'unplugin-icons/vite'
+import PurgeIcons from 'vite-plugin-purge-icons'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
-
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -18,7 +16,8 @@ export default defineConfig({
     vue(),
     vueJsx(),
     windiCSS(),
-    Icons({
+    PurgeIcons({
+      /* PurgeIcons Options */
     }),
     Unocss({
       presets: [
