@@ -1,4 +1,7 @@
 import { defineStore } from 'pinia'
+import type { Router } from 'vue-router';
+import { menus } from '@/router/menus'
+import { getCacheRoutes } from '@/utils/menus';
 
 interface ITabs {
   title: string;
@@ -7,30 +10,47 @@ interface ITabs {
 }
 
 interface IState {
+  // 当前选中的标签
   activeKey: string;
+  // 标签栏数据
   tabs: ITabs[];
-}
-
-export enum TabEnums {
-  REFRESH_PAGE, // 刷新当前页
-  CLOSE_CURRENT, // 关闭当前
-  CLOSE_OTHER, // 关闭其他
-  CLOSE_LEFT, // 关闭左侧
-  CLOSE_RIGHT // 关闭右侧
+  // 缓存的路由名称
+  cacheRoutes: string[];
 }
 
 export const useTabStore = defineStore({
   id: 'tabs',
   state: () => ({
     activeKey: '',
-    tabs: []
+    tabs: [],
+    cacheRoutes: []
   } as IState),
   actions: {
-    // 点击当前
+    /** 初始化路由缓存 */
+    initCacheRoutes() {
+      this.cacheRoutes = getCacheRoutes(menus)
+    },
+
+    /**
+     * 设置路由缓存
+     * @param cacheRoutes - 缓存参数
+     */
+    setCacheRoutes(cacheRoutes: string[]) {
+      this.cacheRoutes = cacheRoutes
+    },
+
+    /**
+     * 点击标签
+     * @param targetKey - 当前选中唯一值
+     */
     clickTabs(targetKey: string) {
       this.activeKey = targetKey
     },
-    // 添加标签页
+
+    /**
+     * 添加标签页
+     * @param tab - 标签数据
+     */
     addTabs(tab: ITabs) {
       this.activeKey = tab.key
       // 查询是否有重复的标签页
@@ -42,7 +62,11 @@ export const useTabStore = defineStore({
       }
       this.tabs.push(tab)
     },
-    // 移除当前标签页
+
+    /**
+     * 移除当前标签页
+     * @param targetKey - 标签唯一值
+     */
     removeCurrent(targetKey: string) {
       // 获取当前key的最后一位位置
       let lastIndex = 0
@@ -64,14 +88,22 @@ export const useTabStore = defineStore({
         }
       }
     },
-    // 关闭其他
+
+    /**
+     * 移除其他标签页
+     * @param targetKey - 标签唯一值
+     */
     removeOther(targetKey: string) {
       this.tabs = this.tabs.filter(item => item.key === targetKey)
       this.activeKey = targetKey
     },
-    // 关闭左侧
+
+    /**
+     * 关闭左侧
+     * @param targetKey - 标签唯一值
+     */
     removeLeft(targetKey: string) {
-      let tabs: ITabs[] = [], isCurrent = false
+      let isCurrent = false, tabs: ITabs[] = []
 
       for (let i = 0; i < this.tabs.length; i++) {
         const element = this.tabs[i];
@@ -79,15 +111,21 @@ export const useTabStore = defineStore({
         if (element.key === targetKey) {
           isCurrent = true
         }
-        if (isCurrent) tabs.push(element)
+        if (isCurrent) {
+          tabs.push(element)
+        }
       }
 
       this.tabs = tabs
       this.activeKey = targetKey
     },
-    // 关闭右侧
+
+    /**
+     * 关闭右侧
+     * @param targetKey - 标签唯一值
+     */
     removeRight(targetKey: string) {
-      let tabs: ITabs[] = [], index = 0
+      let index = 0, tabs: ITabs[] = []
 
       // 获取下标
       for (let i = this.tabs.length - 1; i >= 0; i--) {
@@ -106,5 +144,23 @@ export const useTabStore = defineStore({
       this.tabs = tabs
       this.activeKey = targetKey
     },
+
+    /**
+     * 刷新当前页
+     * @param router - 路由
+     */
+    refreshPage(router: Router) {
+      this.cacheRoutes = getCacheRoutes(menus)
+      // const { currentRoute } = router;
+      // const route = unref(currentRoute);
+      // const name = route.name;
+
+      // const findTab = this.getCachedTabList.find((item) => item === name);
+      // if (findTab) {
+      //   this.cacheTabList.delete(findTab);
+      // }
+      // const redo = useRedo(router);
+      // await redo();
+    }
   }
 })

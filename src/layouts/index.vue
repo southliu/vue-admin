@@ -22,7 +22,7 @@
     :class="{ 'con-close-menu': collapsed }"
   >
     <router-view v-slot="{ Component }">
-      <keep-alive>
+      <keep-alive :include="tabStore.cacheRoutes">
         <component
           :is="Component"
           :key="$route.path"
@@ -39,6 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue'
+import { useTabStore } from '@/stores/tabs'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
@@ -46,6 +47,7 @@ import Tabs from './components/Tabs.vue'
 export default defineComponent({
   components: { Header, Menu, Tabs },
   setup() {
+    const tabStore = useTabStore()
     const collapsed = ref(false)
 
     // 收缩菜单
@@ -54,6 +56,7 @@ export default defineComponent({
     }
 
     return {
+      tabStore,
       collapsed,
       toggleCollapsed
     }

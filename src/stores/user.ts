@@ -5,6 +5,10 @@ export const useMenuStore = defineStore('user', {
     token: ''
   }),
   actions: {
+    /**
+     * 设置token
+     * @param value token值
+     */
     setToken(value: string) {
       this.token = value
     }

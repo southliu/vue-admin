@@ -1,90 +1,92 @@
 <template>
-  <Tabs
-    v-model:activeKey="activeKey"
-    hide-add
-    :tabBarGutter="5"
-    @change="onChange"
-  >
-    <TabPane
-      class="overflow-auto"
-      v-for="(item, index) in tabs"
-      :key="item.key"
+  <div class="ml-2">
+    <Tabs
+      v-model:activeKey="activeKey"
+      hide-add
+      :tabBarGutter="5"
+      @change="onChange"
     >
-      <template #tab>
-        <Dropdown :trigger="['contextmenu']">
-          <div
-            class="flex items-center w-full px-3 py-1 -mt-10px mr-0 border border-light-900"
-            :class="{
-              'bg-blue-600': isActive(item.key),
-              'text-white': isActive(item.key)
-            }"
-          >
-            <div class="mr-5px">{{ item.title }}</div>
-            <div v-if="tabs.length > 1" @click.stop="handleRemove(item.key)">
-              <CloseOutlined
-                class="p-1 rounded-1/2 text-11px"
-                :class="{
-                  'hover:bg-light-900': !isActive(item.key),
-                  'hover:bg-blue-800': isActive(item.key),
-                }"
-                style="margin-right: 0 !important"
-              />
+      <TabPane
+        class="overflow-auto"
+        v-for="(item, index) in tabs"
+        :key="item.key"
+      >
+        <template #tab>
+          <Dropdown :trigger="['contextmenu']">
+            <div
+              class="flex items-center w-full px-3 py-1 -mt-10px mr-0 border border-light-900"
+              :class="{
+                'bg-blue-700': isActive(item.key),
+                'text-white': isActive(item.key)
+              }"
+            >
+              <div class="mr-5px">{{ item.title }}</div>
+              <div v-if="tabs.length > 1" @click.stop="handleRemove(item.key)">
+                <CloseOutlined
+                  class="p-1 rounded-1/2 text-11px"
+                  :class="{
+                    'hover:bg-light-900': !isActive(item.key),
+                    'hover:bg-blue-800': isActive(item.key),
+                  }"
+                  style="margin-right: 0 !important"
+                />
+              </div>
             </div>
-          </div>
-          <template #overlay>
-            <Menu>
-              <MenuItem
-                :key="TabEnums.REFRESH_PAGE"
-                :disabled="activeKey !== item.key"
-                @click="handleDropdown(TabEnums.REFRESH_PAGE, item.key)"
-              >
-                <RedoOutlined class="mr-5px transform rotate-270" />
-                <span>重新加载</span>
-              </MenuItem>
-              <MenuItem
-                :key="TabEnums.CLOSE_CURRENT"
-                :disabled="tabs.length < 2"
-                @click="handleDropdown(TabEnums.CLOSE_CURRENT, item.key)"
-              >
-                <CloseOutlined class="mr-5px" />
-                <span>关闭标签</span>
-              </MenuItem>
-              <MenuItem
-                :key="TabEnums.CLOSE_OTHER"
-                :disabled="tabs.length < 2"
-                @click="handleDropdown(TabEnums.CLOSE_OTHER, item.key)"
-              >
-                <VerticalAlignMiddleOutlined class="mr-5px transform rotate-90" />
-                <span>关闭其他</span>
-              </MenuItem>
-              <MenuItem
-                :key="TabEnums.CLOSE_LEFT"
-                :disabled="index === 0"
-                @click="handleDropdown(TabEnums.CLOSE_LEFT, item.key)"
-              >
-                <VerticalAlignTopOutlined class="mr-5px transform rotate-270" />
-                <span>关闭左侧</span>
-              </MenuItem>
-              <MenuItem
-                :key="TabEnums.CLOSE_RIGHT"
-                :disabled="index === tabs.length - 1"
-                @click="handleDropdown(TabEnums.CLOSE_RIGHT, item.key)"
-              >
-                <VerticalAlignTopOutlined class="mr-5px transform rotate-90" />
-                <span>关闭右侧</span>
-              </MenuItem>
-            </Menu>
-          </template>
-        </Dropdown>
-      </template>
-    </TabPane>
-  </Tabs>
+            <template #overlay>
+              <Menu>
+                <MenuItem
+                  :key="TabEnums.REFRESH_PAGE"
+                  :disabled="activeKey !== item.key"
+                  @click="handleDropdown(TabEnums.REFRESH_PAGE, item.key)"
+                >
+                  <RedoOutlined class="mr-5px transform rotate-270" />
+                  <span>重新加载</span>
+                </MenuItem>
+                <MenuItem
+                  :key="TabEnums.CLOSE_CURRENT"
+                  :disabled="tabs.length < 2"
+                  @click="handleDropdown(TabEnums.CLOSE_CURRENT, item.key)"
+                >
+                  <CloseOutlined class="mr-5px" />
+                  <span>关闭标签</span>
+                </MenuItem>
+                <MenuItem
+                  :key="TabEnums.CLOSE_OTHER"
+                  :disabled="tabs.length < 2"
+                  @click="handleDropdown(TabEnums.CLOSE_OTHER, item.key)"
+                >
+                  <VerticalAlignMiddleOutlined class="mr-5px transform rotate-90" />
+                  <span>关闭其他</span>
+                </MenuItem>
+                <MenuItem
+                  :key="TabEnums.CLOSE_LEFT"
+                  :disabled="index === 0"
+                  @click="handleDropdown(TabEnums.CLOSE_LEFT, item.key)"
+                >
+                  <VerticalAlignTopOutlined class="mr-5px transform rotate-270" />
+                  <span>关闭左侧</span>
+                </MenuItem>
+                <MenuItem
+                  :key="TabEnums.CLOSE_RIGHT"
+                  :disabled="index === tabs.length - 1"
+                  @click="handleDropdown(TabEnums.CLOSE_RIGHT, item.key)"
+                >
+                  <VerticalAlignTopOutlined class="mr-5px transform rotate-90" />
+                  <span>关闭右侧</span>
+                </MenuItem>
+              </Menu>
+            </template>
+          </Dropdown>
+        </template>
+      </TabPane>
+    </Tabs>
+  </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, watch } from 'vue'
+import { defineComponent, onMounted, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useTabStore, TabEnums } from '@/stores/tabs'
+import { useTabStore } from '@/stores/tabs'
 import {
   Tabs,
   TabPane,
@@ -101,6 +103,16 @@ import {
 } from '@ant-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { Key } from 'ant-design-vue/lib/_util/type'
+import { getCacheRoutes } from '@/utils/menus'
+import { menus } from '@/router/menus'
+
+enum TabEnums {
+  REFRESH_PAGE, // 刷新当前页
+  CLOSE_CURRENT, // 关闭当前
+  CLOSE_OTHER, // 关闭其他
+  CLOSE_LEFT, // 关闭左侧
+  CLOSE_RIGHT // 关闭右侧
+}
 
 export default defineComponent({
   components: {
@@ -121,6 +133,8 @@ export default defineComponent({
     const tabStore = useTabStore()
     const { tabs, activeKey } = storeToRefs(tabStore)
     const {
+      initCacheRoutes,
+      setCacheRoutes,
       clickTabs,
       removeCurrent,
       removeOther,
@@ -129,6 +143,12 @@ export default defineComponent({
     } = tabStore
     const isActive = (key: string) => key === activeKey.value
 
+    onMounted(() => {
+      console.log('onMounted')
+      // 初始化路由缓存
+      initCacheRoutes()
+    })
+
     // 监听所选向变化，标签页跟随变化
     watch(() => activeKey.value, value => {
       if (value !== route.path) {
@@ -136,25 +156,40 @@ export default defineComponent({
       }
     })
 
-    // 点击
+    /**
+     * 点击标签
+     * @param targetKey - 当前选中唯一值
+     */
     const onChange = (targetKey: Key) => {
       clickTabs(targetKey as string)
     }
-    
-    // 移除当前标签页
+
+    /**
+     * 移除当前标签页
+     * @param targetKey - 当前选中唯一值
+     */
     const handleRemove = (targetKey: string) => {
       removeCurrent(targetKey)
     }
 
-    // 点击右键功能
+    /**
+     * 点击右键功能
+     * @param type - 右键下拉选中类型
+     * @param key - 标签唯一值，可作为路由
+     */
     const handleDropdown = (type: TabEnums, key: string) => {
       switch (type) {
         // 刷新当前页
         case TabEnums.REFRESH_PAGE:
           router.push('/empty')
+          setCacheRoutes([])
           setTimeout(() => {
             router.push(activeKey.value)
           }, 100);
+          setTimeout(() => {
+            const cacheRoutes = getCacheRoutes(menus)
+            setCacheRoutes(cacheRoutes)
+          }, 150);
           break
 
         // 关闭标签

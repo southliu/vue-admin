@@ -61,6 +61,7 @@ import type { IFormData } from '@/types/form'
 import { Icon } from '@iconify/vue';
 
 export default defineComponent({
+  name: 'SystemUser',
   components: {
     SmileOutlined,
     DownOutlined,
