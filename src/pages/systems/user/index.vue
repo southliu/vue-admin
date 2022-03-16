@@ -113,7 +113,7 @@ export default defineComponent({
     
     // 表格数据
     const tables = reactive<ITableData>({
-      total: 50,
+      total: 500,
       columns: [
         {
           title: '年龄',
