@@ -12,6 +12,7 @@ declare module 'vue' {
     DeleteBtn: typeof import('./src/components/DeleteBtn.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen.vue')['default']
     UpdateBtn: typeof import('./src/components/UpdateBtn.vue')['default']
+    UpdatePassword: typeof import('./src/components/UpdatePassword.vue')['default']
   }
 }
 

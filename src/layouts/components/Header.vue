@@ -15,7 +15,7 @@
         <div class="ant-dropdown-link flex items-center cursor-pointer" @click.prevent>
           <img
             class="w-30px h-30px rounded-1/2 overflow-hidden object-cover bg-light-500"
-            src="@/assets/images/logo.png"
+            :src="Logo"
             alt="LOGO"
           >
           <span class="ml-2 text-base">South</span>
@@ -40,6 +40,7 @@
 <script lang="ts">
 import { defineComponent, createVNode } from 'vue'
 import Fullscreen from '@/components/Fullscreen.vue'
+import Logo from '@/assets/images/logo.png'
 import { Menu, MenuItem, Dropdown, MenuProps } from 'ant-design-vue'
 import {
   MenuFoldOutlined,
@@ -115,6 +116,7 @@ export default defineComponent({
     };
 
     return {
+      Logo,
       Dropdowns,
       toggleCollapsed,
       onClickDropdown

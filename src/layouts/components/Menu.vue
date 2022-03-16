@@ -4,7 +4,7 @@
       class="flex content-center px-5 py-2 cursor-pointer"
       :class="{ 'justify-center': collapsed }"
     >
-      <img class="logo object-contain" src="@/assets/images/logo.png">
+      <img class="logo object-contain" :src="Logo">
       <span
         class="title ml-3 text-xl font-bold truncate"
         :class="{ 'title-close': collapsed }"
@@ -48,6 +48,7 @@ import type { IMenus } from '@/router/model'
 import { useTabStore } from '@/stores/tabs'
 import { useRoute, useRouter } from 'vue-router'
 import { Menu, MenuItem, SubMenu } from 'ant-design-vue'
+import Logo from '@/assets/images/logo.png'
 
 interface ISidebar {
   key: string;
@@ -128,6 +129,7 @@ export default defineComponent({
       tabStore.addTabs({ title, key })
     }
     return {
+      Logo,
       list,
       selectedKeys,
       openKeys,

@@ -93,7 +93,8 @@ import {
   Menu,
   MenuItem,
   Dropdown,
-  Button
+  Button,
+message
 } from 'ant-design-vue'
 import {
   RedoOutlined,
@@ -204,6 +205,7 @@ export default defineComponent({
           setTimeout(() => {
             router.push(activeKey.value)
             cacheRoutes.value.push(routerName)
+            message.success({ content: '刷新成功!', key: 'refresh' })
           }, 100)
           break
 

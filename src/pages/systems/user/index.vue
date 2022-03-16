@@ -166,38 +166,54 @@ export default defineComponent({
       console.log('onMounted')
     })
 
-    // 表格提交
+    /** 表格提交 */
     const createSubmit = () => {
       createFormRef.value?.handleSubmit()
     }
 
-    // 搜索提交
+    /**
+     * 搜索提交
+     * @param values - 表单返回数据
+     */
     const handleSearch = (values: IFormData) => {
       console.log('handleSearch:', values)
     }
 
-    // 点击新增
+    /** 点击新增 */
     const onCreate = () => {
       creates.isVisible = !creates.isVisible
     }
 
-    // 点击编辑
+    /**
+     * 点击编辑
+     * @param record - 当前行数据
+     */
     const onUpdate = (record: IFormData) => {
       creates.isVisible = !creates.isVisible
       creates.data = record
     }
 
-    // 新增/编辑提交
+    /**
+     * 新增/编辑提交
+     * @param values - 表单返回数据
+     */
     const handleCreate = (values: IFormData) => {
       console.log('handleCreate:', values)
     }
 
-    // 删除
+    /**
+     * 删除
+     * @param id
+     */
     const handleDelete = (id: string | number) => {
       console.log('handleDelete:', id)
     }
 
-    // 分页
+    /**
+     * 分页
+     * @param page - 当前页
+     * @param pageSize - 分页总数
+     */
     const handlePagination = (page: number, pageSize: number) => {
       console.log(page, pageSize)
     }
