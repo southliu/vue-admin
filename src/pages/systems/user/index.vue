@@ -1,7 +1,5 @@
 <template>
   <BasicContent>
-    123
-<Icon icon="eva:people-outline"> </Icon>
     <BasicForm
       type="search"
       class="mb-20px"

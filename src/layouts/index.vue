@@ -24,9 +24,9 @@
     <router-view v-slot="{ Component }">
       <keep-alive :include="tabStore.cacheRoutes">
         <component
+          v-if="$route.meta.isKeepAlive"
           :is="Component"
           :key="$route.path"
-          v-if="$route.meta.isKeepAlive"
         />
       </keep-alive>
       <component

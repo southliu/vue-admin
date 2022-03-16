@@ -32,14 +32,6 @@ export const useTabStore = defineStore({
     },
 
     /**
-     * 设置路由缓存
-     * @param cacheRoutes - 缓存参数
-     */
-    setCacheRoutes(cacheRoutes: string[]) {
-      this.cacheRoutes = cacheRoutes
-    },
-
-    /**
      * 点击标签
      * @param targetKey - 当前选中唯一值
      */

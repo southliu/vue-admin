@@ -103,8 +103,7 @@ import {
 } from '@ant-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { Key } from 'ant-design-vue/lib/_util/type'
-import { getCacheRoutes } from '@/utils/menus'
-import { menus } from '@/router/menus'
+import { firstCapitalize } from '@/utils/utils'
 
 enum TabEnums {
   REFRESH_PAGE, // 刷新当前页
@@ -131,10 +130,9 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const tabStore = useTabStore()
-    const { tabs, activeKey } = storeToRefs(tabStore)
+    const { tabs, activeKey, cacheRoutes } = storeToRefs(tabStore)
     const {
       initCacheRoutes,
-      setCacheRoutes,
       clickTabs,
       removeCurrent,
       removeOther,
@@ -144,7 +142,6 @@ export default defineComponent({
     const isActive = (key: string) => key === activeKey.value
 
     onMounted(() => {
-      console.log('onMounted')
       // 初始化路由缓存
       initCacheRoutes()
     })
@@ -173,6 +170,22 @@ export default defineComponent({
     }
 
     /**
+     * 将路由转化为首字母大写字符串，/asd/zxc => AsdZxc
+     * @param str 路由参数值
+     */
+    const filterRouterName = (str: string): string => {
+      // 分割斜线
+      const arr = str.split('/')
+      let res = ''
+
+      arr.forEach(item => {
+        res += firstCapitalize(item)
+      })
+
+      return res
+    }
+
+    /**
      * 点击右键功能
      * @param type - 右键下拉选中类型
      * @param key - 标签唯一值，可作为路由
@@ -181,15 +194,17 @@ export default defineComponent({
       switch (type) {
         // 刷新当前页
         case TabEnums.REFRESH_PAGE:
+          // 去除缓存路由中当前路由
+          const routerName = filterRouterName(key)
+          cacheRoutes.value = cacheRoutes.value.filter(item => item !== routerName)
+
+          // 调转空白页
           router.push('/empty')
-          setCacheRoutes([])
+          // 100毫秒调转回来
           setTimeout(() => {
             router.push(activeKey.value)
-          }, 100);
-          setTimeout(() => {
-            const cacheRoutes = getCacheRoutes(menus)
-            setCacheRoutes(cacheRoutes)
-          }, 150);
+            cacheRoutes.value.push(routerName)
+          }, 100)
           break
 
         // 关闭标签
