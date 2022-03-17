@@ -51,11 +51,14 @@ export default defineComponent({
       ]
     })
 
-    // 点击新增
+    /** 点击新增  */
     const onCreate = () => {
     }
 
-    // 新增/编辑提交
+    /**
+     * 新增/编辑提交
+     * @param values - 表单数据
+     */
     const handleSearch = (values: IFormData) => {
       console.log('handleSearch:', values)
     }

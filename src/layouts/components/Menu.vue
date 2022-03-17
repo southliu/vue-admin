@@ -20,7 +20,7 @@
       theme="dark"
       :inline-collapsed="collapsed"
     >
-      <MenuChildren :list="list" @handleClick="handleClick" />
+      <MenuChildren :list="list" :handleClick="handleClick" />
     </Menu>
   </div>
 </template>
@@ -43,6 +43,7 @@ export interface ISidebar {
 }
 
 export default defineComponent({
+  name: 'MenuLayout',
   props: {
     collapsed: {
       type: Boolean,
@@ -70,8 +71,8 @@ export default defineComponent({
 
     /**
      * 过滤菜单数据
-     * @param menus 菜单数据
-     * @param list 过滤后返回的数据
+     * @param menus - 菜单数据
+     * @param list - 过滤后返回的数据
      */
     const filterMenus = (menus: IMenus[], list: ISidebar[]): ISidebar[] => {
       for (let i = 0; i < menus.length; i++) {
@@ -106,7 +107,6 @@ export default defineComponent({
 
     onMounted(() => {
       list.value = filterMenus(menus, [])
-    console.log('list:', list.value)
 
       // 选中路由当前项
       selectedKeys.value = [route.path]
@@ -114,8 +114,8 @@ export default defineComponent({
 
     /**
      * 点击菜单
-     * @param key 唯一值
-     * @param title 标题
+     * @param key - 唯一值
+     * @param title - 标题
      */
     const handleClick = (key: string, title: string) => {
       router.push(key)

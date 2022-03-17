@@ -15,6 +15,7 @@
         :key="item.key"
         :name="item.key"
         :label="item.title"
+        :rules="item.rules"
       >
         <!-- 自定义 -->
         <template v-if="item.component === 'customize'">
@@ -211,6 +212,8 @@ export type IBasicForm = {
 }
 
 export default defineComponent({
+  name: 'BasicForm',
+  emits: ['handleFinish', 'onCreate'],
   props: {
     data: {
       type: Object,
@@ -272,7 +275,7 @@ export default defineComponent({
     const formRef = ref<FormInstance>()
     const formState = reactive(props.data)
 
-    // 外部调内部提交方法
+    /** 外部调内部提交方法 */
     const handleSubmit = () => {
       formRef.value && formRef.value
         .validateFields()
@@ -284,22 +287,28 @@ export default defineComponent({
         });
     }
 
-    // 外部调内部重置方法
+    /** 外部调内部重置方法 */
     const handleReset = () => {
       formRef.value?.resetFields();
     }
 
-    // 点击新增
+    /** 点击新增 */
     const onCreate = () => {
       context.emit('onCreate')
     }
 
-    // 提交处理
+    /**
+     * 提交处理
+     * @param values - 表单数据
+     */
     const onFinish: IFinishFun = values => {
       context.emit('handleFinish', values)
     }
 
-    // 错误处理
+    /**
+     * 错误处理
+     * @param errorInfo - 错误信息
+     */
     const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
       console.log('错误信息:', errorInfo);
     }

@@ -13,6 +13,7 @@ import { Grid } from 'vxe-table'
 import type { VxeGridInstance } from 'vxe-table'
 
 export default defineComponent({
+  name: 'BasicTable',
   props: {
     data: {
       type: Object as PropType<ITableData>,

@@ -5,15 +5,15 @@
     :width="width"
     :layout="layout"
     :mask-closable="false"
-    @cancel="handleCancel"
+    @cancel="onCancel"
   >
     <slot></slot>
     <template #footer>
-      <Button @click="handleCancel">取消</Button>
+      <Button @click="onCancel">取消</Button>
       <Button
         v-if="isPermission"
         type="primary"
-        @click="handleFinish"
+        @click="onFinish"
       >
         确认
       </Button>
@@ -23,12 +23,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import type { PropType } from 'vue'
 import { Modal, Button } from 'ant-design-vue'
 
-type IFunction = (e: MouseEvent) => void
-
 export default defineComponent({
+  name: 'BasicModal',
+  emits: ['handleCancel', 'handleFinish'],
   props: {
     visible: {
       type: Boolean,
@@ -52,20 +51,26 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
-    handleCancel: {
-      type: Function as PropType<IFunction>,
-      required: true
-    },
-    handleFinish: {
-      type: Function as PropType<IFunction>,
-      required: true
-    }
   },
   components: {
     Modal,
     Button
   },
-  setup() {
+  setup(props, context) {
+    /** 点击关闭 */
+    const onCancel = () => {
+      context.emit('handleCancel')
+    }
+
+    /** 点击确认 */
+    const onFinish = () => {
+      context.emit('handleFinish')
+    }
+
+    return {
+      onCancel,
+      onFinish
+    }
   }
 })
 </script>

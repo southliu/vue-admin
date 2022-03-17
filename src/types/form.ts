@@ -6,6 +6,12 @@ import type {
   CheckboxGroupProps,
   DatePickerProps,
 } from "ant-design-vue";
+import type { RuleObject } from 'ant-design-vue/lib/form';
+
+// 表单规则
+export type IFormRule = RuleObject & {
+  trigger?: 'blur' | 'change' | ['change', 'blur'];
+};
 
 // 数据类型
 export type IFormData = Record<string, IAllDataType>
@@ -55,6 +61,7 @@ export type IComponentProps =  Partial<IPublic> &
 export type IFormList = {
   key: string; // 唯一标识
   title: string; // 标题
+  rules?: IFormRule[]; // 规则
   component: IComponents; // 组件
   componentProps?: IComponentProps; // 组件参数
 }

@@ -1,5 +1,5 @@
 <template>
-  <div class="ml-2">
+  <div class="ml-2  transition-all">
     <Tabs
       v-model:activeKey="activeKey"
       hide-add
@@ -115,6 +115,7 @@ enum TabEnums {
 }
 
 export default defineComponent({
+  name: 'TabsLayout',
   components: {
     RedoOutlined,
     CloseOutlined,
@@ -172,7 +173,7 @@ export default defineComponent({
 
     /**
      * 将路由转化为首字母大写字符串，/asd/zxc => AsdZxc
-     * @param str 路由参数值
+     * @param str - 路由参数值
      */
     const filterRouterName = (str: string): string => {
       // 分割斜线

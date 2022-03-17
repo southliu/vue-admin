@@ -14,11 +14,13 @@ import { Button, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
+  name: 'DeleteBtn',
+  emits: ['handleDelete'],
   components: {
     Button
   },
   setup(props, context) {
-    // 点击删除
+    /** 点击删除 */
     const onClick = () => {
       Modal.confirm({
         title: '提示',

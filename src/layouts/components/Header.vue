@@ -60,13 +60,15 @@ enum Dropdowns {
 }
 
 export default defineComponent({
+  name: 'HeaderLayout',
+  emits: ['toggleCollapsed', 'onUpdatePassword'],
   components: {
-    Fullscreen,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
     LogoutOutlined,
     FormOutlined,
     ExclamationCircleOutlined,
+    Fullscreen,
     Menu,
     MenuItem,
     Dropdown
@@ -79,13 +81,12 @@ export default defineComponent({
   },
   setup(props, context) {
     const router = useRouter()
-
-    // 收缩菜单
+    /** 收缩菜单 */
     const toggleCollapsed = () => {
       context.emit('toggleCollapsed')
     }
 
-    // 退出登录
+    /** 退出登录 */
     const handleLogout = () => {
       Modal.confirm({
         title: '温馨提示',
@@ -98,11 +99,15 @@ export default defineComponent({
       })
     }
 
-    // 点击下拉菜单
+    /**
+     * 点击下拉菜单
+     * @param e - 菜单点击属性
+     */
     const onClickDropdown: MenuProps['onClick'] = e => {
       switch ((e as { key: Dropdowns }).key) {
         // 修改密码
         case Dropdowns.update:
+          context.emit('onUpdatePassword')
           break
 
         // 退出登录

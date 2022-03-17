@@ -7,6 +7,7 @@
       class="border-b-1 border-b-light-700  box-border"
       :collapsed="collapsed"
       @toggleCollapsed="toggleCollapsed"
+      @onUpdatePassword="onUpdatePassword"
     />
     <div class="px-2px">
       <Tabs />
@@ -35,6 +36,9 @@
       />
     </router-view>
   </div>
+
+  <!-- 修改密码 -->
+  <UpdatePassword ref="updatePasswordRef" />
 </template>
 
 <script lang="ts">
@@ -43,14 +47,23 @@ import { useTabStore } from '@/stores/tabs'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
+import UpdatePassword, { IUpdatePassword } from '@/components/UpdatePassword.vue'
 
 export default defineComponent({
-  components: { Header, Menu, Tabs },
+  name: 'Layout',
+  components: { Header, Menu, Tabs, UpdatePassword },
   setup() {
     const tabStore = useTabStore()
     const collapsed = ref(false)
+    // 修改密码组件ref
+    const updatePasswordRef = ref<IUpdatePassword>()
 
-    // 收缩菜单
+    /** 点击修改密码 */
+    const onUpdatePassword = () => {
+      updatePasswordRef.value?.toggle()
+    }
+
+    /** 收缩菜单 */
     const toggleCollapsed = () => {
       collapsed.value = !collapsed.value
     }
@@ -58,7 +71,9 @@ export default defineComponent({
     return {
       tabStore,
       collapsed,
-      toggleCollapsed
+      onUpdatePassword,
+      toggleCollapsed,
+      updatePasswordRef
     }
   }
 })

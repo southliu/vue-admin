@@ -16,12 +16,16 @@
     >
       <MenuItem
         v-if="!child?.children?.length"
-        @click="onClick(child.key, child.title)"
+        @click="handleClick(child.key, child.title)"
       >
         {{ child.title }}
       </MenuItem>
 
-      <MenuChildren v-if="!!child?.children?.length" :list="[child]" />
+      <MenuChildren
+        v-if="!!child?.children?.length"
+        :list="[child]"
+        :handleClick="handleClick"
+      />
     </template>
   </SubMenu>
 </template>
@@ -39,23 +43,16 @@ export default defineComponent({
       type: Array as PropType<ISidebar[]>,
       required: true
     },
-    // handleClick: {
-    //   type: Function as PropType<(key: string, title: string) => void>,
-    //   required: true
-    // }
+    handleClick: {
+      type: Function as PropType<(key: string, title: string) => void>,
+      required: true
+    }
   },
   components: {
     MenuItem,
     SubMenu
   },
-  setup(props, context) {
-    const onClick = (key: string, title: string) => {
-      context.emit('handleClick', key, title)
-    }
-
-    return {
-      onClick
-    }
+  setup() {
   }
 })
 </script>

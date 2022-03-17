@@ -33,8 +33,8 @@
   <BasicModal
     v-model:visible="creates.isVisible"
     :title="creates.title"
-    :handle-finish="createSubmit"
-    :handle-cancel="onCreate"
+    @handleFinish="createSubmit"
+    @handleCancel="onCreate"
   >
     <BasicForm
       ref="createFormRef"

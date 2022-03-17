@@ -90,9 +90,11 @@ export default defineComponent({
       password: '',
     });
 
-    // 处理登录
+    /**
+     * 处理登录
+     * @param values - 表单数据
+     */
     const handleFinish: FormProps['onFinish'] = values => {
-      console.log(values, formState);
       useToken("123")
       router.push('/system/user')
       API.login(values).then(e => {
@@ -101,9 +103,12 @@ export default defineComponent({
       })
     };
 
-    // 处理失败
+    /**
+     * 处理失败
+     * @param errors - 错误信息
+     */
     const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
-      console.log(errors);
+      console.log('错误信息:', errors);
     };
 
     return {

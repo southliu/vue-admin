@@ -15,6 +15,8 @@ import { defineComponent } from 'vue'
 import { Pagination } from 'ant-design-vue'
 
 export default defineComponent({
+  name: 'BasicPagination',
+  emits: ['handleChange'],
   props: {
     total: {
       type: Number,
