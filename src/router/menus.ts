@@ -68,7 +68,7 @@ export const menus: IMenus[] = [
           isKeepAlive: true
         },
         component: () => import('@/pages/systems/menu/index.vue')
-      },
+      }
     ]
   },
 ]

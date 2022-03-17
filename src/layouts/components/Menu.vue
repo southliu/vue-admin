@@ -20,23 +20,7 @@
       theme="dark"
       :inline-collapsed="collapsed"
     >
-      <SubMenu
-        v-for="item in list"
-        :key="item.key"
-        :data-title="item.title"
-      >
-        <template v-if="item?.icon" #icon>
-          <span class="iconify" :data-icon="item.icon"></span>
-        </template>
-        <template #title>{{ item.title }}</template>
-        <MenuItem
-          v-for="child in item.children"
-          :key="child.key"
-          @click="handleClick(child.key, child.title)"
-        >
-          {{ child.title }}
-        </MenuItem>
-      </SubMenu>
+      <MenuChildren :list="list" @handleClick="handleClick" />
     </Menu>
   </div>
 </template>
@@ -47,10 +31,11 @@ import { menus } from '@/router/menus'
 import type { IMenus } from '@/router/model'
 import { useTabStore } from '@/stores/tabs'
 import { useRoute, useRouter } from 'vue-router'
-import { Menu, MenuItem, SubMenu } from 'ant-design-vue'
+import { Menu } from 'ant-design-vue'
+import MenuChildren from './MenuChildren.vue'
 import Logo from '@/assets/images/logo.png'
 
-interface ISidebar {
+export interface ISidebar {
   key: string;
   title: string;
   icon?: string;
@@ -66,8 +51,7 @@ export default defineComponent({
   },
   components: {
     Menu,
-    MenuItem,
-    SubMenu
+    MenuChildren
   },
   setup() {
     const route = useRoute()
@@ -84,7 +68,11 @@ export default defineComponent({
       }
     })
 
-    // 过滤菜单数据
+    /**
+     * 过滤菜单数据
+     * @param menus 菜单数据
+     * @param list 过滤后返回的数据
+     */
     const filterMenus = (menus: IMenus[], list: ISidebar[]): ISidebar[] => {
       for (let i = 0; i < menus.length; i++) {
         const item = menus[i];
@@ -118,16 +106,22 @@ export default defineComponent({
 
     onMounted(() => {
       list.value = filterMenus(menus, [])
+    console.log('list:', list.value)
 
       // 选中路由当前项
       selectedKeys.value = [route.path]
     })
 
-    // 点击菜单
+    /**
+     * 点击菜单
+     * @param key 唯一值
+     * @param title 标题
+     */
     const handleClick = (key: string, title: string) => {
       router.push(key)
       tabStore.addTabs({ title, key })
     }
+
     return {
       Logo,
       list,
