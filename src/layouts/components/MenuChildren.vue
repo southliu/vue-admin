@@ -34,7 +34,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import { MenuItem, SubMenu } from 'ant-design-vue'
-import type { ISidebar } from './Menu.vue'
+import type { ISidebar } from '@/stores/menu'
 
 // 递归菜单用
 export default defineComponent({

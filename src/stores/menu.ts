@@ -1,17 +1,23 @@
 import { defineStore } from 'pinia'
 
+export interface ISidebar {
+  key: string;
+  title: string;
+  icon?: string;
+  children?: ISidebar[]
+}
+
+interface IState {
+  menuArr: ISidebar[],
+  menuList: ISidebar[],
+}
+
 export const useMenuStore = defineStore({
   id: 'menu',
   state: () => ({
-    token: ''
-  }),
+    menuArr: [],
+    menuList: []
+  } as IState),
   actions: {
-    /**
-     * 设置token
-     * @param value - token值
-     */
-    setToken(value: string) {
-      this.token = value
-    }
-  },
+  }
 })

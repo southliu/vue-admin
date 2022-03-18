@@ -39,8 +39,10 @@ import SearchResult from './SearchResult.vue'
 import SearchFooter from './SearchFooter.vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tabs'
+import { useMenuStore } from '@/stores/menu'
 import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import type { IGlobalSearchResult } from './model'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'SearchModal',
@@ -53,15 +55,13 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const tabStore = useTabStore()
+    const menuStore = useMenuStore()
+    const { menuArr } = storeToRefs(menuStore)
     const inputRef = ref()
     const visible = ref(false)
     const value = ref('')
-    let active = ref<IGlobalSearchResult>({ title: '用户管理', key: '/system/user', index: 0 })
-    const resultList = ref<IGlobalSearchResult[]>([
-      { title: '用户管理', key: '/system/user', index: 0 },
-      { title: '角色管理', key: '/system/role', index: 1 },
-      { title: '菜单管理', key: '/system/menu', index: 2 },
-    ])
+    let active = ref<IGlobalSearchResult>({ title: '', key: '', index: 0 })
+    const resultList = ref<IGlobalSearchResult[]>([])
 
     // 初始化聚焦input框
     onMounted(() => {
@@ -116,12 +116,24 @@ export default defineComponent({
      * @param value 搜索值
      */
     const handleSearch = (value: string) => {
-      console.log('value:', value)
+      let result: IGlobalSearchResult[] = [], index = 0
+      for (let i = 0; i < menuArr.value.length; i++) {
+        const { title, key } = menuArr.value[i];
+        if (title.includes(value)) {
+          ++index
+          result.push({ title, key, index }) 
+        }
+      }
+      return result
     }
 
     // 监听变化
     watch(value, useDebounceFn(value => {
-      handleSearch(value)
+      const list = handleSearch(value)
+      if (list?.length > 0) {
+        resultList.value = list
+        active.value = list[0]
+      }
     }))
 
     // 键盘事件
