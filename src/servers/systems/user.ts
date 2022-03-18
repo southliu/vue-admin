@@ -15,7 +15,6 @@ function create(data: ISystemUser) {
   return request.post(API.URL, data)
 }
 
-
 export default {
   getPage,
   create
