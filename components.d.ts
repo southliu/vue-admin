@@ -4,15 +4,15 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    BasicContent: typeof import('./src/components/BasicContent.vue')['default']
-    BasicForm: typeof import('./src/components/BasicForm.vue')['default']
-    BasicModal: typeof import('./src/components/BasicModal.vue')['default']
-    BasicPagination: typeof import('./src/components/BasicPagination.vue')['default']
-    BasicTable: typeof import('./src/components/BasicTable.vue')['default']
-    DeleteBtn: typeof import('./src/components/DeleteBtn.vue')['default']
-    Fullscreen: typeof import('./src/components/Fullscreen.vue')['default']
-    UpdateBtn: typeof import('./src/components/UpdateBtn.vue')['default']
-    UpdatePassword: typeof import('./src/components/UpdatePassword.vue')['default']
+    BasicContent: typeof import('./src/components/Basics/BasicContent.vue')['default']
+    BasicForm: typeof import('./src/components/Basics/BasicForm.vue')['default']
+    BasicModal: typeof import('./src/components/Basics/BasicModal.vue')['default']
+    BasicPagination: typeof import('./src/components/Basics/BasicPagination.vue')['default']
+    BasicTable: typeof import('./src/components/Basics/BasicTable.vue')['default']
+    DeleteBtn: typeof import('./src/components/Buttons/DeleteBtn.vue')['default']
+    Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
+    UpdateBtn: typeof import('./src/components/Buttons/UpdateBtn.vue')['default']
+    UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']
     'UpdatePassword copy': typeof import('./src/components/UpdatePassword copy.vue')['default']
   }
 }

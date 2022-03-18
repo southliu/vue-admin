@@ -47,7 +47,8 @@ import { useTabStore } from '@/stores/tabs'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
-import UpdatePassword, { IUpdatePassword } from '@/components/UpdatePassword.vue'
+import UpdatePassword from '@/components/UpdatePassword/index.vue'
+import type { IUpdatePassword } from '@/components/UpdatePassword/model'
 
 export default defineComponent({
   name: 'Layout',

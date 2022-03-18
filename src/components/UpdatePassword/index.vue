@@ -17,20 +17,16 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
-import BasicModal from './BasicModal.vue'
-import BasicForm from './BasicForm.vue'
-import type { IBasicForm } from './BasicForm.vue'
+import BasicModal from '../Basics/BasicModal.vue'
+import BasicForm from '../Basics/BasicForm.vue'
 import type { IFormData, IFormList, IFormRule } from '@/types/form'
 import { message } from 'ant-design-vue'
+import type { IBasicForm } from '../Basics/model'
 
 interface IData {
   data: IFormData;
   rules?: IFormRule[];
   list: IFormList[];
-}
-
-export interface IUpdatePassword {
-  toggle: () => void;
 }
 
 export default defineComponent({

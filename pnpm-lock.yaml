@@ -6,7 +6,6 @@ specifiers:
   '@commitlint/config-conventional': ^16.0.0
   '@iconify/iconify': ^2.1.2
   '@iconify/json': ^2.1.15
-  '@iconify/vue': ^3.1.4
   '@types/js-cookie': ^3.0.1
   '@types/node': ^17.0.8
   '@types/nprogress': ^0.2.0
@@ -69,7 +68,6 @@ devDependencies:
   '@commitlint/cli': 16.2.1
   '@commitlint/config-conventional': 16.2.1
   '@iconify/json': 2.1.15
-  '@iconify/vue': 3.1.4_vue@3.2.31
   '@types/js-cookie': 3.0.1
   '@types/node': 17.0.21
   '@types/nprogress': 0.2.0
@@ -713,14 +711,6 @@ packages:
       local-pkg: 0.4.1
     transitivePeerDependencies:
       - supports-color
-    dev: true
-
-  /@iconify/vue/3.1.4_vue@3.2.31:
-    resolution: {integrity: sha512-oJm0VPl1fhlsbBX9tBeAbtmZ5iHCxCkVQdCi81lxdA3cqc9yqBlCloqObX93/YWNM5N8j/j0Efk6iSwsihOoNA==}
-    peerDependencies:
-      vue: 3.x
-    dependencies:
-      vue: 3.2.31
     dev: true
 
   /@jridgewell/resolve-uri/3.0.5:

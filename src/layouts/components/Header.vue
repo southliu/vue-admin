@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import { defineComponent, createVNode } from 'vue'
-import Fullscreen from '@/components/Fullscreen.vue'
+import Fullscreen from '@/components/Fullscreen/index.vue'
 import Logo from '@/assets/images/logo.png'
 import { Menu, MenuItem, Dropdown, MenuProps } from 'ant-design-vue'
 import {

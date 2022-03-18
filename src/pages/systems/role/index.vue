@@ -16,14 +16,14 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { Button } from 'ant-design-vue'
-import BasicContent from '@/components/BasicContent.vue'
-import BasicTable from '@/components/BasicTable.vue'
-import BasicPagination from '@/components/BasicPagination.vue'
-import BasicForm from '@/components/BasicForm.vue'
-import BasicModal from '@/components/BasicModal.vue'
-import DeleteBtn from '@/components/DeleteBtn.vue'
-import type { IBasicForm } from '@/components/BasicForm.vue'
+import BasicContent from '@/components/Basics/BasicContent.vue'
+import BasicTable from '@/components/Basics/BasicTable.vue'
+import BasicPagination from '@/components/Basics/BasicPagination.vue'
+import BasicForm from '@/components/Basics/BasicForm.vue'
+import BasicModal from '@/components/Basics/BasicModal.vue'
+import DeleteBtn from '@/components/Buttons/DeleteBtn.vue'
 import type { IFormData } from '@/types/form'
+import type { IBasicForm } from '@/components/Basics/model'
 
 export default defineComponent({
   name: 'SystemRole',

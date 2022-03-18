@@ -206,11 +206,6 @@ import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
 
 type IFinishFun = (values: IFormData) => void
 
-export type IBasicForm = {
-  handleReset: () => void;
-  handleSubmit: () => void;
-}
-
 export default defineComponent({
   name: 'BasicForm',
   emits: ['handleFinish', 'onCreate'],
