@@ -22,13 +22,22 @@
           <slot name="customize"></slot>
         </template>
 
+        <!-- 图片 -->
+        <template v-if="item.component === 'customize'">
+          <Image 
+            :src="item.componentProps?.src"
+            :width="item.componentProps?.width"
+            :alt="item.componentProps?.alt || '图片'"
+          />
+        </template>
+
         <!-- 输入框 -->
         <template v-if="item.component === 'Input'">
           <Input
             v-model:value="formState[item.key]"
             class="min-w-100px"
             placeholder="请输入"
-            :allow-clear="!item?.componentProps?.isNotClear"
+            :allow-clear="!item?.componentProps?.notClear"
           />
         </template>
 
@@ -37,7 +46,7 @@
             v-model:value="formState[item.key]"
             class="min-w-100px"
             placeholder="请输入"
-            :allow-clear="!item?.componentProps?.isNotClear"
+            :allow-clear="!item?.componentProps?.notClear"
           />
         </template>
     
@@ -73,7 +82,7 @@
             placeholder="请选择"
             :options="item?.componentProps?.options"
             :loading="item?.componentProps?.loading"
-            :allow-clear="!item?.componentProps?.isNotClear"
+            :allow-clear="!item?.componentProps?.notClear"
             :mode="item?.componentProps?.mode"
             @change="item?.componentProps?.onChange"
           />
@@ -86,7 +95,7 @@
             placeholder="请选择"
             :options="item?.componentProps?.options"
             :loading="item?.componentProps?.loading"
-            :allow-clear="!item?.componentProps?.isNotClear"
+            :allow-clear="!item?.componentProps?.notClear"
             :mode="item?.componentProps?.mode"
             @change="item?.componentProps?.onChange"
           />
@@ -149,7 +158,7 @@
         <Button
           type="primary"
           html-type="submit"
-          :loading="isLoading"
+          :loading="loading"
         >
           <template #icon>
             <SearchOutlined />
@@ -162,7 +171,7 @@
         <Button
           v-if="isCreate"
           type="primary"
-          :loading="isLoading"
+          :loading="loading"
           @click="onCreate"
         >
           <template #icon>
@@ -197,12 +206,13 @@ import {
   Switch,
   DatePicker,
   RangePicker,
+  Image
 } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
-import type { IFormData, IFormList } from '@/types/form';
-import type { ColProps } from 'ant-design-vue';
-import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
+import type { IFormData, IFormList } from '@/types/form'
+import type { ColProps } from 'ant-design-vue'
+import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
 
 type IFinishFun = (values: IFormData) => void
 
@@ -236,7 +246,7 @@ export default defineComponent({
         return { span: 18 }
       }
     },
-    isLoading: {
+    loading: {
       type: Boolean
     },
     isSearch: {
@@ -264,7 +274,8 @@ export default defineComponent({
     RadioGroup,
     Switch,
     DatePicker,
-    RangePicker
+    RangePicker,
+    Image
   },
   setup(props, context) {
     const formRef = ref<FormInstance>()

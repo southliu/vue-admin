@@ -10,14 +10,17 @@
     </div>
 
     <div class="header-right flex items-center">
+      <GlobalSearch />
       <Fullscreen />
       <Dropdown class="min-w-100px">
         <div class="ant-dropdown-link flex items-center cursor-pointer" @click.prevent>
-          <img
-            class="w-30px h-30px rounded-1/2 overflow-hidden object-cover bg-light-500"
+          <Image
+            class="rounded-1/2 overflow-hidden object-cover bg-light-500"
             :src="Logo"
+            :width="30"
+            :height="30"
             alt="LOGO"
-          >
+          />
           <span class="ml-2 text-base">South</span>
         </div>
         <template #overlay>
@@ -40,15 +43,22 @@
 <script lang="ts">
 import { defineComponent, createVNode } from 'vue'
 import Fullscreen from '@/components/Fullscreen/index.vue'
+import GlobalSearch from '@/components/GlobalSearch/index.vue'
 import Logo from '@/assets/images/logo.png'
-import { Menu, MenuItem, Dropdown, MenuProps } from 'ant-design-vue'
+import {
+  Menu,
+  MenuItem,
+  Dropdown,
+  MenuProps,
+  Image
+} from 'ant-design-vue'
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   LogoutOutlined,
   FormOutlined,
   ExclamationCircleOutlined
-} from '@ant-design/icons-vue';
+} from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
 import { useToken } from '@/hooks'
 import { Modal } from 'ant-design-vue'
@@ -69,8 +79,10 @@ export default defineComponent({
     FormOutlined,
     ExclamationCircleOutlined,
     Fullscreen,
+    GlobalSearch,
     Menu,
     MenuItem,
+    Image,
     Dropdown
   },
   props: {

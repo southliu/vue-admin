@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
-import type { Router } from 'vue-router';
 import { menus } from '@/router/menus'
-import { getCacheRoutes } from '@/utils/menus';
+import { getCacheRoutes } from '@/utils/menus'
 
 interface ITabs {
   title: string;
@@ -135,24 +134,6 @@ export const useTabStore = defineStore({
       
       this.tabs = tabs
       this.activeKey = targetKey
-    },
-
-    /**
-     * 刷新当前页
-     * @param router - 路由
-     */
-    refreshPage(router: Router) {
-      this.cacheRoutes = getCacheRoutes(menus)
-      // const { currentRoute } = router;
-      // const route = unref(currentRoute);
-      // const name = route.name;
-
-      // const findTab = this.getCachedTabList.find((item) => item === name);
-      // if (findTab) {
-      //   this.cacheTabList.delete(findTab);
-      // }
-      // const redo = useRedo(router);
-      // await redo();
     }
   }
 })

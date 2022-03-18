@@ -8,7 +8,7 @@ import Element from './App.vue'
 import 'uno.css'
 import 'virtual:windi.css'
 import 'nprogress/nprogress.css'
-import '@/assets/css/scrollbar.less'
+import '@/assets/css/scrollbar.less';
 
 // iconify
 import '@purge-icons/generated'

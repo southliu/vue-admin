@@ -16,6 +16,7 @@
     >
       <MenuItem
         v-if="!child?.children?.length"
+        :key="child.key"
         @click="handleClick(child.key, child.title)"
       >
         {{ child.title }}

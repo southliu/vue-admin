@@ -1,4 +1,4 @@
-import type { RouteRecordRaw } from 'vue-router';
+import type { RouteRecordRaw } from 'vue-router'
 
 /**
  * 获取缓存路由中的路由名
@@ -24,7 +24,7 @@ function filterMenus (menus: RouteRecordRaw[], result: string[]): string[] {
     }
 
     // 当有缓存则添加数据
-    isKeepAlive(item) && result.push(item.name as string)
+    keepAlive(item) && result.push(item.name as string)
   }
   return result
 }
@@ -33,8 +33,8 @@ function filterMenus (menus: RouteRecordRaw[], result: string[]): string[] {
  * 路由是否缓存
  * @param route
  */
- function isKeepAlive(route: RouteRecordRaw): boolean {
-  return Boolean(route?.meta?.isKeepAlive)
+ function keepAlive(route: RouteRecordRaw): boolean {
+  return Boolean(route?.meta?.keepAlive)
 }
 
 /**

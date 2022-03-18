@@ -1,12 +1,13 @@
-import type { IAllDataType } from './public';
+import type { IAllDataType } from './public'
 import type {
   InputProps,
   SelectProps,
   RadioProps,
   CheckboxGroupProps,
   DatePickerProps,
+  ImageProps
 } from "ant-design-vue";
-import type { RuleObject } from 'ant-design-vue/lib/form';
+import type { RuleObject } from 'ant-design-vue/lib/form'
 
 // 表单规则
 export type IFormRule = RuleObject & {
@@ -21,6 +22,7 @@ type IDefaultDataComponents = 'Input' |
                               'InputNumber' |
                               'Textarea' |
                               'InputPassword'  |
+                              'Image' |
                               'AutoComplete' |
                               'customize'
 
@@ -45,8 +47,8 @@ export type IComponents =  IDefaultDataComponents |
 
 // 公共树形
 interface IPublic {
-  isDisabled: boolean; // 是否禁用
-  isNotClear: boolean; // 是否不开启清除
+  disabled: boolean; // 是否禁用
+  notClear: boolean; // 是否不开启清除
 }
 
 // 组件参数
@@ -55,6 +57,7 @@ export type IComponentProps =  Partial<IPublic> &
                         Partial<SelectProps> &
                         Partial<CheckboxGroupProps> &
                         Partial<RadioProps> &
+                        Partial<ImageProps> &
                         Partial<DatePickerProps> 
 
 // 表单数据

@@ -72,44 +72,46 @@ export default defineComponent({
     /**
      * 过滤菜单数据
      * @param menus - 菜单数据
-     * @param list - 过滤后返回的数据
+     * @param result - 过滤后返回的数据
      */
-    const filterMenus = (menus: IMenus[], list: ISidebar[]): ISidebar[] => {
+    const filterMenus = (menus: IMenus[], result: ISidebar[]): ISidebar[] => {
       for (let i = 0; i < menus.length; i++) {
         const item = menus[i];
 
-        // 不符合list条件则跳到下次循环
+        // 不符合result条件则跳到下次循环
         if (item?.meta?.isHidden) continue
 
         // 获取子数据
         const isChildren = item.children && item.children?.length > 0
         const children = isChildren ? filterMenus(item.children as IMenus[], []) : undefined
 
-        // 菜单第一个展开
-        if (isChildren && openKeys.value.length === 0) {
-          openKeys.value = [item.path]
-        }
-
         // 第一个标签选中
         if (!isChildren && tabStore.tabs.length === 0) {
           tabStore.addTabs({ key: item.path, title: item?.meta?.title || '' })
         }
 
-        list.push({
+        result.push({
           key: item.path,
           title: item?.meta?.title || '',
           icon: item?.meta?.icon,
           children
         })
       }
-      return list
+      return result
     }
 
     onMounted(() => {
       list.value = filterMenus(menus, [])
 
+      // 菜单第一个展开
+      if (list.value.length > 0 && openKeys.value.length === 0) {
+        openKeys.value = [list.value[0].key]
+      }
+
       // 选中路由当前项
       selectedKeys.value = [route.path]
+      console.log('list.value123:', list.value)
+      console.log('selectedKeys.value123:', selectedKeys.value)
     })
 
     /**
@@ -121,6 +123,14 @@ export default defineComponent({
       router.push(key)
       tabStore.addTabs({ title, key })
     }
+
+    // 监听菜单选中值是否和路由值匹配
+    watch(() => route.path, value => {
+      console.log(value)
+      if ([value] !== selectedKeys.value) {
+        selectedKeys.value = [route.path]
+      }
+    })
 
     return {
       Logo,

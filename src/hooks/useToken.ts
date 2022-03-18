@@ -1,4 +1,4 @@
-import { TOKEN } from '@/utils/config';
+import { TOKEN } from '@/utils/config'
 import Cookies from 'js-cookie'
 
 /**

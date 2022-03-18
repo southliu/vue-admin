@@ -58,11 +58,11 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue'
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
-import type { FormProps } from 'ant-design-vue';
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
+import type { FormProps } from 'ant-design-vue'
 import type { ILogin } from './model'
 import API from '@/servers/login'
-import { useToken } from '@/hooks';
+import { useToken } from '@/hooks'
 import { useRouter } from 'vue-router'
 import {
   Form,

@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 
 export const useMenuStore = defineStore({
-  id: 'user',
+  id: 'menu',
   state: () => ({
     token: ''
   }),

@@ -4,6 +4,8 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
+    ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
     BasicContent: typeof import('./src/components/Basics/BasicContent.vue')['default']
     BasicForm: typeof import('./src/components/Basics/BasicForm.vue')['default']
     BasicModal: typeof import('./src/components/Basics/BasicModal.vue')['default']
@@ -11,6 +13,13 @@ declare module 'vue' {
     BasicTable: typeof import('./src/components/Basics/BasicTable.vue')['default']
     DeleteBtn: typeof import('./src/components/Buttons/DeleteBtn.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
+    GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']
+    Search: typeof import('./src/components/Search/index.vue')['default']
+    SearchFooter: typeof import('./src/components/GlobalSearch/components/SearchFooter.vue')['default']
+    SearchInput: typeof import('./src/components/GlobalSearch/components/SearchInput.vue')['default']
+    SearchModal: typeof import('./src/components/GlobalSearch/components/SearchModal.vue')['default']
+    SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']
+    SearhModel: typeof import('./src/components/GlobalSearch/components/SearhModel.vue')['default']
     UpdateBtn: typeof import('./src/components/Buttons/UpdateBtn.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']
     'UpdatePassword copy': typeof import('./src/components/UpdatePassword copy.vue')['default']

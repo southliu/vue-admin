@@ -10,8 +10,8 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { useFullscreen } from '@vueuse/core';
-import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue';
+import { useFullscreen } from '@vueuse/core'
+import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue'
 import { Tooltip } from 'ant-design-vue'
 
 export default defineComponent({
