@@ -69,18 +69,23 @@ export default defineComponent({
       menuList.value = getMenus(menus)
       menuArr.value = menusToArray(menus)
 
-      /**
-       * TODO: 根据路由获取第一个标签
-       */
-      tabStore.addTabs({ key: '/system/user', title: '用户管理' })
+      // 选中路由当前项
+      selectedKeys.value = [route.path]
 
       // 菜单第一个展开
       if (menuList.value.length > 0 && openKeys.value.length === 0) {
         openKeys.value = [menuList.value[0].key]
       }
 
-      // 选中路由当前项
-      selectedKeys.value = [route.path]
+      // 获取当前路由标签
+      for (let i = 0; i < menuArr.value.length; i++) {
+        const element = menuArr.value[i];
+        const { key, title } = element
+        if (key === route.path) {
+          tabStore.addTabs({ key, title })
+          break
+        }
+      }
     })
 
     /**
