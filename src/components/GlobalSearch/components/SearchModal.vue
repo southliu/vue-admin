@@ -105,7 +105,10 @@ export default defineComponent({
       active.value = { key, title, index }
     }
 
-    /** 更改active值 */
+    /**
+     * 更改active值
+     * @param item - active值
+     */
     const changeActive = (item: IGlobalSearchResult) => {
       const { key, title, index } = item
       active.value = { index, key, title }
@@ -113,15 +116,15 @@ export default defineComponent({
 
     /**
      * 处理搜索
-     * @param value 搜索值
+     * @param value - 搜索值
      */
     const handleSearch = (value: string) => {
       let result: IGlobalSearchResult[] = [], index = 0
       for (let i = 0; i < menuArr.value.length; i++) {
         const { title, key } = menuArr.value[i];
         if (title.includes(value)) {
-          ++index
           result.push({ title, key, index }) 
+          ++index
         }
       }
       return result

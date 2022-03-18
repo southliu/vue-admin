@@ -2,31 +2,55 @@
   <BasicModal
     :visible="visible"
     title="修改密码"
+    :width="450"
     @handleCancel="toggle"
     @handleFinish="onFinish"
   >
-    <BasicForm
+    <Form
       ref="formRef"
-      type="create"
-      :list="formData.list"
-      :data="formData.data"
-      @handleFinish="handleSubmit"
-    />
+      :model="formState"
+      name="horizontal_login"
+      autocomplete="on"
+      :label-col="{ span: 5 }"
+      :wrapper-col="{ span: 19 }"
+    >
+      <FormItem
+        name="oldPassword"
+        label="旧密码"
+        :rules="[{ required: true, message: '请输入旧密码!' }]"
+      >
+        <Input v-model:value="formState.oldPassword" placeholder="请输入" />
+      </FormItem>
+
+      <FormItem
+        name="newPassword"
+        label="新密码"
+        :rules="[{ required: true, message: '请输入新密码!' }]"
+      >
+        <Input v-model:value="formState.newPassword" placeholder="请输入" />
+      </FormItem>
+
+      <FormItem
+        name="confirmPassword"
+        label="重复密码"
+        :rules="[{ required: true, message: '请输入重复密码!' }]"
+      >
+        <Input v-model:value="formState.confirmPassword" placeholder="请输入" />
+      </FormItem>
+    </Form>
   </BasicModal>
 </template>
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import BasicModal from '../Basics/BasicModal.vue'
-import BasicForm from '../Basics/BasicForm.vue'
-import type { IFormData, IFormList, IFormRule } from '@/types/form'
-import { message } from 'ant-design-vue'
-import type { IBasicForm } from '../Basics/model'
+import { Form, FormItem, Input, message } from 'ant-design-vue'
+import type { FormInstance } from 'ant-design-vue'
 
-interface IData {
-  data: IFormData;
-  rules?: IFormRule[];
-  list: IFormList[];
+interface IFormData {
+  oldPassword: string,
+  newPassword: string,
+  confirmPassword: string
 }
 
 export default defineComponent({
@@ -34,48 +58,19 @@ export default defineComponent({
   emits: ['handleCancel'],
   components: {
     BasicModal,
-    BasicForm
+    Input,
+    Form,
+    FormItem,
   },
   setup(props, context) {
-    const formRef = ref<IBasicForm>()
+    const formRef = ref<FormInstance>()
     const visible = ref(false)
 
     // 表单数据
-    const formData = reactive<IData>({
-      data: {
-        oldPassword: '',
-        newPassword: '',
-        confirmPassword: '',
-      },
-      list: [
-        {
-          title: '旧密码',
-          key: 'oldPassword',
-          component: 'Input',
-          rules: [{
-            required: true,
-            message: '请输入旧密码'  
-          }]
-        },
-        {
-          title: '新密码',
-          key: 'newPassword',
-          component: 'Input',
-          rules: [{
-            required: true,
-            message: '请输入新密码'  
-          }]
-        },
-        {
-          title: '重复密码',
-          key: 'confirmPassword',
-          component: 'Input',
-          rules: [{
-            required: true,
-            message: '请输入重复密码'  
-          }]
-        },
-      ]
+    const formState = reactive<IFormData>({
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: ''
     })
 
     /** 外部调内部切换开关方法 */
@@ -85,29 +80,24 @@ export default defineComponent({
 
     /** 点击确认 */
     const onFinish = () => {
-      formRef.value?.handleSubmit()
-    }
+      formRef.value
+        ?.validateFields()
+        .then(values => {
+          // 密码不一致不通过
+          if (values.newPassword !== values.confirmPassword) {
+            return message.warning({ content: '重复密码不一致!', key: 'password' })
+          }
 
-    /**
-     * 提交表单
-     * @param values - 表单数据
-     */
-    const handleSubmit = (values: IFormData) => {
-      // 密码不一致不通过
-      if (values.newPassword !== values.confirmPassword) {
-        return message.warning({ content: '重复密码不一致!', key: 'password' })
-      }
-
-      console.log('修改密码：', values)
+          console.log('修改密码：', values)
+        })
     }
 
     return {
       visible,
       formRef,
-      formData,
+      formState,
       toggle,
-      onFinish,
-      handleSubmit
+      onFinish
     }
   },
 })
