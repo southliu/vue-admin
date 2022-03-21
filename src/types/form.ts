@@ -4,8 +4,7 @@ import type {
   SelectProps,
   RadioProps,
   CheckboxGroupProps,
-  DatePickerProps,
-  ImageProps
+  DatePickerProps
 } from "ant-design-vue";
 import type { RuleObject } from 'ant-design-vue/lib/form'
 
@@ -17,7 +16,6 @@ type IDefaultDataComponents = 'Input' |
                               'InputNumber' |
                               'Textarea' |
                               'InputPassword'  |
-                              'Image' |
                               'AutoComplete' |
                               'customize'
 
@@ -53,7 +51,6 @@ export type IComponentProps =  Partial<
                                 SelectProps &
                                 CheckboxGroupProps &
                                 RadioProps &
-                                ImageProps &
                                 DatePickerProps>
 
 // 表单规则
@@ -68,11 +65,4 @@ export type IFormList = {
   rules?: IFormRule[]; // 规则
   component: IComponents; // 组件
   componentProps?: IComponentProps; // 组件参数
-  
-  inputComponentProps?: Partial<InputProps>;
-  selectComponentProps?: Partial<SelectProps>;
-  checkboxComponentProps?: Partial<CheckboxGroupProps>;
-  radioComponentProps?: Partial<RadioProps>;
-  imageComponentProps?: Partial<ImageProps>;
-  dateComponentProps?: Partial<DatePickerProps>;
 }

@@ -102,12 +102,12 @@ export default defineComponent({
         { title: '年龄', key: 'age', component: 'InputNumber' },
         { title: '地址', key: 'address', component: 'Input' },
         { title: '类型', key: 'type', component: 'Select',
-          // componentProps: {
-          //   options: [
-          //     { label: '123', value: '123' },
-          //     { label: '456', value: '456' },
-          //   ]
-          // }
+          componentProps: {
+            options: [
+              { label: '123', value: '123' },
+              { label: '456', value: '456' },
+            ]
+          }
         }
       ]
     })
