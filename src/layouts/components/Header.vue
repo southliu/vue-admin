@@ -93,6 +93,8 @@ export default defineComponent({
   },
   setup(props, context) {
     const router = useRouter()
+    const { removeToken } = useToken()
+
     /** 收缩菜单 */
     const toggleCollapsed = () => {
       context.emit('toggleCollapsed')
@@ -105,7 +107,7 @@ export default defineComponent({
         icon: createVNode(ExclamationCircleOutlined),
         content: '是否确定退出系统?',
         onOk() {
-          useToken(null, true)
+          removeToken()
           router.push('/login')
         }
       })

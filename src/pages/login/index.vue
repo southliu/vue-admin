@@ -87,6 +87,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const { loading, startLoading, endLoading } = useLoading()
+    const { setToken } = useToken()
 
     const formState = reactive<ILoginData>({
       username: '',
@@ -100,9 +101,11 @@ export default defineComponent({
     const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
       startLoading()
       const { data } = await login(values)
-      useToken(data.data.token)
+      if (data) {
+        setToken(data.data.token)
+        router.push('/system/user')
+      }
       endLoading()
-      router.push('/system/user')
     };
 
     /**

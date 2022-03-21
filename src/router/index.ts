@@ -18,7 +18,8 @@ const router = createRouter({
 // 路由拦截
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
   document.title = (to.meta.title as string) || '后台管理'
-  const token = useToken()
+  const { getToken } = useToken()
+  const token = getToken()
   NProgress.start()
 
   // 无token返回登录页
