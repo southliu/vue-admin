@@ -17,141 +17,13 @@
         :label="item.title"
         :rules="item.rules"
       >
-        <!-- 自定义 -->
-        <template v-if="item.component === 'customize'">
-          <slot name="customize"></slot>
-        </template>
-
-        <!-- 图片 -->
-        <template v-if="item.component === 'customize'">
-          <Image 
-            :src="item.componentProps?.src"
-            :width="item.componentProps?.width"
-            :alt="item.componentProps?.alt || '图片'"
-          />
-        </template>
-
-        <!-- 输入框 -->
-        <template v-if="item.component === 'Input'">
-          <Input
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            placeholder="请输入"
-            :allow-clear="!item?.componentProps?.notClear"
-          />
-        </template>
-
-        <template v-if="item.component === 'InputPassword'">
-          <InputPassword
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            placeholder="请输入"
-            :allow-clear="!item?.componentProps?.notClear"
-          />
-        </template>
-    
-        <template v-if="item.component === 'InputNumber'">
-          <InputNumber
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            placeholder="请输入"
-          />
-        </template>
-    
-        <template v-if="item.component === 'AutoComplete'">
-          <AutoComplete
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            placeholder="请输入"
-          />
-        </template>
-    
-        <template v-if="item.component === 'Textarea'">
-          <Textarea
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            placeholder="请输入"
-          />
-        </template>
-
-        <!-- 下拉框 -->
-        <template v-if="item.component === 'Select'">
-          <Select
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            placeholder="请选择"
-            :options="item?.componentProps?.options"
-            :loading="item?.componentProps?.loading"
-            :allow-clear="!item?.componentProps?.notClear"
-            :mode="item?.componentProps?.mode"
-            @change="item?.componentProps?.onChange"
-          />
-        </template>
-        
-        <template v-if="item.component === 'TreeSelect'">
-          <TreeSelect
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            placeholder="请选择"
-            :options="item?.componentProps?.options"
-            :loading="item?.componentProps?.loading"
-            :allow-clear="!item?.componentProps?.notClear"
-            :mode="item?.componentProps?.mode"
-            @change="item?.componentProps?.onChange"
-          />
-        </template>
-
-        <!-- 单选框 -->
-        <template v-if="item.component === 'RadioGroup'">
-          <RadioGroup
-            v-model:checked="formState[item.key]"
-            class="min-w-100px"
-            :options="item?.componentProps?.options"
-          />
-        </template>
-
-        <template v-if="item.component === 'Switch'">
-          <Switch
-            v-model:checked="formState[item.key]"
-            class="min-w-100px"
-          />
-        </template>
-
-        <!-- 复选框 -->
-        <template v-if="item.component === 'Checkbox'">
-          <Checkbox
-            v-model:checked="formState[item.key]"
-            class="min-w-100px"
-          >
-            {{ item?.componentProps?.name || '' }}
-          </Checkbox>
-        </template>
-
-        <template v-if="item.component === 'CheckboxGroup'">
-          <CheckboxGroup
-            v-model:checked="formState[item.key]"
-            class="min-w-100px"
-            :options="item?.componentProps?.options"
-          />
-        </template>
-
-        <!-- 时间类 -->
-        <template v-if="item.component === 'DatePicker'">
-          <DatePicker
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            :picker="item?.componentProps?.picker"
-          />
-        </template>
-        
-        <template v-if="item.component === 'RangePicker'">
-          <RangePicker
-            v-model:value="formState[item.key]"
-            class="min-w-100px"
-            :picker="item?.componentProps?.picker"
-            :show-time="!!item?.componentProps?.showTime"
-          />
-        </template>
+        <BasicComponents
+          :item="item"
+          v-model:value="formState[item.key]"
+          v-model:dateValue="formState[item.key]"
+          v-model:dateRangeValue="formState[item.key]"
+          v-model:checkedValue="formState[item.key]"
+        />
       </FormItem>
 
       <FormItem v-if="isSearch">
@@ -189,30 +61,13 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import type { PropType } from 'vue'
-import {
-  Form,
-  FormItem,
-  Input,
-  InputNumber,
-  InputPassword,
-  AutoComplete,
-  Textarea,
-  Select,
-  TreeSelect,
-  Button,
-  Checkbox,
-  CheckboxGroup,
-  RadioGroup,
-  Switch,
-  DatePicker,
-  RangePicker,
-  Image
-} from 'ant-design-vue'
+import { Form, FormItem, Button } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
+import BasicComponents from './BasicComponents.vue';
 
 type IFinishFun = (values: IFormData) => void
 
@@ -259,23 +114,10 @@ export default defineComponent({
   components: {
     SearchOutlined,
     PlusOutlined,
+    BasicComponents,
     Form,
     FormItem,
-    Input,
-    InputNumber,
-    InputPassword,
-    AutoComplete,
-    Textarea,
-    Button,
-    Select,
-    TreeSelect,
-    Checkbox,
-    CheckboxGroup,
-    RadioGroup,
-    Switch,
-    DatePicker,
-    RangePicker,
-    Image
+    Button
   },
   setup(props, context) {
     const formRef = ref<FormInstance>()

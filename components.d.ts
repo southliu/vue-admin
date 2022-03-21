@@ -6,6 +6,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     AMenuItem: typeof import('ant-design-vue/es')['MenuItem']
     ASubMenu: typeof import('ant-design-vue/es')['SubMenu']
+    BasicComponents: typeof import('./src/components/Basics/BasicComponents.vue')['default']
+    'BasicComponents copy': typeof import('./src/components/Basics/BasicComponents copy.vue')['default']
     BasicContent: typeof import('./src/components/Basics/BasicContent.vue')['default']
     BasicForm: typeof import('./src/components/Basics/BasicForm.vue')['default']
     BasicModal: typeof import('./src/components/Basics/BasicModal.vue')['default']

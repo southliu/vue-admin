@@ -9,11 +9,6 @@ import type {
 } from "ant-design-vue";
 import type { RuleObject } from 'ant-design-vue/lib/form'
 
-// 表单规则
-export type IFormRule = RuleObject & {
-  trigger?: 'blur' | 'change' | ['change', 'blur'];
-};
-
 // 数据类型
 export type IFormData = Record<string, IAllDataType>
 
@@ -48,17 +43,23 @@ export type IComponents =  IDefaultDataComponents |
 // 公共树形
 interface IPublic {
   disabled: boolean; // 是否禁用
-  notClear: boolean; // 是否不开启清除
+  isNotClear: boolean; // 是否不开启清除
 }
 
 // 组件参数
-export type IComponentProps =  Partial<IPublic> &
-                        Partial<InputProps> &
-                        Partial<SelectProps> &
-                        Partial<CheckboxGroupProps> &
-                        Partial<RadioProps> &
-                        Partial<ImageProps> &
-                        Partial<DatePickerProps> 
+export type IComponentProps =  Partial<
+                                IPublic &
+                                InputProps &
+                                SelectProps &
+                                CheckboxGroupProps &
+                                RadioProps &
+                                ImageProps &
+                                DatePickerProps>
+
+// 表单规则
+export type IFormRule = RuleObject & {
+  trigger?: 'blur' | 'change' | ['change', 'blur'];
+};
 
 // 表单数据
 export type IFormList = {
@@ -67,4 +68,11 @@ export type IFormList = {
   rules?: IFormRule[]; // 规则
   component: IComponents; // 组件
   componentProps?: IComponentProps; // 组件参数
+  
+  inputComponentProps?: Partial<InputProps>;
+  selectComponentProps?: Partial<SelectProps>;
+  checkboxComponentProps?: Partial<CheckboxGroupProps>;
+  radioComponentProps?: Partial<RadioProps>;
+  imageComponentProps?: Partial<ImageProps>;
+  dateComponentProps?: Partial<DatePickerProps>;
 }
