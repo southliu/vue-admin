@@ -31,7 +31,7 @@
           name="password"
           :rules="[
             { required: true, message: '请输入密码!' },
-            { min: 6, message: '密码最少6位!' }
+            passwordRule
           ]"
         >
           <InputPassword v-model:value="formState.password">
@@ -46,6 +46,7 @@
             type="primary"
             html-type="submit"
             class="w-full mt-5px rounded-5px tracking-2px"
+            :loading="loading"
             :disabled="formState.username === '' || formState.password.length < 6"
           >
             登录
@@ -60,9 +61,10 @@
 import { defineComponent, reactive } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormProps } from 'ant-design-vue'
-import type { ILogin } from './model'
-import API from '@/servers/login'
-import { useToken } from '@/hooks'
+import type { ILoginData } from './model'
+import { login } from '@/servers/login'
+import { passwordRule } from '@/utils/config'
+import { useLoading, useToken } from '@/hooks'
 import { useRouter } from 'vue-router'
 import {
   Form,
@@ -84,8 +86,9 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
+    const { loading, startLoading, endLoading } = useLoading()
 
-    const formState = reactive<ILogin>({
+    const formState = reactive<ILoginData>({
       username: '',
       password: '',
     });
@@ -94,13 +97,12 @@ export default defineComponent({
      * 处理登录
      * @param values - 表单数据
      */
-    const handleFinish: FormProps['onFinish'] = values => {
-      useToken("123")
+    const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
+      startLoading()
+      const { data } = await login(values)
+      useToken(data.data.token)
+      endLoading()
       router.push('/system/user')
-      API.login(values).then(e => {
-        console.log('e:', e)
-        router.push('/system/user')
-      })
     };
 
     /**
@@ -112,7 +114,9 @@ export default defineComponent({
     };
 
     return {
+      loading,
       formState,
+      passwordRule,
       handleFinish,
       handleFinishFailed,
     }

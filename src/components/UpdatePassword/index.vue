@@ -17,7 +17,10 @@
       <FormItem
         name="oldPassword"
         label="旧密码"
-        :rules="[{ required: true, message: '请输入旧密码!' }]"
+        :rules="[
+          { required: true, message: '请输入旧密码!' },
+          passwordRule
+        ]"
       >
         <Input v-model:value="formState.oldPassword" placeholder="请输入" />
       </FormItem>
@@ -25,7 +28,10 @@
       <FormItem
         name="newPassword"
         label="新密码"
-        :rules="[{ required: true, message: '请输入新密码!' }]"
+        :rules="[
+          { required: true, message: '请输入新密码!' },
+          passwordRule
+        ]"
       >
         <Input v-model:value="formState.newPassword" placeholder="请输入" />
       </FormItem>
@@ -33,7 +39,10 @@
       <FormItem
         name="confirmPassword"
         label="重复密码"
-        :rules="[{ required: true, message: '请输入重复密码!' }]"
+        :rules="[
+          { required: true, message: '请输入重复密码!' },
+          passwordRule
+        ]"
       >
         <Input v-model:value="formState.confirmPassword" placeholder="请输入" />
       </FormItem>
@@ -46,6 +55,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import BasicModal from '../Basics/BasicModal.vue'
 import { Form, FormItem, Input, message } from 'ant-design-vue'
 import type { FormInstance } from 'ant-design-vue'
+import { passwordRule } from '@/utils/config'
 
 interface IFormData {
   oldPassword: string,
@@ -96,6 +106,7 @@ export default defineComponent({
       visible,
       formRef,
       formState,
+      passwordRule,
       toggle,
       onFinish
     }

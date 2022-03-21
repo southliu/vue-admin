@@ -1,9 +1,9 @@
 import { request } from '@/utils/request'
-import type { ILogin } from '@/pages/login/model'
+import type { ILoginData, ILoginResult } from '@/pages/login/model'
 
 // 登录
-function login(data: ILogin) {
-  return request.post('/login', data)
+export function login(data: ILoginData) {
+  return request.post<IServerResult<ILoginResult>>('/authority/user/login', data)
 }
 
 export default {

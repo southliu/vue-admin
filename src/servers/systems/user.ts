@@ -6,16 +6,16 @@ enum API {
 }
 
 // 获取分页数据
-function getPage(data: ISystemUser) {
+export function getPage(data: ISystemUser) {
   return request.get(API.URL, { data })
 }
 
 // 新增数据
-function create(data: ISystemUser) {
+export function create(data: ISystemUser) {
   return request.post(API.URL, data)
 }
 
-export default {
-  getPage,
-  create
+// 修改数据
+export function update(data: ISystemUser) {
+  return request.post(API.URL, data)
 }

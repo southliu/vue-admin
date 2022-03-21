@@ -22,4 +22,11 @@ declare global {
   type ITableData = {
     total: number;
   } & VxeGridProps
+
+   // 接口响应数据
+   interface IServerResult<T = undefined> {
+    code: number;
+    message?: string;
+    data: T
+  }
 }

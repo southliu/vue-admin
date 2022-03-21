@@ -55,11 +55,10 @@ request.interceptors.response.use(
 
     // 权限不足
     if (res?.code === 601) {
-      handleError(res.message)
       router.push('/login')
+      handleError(res.message)
 
-      // return Promise.reject(new Error(res.message || 'Error'))
-      return res
+      return response
     }
 
     // 错误处理
@@ -67,7 +66,7 @@ request.interceptors.response.use(
       handleError(res.message)
     }
 
-    return res
+    return response
   },
   (error) => {
     //置空请求列表

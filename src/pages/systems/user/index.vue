@@ -58,6 +58,7 @@ import BasicModal from '@/components/Basics/BasicModal.vue'
 import DeleteBtn from '@/components/Buttons/DeleteBtn.vue'
 import type { IFormData } from '@/types/form'
 import type { IBasicForm } from '@/components/Basics/model'
+import { useLoading } from '@/hooks'
 
 export default defineComponent({
   name: 'SystemUser',
@@ -74,6 +75,7 @@ export default defineComponent({
   },
   setup() {
     const createFormRef = ref<IBasicForm>()
+    const { loading, startLoading, endLoading } = useLoading()
 
     // 搜索数据
     const searches = reactive<ISearchData>({
@@ -162,6 +164,8 @@ export default defineComponent({
     })
 
     onMounted(() => {
+      startLoading()
+      endLoading()
       console.log('onMounted')
     })
 
@@ -218,6 +222,7 @@ export default defineComponent({
     }
 
     return {
+      loading,
       createFormRef,
       searches,
       creates,
