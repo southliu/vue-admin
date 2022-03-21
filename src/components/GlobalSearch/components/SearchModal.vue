@@ -13,9 +13,9 @@
       @pressEnter="handleEnter"
     >
       <template #prefix>
-        <span
-          class="iconify text-lg text-warm-gray-400"
-          data-icon="ant-design:search-outlined"
+        <Icon
+          class="text-lg text-warm-gray-400"
+          icon="ant-design:search-outlined"
         />
       </template>
     </Input>
@@ -43,12 +43,14 @@ import { useMenuStore } from '@/stores/menu'
 import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import type { IGlobalSearchResult } from './model'
 import { storeToRefs } from 'pinia'
+import Icon from '@/components/Icon/index.vue';
 
 export default defineComponent({
   name: 'SearchModal',
   components: {
     Modal,
     Input,
+    Icon,
     SearchResult,
     SearchFooter
   },

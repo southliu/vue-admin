@@ -4,8 +4,8 @@
     :key="item.key"
     :data-title="item.title"
   >
-    <template v-if="item?.icon" #icon>
-      <span class="iconify" :data-icon="item.icon"></span>
+    <template #icon>
+      <Icon v-if="item?.icon" :icon="item.icon" />
     </template>
 
     <template #title>{{ item.title }}</template>
@@ -35,6 +35,7 @@
 import { defineComponent, PropType } from 'vue'
 import { MenuItem, SubMenu } from 'ant-design-vue'
 import type { ISidebar } from '@/stores/menu'
+import Icon from '@/components/Icon/index.vue';
 
 // 递归菜单用
 export default defineComponent({
@@ -51,7 +52,8 @@ export default defineComponent({
   },
   components: {
     MenuItem,
-    SubMenu
+    SubMenu,
+    Icon
   },
   setup() {
   }

@@ -2,11 +2,13 @@
   <div class="bg-light-400 w-screen h-screen">
     <div class="box w-300px h-290px p-30px rounded-5px bg-white">
       <div class="pb-30px pt-10px flex items-center justify-center">
-        <img
-          class="w-30px h-30px mr-2 object-contain"
-          src="@/assets/images/logo.png"
+        <Image
+          class="mr-2 object-contain"
+          :width="30"
+          :height="30"
+          :src="Logo"
           alt="LOGO"
-        >
+        />
         <span class="text-xl font-bold tracking-2px">系统登录</span>
       </div>
       <Form
@@ -71,8 +73,10 @@ import {
   FormItem,
   Button,
   Input,
-  InputPassword
+  InputPassword,
+  Image
 } from 'ant-design-vue'
+import Logo from '@/assets/images/logo.png'
 
 export default defineComponent({
   components: {
@@ -82,7 +86,8 @@ export default defineComponent({
     FormItem,
     Button,
     Input,
-    InputPassword
+    InputPassword,
+    Image
   },
   setup() {
     const router = useRouter()
@@ -120,6 +125,7 @@ export default defineComponent({
       loading,
       formState,
       passwordRule,
+      Logo,
       handleFinish,
       handleFinishFailed,
     }

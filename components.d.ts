@@ -16,6 +16,7 @@ declare module 'vue' {
     DeleteBtn: typeof import('./src/components/Buttons/DeleteBtn.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']
+    Icon: typeof import('./src/components/Icon/index.vue')['default']
     Search: typeof import('./src/components/Search/index.vue')['default']
     SearchFooter: typeof import('./src/components/GlobalSearch/components/SearchFooter.vue')['default']
     SearchInput: typeof import('./src/components/GlobalSearch/components/SearchInput.vue')['default']

@@ -4,7 +4,13 @@
       class="flex content-center px-5 py-2 cursor-pointer"
       :class="{ 'justify-center': collapsed }"
     >
-      <img class="logo object-contain" :src="Logo">
+      <Image
+        class="object-contain"
+        :width="30"
+        :height="30"
+        :src="Logo"
+        alt="LOGO"
+      />
       <span
         class="title ml-3 text-xl font-bold truncate"
         :class="{ 'title-close': collapsed }"
@@ -31,7 +37,7 @@ import { menus } from '@/router/menus'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useRoute, useRouter } from 'vue-router'
-import { Menu } from 'ant-design-vue'
+import { Menu, Image } from 'ant-design-vue'
 import MenuChildren from './MenuChildren.vue'
 import Logo from '@/assets/images/logo.png'
 import { getMenus, menusToArray } from '@/utils/menus'
@@ -47,7 +53,8 @@ export default defineComponent({
   },
   components: {
     Menu,
-    MenuChildren
+    MenuChildren,
+    Image
   },
   setup() {
     const route = useRoute()
@@ -118,10 +125,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-.logo {
-  height: 30px;
-}
-
 .title {
   color: #fff;
 }

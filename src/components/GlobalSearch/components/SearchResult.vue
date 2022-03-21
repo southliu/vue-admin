@@ -3,7 +3,7 @@
     v-if="list.length === 0"
     class="flex flex-col items-center pt-5 text-warm-gray-400"
   >
-    <span class="iconify text-40px" data-icon="mdi:archive-cancel-outline" />
+    <Icon class="text-40px" icon="mdi:archive-cancel-outline" />
     <span class="mt-1">暂无搜索结构</span>
   </div>
 
@@ -31,10 +31,10 @@
         @mouseenter="handleMouse(item)"
      >
         <div class="flex items-center">
-          <span class="iconify text-lg mr-1" data-icon="gg:menu-boxed" />
+          <Icon class="text-lg mr-1" icon="gg:menu-boxed" />
           <span>{{ item.title }}</span>
         </div>
-        <span class="iconify icon text-20px p-2px mr-5px" data-icon="ant-design:enter-outlined" />
+        <Icon class="icon text-20px p-2px mr-5px" icon="ant-design:enter-outlined" />
       </li>
     </ul>
   </template>
@@ -43,6 +43,7 @@
 <script lang="ts">
 import { defineComponent, PropType } from 'vue'
 import type { IGlobalSearchResult } from './model'
+import Icon from '@/components/Icon/index.vue';
 
 export default defineComponent({
   name: 'SearchResult',
@@ -55,6 +56,9 @@ export default defineComponent({
       type: String,
       required: true
     }
+  },
+  components: {
+    Icon
   },
   setup(props, context) {
     /**
