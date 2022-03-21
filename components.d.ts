@@ -23,6 +23,7 @@ declare module 'vue' {
     SearchModal: typeof import('./src/components/GlobalSearch/components/SearchModal.vue')['default']
     SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']
     SearhModel: typeof import('./src/components/GlobalSearch/components/SearhModel.vue')['default']
+    Test: typeof import('./src/components/Basics/test.vue')['default']
     UpdateBtn: typeof import('./src/components/Buttons/UpdateBtn.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']
     'UpdatePassword copy': typeof import('./src/components/UpdatePassword copy.vue')['default']

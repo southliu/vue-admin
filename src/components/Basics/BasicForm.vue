@@ -17,6 +17,10 @@
         :label="item.title"
         :rules="item.rules"
       >
+        <!-- <test
+          :item="item"
+          v-model:value="formState[item.key]"
+        /> -->
         <BasicComponents
           :item="item"
           v-model:value="formState[item.key]"
@@ -65,6 +69,7 @@ import type { IFormData, IFormList } from '@/types/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
 import BasicComponents from './BasicComponents.vue';
+import test from './test.vue';
 
 type IFinishFun = (values: IFormData) => void
 
@@ -114,7 +119,8 @@ export default defineComponent({
     BasicComponents,
     Form,
     FormItem,
-    Button
+    Button,
+    test
   },
   setup(props, context) {
     const formRef = ref<FormInstance>()
