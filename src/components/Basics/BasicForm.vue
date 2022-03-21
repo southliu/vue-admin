@@ -20,9 +20,6 @@
         <BasicComponents
           :item="item"
           v-model:value="formState[item.key]"
-          v-model:dateValue="formState[item.key]"
-          v-model:dateRangeValue="formState[item.key]"
-          v-model:checkedValue="formState[item.key]"
         />
       </FormItem>
 

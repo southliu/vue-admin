@@ -155,21 +155,9 @@ export default defineComponent({
       required: true
     },
     value: {
-      type: [String, Number],
+      type: [String, Number, Boolean, Object],
       required: false
-    },
-    dateValue: {
-      type: String as PropType<string | Dayjs>,
-      required: false
-    },
-    dateRangeValue: {
-      type: Object as PropType<[string, string] | [Dayjs, Dayjs]>,
-      required: false
-    },
-    checkedValue: {
-      type: Boolean,
-      required: false
-    },
+    }
   },
   components: {
     Input,
@@ -188,13 +176,13 @@ export default defineComponent({
   },
   setup(props, context) {
     // 基础值
-    const valueData = ref(props.value)
+    const valueData = ref(props.value as string | number)
     // 时间值
-    const dateData = ref(props.dateValue)
+    const dateData = ref(props.value as string | Dayjs)
     // 时间区间值
-    const dateRangeData = ref(props.dateRangeValue)
+    const dateRangeData = ref(props.value as [string, string] | [Dayjs, Dayjs])
     // 勾选区间值
-    const checkedData = ref(props.checkedValue)
+    const checkedData = ref(props.value as boolean)
 
     // 监听基础值
     watch(valueData, value => {
@@ -203,17 +191,17 @@ export default defineComponent({
 
     // 监听时间值
     watch(dateData, value => {
-      context.emit('update:dateValue', value)
+      context.emit('update:value', value)
     })
 
     // 监听时间区间值
     watch(dateRangeData, value => {
-      context.emit('update:dateRangeValue', value)
+      context.emit('update:value', value)
     })
 
     // 监听时间区间值
     watch(checkedData, value => {
-      context.emit('update:checkedValue', value)
+      context.emit('update:value', value)
     })
 
     return {
