@@ -13,11 +13,12 @@
 
     <BasicTable :data="tables">
       <template v-slot:operate='row'>
-        <Button class="mr-2" @click="onUpdate(row.record)">
-          编辑
-        </Button>
+        <UpdateBtn
+          class="mr-2"
+          @click="onUpdate(row.record)"
+        />
         <DeleteBtn
-          @handleDelete="handleDelete(row.record.age)"
+          @click="handleDelete(row.record.age)"
         />
       </template>
     </BasicTable>
@@ -49,12 +50,12 @@
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { defineComponent, onActivated, onMounted, reactive, ref } from 'vue'
-import { Button } from 'ant-design-vue'
 import BasicContent from '@/components/Basics/BasicContent.vue'
 import BasicTable from '@/components/Basics/BasicTable.vue'
 import BasicPagination from '@/components/Basics/BasicPagination.vue'
 import BasicForm from '@/components/Basics/BasicForm.vue'
 import BasicModal from '@/components/Basics/BasicModal.vue'
+import UpdateBtn from '@/components/Buttons/UpdateBtn.vue'
 import DeleteBtn from '@/components/Buttons/DeleteBtn.vue'
 import type { IFormData } from '@/types/form'
 import type { IBasicForm } from '@/components/Basics/model'
@@ -71,7 +72,7 @@ export default defineComponent({
     BasicForm,
     BasicModal,
     DeleteBtn,
-    Button
+    UpdateBtn
   },
   setup() {
     const createFormRef = ref<IBasicForm>()

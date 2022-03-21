@@ -15,7 +15,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 
 export default defineComponent({
   name: 'DeleteBtn',
-  emits: ['handleDelete'],
+  emits: ['click'],
   components: {
     Button
   },
@@ -30,7 +30,7 @@ export default defineComponent({
         okType: 'danger',
         cancelText: '取消',
         onOk() {
-          context.emit('handleDelete')
+          context.emit('click')
         }
       });
     }
