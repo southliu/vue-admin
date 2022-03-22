@@ -57,9 +57,11 @@ pnpm build
 - [ ] 主题换肤功能
 - [ ] i18n语言切换
 - [ ] E2E测试
-- [ ] 封装文档说明
+- [ ] 安全优化
+- [x] 封装文档说明
 - [x] 密码规则
 - [ ] cli生成增删改查
+- [ ] 弹窗拖拽功能
 - [ ] 手机端适配
 - [x] Icon封装
 - [x] 标签页右键功能
@@ -68,6 +70,31 @@ pnpm build
 
 ## 关于封装
 
- 1. 功能扩展，在原有的api上拓展。
- 2. 功能整合，合并两个或两个以上组件的api。
- 3. 样式统一，避免后期样式变动，导致牵一发而动全身。
+  - 封装目的
+
+    1. 功能扩展，在原有的api上拓展。
+    2. 功能整合，合并两个或两个以上组件的api。
+    3. 样式统一，避免后期样式变动，导致牵一发而动全身。
+  
+  - 封装说明
+    1. `BasicForm`表单
+      ```base
+        key: string; // 唯一标识
+        title: string; // 标题
+        rules?: IFormRule[]; // 规则
+        component: IComponents; // 组件名，参考(https://next.antdv.com/components/overview-cn)
+        componentProps?: IComponentProps; // 组件参数，官方组件参数
+      ```
+
+    2. `BasicTable`表格
+      ```base
+        total: number; // 表格总数
+        ...other; // 表格UI参数，参考(https://xuliangzhan_admin.gitee.io/vxe-table/#/table/grid/basic)
+      ```
+
+    3. `BasicPagination`分页器
+      ```base
+        total: number; // 分页总数
+        defaultCurrent: number; // 当前页码数
+      ```
+        
