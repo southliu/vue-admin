@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
-import vueJsx from '@vitejs/plugin-vue-jsx'
 import PurgeIcons from 'vite-plugin-purge-icons'
 import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
@@ -14,7 +13,6 @@ export default defineConfig({
   base: './',
   plugins: [
     vue(),
-    vueJsx(),
     windiCSS(),
     PurgeIcons({
       /* PurgeIcons Options */

@@ -100,7 +100,7 @@ export default defineComponent({
         tags: []
       },
       list: [
-        { title: '年龄', key: 'age', component: 'InputNumber' },
+        { title: '年龄', key: 'age', component: 'InputNumber'},
         { title: '地址', key: 'address', component: 'Input' },
         { title: '类型', key: 'type', component: 'Select',
           componentProps: {

@@ -38,15 +38,8 @@ export type IComponents =  IDefaultDataComponents |
                     ITimeComponents |
                     IRadioComponents
 
-// 公共树形
-interface IPublic {
-  disabled: boolean; // 是否禁用
-  isNotClear: boolean; // 是否不开启清除
-}
-
 // 组件参数
 export type IComponentProps =  Partial<
-                                IPublic &
                                 InputProps &
                                 SelectProps &
                                 CheckboxGroupProps &
