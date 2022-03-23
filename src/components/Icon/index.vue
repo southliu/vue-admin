@@ -1,5 +1,5 @@
 <template>
-  <span class="iconify" :data-icon="icon" />
+  <i class="iconify" :data-icon="icon" />
 </template>
 
 <script lang="ts">

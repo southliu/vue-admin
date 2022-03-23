@@ -1,8 +1,13 @@
 <template>
-  <div class="ml-2  transition-all">
+  <div class="flex items-center justify-between mx-2 transition-all">
     <Tabs
       v-model:activeKey="activeKey"
       hide-add
+      class="h-34px py-0"
+      :tabBarStyle="{
+        height: '34px',
+        marginTop: '3px'
+      }"
       :tabBarGutter="5"
       @change="onChange"
     >
@@ -14,7 +19,7 @@
         <template #tab>
           <Dropdown :trigger="['contextmenu']">
             <div
-              class="flex items-center w-full px-3 py-1 -mt-10px mr-0 border border-light-900"
+              class="flex items-center w-full px-3 py-1 mr-0 border border-light-900"
               :class="{
                 'bg-blue-700': isActive(item.key),
                 'text-white': isActive(item.key)
@@ -80,13 +85,25 @@
         </template>
       </TabPane>
     </Tabs>
+    
+    <div
+      class="flex items-center justify-center mr-2 cursor-pointer"
+      :class="{ 'animate-spin': isRefresh }"
+      @click="handleDropdown(TabEnums.REFRESH_PAGE, activeKey)"
+    >
+      <Icon
+        class="text-lg"
+        icon="ant-design:redo-outlined"
+      />
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, watch } from 'vue'
+import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTabStore } from '@/stores/tabs'
+import Icon from '@/components/Icon/index.vue'
 import {
   Tabs,
   TabPane,
@@ -94,7 +111,7 @@ import {
   MenuItem,
   Dropdown,
   Button,
-message
+  message
 } from 'ant-design-vue'
 import {
   RedoOutlined,
@@ -105,6 +122,7 @@ import {
 import { useRoute, useRouter } from 'vue-router'
 import type { Key } from 'ant-design-vue/lib/_util/type'
 import { firstCapitalize } from '@/utils/utils'
+import { useDebounceFn } from '@vueuse/core'
 
 enum TabEnums {
   REFRESH_PAGE, // 刷新当前页
@@ -114,6 +132,11 @@ enum TabEnums {
   CLOSE_RIGHT // 关闭右侧
 }
 
+interface ITimeout {
+  icon: null | NodeJS.Timeout;
+  refresh: null | NodeJS.Timeout;
+}
+
 export default defineComponent({
   name: 'TabsLayout',
   components: {
@@ -121,6 +144,7 @@ export default defineComponent({
     CloseOutlined,
     VerticalAlignTopOutlined,
     VerticalAlignMiddleOutlined,
+    Icon,
     Tabs,
     TabPane,
     Menu,
@@ -132,6 +156,11 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const tabStore = useTabStore()
+    const isRefresh = ref(false)
+    const timeout = reactive<ITimeout>({
+      icon: null,
+      refresh: null
+    })
     const { tabs, activeKey, cacheRoutes } = storeToRefs(tabStore)
     const {
       initCacheRoutes,
@@ -141,6 +170,11 @@ export default defineComponent({
       removeLeft,
       removeRight
     } = tabStore
+
+    /**
+     * 是否是选中
+     * @param key - 唯一值
+     */
     const isActive = (key: string) => key === activeKey.value
 
     onMounted(() => {
@@ -192,22 +226,29 @@ export default defineComponent({
      * @param type - 右键下拉选中类型
      * @param key - 标签唯一值，可作为路由
      */
-    const handleDropdown = (type: TabEnums, key: string) => {
+    const handleDropdown = useDebounceFn((type: TabEnums, key: string) => {
       switch (type) {
         // 刷新当前页
         case TabEnums.REFRESH_PAGE:
+          clearTimeout(timeout.refresh!)
+          clearTimeout(timeout.icon!)
+          isRefresh.value = true
+
           // 去除缓存路由中当前路由
           const routerName = filterRouterName(key)
           cacheRoutes.value = cacheRoutes.value.filter(item => item !== routerName)
 
           // 调转空白页
           router.push('/empty')
-          // 100毫秒调转回来
-          setTimeout(() => {
+          // 200毫秒调转回来
+          timeout.refresh = setTimeout(() => {
             router.push(activeKey.value)
             cacheRoutes.value.push(routerName)
             message.success({ content: '刷新成功!', key: 'refresh' })
-          }, 100)
+          }, 200)
+          timeout.icon = setTimeout(() => {
+            isRefresh.value = false
+          }, 1000)
           break
 
         // 关闭标签
@@ -230,9 +271,10 @@ export default defineComponent({
           removeRight(key)
           break
       }
-    }
+    })
 
     return {
+      isRefresh,
       tabs,
       activeKey,
       TabEnums,

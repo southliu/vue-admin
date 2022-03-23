@@ -63,7 +63,6 @@ import {
 import { useRouter } from 'vue-router'
 import { useToken } from '@/hooks'
 import { Modal } from 'ant-design-vue'
-import Icon from '@/components/Icon/index.vue';
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -80,7 +79,6 @@ export default defineComponent({
     LogoutOutlined,
     FormOutlined,
     ExclamationCircleOutlined,
-    Icon,
     Fullscreen,
     GlobalSearch,
     Menu,

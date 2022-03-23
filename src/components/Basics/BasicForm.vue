@@ -61,6 +61,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import type { PropType } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import { useDebounceFn } from '@vueuse/core'
 import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
 import type { ColProps } from 'ant-design-vue'
@@ -122,7 +123,7 @@ export default defineComponent({
     const formState = reactive(props.data)
 
     /** 外部调内部提交方法 */
-    const handleSubmit = () => {
+    const handleSubmit = useDebounceFn(() => {
       formRef.value && formRef.value
         .validateFields()
         .then(values => {
@@ -131,7 +132,7 @@ export default defineComponent({
         .catch(info => {
           console.log('错误信息:', info);
         });
-    }
+    })
 
     /** 外部调内部重置方法 */
     const handleReset = () => {
@@ -147,9 +148,9 @@ export default defineComponent({
      * 提交处理
      * @param values - 表单数据
      */
-    const onFinish: IFinishFun = values => {
+    const onFinish: IFinishFun = useDebounceFn(values => {
       context.emit('handleFinish', values)
-    }
+    })
 
     /**
      * 错误处理
