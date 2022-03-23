@@ -6,6 +6,7 @@
       <div class="text-lg cursor-pointer" @click="toggleCollapsed">
         <MenuUnfoldOutlined v-if="collapsed" />
         <MenuFoldOutlined v-else />
+        <!-- <Icon class="text-lg" :icon="collapsed ? 'ant-design:menu-unfold-outlined' : 'ant-design:menu-fold-outlined'" /> -->
       </div>
     </div>
 
@@ -62,6 +63,7 @@ import {
 import { useRouter } from 'vue-router'
 import { useToken } from '@/hooks'
 import { Modal } from 'ant-design-vue'
+import Icon from '@/components/Icon/index.vue';
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -78,6 +80,7 @@ export default defineComponent({
     LogoutOutlined,
     FormOutlined,
     ExclamationCircleOutlined,
+    Icon,
     Fullscreen,
     GlobalSearch,
     Menu,

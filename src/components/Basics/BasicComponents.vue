@@ -58,19 +58,11 @@ export default defineComponent({
     const { item } = props
 
     // 默认允许关闭
-    const allowClear = {
-      allowClear: true
-    }
-
+    const allowClear = true
     // 请输入
-    const pleaseEnter = {
-      placeholder: '请输入'
-    }
-
+    const pleaseEnter = '请输入'
     // 请选择
-    const pleaseSelect = {
-      placeholder: '请选择'
-    }
+    const pleaseSelect = '请选择'
 
     /**
      * 渲染不同组件
@@ -82,8 +74,8 @@ export default defineComponent({
         case 'Input':
           return (
             h(Input, {
-              ...allowClear,
-              ...pleaseEnter,
+              allowClear,
+              placeholder: pleaseEnter,
               ...item.componentProps,
               modalValue: props.value,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
@@ -94,8 +86,8 @@ export default defineComponent({
         case 'InputPassword':
           return (
             h(InputPassword, {
-              ...allowClear,
-              ...pleaseEnter,
+              allowClear,
+              placeholder: pleaseEnter,
               ...item.componentProps,
               modalValue: props.value,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
@@ -106,8 +98,8 @@ export default defineComponent({
         case 'InputNumber':
           return (
             h(InputNumber, {
-              ...allowClear,
-              ...pleaseEnter,
+              allowClear,
+              placeholder: pleaseEnter,
               ...item.componentProps,
               modalValue: props.value,
               'onUpdate:value': (value: number) => emit('update:value', value)
@@ -118,8 +110,8 @@ export default defineComponent({
         case 'AutoComplete':
           return (
             h(AutoComplete, {
-              ...allowClear,
-              ...pleaseEnter,
+              allowClear,
+              placeholder: pleaseEnter,
               ...item.componentProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
@@ -130,8 +122,8 @@ export default defineComponent({
         case 'Textarea':
           return (
             h(Textarea, {
-              ...allowClear,
-              ...pleaseEnter,
+              allowClear,
+              placeholder: pleaseEnter,
               ...item.componentProps,
               value: props.value as string,
               'onUpdate:value': (value: string) => emit('update:value', value)
@@ -142,8 +134,8 @@ export default defineComponent({
         case 'Select':
           return (
             h(Select, {
-              ...allowClear,
-              ...pleaseSelect,
+              allowClear,
+              placeholder: pleaseSelect,
               ...item.componentProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
@@ -154,8 +146,8 @@ export default defineComponent({
         case 'TreeSelect':
           return (
             h(TreeSelect, {
-              ...allowClear,
-              ...pleaseSelect,
+              allowClear,
+              placeholder: pleaseSelect,
               ...item.componentProps as TreeSelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
@@ -207,8 +199,8 @@ export default defineComponent({
         case 'DatePicker':
           return (
             h(DatePicker, {
-              ...allowClear,
-              ...pleaseSelect,
+              allowClear,
+              placeholder: pleaseSelect,
               ...item.componentProps as any,
               value: props.value as string | Dayjs,
               'onUpdate:value': (value: string | Dayjs) => emit('update:value', value)
@@ -219,8 +211,8 @@ export default defineComponent({
         case 'RangePicker':
           return (
             h(RangePicker, {
-              ...allowClear,
-              ...pleaseSelect,
+              allowClear,
+              placeholder: pleaseSelect,
               ...item.componentProps as any,
               value: props.value as [string, string] | [Dayjs, Dayjs],
               'onUpdate:value': (value: [string, string] | [Dayjs, Dayjs]) => emit('update:value', value)
