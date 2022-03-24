@@ -52,6 +52,12 @@ pnpm build
   - `types` 类型定义文件更改
   - `wip` 开发中
 
+- 如果无法运行commitlint，请运行以下指令：
+
+  ```
+  npx husky add .husky/commit-msg 'npx --no-install commitlint --edit "$1"'
+  ```
+
 ## 计划
 
 - [ ] 主题换肤功能
