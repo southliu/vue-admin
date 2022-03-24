@@ -6,7 +6,7 @@ specifiers:
   '@commitlint/config-conventional': ^16.0.0
   '@iconify/iconify': ^2.1.2
   '@iconify/json': ^2.1.15
-  '@types/js-cookie': ^3.0.1
+  '@types/crypto-js': ^4.1.1
   '@types/node': ^17.0.8
   '@types/nprogress': ^0.2.0
   '@typescript-eslint/eslint-plugin': ^5.13.0
@@ -20,6 +20,7 @@ specifiers:
   ant-design-vue: ^3.0.0-beta.10
   axios: ^0.24.0
   cross-env: ^7.0.3
+  crypto-js: ^4.1.1
   cypress: ^9.5.2
   dayjs: ^1.10.7
   eslint: ^8.10.0
@@ -28,7 +29,6 @@ specifiers:
   eslint-plugin-prettier: ^4.0.0
   eslint-plugin-vue: ^8.5.0
   husky: ^7.0.4
-  js-cookie: ^3.0.1
   less: ^4.1.2
   lint-staged: ^12.3.1
   nprogress: ^0.2.0
@@ -55,8 +55,8 @@ dependencies:
   '@vueuse/core': 7.7.0_vue@3.2.31
   ant-design-vue: 3.0.0-beta.12_vue@3.2.31
   axios: 0.24.0
+  crypto-js: 4.1.1
   dayjs: 1.10.8
-  js-cookie: 3.0.1
   nprogress: 0.2.0
   pinia: 2.0.11_typescript@4.6.2+vue@3.2.31
   vite-plugin-windicss: 1.8.2_vite@2.8.6
@@ -69,7 +69,7 @@ devDependencies:
   '@commitlint/cli': 16.2.1
   '@commitlint/config-conventional': 16.2.1
   '@iconify/json': 2.1.15
-  '@types/js-cookie': 3.0.1
+  '@types/crypto-js': 4.1.1
   '@types/node': 17.0.21
   '@types/nprogress': 0.2.0
   '@typescript-eslint/eslint-plugin': 5.13.0_33fffc354ccfa91fbe7d1677b9395a0a
@@ -571,8 +571,8 @@ packages:
     resolution: {integrity: sha512-/ceqdqeRraGolFTcfoXNiqjyQhZzbINDngeoAq9GoHa8PPK1yNzTaxWjA6BFWp5Ua9JpXEMSS4s5i9tS0hOJtw==}
     dev: true
 
-  /@types/js-cookie/3.0.1:
-    resolution: {integrity: sha512-7wg/8gfHltklehP+oyJnZrz9XBuX5ZPP4zB6UsI84utdlkRYLnOm2HfpLXazTwZA+fpGn0ir8tGNgVnMEleBGQ==}
+  /@types/crypto-js/4.1.1:
+    resolution: {integrity: sha512-BG7fQKZ689HIoc5h+6D2Dgq1fABRa0RbBWKBd9SP/MVRVXROflpm5fhwyATX5duFmbStzyzyycPB8qUYKDH3NA==}
     dev: true
 
   /@types/json-schema/7.0.9:
@@ -1330,7 +1330,7 @@ packages:
   /axios/0.26.1_debug@4.3.3:
     resolution: {integrity: sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==}
     dependencies:
-      follow-redirects: 1.14.9
+      follow-redirects: 1.14.9_debug@4.3.3
     transitivePeerDependencies:
       - debug
     dev: true
@@ -1765,6 +1765,10 @@ packages:
       shebang-command: 2.0.0
       which: 2.0.2
     dev: true
+
+  /crypto-js/4.1.1:
+    resolution: {integrity: sha512-o2JlM7ydqd3Qk9CA0L4NL6mTzU2sdx96a+oOfPu8Mkl/PK51vSyoi8/rQ8NknZtk44vq15lmhAj9CIAGwgeWKw==}
+    dev: false
 
   /css-select/4.2.1:
     resolution: {integrity: sha512-/aUslKhzkTNCQUB2qTX84lVmfia9NyjP3WpDGtj/WxhwBzWBYUV3DgUpurHTme8UTPcPlAD1DJ+b0nN/t50zDQ==}
@@ -2656,6 +2660,18 @@ packages:
       debug:
         optional: true
 
+  /follow-redirects/1.14.9_debug@4.3.3:
+    resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
+    engines: {node: '>=4.0'}
+    peerDependencies:
+      debug: '*'
+    peerDependenciesMeta:
+      debug:
+        optional: true
+    dependencies:
+      debug: 4.3.3
+    dev: true
+
   /forever-agent/0.6.1:
     resolution: {integrity: sha1-+8cfDEGt6zf5bFd60e1C2P2sypE=}
     dev: true
@@ -3121,11 +3137,6 @@ packages:
   /jiti/1.13.0:
     resolution: {integrity: sha512-/n9mNxZj/HDSrincJ6RP+L+yXbpnB8FybySBa+IjIaoH9FIxBbrbRT5XUbe8R7zuVM2AQqNMNDDqz0bzx3znOQ==}
     hasBin: true
-
-  /js-cookie/3.0.1:
-    resolution: {integrity: sha512-+0rgsUXZu4ncpPxRL+lNEptWMOWl9etvPHc/koSRp6MPwpRYAhmk0dUG00J4bxVV3r9uUzfo24wW0knS07SKSw==}
-    engines: {node: '>=12'}
-    dev: false
 
   /js-stringify/1.0.2:
     resolution: {integrity: sha1-Fzb939lyTyijaCrcYjCufk6Weds=}

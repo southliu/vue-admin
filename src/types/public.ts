@@ -8,4 +8,4 @@ export type IArrayData = string[] | number[] | boolean[] | symbol[]
 export type IEmptyData = null | undefined
 
 // 全部数据类型
-export type IAllDataType = IBasicData | IArrayData | IEmptyData
+export type IAllDataType = IBasicData | IArrayData | IEmptyData | object

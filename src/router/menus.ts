@@ -28,6 +28,7 @@ export const menus: IMenus[] = [
       {
         name: 'empty',
         path: '/empty',
+        meta: { title: '重定向' },
         component: () => import('@/pages/errors/empty.vue')
       },
     ]

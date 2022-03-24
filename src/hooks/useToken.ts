@@ -1,16 +1,16 @@
 import { ref } from 'vue';
 import { TOKEN } from '@/utils/config'
-import Cookies from 'js-cookie'
+import { setLocalInfo, getLocalInfo, removeLocalInfo } from '@/utils/local'
 
 /**
  * token存取方法
  */
 function useToken() {
-  const token = ref(Cookies.get(TOKEN) || '')
+  const token = ref(getLocalInfo(TOKEN) || '')
 
   /** 获取token */
   const getToken = () => {
-    return Cookies.get(TOKEN)
+    return getLocalInfo(TOKEN)
   }
 
   /**
@@ -18,13 +18,13 @@ function useToken() {
    * @param value token值
    */
   const setToken = (value: string) => {
-    Cookies.set(TOKEN, value, { expires: 1 }) // 一天后过期
+    setLocalInfo(TOKEN, value)
     token.value = value
   }
 
   /** 删除token */
    const removeToken = () => {
-    Cookies.remove(TOKEN)
+    removeLocalInfo(TOKEN)
     token.value = ''
   }
 
