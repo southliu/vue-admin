@@ -230,24 +230,40 @@ export default defineComponent({
       switch (type) {
         // 刷新当前页
         case TabEnums.REFRESH_PAGE:
-          clearTimeout(timeout.refresh!)
-          clearTimeout(timeout.icon!)
-          isRefresh.value = true
-
-          // 去除缓存路由中当前路由
+          // 获取当前路由名称
           const routerName = filterRouterName(key)
-          cacheRoutes.value = cacheRoutes.value.filter(item => item !== routerName)
+          // 当timeout没执行时刷新页面
+          if (!timeout.icon) {
+            isRefresh.value = true
+          
+            // 去除缓存路由中当前路由
+            cacheRoutes.value = cacheRoutes.value.filter(item => item !== routerName)
 
-          // 调转空白页
-          router.push('/empty')
+            // 调转空白页
+            router.push('/empty')
+          }
+
+          /** 清除timeout */
+          const clearRefresh = () => {
+            clearTimeout(timeout.refresh!)
+            timeout.refresh = null
+          }
+          const clearIcon = () => {
+            clearTimeout(timeout.icon!)
+            timeout.icon = null
+          }
+
           // 200毫秒调转回来
           timeout.refresh = setTimeout(() => {
             router.push(activeKey.value)
             cacheRoutes.value.push(routerName)
+            clearRefresh()
             message.success({ content: '刷新成功!', key: 'refresh' })
           }, 200)
+          // icon 1秒后转回来
           timeout.icon = setTimeout(() => {
             isRefresh.value = false
+            clearIcon()
           }, 1000)
           break
 
