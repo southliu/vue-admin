@@ -86,16 +86,13 @@
       </TabPane>
     </Tabs>
     
-    <div
-      class="flex items-center justify-center mr-2 cursor-pointer"
-      :class="{ 'animate-spin': isRefresh }"
-      @click="handleDropdown(TabEnums.REFRESH_PAGE, activeKey)"
-    >
+    
       <Icon
-        class="text-lg"
+        class="flex items-center justify-center mr-2 text-lg cursor-pointer"
+        :class="{ 'animate-spin': isRefresh }"
+        @click="handleDropdown(TabEnums.REFRESH_PAGE, activeKey)"
         icon="ant-design:redo-outlined"
       />
-    </div>
   </div>
 </template>
 

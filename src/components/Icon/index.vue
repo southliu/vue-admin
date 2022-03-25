@@ -1,5 +1,7 @@
 <template>
-  <i class="iconify" :data-icon="icon" />
+  <div class="inline-block">
+    <i class="iconify" :data-icon="icon" />
+  </div>
 </template>
 
 <script lang="ts">

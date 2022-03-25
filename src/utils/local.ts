@@ -30,13 +30,14 @@ export function setLocalInfo(key: string, value: unknown, expire: number | null 
  */
 export function getLocalInfo<T>(key: string) {
   const json = window.localStorage.getItem(key)
+  
   if (json) {
     let data: IStorageData | null = null
     try {
       data = decryption(json)
     } catch {
       // 解密失败
-      message.error({ content: '解密失败!', key: 'decryption' })
+      message.error({ content: '数据解密失败!', key: 'decryption' })
     }
 
     // 当有数据时
