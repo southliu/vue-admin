@@ -22,11 +22,11 @@ declare global {
   interface IPaginationData {
     page: number;
     pageSize: number;
-    total: number;
   }
 
   // 表格数据
   type ITableData = {
+    total: number;
   } & VxeGridProps
 
    // 接口响应数据

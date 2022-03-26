@@ -27,7 +27,7 @@
       <BasicPagination
         :page="pagination.page"
         :pageSize="pagination.pageSize"
-        :total="pagination.total"
+        :total="tables.total"
         @handleChange="handlePagination"
       />
     </template>
@@ -118,6 +118,7 @@ export default defineComponent({
     
     // 表格数据
     const tables = reactive<ITableData>({
+      total: 0,
       data: [],
       columns: [
         { title: 'ID', field: 'id' },
@@ -135,7 +136,6 @@ export default defineComponent({
     const pagination = reactive<IPaginationData>({
       page: 1,
       pageSize: 20,
-      total: 0
     })
 
     onActivated(() => {
@@ -155,9 +155,8 @@ export default defineComponent({
       const { data: { data } } = await getSystemUserPage(pagination)
       const { items, total } = data
       tables.data = items
-      pagination.total = total
+      tables.total = total
       endLoading()
-      console.log('tables:', tables)
     }
 
     /** 表格提交 */
@@ -169,8 +168,15 @@ export default defineComponent({
      * 搜索提交
      * @param values - 表单返回数据
      */
-    const handleSearch = (values: IFormData) => {
+    const handleSearch = async (values: IFormData) => {
       console.log('handleSearch:', values)
+      startLoading()
+      const query = { ...pagination, ...values }
+      const { data: { data } } = await getSystemUserPage(query)
+      const { items, total } = data
+      tables.data = items
+      tables.total = total
+      endLoading()
     }
 
     /** 点击新增 */

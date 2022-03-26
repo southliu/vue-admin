@@ -10,7 +10,10 @@ enum API {
  * @param data - 请求数据
  */
 export function getSystemUserPage(data: Partial<ISystemUser> & IPaginationData) {
-  return request.get<IPageServerResult<ISystemUserResult[]>>(API.URL + '/index', { data })
+  return request.get<IPageServerResult<ISystemUserResult[]>>(
+    API.URL + '/index',
+    { params: data }
+  )
 }
 
 /**

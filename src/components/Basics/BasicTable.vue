@@ -1,6 +1,11 @@
 <template>
-  <Grid ref="xGrid" v-bind="gridOptions">
-    <template #operate="{ row }">
+  <Grid
+    ref="xGrid"
+    v-bind="gridOptions"
+    :data="data.data"
+    :columns="data.columns"
+  >
+   <template #operate="{ row }">
       <slot name="operate" :record="row" />
     </template>
   </Grid>
@@ -54,6 +59,5 @@ export default defineComponent({
       gridOptions,
     }
   }
-
 })
 </script>
