@@ -7,6 +7,7 @@ import {
 import { menus } from './menus'
 import { useToken } from '@/hooks'
 import NProgress from 'nprogress'
+import { TITLE_PREFIX } from '@/utils/config'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -17,7 +18,7 @@ const router = createRouter({
 
 // 路由拦截
 router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-  document.title = (to.meta.title as string) || '后台管理'
+  document.title = TITLE_PREFIX + (to.meta.title as string) || '后台管理'
   const { getToken } = useToken()
   const token = getToken()
   NProgress.start()

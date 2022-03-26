@@ -26,7 +26,8 @@ const handleError = (error: string): Promise<string> => {
 // 请求拦截
 request.interceptors.request.use(
   (config) => {
-    if (config?.headers) config.headers['Authorization'] = `Bearer ${useToken()}`
+    const token = useToken().getToken()
+    if (config?.headers) config.headers['Authorization'] = `Bearer ${token}`
 
     // 防止重复提交（如果本次是重复操作，则取消，否则将该操作标记到requestList中）
     const requestFlag = JSON.stringify(config.url) + JSON.stringify(config.data) + '&' + config.method;

@@ -4,7 +4,8 @@
     showQuickJumper
     size="small"
     :show-total="() => showTotal(total)"
-    :defaultCurrent="defaultCurrent"
+    :defaultCurrent="page"
+    :defaultPageSize="pageSize"
     :total="total"
     :onChange="onChange"
   />
@@ -22,9 +23,15 @@ export default defineComponent({
       type: Number,
       required: true
     },
-    defaultCurrent: {
+    page: {
       type: Number,
+      required: true,
       default: 1
+    },
+    pageSize: {
+      type: Number,
+      required: true,
+      default: 20
     }
   },
   components: {

@@ -69,6 +69,8 @@ export default defineComponent({
      * @param item 子组件值
      */
     const itemRender = (item: IFormList) => {
+      const { componentProps } = item
+
       switch (item.component) {
         // 输入框
         case 'Input':
@@ -76,7 +78,7 @@ export default defineComponent({
             h(Input, {
               allowClear,
               placeholder: pleaseEnter,
-              ...item.componentProps,
+              ...componentProps,
               modalValue: props.value,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
             })
@@ -88,7 +90,7 @@ export default defineComponent({
             h(InputPassword, {
               allowClear,
               placeholder: pleaseEnter,
-              ...item.componentProps,
+              ...componentProps,
               modalValue: props.value,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
             })
@@ -100,7 +102,7 @@ export default defineComponent({
             h(InputNumber, {
               allowClear,
               placeholder: pleaseEnter,
-              ...item.componentProps,
+              ...componentProps,
               modalValue: props.value,
               'onUpdate:value': (value: number) => emit('update:value', value)
             })
@@ -112,7 +114,7 @@ export default defineComponent({
             h(AutoComplete, {
               allowClear,
               placeholder: pleaseEnter,
-              ...item.componentProps,
+              ...componentProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
@@ -124,7 +126,7 @@ export default defineComponent({
             h(Textarea, {
               allowClear,
               placeholder: pleaseEnter,
-              ...item.componentProps,
+              ...componentProps,
               value: props.value as string,
               'onUpdate:value': (value: string) => emit('update:value', value)
             })
@@ -136,7 +138,7 @@ export default defineComponent({
             h(Select, {
               allowClear,
               placeholder: pleaseSelect,
-              ...item.componentProps,
+              ...componentProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
@@ -148,7 +150,7 @@ export default defineComponent({
             h(TreeSelect, {
               allowClear,
               placeholder: pleaseSelect,
-              ...item.componentProps as TreeSelectProps,
+              ...componentProps as TreeSelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
@@ -158,7 +160,7 @@ export default defineComponent({
         case 'RadioGroup':
           return (
             h(RadioGroup, {
-              ...item.componentProps as RadioGroupProps,
+              ...componentProps as RadioGroupProps,
               value: props.value as boolean,
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })
@@ -168,7 +170,7 @@ export default defineComponent({
         case 'Switch':
           return (
             h(Switch, {
-              ...item.componentProps as SwitchProps,
+              ...componentProps as SwitchProps,
               value: props.value as boolean,
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })
@@ -178,9 +180,9 @@ export default defineComponent({
         case 'Checkbox':
           return (
             h(Checkbox, {
-              ...item.componentProps as CheckboxProps,
+              ...componentProps as CheckboxProps,
               value: props.value as boolean,
-              innerHTML: item?.componentProps?.name || '',
+              innerHTML: componentProps?.name || '',
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })
           )
@@ -189,7 +191,7 @@ export default defineComponent({
         case 'CheckboxGroup':
           return (
             h(CheckboxGroup, {
-              ...item.componentProps as CheckboxGroupProps,
+              ...componentProps as CheckboxGroupProps,
               value: props.value as CheckboxValueType[],
               'onUpdate:value': (value: CheckboxValueType[]) => emit('update:value', value)
             })
@@ -201,7 +203,7 @@ export default defineComponent({
             h(DatePicker, {
               allowClear,
               placeholder: pleaseSelect,
-              ...item.componentProps as any,
+              ...componentProps as any,
               value: props.value as string | Dayjs,
               'onUpdate:value': (value: string | Dayjs) => emit('update:value', value)
             })
@@ -213,7 +215,7 @@ export default defineComponent({
             h(RangePicker, {
               allowClear,
               placeholder: pleaseSelect,
-              ...item.componentProps as any,
+              ...componentProps as any,
               value: props.value as [string, string] | [Dayjs, Dayjs],
               'onUpdate:value': (value: [string, string] | [Dayjs, Dayjs]) => emit('update:value', value)
             })

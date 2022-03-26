@@ -25,7 +25,9 @@
 
     <template #pagination>
       <BasicPagination
-        :total="tables.total"
+        :page="pagination.page"
+        :pageSize="pagination.pageSize"
+        :total="pagination.total"
         @handleChange="handlePagination"
       />
     </template>
@@ -57,9 +59,10 @@ import BasicForm from '@/components/Basics/BasicForm.vue'
 import BasicModal from '@/components/Basics/BasicModal.vue'
 import UpdateBtn from '@/components/Buttons/UpdateBtn.vue'
 import DeleteBtn from '@/components/Buttons/DeleteBtn.vue'
+import { getSystemUserPage } from '@/servers/systems/user'
+import { useLoading } from '@/hooks'
 import type { IFormData } from '@/types/form'
 import type { IBasicForm } from '@/components/Basics/model'
-import { useLoading } from '@/hooks'
 
 export default defineComponent({
   name: 'SystemUser',
@@ -115,49 +118,24 @@ export default defineComponent({
     
     // 表格数据
     const tables = reactive<ITableData>({
-      total: 500,
+      data: [],
       columns: [
-        {
-          title: '年龄',
-          field: 'age',
-        },
-        {
-          title: '地址',
-          field: 'address',
-        },
-        {
-          title: '标签',
-          field: 'tags',
-        },
-        {
-          title: '操作',
-          field: 'operate',
-          slots: { default: 'operate' }
-        },
-      ],
-      data: [
-        {
-          key: '1',
-          name: 'John Brown',
-          age: 32,
-          address: 'New York No. 1 Lake Park',
-          tags: ['nice', 'developer'].join(''),
-        },
-        {
-          key: '2',
-          name: 'Jim Green',
-          age: 42,
-          address: 'London No. 1 Lake Park',
-          tags: ['loser'].join(''),
-        },
-        {
-          key: '3',
-          name: 'Joe Black',
-          age: 32,
-          address: 'Sidney No. 1 Lake Park',
-          tags: ['cool', 'teacher'].join(''),
-        },
+        { title: 'ID', field: 'id' },
+        { title: '用户名', field: 'username' },
+        { title: '姓名', field: 'real_name' },
+        { title: '角色', field: 'roles_name' },
+        { title: '手机号', field: 'phone' },
+        { title: '邮箱', field: 'email' },
+        { title: '状态', field: 'status' },
+        { title: '操作', field: 'operate', slots: { default: 'operate' } },
       ]
+    })
+
+    // 分页数据
+    const pagination = reactive<IPaginationData>({
+      page: 1,
+      pageSize: 20,
+      total: 0
     })
 
     onActivated(() => {
@@ -165,10 +143,22 @@ export default defineComponent({
     })
 
     onMounted(() => {
-      startLoading()
-      endLoading()
+      getPage()
       console.log('onMounted')
     })
+
+    /**
+     * 获取表格数据
+     */
+    const getPage = async () => {
+      startLoading()
+      const { data: { data } } = await getSystemUserPage(pagination)
+      const { items, total } = data
+      tables.data = items
+      pagination.total = total
+      endLoading()
+      console.log('tables:', tables)
+    }
 
     /** 表格提交 */
     const createSubmit = () => {
@@ -228,6 +218,7 @@ export default defineComponent({
       searches,
       creates,
       tables,
+      pagination,
       onCreate,
       onUpdate,
       createSubmit,

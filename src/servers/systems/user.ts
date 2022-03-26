@@ -1,21 +1,31 @@
 import { request } from '@/utils/request'
-import { ISystemUser } from '@/pages/systems/user/model'
+import { ISystemUser, ISystemUserResult } from '@/pages/systems/user/model'
 
 enum API {
-  URL = '/user'
+  URL = '/authority/user',
 }
 
-// 获取分页数据
-export function getPage(data: ISystemUser) {
-  return request.get(API.URL, { data })
+/**
+ * 获取分页数据
+ * @param data - 请求数据
+ */
+export function getSystemUserPage(data: Partial<ISystemUser> & IPaginationData) {
+  return request.get<IPageServerResult<ISystemUserResult[]>>(API.URL + '/index', { data })
 }
 
-// 新增数据
+/**
+ * 新增数据
+ * @param data - 请求数据
+ */
 export function create(data: ISystemUser) {
   return request.post(API.URL, data)
 }
 
-// 修改数据
-export function update(data: ISystemUser) {
+/**
+ * 修改数据
+ * @param id - 修改id值
+ * @param data - 请求数据
+ */
+export function update(id: string, data: ISystemUser) {
   return request.post(API.URL, data)
 }
