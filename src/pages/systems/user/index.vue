@@ -171,6 +171,7 @@ export default defineComponent({
     const handleSearch = async (values: IFormData) => {
       console.log('handleSearch:', values)
       startLoading()
+      searches.data = values
       const query = { ...pagination, ...values }
       const { data: { data } } = await getSystemUserPage(query)
       const { items, total } = data
