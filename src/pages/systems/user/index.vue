@@ -11,7 +11,7 @@
       @handleFinish="handleSearch"
     />
 
-    <BasicTable :data="tables">
+    <BasicTable :data="tables" :loading="loading">
       <template v-slot:operate='row'>
         <UpdateBtn
           class="mr-2"
@@ -84,8 +84,8 @@ export default defineComponent({
     // 搜索数据
     const searches = reactive<ISearchData>({
       data: {
-        age: 0,
-        name: ''
+        age: undefined,
+        name: undefined
       },
       list: [
         { title: '年龄', key: 'age', component: 'InputNumber' },
@@ -152,7 +152,8 @@ export default defineComponent({
      */
     const getPage = async () => {
       startLoading()
-      const { data: { data } } = await getSystemUserPage(pagination)
+      const query = { ...pagination, ...searches.data }
+      const { data: { data } } = await getSystemUserPage(query)
       const { items, total } = data
       tables.data = items
       tables.total = total
@@ -169,7 +170,6 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
-      console.log('handleSearch:', values)
       startLoading()
       searches.data = values
       const query = { ...pagination, ...values }
@@ -216,7 +216,9 @@ export default defineComponent({
      * @param pageSize - 分页总数
      */
     const handlePagination = (page: number, pageSize: number) => {
-      console.log(page, pageSize)
+      pagination.page = page
+      pagination.pageSize = pageSize
+      getPage()
     }
 
     return {

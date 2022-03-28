@@ -2,6 +2,7 @@
   <Grid
     ref="xGrid"
     v-bind="gridOptions"
+    :loading="loading"
     :data="data.data"
     :columns="data.columns"
   >
@@ -23,6 +24,11 @@ export default defineComponent({
     data: {
       type: Object as PropType<ITableData>,
       required: true
+    },
+    loading: {
+      type: Boolean,
+      required: true,
+      default: false
     }
   },
   components: {
