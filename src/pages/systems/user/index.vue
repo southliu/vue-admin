@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
-import { defineComponent, onActivated, onMounted, reactive, ref } from 'vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import BasicContent from '@/components/Basics/BasicContent.vue'
 import BasicTable from '@/components/Basics/BasicTable.vue'
 import BasicPagination from '@/components/Basics/BasicPagination.vue'
@@ -83,10 +83,7 @@ export default defineComponent({
 
     // 搜索数据
     const searches = reactive<ISearchData>({
-      data: {
-        age: undefined,
-        name: undefined
-      },
+      data: {},
       list: [
         { title: '年龄', key: 'age', component: 'InputNumber' },
         { title: '名字', key: 'name', component: 'Input' }
@@ -138,10 +135,6 @@ export default defineComponent({
       pageSize: 20,
     })
 
-    onActivated(() => {
-      console.log('activated')
-    })
-
     onMounted(() => {
       getPage()
       console.log('onMounted')
@@ -170,6 +163,7 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
+      console.log('values:', values)
       startLoading()
       searches.data = values
       const query = { ...pagination, ...values }

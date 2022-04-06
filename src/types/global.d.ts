@@ -45,4 +45,10 @@ declare global {
       total: number
     }
   }
+
+  // env数据
+  interface IViteEnv {
+    VITE_SERVER_PORT: number;
+    VITE_PROXY: [string, string][];
+  }
 }

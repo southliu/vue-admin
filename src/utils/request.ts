@@ -3,7 +3,7 @@ import { router } from '@/router'
 import { message } from 'ant-design-vue'
 import { useToken } from '@/hooks'
 
-const prefixUrl = (import.meta.env.VITE_BASE_API as string)
+// const prefixUrl = (import.meta.env.VITE_PROXY as string)
 
 // 请求列表(防重复提交)
 const requestList: string[] = [];
@@ -12,7 +12,7 @@ const source = CancelToken.source()
 
 // 请求配置
 const request = axios.create({
-  baseURL: prefixUrl,
+  baseURL: '/api',
   timeout: 180 * 1000
 })
 
