@@ -1,14 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
-import vue from '@vitejs/plugin-vue'
-import windiCSS from 'vite-plugin-windicss'
-import AutoImport from 'unplugin-auto-import/vite'
-import PurgeIcons from 'vite-plugin-purge-icons'
-import Components from 'unplugin-vue-components/vite'
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
-import Unocss from 'unocss/vite'
-import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { handleEnv } from './build/utils'
 import { createProxy } from './build/vite/proxy'
+import { createVitePlugins } from './build/plugins'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ command, mode }) => {
@@ -21,28 +14,7 @@ export default defineConfig(({ command, mode }) => {
   
   return {
     base: './',
-    plugins: [
-      vue(),
-      windiCSS(),
-      PurgeIcons({}),
-      Unocss({
-        presets: [
-          presetUno(), 
-          presetAttributify(), 
-          presetIcons()
-        ],
-      }),
-      AutoImport({
-        resolvers: [
-          AntDesignVueResolver()
-        ]
-      }),
-      Components({
-        resolvers: [
-          AntDesignVueResolver()
-        ]
-      }),
-    ],
+    plugins: createVitePlugins(),
     resolve: {
       alias: {
         '@': '/src'

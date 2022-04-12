@@ -58,10 +58,10 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
-import type { PropType } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { useDebounceFn } from '@vueuse/core'
+import type { PropType } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
 import type { ColProps } from 'ant-design-vue'

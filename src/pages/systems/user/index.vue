@@ -12,7 +12,7 @@
     />
 
     <BasicTable :data="tables" :loading="loading">
-      <template #operate="{ row }">
+      <template v-slot:operate='row'>
         <UpdateBtn
           class="mr-2"
           @click="onUpdate(row.record)"
@@ -52,6 +52,10 @@
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { defineComponent, h, onMounted, reactive, ref } from 'vue'
+import { getSystemUserPage } from '@/servers/systems/user'
+import { useLoading } from '@/hooks'
+import type { IFormData } from '@/types/form'
+import type { IBasicForm } from '@/components/Basics/model'
 import BasicContent from '@/components/Basics/BasicContent.vue'
 import BasicTable from '@/components/Basics/BasicTable.vue'
 import BasicPagination from '@/components/Basics/BasicPagination.vue'
@@ -59,10 +63,6 @@ import BasicForm from '@/components/Basics/BasicForm.vue'
 import BasicModal from '@/components/Basics/BasicModal.vue'
 import UpdateBtn from '@/components/Buttons/UpdateBtn.vue'
 import DeleteBtn from '@/components/Buttons/DeleteBtn.vue'
-import { getSystemUserPage } from '@/servers/systems/user'
-import { useLoading } from '@/hooks'
-import type { IFormData } from '@/types/form'
-import type { IBasicForm } from '@/components/Basics/model'
 
 export default defineComponent({
   name: 'SystemUser',
@@ -186,7 +186,6 @@ export default defineComponent({
 
     onMounted(() => {
       getPage()
-      console.log('onMounted')
     })
 
     /**

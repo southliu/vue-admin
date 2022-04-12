@@ -18,7 +18,6 @@ import 'ant-design-vue/dist/antd.min.css'
 
 // vxe-table
 import { Header, Column, Table, Grid } from 'vxe-table'
-import 'vxe-table/lib/style.min.css'
 
 function useTable (app: App) {
   // 表格功能
