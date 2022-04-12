@@ -1,22 +1,21 @@
 <template>
   <Grid
-    ref="xGrid"
     v-bind="gridOptions"
     :loading="loading"
     :data="data.data"
-    :columns="data.columns"
+    :columns="hanldeColumns(data.columns)"
   >
-   <template #operate="{ row }">
+    <template #operate="{ row }">
       <slot name="operate" :record="row" />
     </template>
   </Grid>
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, h, reactive } from 'vue'
 import type { PropType } from 'vue'
 import { Grid } from 'vxe-table'
-import type { VxeGridInstance } from 'vxe-table'
+import type { VxeGridPropTypes } from 'vxe-table'
 
 export default defineComponent({
   name: 'BasicTable',
@@ -35,7 +34,9 @@ export default defineComponent({
     Grid
   },
   setup (props) {
+    // 表格参数
     const gridOptions = reactive<ITableData>({
+      maxHeight: 300, // 最大高度
       border: true, // 边框
       showOverflow: true, // 内容过长时显示为省略号
       showHeaderOverflow: true, // 表头所有内容过长时显示为省略号
@@ -58,11 +59,37 @@ export default defineComponent({
       ...props.data
     })
 
-    const xGrid = ref({} as VxeGridInstance)
+    /**
+     * 处理表格数据，为空显示'-'
+     * @param array - 表格列值
+     */
+    const hanldeColumns = (array: VxeGridPropTypes.Columns) => {
+      if (!array) return undefined
+
+      console.log('import.meta.env:', import.meta.env)
+
+      for (let i = 0; i < array.length; i++) {
+        const element = array[i]
+
+        // 如果表格存在默认值设置，则跳过当前循环
+        if (element.slots?.default) continue
+
+        if (!element.slots) element.slots = {}
+        element.slots = {
+          default: ({ row }) => [
+            h('span', {
+              innerHTML: row?.[element.field as string] || import.meta.env.VITE_TABLE_EMPTY_VALUE
+            })
+          ]
+        }
+      }
+
+      return array
+    }
 
     return {
-      xGrid,
       gridOptions,
+      hanldeColumns
     }
   }
 })

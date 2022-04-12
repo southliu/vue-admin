@@ -12,7 +12,7 @@
     />
 
     <BasicTable :data="tables" :loading="loading">
-      <template v-slot:operate='row'>
+      <template #operate="{ row }">
         <UpdateBtn
           class="mr-2"
           @click="onUpdate(row.record)"
@@ -51,7 +51,7 @@
 
 <script lang="ts">
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
-import { defineComponent, onMounted, reactive, ref } from 'vue'
+import { defineComponent, h, onMounted, reactive, ref } from 'vue'
 import BasicContent from '@/components/Basics/BasicContent.vue'
 import BasicTable from '@/components/Basics/BasicTable.vue'
 import BasicPagination from '@/components/Basics/BasicPagination.vue'
@@ -85,8 +85,16 @@ export default defineComponent({
     const searches = reactive<ISearchData>({
       data: {},
       list: [
-        { title: '年龄', key: 'age', component: 'InputNumber' },
-        { title: '名字', key: 'name', component: 'Input' }
+        {
+          title: '年龄',
+          key: 'age',
+          component: 'InputNumber'
+        },
+        {
+          title: '名字',
+          key: 'name',
+          component: 'Input'
+        }
       ]
     })
 
@@ -100,9 +108,20 @@ export default defineComponent({
         tags: []
       },
       list: [
-        { title: '年龄', key: 'age', component: 'InputNumber'},
-        { title: '地址', key: 'address', component: 'Input' },
-        { title: '类型', key: 'type', component: 'Select',
+        {
+          title: '年龄',
+          key: 'age',
+          component: 'InputNumber'
+        },
+        {
+          title: '地址',
+          key: 'address',
+          component: 'Input'
+        },
+        {
+          title: '类型',
+          key: 'type',
+          component: 'Select',
           componentProps: {
             options: [
               { label: '123', value: '123' },
@@ -118,14 +137,44 @@ export default defineComponent({
       total: 0,
       data: [],
       columns: [
-        { title: 'ID', field: 'id' },
-        { title: '用户名', field: 'username' },
-        { title: '姓名', field: 'real_name' },
-        { title: '角色', field: 'roles_name' },
-        { title: '手机号', field: 'phone' },
-        { title: '邮箱', field: 'email' },
-        { title: '状态', field: 'status' },
-        { title: '操作', field: 'operate', slots: { default: 'operate' } },
+        {
+          title: 'ID',
+          field: 'id'
+        },
+        {
+          title: '用户名',
+          field: 'username'
+        },
+        {
+          title: '姓名',
+          field: 'real_name'
+        },
+        {
+          title: '角色',
+          field: 'roles_name'
+        },
+        {
+          title: '手机号',
+          field: 'phone'
+        },
+        {
+          title: '邮箱',
+          field: 'email'
+        },
+        {
+          title: '状态',
+          field: 'status',
+          slots: {
+            default: ({ row }) => [
+              h('span', { innerHTML: row.status ? '开启' : '关闭' })
+            ]
+          }
+        },
+        {
+          title: '操作',
+          field: 'operate',
+          slots: { default: 'operate' }
+        },
       ]
     })
 
