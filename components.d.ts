@@ -9,6 +9,7 @@ declare module 'vue' {
     BasicForm: typeof import('./src/components/Basics/BasicForm.vue')['default']
     BasicModal: typeof import('./src/components/Basics/BasicModal.vue')['default']
     BasicPagination: typeof import('./src/components/Basics/BasicPagination.vue')['default']
+    BasicSearch: typeof import('./src/components/Basics/BasicSearch.vue')['default']
     BasicTable: typeof import('./src/components/Basics/BasicTable.vue')['default']
     DeleteBtn: typeof import('./src/components/Buttons/DeleteBtn.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']

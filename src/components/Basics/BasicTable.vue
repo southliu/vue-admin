@@ -3,7 +3,7 @@
     v-bind="gridOptions"
     :loading="loading"
     :data="data.data"
-    :columns="hanldeColumns(data?.columns)"
+    :columns="handleColumns(data?.columns)"
   >
     <template #operate="{ row }">
       <slot name="operate" :record="row" />
@@ -65,7 +65,7 @@ export default defineComponent({
      * 处理表格数据，为空显示'-'
      * @param array - 表格列值
      */
-    const hanldeColumns = (array?: VxeGridPropTypes.Columns) => {
+    const handleColumns = (array?: VxeGridPropTypes.Columns) => {
       if (!array) return undefined
 
       for (let i = 0; i < array.length; i++) {
@@ -90,7 +90,7 @@ export default defineComponent({
 
     return {
       gridOptions,
-      hanldeColumns
+      handleColumns
     }
   }
 })

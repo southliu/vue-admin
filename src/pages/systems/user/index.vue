@@ -1,7 +1,6 @@
 <template>
   <BasicContent>
-    <BasicForm
-      type="search"
+    <BasicSearch
       class="mb-20px"
       :list="searches.list"
       :data="searches.data"
@@ -59,6 +58,7 @@ import type { IBasicForm } from '@/components/Basics/model'
 import BasicContent from '@/components/Basics/BasicContent.vue'
 import BasicTable from '@/components/Basics/BasicTable.vue'
 import BasicPagination from '@/components/Basics/BasicPagination.vue'
+import BasicSearch from '@/components/Basics/BasicSearch.vue'
 import BasicForm from '@/components/Basics/BasicForm.vue'
 import BasicModal from '@/components/Basics/BasicModal.vue'
 import UpdateBtn from '@/components/Buttons/UpdateBtn.vue'
@@ -72,6 +72,7 @@ export default defineComponent({
     BasicContent,
     BasicTable,
     BasicPagination,
+    BasicSearch,
     BasicForm,
     BasicModal,
     DeleteBtn,
