@@ -52,7 +52,7 @@
 
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
-import BasicModal from '../Basics/BasicModal.vue'
+import BasicModal from '../Modal/BasicModal.vue'
 import { Form, FormItem, Input, message } from 'ant-design-vue'
 import type { FormInstance } from 'ant-design-vue'
 import { passwordRule } from '@/utils/config'

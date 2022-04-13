@@ -16,8 +16,11 @@ import { defineComponent, h, reactive } from 'vue'
 import { Grid } from 'vxe-table'
 import type { PropType } from 'vue'
 import type { VxeGridPropTypes } from 'vxe-table'
-import 'vxe-table/lib/table/style/style.min.css'
-import 'vxe-table/lib/header/style/style.min.css'
+import 'vxe-table/es/table/style.css'
+import 'vxe-table/es/header/style.css'
+import { useTableHeight } from '@/hooks'
+// import 'vxe-table/lib/header/style/style.min.css'
+
 
 export default defineComponent({
   name: 'BasicTable',
@@ -36,9 +39,10 @@ export default defineComponent({
     Grid
   },
   setup (props) {
+    console.log('window.innerHeight:', window.innerHeight)
     // 表格参数
     const gridOptions = reactive<ITableData>({
-      maxHeight: 500, // 最大高度
+      maxHeight: useTableHeight(), // 最大高度
       border: true, // 边框
       showOverflow: true, // 内容过长时显示为省略号
       showHeaderOverflow: true, // 表头所有内容过长时显示为省略号

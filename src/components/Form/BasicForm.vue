@@ -2,9 +2,8 @@
   <div>
     <Form
       ref="formRef"
-      labelAlign="left"
       scrollToFirstError
-      layout="inline"
+      :layout="layout"
       :model="formState"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
@@ -25,33 +24,6 @@
         />
       </FormItem>
 
-      <FormItem v-if="isSearch">
-        <Button
-          type="primary"
-          html-type="submit"
-          :loading="loading"
-        >
-          <template #icon>
-            <SearchOutlined />
-          </template>
-          <span>搜索</span>
-        </Button>
-      </FormItem>
-
-      <FormItem v-if="isCreate">
-        <Button
-          v-if="isCreate"
-          type="primary"
-          :loading="loading"
-          @click="onCreate"
-        >
-          <template #icon>
-            <PlusOutlined />
-          </template>
-          <span>新增</span>
-        </Button>
-      </FormItem>
-
       <slot name="otherBtn"></slot>
     </Form>
   </div>
@@ -60,20 +32,19 @@
 <script lang="ts">
 import { defineComponent, reactive, ref } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { useDebounceFn } from '@vueuse/core'
 import type { PropType } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
-import BasicComponents from './BasicComponents.vue';
+import BasicComponents from './BasicComponents.vue'
 
 type IFinishFun = (values: IFormData) => void
 
 export default defineComponent({
-  name: 'BasicSearch',
-  emits: ['handleFinish', 'onCreate'],
+  name: 'BasicForm',
+  emits: ['handleFinish'],
   props: {
     data: {
       type: Object,
@@ -83,33 +54,30 @@ export default defineComponent({
       type: Array as PropType<IFormList[]>,
       required: true
     },
+    layout: {
+      type: String as PropType<'inline' | 'horizontal'>,
+      required: false,
+      default: 'horizontal'
+    },
     labelCol: {
       type: Object as PropType<Partial<ColProps>>,
       required: false,
       default: () => {
-        return { style: { width: '50px' } }
+        return { span: 5 }
       }
     },
     wrapperCol: {
       type: Object as PropType<Partial<ColProps>>,
       required: false,
       default: () => {
-        return { span: 18 }
+        return { span: 16 }
       }
     },
     loading: {
       type: Boolean
-    },
-    isSearch: {
-      type: Boolean
-    },
-    isCreate: {
-      type: Boolean
     }
   },
   components: {
-    SearchOutlined,
-    PlusOutlined,
     BasicComponents,
     Form,
     FormItem,
@@ -136,11 +104,6 @@ export default defineComponent({
       formRef.value?.resetFields();
     }
 
-    /** 点击新增 */
-    const onCreate = () => {
-      context.emit('onCreate')
-    }
-
     /**
      * 提交处理
      * @param values - 表单数据
@@ -160,7 +123,6 @@ export default defineComponent({
     return {
       formRef,
       formState,
-      onCreate,
       onFinish,
       onFinishFailed,
       handleReset,

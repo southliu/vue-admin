@@ -4,21 +4,24 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
-    BasicComponents: typeof import('./src/components/Basics/BasicComponents.vue')['default']
-    BasicContent: typeof import('./src/components/Basics/BasicContent.vue')['default']
-    BasicForm: typeof import('./src/components/Basics/BasicForm.vue')['default']
-    BasicModal: typeof import('./src/components/Basics/BasicModal.vue')['default']
-    BasicPagination: typeof import('./src/components/Basics/BasicPagination.vue')['default']
-    BasicSearch: typeof import('./src/components/Basics/BasicSearch.vue')['default']
-    BasicTable: typeof import('./src/components/Basics/BasicTable.vue')['default']
+    BasicBtn: typeof import('./src/components/Buttons/BasicBtn.vue')['default']
+    BasicComponents: typeof import('./src/components/Form/BasicComponents.vue')['default']
+    BasicContent: typeof import('./src/components/Content/BasicContent.vue')['default']
+    BasicForm: typeof import('./src/components/Form/BasicForm.vue')['default']
+    BasicModal: typeof import('./src/components/Modal/BasicModal.vue')['default']
+    BasicPagination: typeof import('./src/components/Pagination/BasicPagination.vue')['default']
+    BasicSearch: typeof import('./src/components/Search/BasicSearch.vue')['default']
+    BasicTable: typeof import('./src/components/Table/BasicTable.vue')['default']
     DeleteBtn: typeof import('./src/components/Buttons/DeleteBtn.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']
     Icon: typeof import('./src/components/Icon/index.vue')['default']
+    Modal: typeof import('./src/components/Modal/index.vue')['default']
     SearchFooter: typeof import('./src/components/GlobalSearch/components/SearchFooter.vue')['default']
     SearchModal: typeof import('./src/components/GlobalSearch/components/SearchModal.vue')['default']
     SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']
     UpdateBtn: typeof import('./src/components/Buttons/UpdateBtn.vue')['default']
+    'UpdateBtn copy': typeof import('./src/components/Buttons/UpdateBtn copy.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']
   }
 }
