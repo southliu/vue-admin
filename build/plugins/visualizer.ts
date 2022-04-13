@@ -1,6 +1,8 @@
 import { visualizer } from 'rollup-plugin-visualizer'
 
-export default visualizer({
-  gzipSize: true,
-  brotliSize: true,
-})
+export function configVisualizerConfig() {
+  return visualizer({
+    gzipSize: true,
+    brotliSize: true,
+  })
+}

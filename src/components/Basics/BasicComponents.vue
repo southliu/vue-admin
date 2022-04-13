@@ -5,17 +5,17 @@ import {
   InputNumber,
   InputPassword,
   AutoComplete,
-  Textarea,
   Select,
   TreeSelect,
   Checkbox,
   CheckboxGroup,
   RadioGroup,
   Switch,
-  DatePicker,
-  RangePicker
+  DatePicker
 } from 'ant-design-vue'
 import type {
+  InputProps,
+  InputNumberProps,
   TreeSelectProps,
   CheckboxProps,
   CheckboxGroupProps,
@@ -44,7 +44,6 @@ export default defineComponent({
     InputNumber,
     InputPassword,
     AutoComplete,
-    Textarea,
     Select,
     TreeSelect,
     Checkbox,
@@ -52,7 +51,6 @@ export default defineComponent({
     RadioGroup,
     Switch,
     DatePicker,
-    RangePicker
   },
   setup(props, { emit }) {
     const { item } = props
@@ -78,7 +76,7 @@ export default defineComponent({
             h(Input, {
               allowClear,
               placeholder: pleaseEnter,
-              ...componentProps,
+              ...componentProps as InputProps,
               modalValue: props.value,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
             })
@@ -102,7 +100,7 @@ export default defineComponent({
             h(InputNumber, {
               allowClear,
               placeholder: pleaseEnter,
-              ...componentProps,
+              ...componentProps as InputNumberProps,
               modalValue: props.value,
               'onUpdate:value': (value: number) => emit('update:value', value)
             })
@@ -123,7 +121,7 @@ export default defineComponent({
         // 文本框
         case 'Textarea':
           return (
-            h(Textarea, {
+            h(Input.Textarea, {
               allowClear,
               placeholder: pleaseEnter,
               ...componentProps,
@@ -212,7 +210,7 @@ export default defineComponent({
         // 时间区间
         case 'RangePicker':
           return (
-            h(RangePicker, {
+            h(DatePicker.RangePicker, {
               allowClear,
               placeholder: pleaseSelect,
               ...componentProps as any,

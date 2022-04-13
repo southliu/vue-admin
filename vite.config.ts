@@ -4,14 +4,12 @@ import { createProxy } from './build/vite/proxy'
 import { createVitePlugins } from './build/plugins'
 
 // https://vitejs.dev/config/
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ mode }) => {
   const root = process.cwd()
   const env = loadEnv(mode, root)
   const viteEnv = handleEnv(env)
   const { VITE_PROXY, VITE_SERVER_PORT } = viteEnv
 
-  console.log('VITE_PROXY:', createProxy(VITE_PROXY))
-  
   return {
     base: './',
     plugins: createVitePlugins(),
@@ -29,10 +27,20 @@ export default defineConfig(({ command, mode }) => {
       // 跨域处理
       proxy: createProxy(VITE_PROXY)
     },
+    css: {
+      preprocessorOptions: {
+        less: {
+          javascriptEnabled: true
+        },
+      },
+    },
     build: {
       sourcemap: false,
       minify: false,
       brotliSize: false,
+      rollupOptions: {
+      //   external: {}
+      },
       terserOptions: {
         compress: {
           keep_infinity: true,

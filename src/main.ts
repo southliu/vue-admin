@@ -13,9 +13,6 @@ import '@/assets/css/scrollbar.less';
 // iconify
 import '@purge-icons/generated'
 
-// antv
-import 'ant-design-vue/dist/antd.min.css'
-
 // vxe-table
 import { Header, Column, Table, Grid } from 'vxe-table'
 

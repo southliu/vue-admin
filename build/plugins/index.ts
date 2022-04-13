@@ -6,7 +6,8 @@ import Components from 'unplugin-vue-components/vite'
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
-import visualizer from './visualizer'
+import { configVisualizerConfig } from './visualizer'
+import { configStyleImportPlugin } from './styleImport'
 import type { Plugin } from 'vite';
 
 export function createVitePlugins() {
@@ -34,7 +35,10 @@ export function createVitePlugins() {
     }),
   ]
   
-  vitePlugins.push(visualizer)
+  vitePlugins.push(configVisualizerConfig)
+
+  // css按需加载
+  vitePlugins.push(configStyleImportPlugin())
 
   return vitePlugins
 }
