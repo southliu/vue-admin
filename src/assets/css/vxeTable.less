@@ -1,0 +1,27 @@
+.vxe-loading{
+  background-color:rgba(255, 255, 255, 0.6)
+}
+.vxe-loading .vxe-loading--spinner{
+  width: 25px !important;
+  height: 25px !important;
+  background-image: url('../images/loading.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position:center;
+  -webkit-animation: spin 2s linear infinite;
+  animation: spin 2s linear infinite;
+}
+
+@-webkit-keyframes spin {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.vxe-loading .vxe-loading--spinner:before,.vxe-loading .vxe-loading--spinner:after{
+  display: none;
+}

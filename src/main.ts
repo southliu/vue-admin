@@ -15,6 +15,7 @@ import '@purge-icons/generated'
 
 // vxe-table
 import { Header, Column, Table, Grid } from 'vxe-table'
+import './assets/css/vxeTable.less'
 
 function useTable (app: App) {
   // 表格功能

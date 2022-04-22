@@ -1,14 +1,15 @@
 <template>
   <BasicContent>
-    <BasicSearch
-      class="mb-20px"
-      :list="searches.list"
-      :data="searches.data"
-      :is-search="true"
-      :is-create="true"
-      @onCreate="onCreate"
-      @handleFinish="handleSearch"
-    />
+    <template #top>
+      <BasicSearch
+        :list="searches.list"
+        :data="searches.data"
+        :is-search="true"
+        :is-create="true"
+        @onCreate="onCreate"
+        @handleFinish="handleSearch"
+      />
+    </template>
 
     <BasicTable :data="tables" :loading="loading">
       <template v-slot:operate='row'>
@@ -22,7 +23,7 @@
       </template>
     </BasicTable>
 
-    <template #pagination>
+    <template #footer>
       <BasicPagination
         :page="pagination.page"
         :pageSize="pagination.pageSize"
@@ -40,7 +41,6 @@
   >
     <BasicForm
       ref="createFormRef"
-      type="create"
       :list="creates.list"
       :data="creates.data"
       @handleFinish="handleCreate"

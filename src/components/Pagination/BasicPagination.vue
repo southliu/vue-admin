@@ -1,14 +1,28 @@
 <template>
-  <Pagination
-    showSizeChanger
-    showQuickJumper
-    size="small"
-    :show-total="() => showTotal(total)"
-    :defaultCurrent="page"
-    :defaultPageSize="pageSize"
-    :total="total"
-    :onChange="onChange"
-  />
+  <div class="h-40px">
+    <div class="
+      pagination
+      w-full
+      flex
+      items-center
+      justify-end
+      bg-white
+      px-5
+      h-40px
+      z-999"
+    >
+      <Pagination
+        showSizeChanger
+        showQuickJumper
+        size="small"
+        :show-total="() => showTotal(total)"
+        :defaultCurrent="page"
+        :defaultPageSize="pageSize"
+        :total="total"
+        :onChange="onChange"
+      />
+    </div>
+  </div>
 </template>
 
 <script lang="ts">

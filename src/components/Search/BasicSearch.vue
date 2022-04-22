@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="bg-white pt-4 pb-1 px-5">
     <Form
       ref="formRef"
       labelAlign="left"
