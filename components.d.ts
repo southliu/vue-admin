@@ -16,12 +16,10 @@ declare module 'vue' {
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']
     Icon: typeof import('./src/components/Icon/index.vue')['default']
-    Modal: typeof import('./src/components/Modal/index.vue')['default']
     SearchFooter: typeof import('./src/components/GlobalSearch/components/SearchFooter.vue')['default']
     SearchModal: typeof import('./src/components/GlobalSearch/components/SearchModal.vue')['default']
     SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']
     UpdateBtn: typeof import('./src/components/Buttons/UpdateBtn.vue')['default']
-    'UpdateBtn copy': typeof import('./src/components/Buttons/UpdateBtn copy.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']
   }
 }
