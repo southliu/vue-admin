@@ -20,6 +20,9 @@ export function filterEmptyValue(obj: IEmptyData): IEmptyData {
     // undefined过滤
     if (obj[key] === undefined) continue
 
+    // null过滤
+    if (obj[key] === null) continue
+
     // 空数组过滤
     if (
       obj[key]?.constructor === Array &&

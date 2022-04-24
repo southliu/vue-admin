@@ -23,6 +23,7 @@
     <SearchResult
       :list="resultList"
       :active="active.key"
+      @handleClick="handleEnter"
       @handleMouse="changeActive"
     />
 
@@ -121,6 +122,7 @@ export default defineComponent({
      * @param value - 搜索值
      */
     const handleSearch = (value: string) => {
+      if (!value) return []
       let result: IGlobalSearchResult[] = [], index = 0
       for (let i = 0; i < menuArr.value.length; i++) {
         const { title, key } = menuArr.value[i];

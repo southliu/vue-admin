@@ -28,6 +28,7 @@
           'bg-blue-500': active === item.key,
           'text-white': active === item.key
         }"
+        @click="handleClick()"
         @mouseenter="handleMouse(item)"
      >
         <div class="flex items-center">
@@ -47,6 +48,7 @@ import Icon from '@/components/Icon/index.vue';
 
 export default defineComponent({
   name: 'SearchResult',
+  emits: ['handleClick', 'handleMouse'],
   props: {
     list: {
       type: Array as PropType<IGlobalSearchResult[]>,
@@ -69,8 +71,16 @@ export default defineComponent({
       context.emit('handleMouse', item)
     }
 
+    /**
+     * 鼠标点击
+     */
+    const handleClick = () => {
+      context.emit('handleClick')
+    }
+
     return {
-      handleMouse
+      handleMouse,
+      handleClick
     }
   }
 })
