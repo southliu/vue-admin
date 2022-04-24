@@ -103,19 +103,22 @@ export default defineComponent({
       isVisible: false,
       title: '新增',
       data: {
-        age: 0,
-        address: '',
-        tags: []
+        username: '',
       },
       list: [
         {
-          title: '年龄',
-          key: 'age',
-          component: 'InputNumber'
+          title: '用户名',
+          key: 'username',
+          component: 'Input'
         },
         {
-          title: '地址',
-          key: 'address',
+          title: '姓名',
+          key: 'real_name',
+          component: 'Input'
+        },
+        {
+          title: '角色',
+          key: 'roles_name',
           component: 'Input'
         },
         {
@@ -225,6 +228,7 @@ export default defineComponent({
     /** 点击新增 */
     const onCreate = () => {
       creates.isVisible = !creates.isVisible
+      creates.title = '新增'
     }
 
     /**
@@ -233,6 +237,7 @@ export default defineComponent({
      */
     const onUpdate = (record: IFormData) => {
       creates.isVisible = !creates.isVisible
+      creates.title = '编辑'
       creates.data = record
     }
 

@@ -86,14 +86,16 @@ export default defineComponent({
   },
   setup(props, context) {
     const formRef = ref<FormInstance>()
-    const formState = reactive(props.data)
+    const data = JSON.parse(JSON.stringify(props.data))
+    const formState = reactive(data)
 
     /** 外部调内部提交方法 */
     const handleSubmit = useDebounceFn(() => {
       formRef.value && formRef.value
         .validateFields()
         .then(values => {
-          context.emit('handleFinish', values)
+          const params = filterEmptyValue(values)
+          context.emit('handleFinish', params)
         })
         .catch(info => {
           console.log('错误信息:', info);

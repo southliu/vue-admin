@@ -125,7 +125,8 @@ export default defineComponent({
       formRef.value && formRef.value
         .validateFields()
         .then(values => {
-          context.emit('handleFinish', values)
+          const params = filterEmptyValue(values)
+          context.emit('handleFinish', params)
         })
         .catch(info => {
           console.log('错误信息:', info);

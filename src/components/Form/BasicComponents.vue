@@ -77,7 +77,7 @@ export default defineComponent({
               allowClear,
               placeholder: pleaseEnter,
               ...componentProps as InputProps,
-              modalValue: props.value,
+              value: props.value as string,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
             })
           )
@@ -89,7 +89,7 @@ export default defineComponent({
               allowClear,
               placeholder: pleaseEnter,
               ...componentProps,
-              modalValue: props.value,
+              value: props.value as string,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
             })
           )
@@ -101,7 +101,7 @@ export default defineComponent({
               allowClear,
               placeholder: pleaseEnter,
               ...componentProps as InputNumberProps,
-              modalValue: props.value,
+              value: props.value as number,
               'onUpdate:value': (value: number) => emit('update:value', value)
             })
           )
