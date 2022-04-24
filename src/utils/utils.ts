@@ -1,7 +1,45 @@
+import type { IAllDataType, IArrayData } from "@/types/public"
+
+
 /**
  * 首字母大写
  * @param str - 传入英文字符串
  */
 export function firstCapitalize(str: string): string {
   return str.substring(0, 1).toUpperCase() + str.substring(1)
+}
+
+/**
+ * 过滤空数据
+ */
+type IEmptyData = Record<string, IAllDataType>
+export function filterEmptyValue(obj: IEmptyData): IEmptyData {
+  let res: IEmptyData = {}
+
+  for (let key in obj) {
+    // undefined过滤
+    if (obj[key] === undefined) continue
+
+    // 空数组过滤
+    if (
+      obj[key]?.constructor === Array &&
+      (obj[key] as IArrayData).length === 0
+    ) continue
+
+    // 空字符串过滤
+    if (
+      obj[key]?.constructor === String &&
+      (obj[key] as string).length === 0
+    ) continue
+
+    // 空对象过滤
+    if (
+      obj[key]?.constructor === Object &&
+      Object.keys(obj[key] as object).length === 0
+    ) continue
+
+    res[key] = obj[key]
+  }
+
+  return res
 }

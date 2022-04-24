@@ -39,6 +39,7 @@ import type { IFormData, IFormList } from '@/types/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
 import BasicComponents from './BasicComponents.vue'
+import { filterEmptyValue } from '@/utils/utils'
 
 type IFinishFun = (values: IFormData) => void
 
@@ -109,7 +110,8 @@ export default defineComponent({
      * @param values - 表单数据
      */
     const onFinish: IFinishFun = useDebounceFn(values => {
-      context.emit('handleFinish', values)
+      const params = filterEmptyValue(values)
+      context.emit('handleFinish', params)
     })
 
     /**
