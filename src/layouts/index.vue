@@ -20,7 +20,6 @@
     :collapsed="collapsed"
   />
   <div
-    id="con"
     class="con transition-all overflow-hidden"
     :class="{ 'con-close-menu': collapsed }"
   >

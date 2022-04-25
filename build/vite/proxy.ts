@@ -12,7 +12,6 @@ export function createProxy(list: ProxyList = []) {
   let res: ProxyTargetList = {}
   
   for (let [prefix, target] of list) {
-    console.log(prefix, target)
     res[`^${prefix}`] = {
       target: target,
       changeOrigin: true,

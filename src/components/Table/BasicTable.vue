@@ -1,6 +1,8 @@
 <template>
   <Grid
+    id="table"
     v-bind="gridOptions"
+    :height="tableHeight"
     :loading="loading"
     :data="data.data"
     :columns="handleColumns(data?.columns)"
@@ -12,15 +14,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, h, reactive } from 'vue'
+import { defineComponent, h, ref, reactive, onMounted, onUnmounted } from 'vue'
 import { Grid } from 'vxe-table'
 import type { PropType } from 'vue'
 import type { VxeGridPropTypes } from 'vxe-table'
+import { useTableHeight } from './hooks/useTableHeight'
 import 'vxe-table/es/table/style.css'
 import 'vxe-table/es/header/style.css'
-import { useTableHeight } from '@/hooks'
-// import 'vxe-table/lib/header/style/style.min.css'
-
+import { useDebounceFn } from '@vueuse/core'
 
 export default defineComponent({
   name: 'BasicTable',
@@ -39,10 +40,10 @@ export default defineComponent({
     Grid
   },
   setup (props) {
-    console.log('window.innerHeight:', window.innerHeight)
+    const tableHeight = ref(0)
+
     // 表格参数
     const gridOptions = reactive<ITableData>({
-      maxHeight: useTableHeight(), // 最大高度
       border: true, // 边框
       showOverflow: true, // 内容过长时显示为省略号
       showHeaderOverflow: true, // 表头所有内容过长时显示为省略号
@@ -92,7 +93,36 @@ export default defineComponent({
       return array
     }
 
+    // 获取表格高度
+    const getTableHeight = () => {
+      tableHeight.value = useTableHeight()
+    }
+
+
+    const handler = () => getTableHeight()
+    const handleSize = useDebounceFn(handler, 150)
+  
+    // 开始监听滚动事件
+    const startResize = () => {
+      window.addEventListener('resize', handleSize)
+    }
+
+    // 结束监听滚动事件
+    const stopResize = () => {
+      window.removeEventListener('resize', handleSize)
+    }
+
+    onMounted(() => {
+      getTableHeight()
+      startResize()
+    })
+
+    onUnmounted(() => {
+      stopResize()
+    })
+
     return {
+      tableHeight,
       gridOptions,
       handleColumns
     }

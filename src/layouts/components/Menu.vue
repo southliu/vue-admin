@@ -107,7 +107,6 @@ export default defineComponent({
 
     // 监听菜单选中值是否和路由值匹配
     watch(() => route.path, value => {
-      console.log(value)
       if ([value] !== selectedKeys.value) {
         selectedKeys.value = [route.path]
       }
