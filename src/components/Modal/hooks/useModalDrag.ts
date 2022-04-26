@@ -84,8 +84,10 @@ export function useModalDragMove() {
       }
     }
 
-    // 鼠标松开清除
-    dragDom.onmouseup  = () => {
+    /**
+     * 防止松开鼠标时，拖拽解除失效
+     */
+    document.onmouseup  = () => {
       document.onmousemove = null
       document.onmouseup = null
     }

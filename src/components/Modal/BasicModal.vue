@@ -2,14 +2,15 @@
   <Modal
     :visible="visible"
     :width="width"
-    :title="title"
     :layout="layout"
     :mask-closable="false"
     @cancel="onCancel"
   >
-    <!-- <template #title>
-      <div class="cursor-move">{{ title }}</div>
-    </template> -->
+    <template #title>
+      <span class="select-none text-lg">
+        {{ title }}
+      </span>
+    </template>
 
     <slot></slot>
 
