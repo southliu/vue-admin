@@ -5,6 +5,7 @@ interface IElement extends Element {
   offsetHeight: number;
   style: Record<string, string>;
   onmousedown: (e: MouseEvent) => void;
+  onmouseup: () => void;
 }
 
 /**
@@ -39,7 +40,7 @@ export function useModalDragMove() {
       const minDragDomTop = dragDom.offsetTop
       const maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomheight
 
-      
+      // 获取左和上样式值
       const domLeft = getComputedStyle(dragDom)['left'];
       const domTop = getComputedStyle(dragDom)['top'];
       let styL = Number(domLeft)
@@ -78,10 +79,15 @@ export function useModalDragMove() {
 
       // 鼠标松开清除
       document.onmouseup = () => {
-        document.onmousemove = null;
-        document.onmouseup = null;
-      };
+        document.onmousemove = null
+        document.onmouseup = null
+      }
     }
 
+    // 鼠标松开清除
+    dragDom.onmouseup  = () => {
+      document.onmousemove = null
+      document.onmouseup = null
+    }
   }
 }
