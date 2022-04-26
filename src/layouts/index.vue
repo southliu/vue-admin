@@ -1,6 +1,5 @@
 <template>
   <div
-    id="header"
     class="header flex flex-col box-border overflow-hidden"
     :class="{ 'header-close-menu': collapsed }"
   >

@@ -1,13 +1,18 @@
 <template>
   <Modal
     :visible="visible"
-    :title="title"
     :width="width"
+    :title="title"
     :layout="layout"
     :mask-closable="false"
     @cancel="onCancel"
   >
+    <!-- <template #title>
+      <div class="cursor-move">{{ title }}</div>
+    </template> -->
+
     <slot></slot>
+
     <template #footer>
       <Button @click="onCancel">取消</Button>
       <Button
@@ -22,8 +27,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick, watch } from 'vue'
 import { Modal, Button } from 'ant-design-vue'
+import { useModalDragMove } from './hooks/useModalDrag'
 
 export default defineComponent({
   name: 'BasicModal',
@@ -66,6 +72,13 @@ export default defineComponent({
     const onFinish = () => {
       context.emit('handleFinish')
     }
+
+    watch(() => props.visible, async (value) => {
+      if (value) {
+        await nextTick()
+        useModalDragMove()
+      }
+    })
 
     return {
       onCancel,

@@ -1,6 +1,5 @@
 <template>
   <Grid
-    id="table"
     v-bind="gridOptions"
     :height="tableHeight"
     :loading="loading"
@@ -98,9 +97,9 @@ export default defineComponent({
       tableHeight.value = useTableHeight()
     }
 
-
+    // 滚动事件防抖
     const handler = () => getTableHeight()
-    const handleSize = useDebounceFn(handler, 150)
+    const handleSize = useDebounceFn(handler, 200)
   
     // 开始监听滚动事件
     const startResize = () => {

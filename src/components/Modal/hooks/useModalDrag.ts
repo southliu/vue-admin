@@ -1,47 +1,49 @@
-import { Ref, unref, watchEffect } from 'vue';
-// import { useTimeoutFn } from '/@/hooks/core/useTimeout';
-
-export interface UseModalDragMoveContext {
-  draggable: Ref<boolean>;
-  destroyOnClose: Ref<boolean | undefined> | undefined;
-  visible: Ref<boolean>;
+interface IElement extends Element {
+  offsetLeft: number;
+  offsetTop: number;
+  offsetWidth: number;
+  offsetHeight: number;
+  style: Record<string, string>;
+  onmousedown: (e: MouseEvent) => void;
 }
 
-export function useModalDragMove(context: UseModalDragMoveContext) {
-  const getStyle = (dom: any, attr: any) => {
-    return getComputedStyle(dom)[attr];
-  };
-  const drag = (wrap: any) => {
-    if (!wrap) return;
-    wrap.setAttribute('data-drag', unref(context.draggable));
-    const dialogHeaderEl = wrap.querySelector('.ant-modal-header');
-    const dragDom = wrap.querySelector('.ant-modal');
+/**
+ * Modal拖拽
+ */
+export function useModalDragMove() {
+  let dragDom = document.querySelector('.ant-modal') as IElement
+  let dragHeaderElm = document.querySelector('.ant-modal-header') as IElement
 
-    if (!dialogHeaderEl || !dragDom || !unref(context.draggable)) return;
+  if (dragDom && dragHeaderElm) {
+    // 头部鼠标样式改为move
+    dragHeaderElm.style.cursor = 'move'
+    // 去除modal中的下填充
+    dragDom.style.paddingBottom = '0'
 
-    dialogHeaderEl.style.cursor = 'move';
+    // 头部添加鼠标按下
+    dragHeaderElm.onmousedown = e => {
+      // 获取鼠标按下时的坐标
+      const startX = e.clientX
+      const startY = e.clientY
 
-    dialogHeaderEl.onmousedown = (e: any) => {
-      if (!e) return;
-      // 鼠标按下，计算当前元素距离可视区的距离
-      const disX = e.clientX;
-      const disY = e.clientY;
-      const screenWidth = document.body.clientWidth; // body当前宽度
-      const screenHeight = document.documentElement.clientHeight; // 可见区域高度(应为body高度，可某些环境下无法获取)
+      const screenWidth = document.body.clientWidth // body当前宽度
+      const screenHeight = document.documentElement.clientHeight // 可见区域高度
 
-      const dragDomWidth = dragDom.offsetWidth; // 对话框宽度
-      const dragDomHeight = dragDom.offsetHeight; // 对话框高度
+      // 对话框宽高
+      const dragDomWidth = dragDom.offsetWidth
+      const dragDomheight = dragDom.offsetHeight
 
-      const minDragDomLeft = dragDom.offsetLeft;
+      // 边界值
+      const minDragDomLeft = dragDom.offsetLeft
+      const maxDragDomLeft = screenWidth - dragDom.offsetLeft - dragDomWidth
+      const minDragDomTop = dragDom.offsetTop
+      const maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomheight
 
-      const maxDragDomLeft = screenWidth - dragDom.offsetLeft - dragDomWidth;
-      const minDragDomTop = dragDom.offsetTop;
-      const maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomHeight;
-      // 获取到的值带px 正则匹配替换
-      const domLeft = getStyle(dragDom, 'left');
-      const domTop = getStyle(dragDom, 'top');
-      let styL = +domLeft;
-      let styT = +domTop;
+      
+      const domLeft = getComputedStyle(dragDom)['left'];
+      const domTop = getComputedStyle(dragDom)['top'];
+      let styL = Number(domLeft)
+      let styT = Number(domTop)
 
       // 注意在ie中 第一次获取到的值为组件自带50% 移动之后赋值为px
       if (domLeft.includes('%')) {
@@ -54,8 +56,8 @@ export function useModalDragMove(context: UseModalDragMoveContext) {
 
       document.onmousemove = function (e) {
         // 通过事件委托，计算移动的距离
-        let left = e.clientX - disX;
-        let top = e.clientY - disY;
+        let left = e.clientX - startX;
+        let top = e.clientY - startY;
 
         // 边界处理
         if (-left > minDragDomLeft) {
@@ -72,36 +74,14 @@ export function useModalDragMove(context: UseModalDragMoveContext) {
 
         // 移动当前元素
         dragDom.style.cssText += `;left:${left + styL}px;top:${top + styT}px;`;
-      };
+      }
 
+      // 鼠标松开清除
       document.onmouseup = () => {
         document.onmousemove = null;
         document.onmouseup = null;
       };
-    };
-  };
-
-  const handleDrag = () => {
-    const dragWraps = document.querySelectorAll('.ant-modal-wrap');
-    for (const wrap of Array.from(dragWraps)) {
-      if (!wrap) continue;
-      const display = getStyle(wrap, 'display');
-      const draggable = wrap.getAttribute('data-drag');
-      if (display !== 'none') {
-        // 拖拽位置
-        if (draggable === null || unref(context.destroyOnClose)) {
-          drag(wrap);
-        }
-      }
     }
-  };
 
-  watchEffect(() => {
-    if (!unref(context.visible) || !unref(context.draggable)) {
-      return;
-    }
-    // useTimeoutFn(() => {
-      handleDrag();
-    // }, 30);
-  });
+  }
 }

@@ -31,5 +31,8 @@
     "unocss",
     "attributify",
     "sider",
+    "gifsicle",
+    "optipng",
+    "mozjpeg",
   ]
 }
