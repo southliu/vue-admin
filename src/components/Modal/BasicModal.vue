@@ -137,10 +137,9 @@ export default defineComponent({
   // color: #4a4a4a;
 }
 
-.ant-modal-close-x:hover {
-  // color: #4a4a4a;
-  // color: #00000073;
-}
+// .ant-modal-close-x:hover {
+//   // color: #4a4a4a;
+// }
 
 .full-modal {
   .ant-modal {

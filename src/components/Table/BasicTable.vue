@@ -74,6 +74,8 @@ export default defineComponent({
 
       for (let i = 0; i < array.length; i++) {
         const element = array[i]
+        // 初始化最小宽度70
+        element.minWidth = element.minWidth || 50
 
         // 如果表格存在默认值设置，则跳过当前循环
         if (element.slots?.default) continue

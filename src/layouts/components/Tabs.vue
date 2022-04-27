@@ -86,13 +86,18 @@
       </TabPane>
     </Tabs>
     
-    
+    <Tooltip placement="bottom">
+      <template #title>
+        <span>重新加载</span>
+      </template>
+
       <Icon
-        class="flex items-center justify-center mr-2 text-lg cursor-pointer"
+        class="flex items-center justify-center mr-4 text-lg cursor-pointer"
         :class="{ 'animate-spin': isRefresh }"
         @click="handleDropdown(TabEnums.REFRESH_PAGE, activeKey)"
         icon="ant-design:redo-outlined"
       />
+    </Tooltip>
   </div>
 </template>
 
@@ -108,6 +113,7 @@ import {
   MenuItem,
   Dropdown,
   Button,
+  Tooltip,
   message
 } from 'ant-design-vue'
 import {
@@ -147,7 +153,8 @@ export default defineComponent({
     Menu,
     MenuItem,
     Dropdown,
-    Button
+    Button,
+    Tooltip
   },
   setup() {
     const route = useRoute()

@@ -176,6 +176,7 @@ export default defineComponent({
         {
           title: '操作',
           field: 'operate',
+          minWidth: 160,
           slots: { default: 'operate' }
         },
       ]
