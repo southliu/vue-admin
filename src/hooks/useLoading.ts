@@ -4,7 +4,7 @@ import { ref } from "vue"
  * loading加载
  * @param initValue - 初始化状态
  */
-function useLoading(initValue: boolean = false) {
+export function useLoading(initValue: boolean = false) {
   const loading = ref(Boolean(initValue))
 
   const startLoading = () => {
@@ -21,5 +21,3 @@ function useLoading(initValue: boolean = false) {
     endLoading
   }
 }
-
-export default useLoading

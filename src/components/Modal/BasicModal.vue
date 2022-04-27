@@ -1,11 +1,37 @@
 <template>
   <Modal
     :visible="visible"
-    :width="width"
+    :width="isFullscreen ? '100%' : width"
     :layout="layout"
     :mask-closable="false"
-    @cancel="onCancel"
+    :wrap-class-name="isFullscreen ? 'full-modal' : ''"
   >
+    <template #closeIcon>
+      <div class="h-full flex items-center justify-center :hover:text-white">
+        <Tooltip
+          class="p-10px font-16px "
+          placement="bottom"
+          @click="onFullScreen"
+        >
+          <template #title>
+            <span>最大化</span>
+          </template>
+          <Icon class="text-lg " icon="ant-design:fullscreen-outlined" />
+        </Tooltip>
+
+        <Tooltip
+          class="p-10px font-16px :hover:text-dark-900"
+          placement="bottom"
+          @click="onCancel"
+        >
+          <template #title>
+            <span>最大化</span>
+          </template>
+          <Icon class="text-lg" icon="ant-design:close-outlined" />
+        </Tooltip>
+      </div>
+    </template>
+
     <template #title>
       <span class="select-none text-lg">
         {{ title }}
@@ -28,9 +54,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, watch } from 'vue'
-import { Modal, Button } from 'ant-design-vue'
+import { defineComponent, nextTick, ref, watch } from 'vue'
+import { Modal, Tooltip, Button } from 'ant-design-vue'
 import { useModalDragMove } from './hooks/useModalDrag'
+import Icon from '../Icon/index.vue'
 
 export default defineComponent({
   name: 'BasicModal',
@@ -60,10 +87,15 @@ export default defineComponent({
     },
   },
   components: {
+    Icon,
     Modal,
+    Tooltip,
     Button
   },
   setup(props, context) {
+    // 是否最大化
+    const isFullscreen = ref(false)
+
     /** 点击关闭 */
     const onCancel = () => {
       context.emit('handleCancel')
@@ -74,18 +106,60 @@ export default defineComponent({
       context.emit('handleFinish')
     }
 
+    /** 最大化 */
+    const onFullScreen = () => {
+      isFullscreen.value = !isFullscreen.value
+    }
+
     // 监听显示开启拖拽
     watch(() => props.visible, async (value) => {
       if (value) {
         await nextTick()
         useModalDragMove()
+      } else {
+        isFullscreen.value = false
       }
     })
 
     return {
+      isFullscreen,
       onCancel,
-      onFinish
+      onFinish,
+      onFullScreen
     }
   }
 })
 </script>
+
+<style lang="less">
+.ant-modal-close-x {
+  width: 100px;
+  // color: #4a4a4a;
+}
+
+.ant-modal-close-x:hover {
+  // color: #4a4a4a;
+  // color: #00000073;
+}
+
+.full-modal {
+  .ant-modal {
+    position: absolute;
+    max-width: 100%;
+    top: 0 !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    padding-bottom: 0;
+    margin: 0;
+  }
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh);
+  }
+  .ant-modal-body {
+    flex: 1;
+  }
+}
+</style>

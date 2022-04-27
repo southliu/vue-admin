@@ -5,7 +5,7 @@ import { setLocalInfo, getLocalInfo, removeLocalInfo } from '@/utils/local'
 /**
  * token存取方法
  */
-function useToken() {
+ export function useToken() {
   const token = ref(getLocalInfo(TOKEN) || '')
 
   /** 获取token */
@@ -35,5 +35,3 @@ function useToken() {
     removeToken
   }
 }
-
-export default useToken

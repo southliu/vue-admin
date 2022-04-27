@@ -25,6 +25,9 @@ export default defineConfig({
         xl: '1200px',
         '4xl': '2rem',
       },
+      alias: {
+        'w-h-full': 'w-full h-full',
+      }
     },
     include: [
       'index.html',
