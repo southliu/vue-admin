@@ -201,7 +201,8 @@ export default defineComponent({
             h(DatePicker, {
               allowClear,
               placeholder: pleaseSelect,
-              ...componentProps as any,
+              ...componentProps as object,
+              defaultValue: props.value as string | Dayjs,
               value: props.value as string | Dayjs,
               'onUpdate:value': (value: string | Dayjs) => emit('update:value', value)
             })
@@ -212,8 +213,8 @@ export default defineComponent({
           return (
             h(DatePicker.RangePicker, {
               allowClear,
-              placeholder: pleaseSelect,
-              ...componentProps as any,
+              placeholder: [pleaseSelect, pleaseSelect],
+              ...componentProps as object,
               value: props.value as [string, string] | [Dayjs, Dayjs],
               'onUpdate:value': (value: [string, string] | [Dayjs, Dayjs]) => emit('update:value', value)
             })

@@ -1,3 +1,6 @@
+import { useTimeout } from "@vueuse/core";
+import { watchEffect } from "vue";
+
 interface IElement extends Element {
   offsetLeft: number;
   offsetTop: number;
@@ -12,10 +15,16 @@ interface IElement extends Element {
  * Modal拖拽
  */
 export function useModalDragMove() {
-  let dragDom = document.querySelector('.ant-modal') as IElement
-  let dragHeaderElm = document.querySelector('.ant-modal-header') as IElement
+  const { ready, start } = useTimeout(30, { controls: true })
 
-  if (dragDom && dragHeaderElm) {
+  // 单个拖拽逻辑
+  const dragItem = (wrap: Element) => {
+    if (!wrap) return
+    console.log('yes')
+    let dragDom = wrap.querySelector('.ant-modal') as IElement
+    let dragHeaderElm = wrap.querySelector('.ant-modal-header') as IElement
+    if (!dragHeaderElm || !dragDom) return;
+
     // 头部鼠标样式改为move
     dragHeaderElm.style.cursor = 'move'
     // 去除modal中的下填充
@@ -32,13 +41,13 @@ export function useModalDragMove() {
 
       // 对话框宽高
       const dragDomWidth = dragDom.offsetWidth
-      const dragDomheight = dragDom.offsetHeight
+      const dragDomHeight = dragDom.offsetHeight
 
       // 边界值
       const minDragDomLeft = dragDom.offsetLeft
       const maxDragDomLeft = screenWidth - dragDom.offsetLeft - dragDomWidth
       const minDragDomTop = dragDom.offsetTop
-      const maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomheight
+      const maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomHeight
 
       // 获取左和上样式值
       const domLeft = getComputedStyle(dragDom)['left'];
@@ -92,4 +101,22 @@ export function useModalDragMove() {
       document.onmouseup = null
     }
   }
+
+  // 处理拖拽
+  const handleDrag = () => {
+    const dragWraps = document.querySelectorAll('.ant-modal-wrap');
+    for (const wrap of Array.from(dragWraps)) {
+      if (!wrap) continue;
+      const display = getComputedStyle(wrap)['display']
+      if (display !== 'none') {
+        // 开启拖拽
+        dragItem(wrap);
+      }
+    }
+  }
+
+  watchEffect(() => {
+    start()
+    if (ready) handleDrag()
+  })
 }

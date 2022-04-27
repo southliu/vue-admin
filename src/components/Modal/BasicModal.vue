@@ -74,6 +74,7 @@ export default defineComponent({
       context.emit('handleFinish')
     }
 
+    // 监听显示开启拖拽
     watch(() => props.visible, async (value) => {
       if (value) {
         await nextTick()
