@@ -148,7 +148,6 @@ export default defineComponent({
 }
 
 .menu-none {
-  display: none;
   width: 0 !important;
 }
 
