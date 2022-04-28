@@ -14,6 +14,7 @@
     </div>
   </div>
   <Menu
+    id="menu"
     class="menu"
     :class="{ 'menu-close': collapsed }"
     :collapsed="collapsed"

@@ -9,23 +9,26 @@
     <template #closeIcon>
       <div class="h-full flex items-center justify-center :hover:text-white">
         <Tooltip
-          class="p-10px font-16px "
+          class="p-10px font-16px text-#00000073 hover:text-#404040"
           placement="bottom"
           @click="onFullScreen"
         >
           <template #title>
-            <span>最大化</span>
+            <span>{{ isFullscreen ? '退出最大化' : '最大化' }}</span>
           </template>
-          <Icon class="text-lg " icon="ant-design:fullscreen-outlined" />
+          <Icon
+            class="text-lg"
+            :icon="!isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'"
+          />
         </Tooltip>
 
         <Tooltip
-          class="p-10px font-16px :hover:text-dark-900"
+          class="p-10px font-16px text-#00000073 hover:text-#404040"
           placement="bottom"
           @click="onCancel"
         >
           <template #title>
-            <span>最大化</span>
+            <span>关闭</span>
           </template>
           <Icon class="text-lg" icon="ant-design:close-outlined" />
         </Tooltip>
@@ -134,12 +137,7 @@ export default defineComponent({
 <style lang="less">
 .ant-modal-close-x {
   width: 100px;
-  // color: #4a4a4a;
 }
-
-// .ant-modal-close-x:hover {
-//   // color: #4a4a4a;
-// }
 
 .full-modal {
   .ant-modal {

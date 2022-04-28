@@ -86,18 +86,35 @@
       </TabPane>
     </Tabs>
     
-    <Tooltip placement="bottom">
-      <template #title>
-        <span>重新加载</span>
-      </template>
+    <div class="flex items-center">
+      <div class="right-item p-10px text-#00000073 hover:text-#404040">
+        <Tooltip placement="bottom">
+          <template #title>
+            <span>重新加载</span>
+          </template>
 
-      <Icon
-        class="flex items-center justify-center mr-4 text-lg cursor-pointer"
-        :class="{ 'animate-spin': isRefresh }"
-        @click="handleDropdown(TabEnums.REFRESH_PAGE, activeKey)"
-        icon="ant-design:redo-outlined"
-      />
-    </Tooltip>
+          <Icon
+            class="flex items-center justify-center text-lg cursor-pointer"
+            :class="{ 'animate-spin': isRefresh }"
+            @click="handleDropdown(TabEnums.REFRESH_PAGE, activeKey)"
+            icon="ant-design:reload-outlined"
+          />
+        </Tooltip>
+      </div>
+      <!-- <div class="right-item p-10px text-#00000073 hover:text-#404040">
+        <Tooltip placement="bottom">
+          <template #title>
+            <span>{{ isMaximize ? '退出最大化' : '最大化' }}</span>
+          </template>
+
+          <Icon
+            class="flex items-center justify-center text-lg cursor-pointer"
+            @click="handleMaximize()"
+            :icon="isMaximize ? 'ant-design:compress-outlined' : 'ant-design:expand-outlined'"
+          />
+        </Tooltip>
+      </div> -->
+    </div>
   </div>
 </template>
 
@@ -160,7 +177,8 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const tabStore = useTabStore()
-    const isRefresh = ref(false)
+    const isRefresh = ref(false) // 是否刷新
+    const isMaximize = ref(false) // 是否最大化
     const timeout = reactive<ITimeout>({
       icon: null,
       refresh: null
@@ -293,16 +311,29 @@ export default defineComponent({
       }
     })
 
+    /** 处理最大化 */
+    const handleMaximize = () => {
+      isMaximize.value = !isMaximize.value
+    }
+
     return {
       isRefresh,
+      isMaximize,
       tabs,
       activeKey,
       TabEnums,
       isActive,
       handleRemove,
       onChange,
-      handleDropdown
+      handleDropdown,
+      handleMaximize
     };
   }
 })
 </script>
+
+<style lang="less" scoped>
+.right-item {
+  border-left: 1px solid #d9d9d9;
+}
+</style>

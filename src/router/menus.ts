@@ -61,15 +61,15 @@ export const menus: IMenus[] = [
         },
         component: () => import('@/pages/systems/role/index.vue')
       },
-      {
-        name: 'SystemMenu',
-        path: '/system/menu',
-        meta: {
-          title: '菜单管理',
-          keepAlive: true
-        },
-        component: () => import('@/pages/systems/menu/index.vue')
-      }
+      // {
+      //   name: 'SystemMenu',
+      //   path: '/system/menu',
+      //   meta: {
+      //     title: '菜单管理',
+      //     keepAlive: true
+      //   },
+      //   component: () => import('@/pages/systems/menu/index.vue')
+      // }
     ]
   },
 ]

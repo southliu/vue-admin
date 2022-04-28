@@ -1,12 +1,10 @@
-<template>
-  <div class="inline-block">
-    <i class="iconify" :data-icon="icon" />
-  </div>
-</template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, h, watch } from 'vue'
+import { renderHTML } from "@iconify/iconify"
 
+/**
+ * 图标组件
+ */
 export default defineComponent({
   name: 'Icon',
   props: {
@@ -14,6 +12,22 @@ export default defineComponent({
       type: String,
       required: true
     }
+  },
+  setup(props, context) {
+    const initData = `<i class="iconify" data-icon="${props.icon}" />`
+    const data = ref(initData)
+
+    watch(() => props.icon, value => {
+      data.value = renderHTML(value) || ''
+    })
+
+    return () => h(
+      'div',
+      {
+        class: 'inline-block',
+        innerHTML: data.value
+      }
+    )
   }
 })
 </script>
