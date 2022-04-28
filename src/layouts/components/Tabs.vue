@@ -101,19 +101,19 @@
           />
         </Tooltip>
       </div>
-      <!-- <div class="right-item p-10px text-#00000073 hover:text-#404040">
+      <div class="right-item p-10px text-#00000073 hover:text-#404040">
         <Tooltip placement="bottom">
           <template #title>
-            <span>{{ isMaximize ? '退出最大化' : '最大化' }}</span>
+            <span>{{ maximize ? '退出最大化' : '最大化' }}</span>
           </template>
 
           <Icon
             class="flex items-center justify-center text-lg cursor-pointer"
             @click="handleMaximize()"
-            :icon="isMaximize ? 'ant-design:compress-outlined' : 'ant-design:expand-outlined'"
+            :icon="maximize ? 'ant-design:compress-outlined' : 'ant-design:expand-outlined'"
           />
         </Tooltip>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -159,6 +159,7 @@ interface ITimeout {
 
 export default defineComponent({
   name: 'TabsLayout',
+  emits: ['toggleMaximize'],
   components: {
     RedoOutlined,
     CloseOutlined,
@@ -173,12 +174,17 @@ export default defineComponent({
     Button,
     Tooltip
   },
-  setup() {
+  props: {
+    maximize: {
+      type: Boolean,
+      required: true
+    }
+  },
+  setup(props, context) {
     const route = useRoute()
     const router = useRouter()
     const tabStore = useTabStore()
     const isRefresh = ref(false) // 是否刷新
-    const isMaximize = ref(false) // 是否最大化
     const timeout = reactive<ITimeout>({
       icon: null,
       refresh: null
@@ -313,12 +319,11 @@ export default defineComponent({
 
     /** 处理最大化 */
     const handleMaximize = () => {
-      isMaximize.value = !isMaximize.value
+      context.emit('toggleMaximize')
     }
 
     return {
       isRefresh,
-      isMaximize,
       tabs,
       activeKey,
       TabEnums,

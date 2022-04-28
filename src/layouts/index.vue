@@ -1,27 +1,31 @@
 <template>
   <div
     class="header flex flex-col box-border overflow-hidden"
-    :class="{ 'header-close-menu': collapsed }"
+    :class="{ 'header-close-menu': collapsed, 'header-none': maximize }"
   >
     <Header
-      class="border-b-1 border-b-light-700  box-border"
+      class="border-b-1 border-b-light-700 box-border"
+      :class="{ 'none': maximize }"
       :collapsed="collapsed"
       @toggleCollapsed="toggleCollapsed"
       @onUpdatePassword="onUpdatePassword"
     />
     <div class="px-2px">
-      <Tabs />
+      <Tabs
+        :maximize="maximize"
+        @toggleMaximize="toggleMaximize"
+      />
     </div>
   </div>
   <Menu
-    id="menu"
     class="menu"
-    :class="{ 'menu-close': collapsed }"
+    :class="{ 'menu-close': collapsed, 'menu-none': maximize }"
     :collapsed="collapsed"
   />
   <div
+    id="con"
     class="con transition-all overflow-hidden"
-    :class="{ 'con-close-menu': collapsed }"
+    :class="{ 'con-close-menu': collapsed, 'con-maximize': maximize }"
   >
     <router-view v-slot="{ Component }">
       <keep-alive :include="tabStore.cacheRoutes">
@@ -56,7 +60,8 @@ export default defineComponent({
   components: { Header, Menu, Tabs, UpdatePassword },
   setup() {
     const tabStore = useTabStore()
-    const collapsed = ref(false)
+    const collapsed = ref(false) // 是否收起菜单
+    const maximize = ref(false) // 是否窗口最大化
     // 修改密码组件ref
     const updatePasswordRef = ref<IUpdatePassword>()
 
@@ -70,11 +75,18 @@ export default defineComponent({
       collapsed.value = !collapsed.value
     }
 
+    /** 窗口最大化 */
+    const toggleMaximize = () => {
+      maximize.value = !maximize.value
+    }
+
     return {
       tabStore,
       collapsed,
+      maximize,
       onUpdatePassword,
       toggleCollapsed,
+      toggleMaximize,
       updatePasswordRef
     }
   }
@@ -120,4 +132,24 @@ export default defineComponent({
 .con-close-menu {
   left: @layout_left_close;
 }
+
+.con-maximize {
+  left: 0 !important;
+  top: calc(@layout_top / 2);
+}
+
+.none {
+  display: none;
+}
+
+.header-none {
+  left: 0 !important;
+  height: calc(@layout_top / 2)
+}
+
+.menu-none {
+  display: none;
+  width: 0 !important;
+}
+
 </style>
