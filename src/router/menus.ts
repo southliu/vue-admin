@@ -83,6 +83,9 @@ export const menus: IMenus[] = [
   },
   {
     path: '/:pathMatch(.*)',
+    meta: {
+      isHidden: true
+    },
     // 访问不存在页面重定向404
     redirect: '/404',
   },
