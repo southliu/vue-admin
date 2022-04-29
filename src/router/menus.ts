@@ -2,37 +2,8 @@ import type { IMenus } from './model'
 
 // 如果Layout是以import Layout from '@/layouts/index.vue'形式引入,打包会报错
 
-export const menus: IMenus[] = [
-  {
-    name: 'Login',
-    path: '/login',
-    meta: {
-      title: '登录',
-      isHidden: true
-    },
-    component: () => import('@/pages/login/index.vue')
-  },
-  {
-    name: 'Layout',
-    path: '/',
-    redirect: '/dashboard',
-    meta: { isHidden: true },
-    component: () => import('@/layouts/index.vue'),
-    children: [
-      {
-        name: 'Dashboard',
-        path: '/dashboard',
-        meta: { title: '首页' },
-        component: () => import('@/pages/dashboard/index.vue')
-      },
-      {
-        name: 'empty',
-        path: '/empty',
-        meta: { title: '重定向' },
-        component: () => import('@/pages/errors/empty.vue')
-      },
-    ]
-  },
+// 系统管理
+export const SystemMenus: IMenus[] = [
   {
     name: 'System',
     path: '/system',
@@ -72,15 +43,50 @@ export const menus: IMenus[] = [
       // }
     ]
   },
+]
+
+// 菜单
+export const menus: IMenus[] = [
   {
-    name: 'NotFound',
-    path: '/404',
+    name: 'Login',
+    path: '/login',
     meta: {
-      title: '404 Not Found',
+      title: '登录',
       isHidden: true
     },
-    component: () => import('@/pages/errors/404.vue')
+    component: () => import('@/pages/login/index.vue')
   },
+  {
+    name: 'Layout',
+    path: '/',
+    redirect: '/dashboard',
+    meta: { isHidden: true },
+    component: () => import('@/layouts/index.vue'),
+    children: [
+      {
+        name: 'Dashboard',
+        path: '/dashboard',
+        meta: { title: '首页' },
+        component: () => import('@/pages/dashboard/index.vue')
+      },
+      {
+        name: 'empty',
+        path: '/empty',
+        meta: { title: '重定向' },
+        component: () => import('@/pages/errors/empty.vue')
+      },
+      {
+        name: 'NotFound',
+        path: '/404',
+        meta: {
+          title: '404 Not Found',
+          isHidden: true
+        },
+        component: () => import('@/pages/errors/404.vue')
+      },
+    ]
+  },
+  ...SystemMenus,
   {
     path: '/:pathMatch(.*)',
     meta: {
