@@ -38,48 +38,13 @@
               </div>
             </div>
             <template #overlay>
-              <Menu>
-                <MenuItem
-                  :key="TabEnums.REFRESH_PAGE"
-                  :disabled="activeKey !== item.key"
-                  @click="handleDropdown(TabEnums.REFRESH_PAGE, item.key)"
-                >
-                  <RedoOutlined class="mr-5px transform rotate-270" />
-                  <span>重新加载</span>
-                </MenuItem>
-                <MenuItem
-                  :key="TabEnums.CLOSE_CURRENT"
-                  :disabled="tabs.length < 2"
-                  @click="handleDropdown(TabEnums.CLOSE_CURRENT, item.key)"
-                >
-                  <CloseOutlined class="mr-5px" />
-                  <span>关闭标签</span>
-                </MenuItem>
-                <MenuItem
-                  :key="TabEnums.CLOSE_OTHER"
-                  :disabled="tabs.length < 2"
-                  @click="handleDropdown(TabEnums.CLOSE_OTHER, item.key)"
-                >
-                  <VerticalAlignMiddleOutlined class="mr-5px transform rotate-90" />
-                  <span>关闭其他</span>
-                </MenuItem>
-                <MenuItem
-                  :key="TabEnums.CLOSE_LEFT"
-                  :disabled="index === 0"
-                  @click="handleDropdown(TabEnums.CLOSE_LEFT, item.key)"
-                >
-                  <VerticalAlignTopOutlined class="mr-5px transform rotate-270" />
-                  <span>关闭左侧</span>
-                </MenuItem>
-                <MenuItem
-                  :key="TabEnums.CLOSE_RIGHT"
-                  :disabled="index === tabs.length - 1"
-                  @click="handleDropdown(TabEnums.CLOSE_RIGHT, item.key)"
-                >
-                  <VerticalAlignTopOutlined class="mr-5px transform rotate-90" />
-                  <span>关闭右侧</span>
-                </MenuItem>
-              </Menu>
+              <DropdownMenu
+                :activeKey="activeKey"
+                :currentKey="item.key"
+                :index="index"
+                :list="tabs"
+                @handleDropdown="handleDropdown"
+              />
             </template>
           </Dropdown>
         </template>
@@ -87,7 +52,7 @@
     </Tabs>
     
     <div class="flex items-center">
-      <div class="right-item p-10px text-#00000073 hover:text-#404040">
+      <div class="right-item w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center">
         <Tooltip placement="bottom">
           <template #title>
             <span>重新加载</span>
@@ -101,7 +66,35 @@
           />
         </Tooltip>
       </div>
-      <div class="right-item p-10px text-#00000073 hover:text-#404040">
+      <Tooltip
+        placement="bottom"
+        class="right-item w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center"
+      >
+        <template #title>
+          <span>更多功能</span>
+        </template>
+
+        <Dropdown :trigger="['click']" @visibleChange="handleDropdownChange">
+          <div>
+            <Icon
+              class="flex items-center justify-center text-lg cursor-pointer transition-all transform "
+              :class="{ 'rotate-180': isDropdown, 'rotate-0': !isDropdown }"
+              icon="ant-design:down-outlined"
+            />
+          </div>
+
+          <template #overlay>
+            <DropdownMenu
+              :currentKey="activeKey"
+              :activeKey="activeKey"
+              :index="getTabIndex(activeKey)"
+              :list="tabs"
+              @handleDropdown="handleDropdown"
+            />
+          </template>
+        </Dropdown>
+      </Tooltip>
+      <div class="right-item w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center">
         <Tooltip placement="bottom">
           <template #title>
             <span>{{ maximize ? '退出最大化' : '最大化' }}</span>
@@ -126,25 +119,19 @@ import Icon from '@/components/Icon/index.vue'
 import {
   Tabs,
   TabPane,
-  Menu,
-  MenuItem,
   Dropdown,
   Button,
   Tooltip,
   message
 } from 'ant-design-vue'
-import {
-  RedoOutlined,
-  CloseOutlined,
-  VerticalAlignTopOutlined,
-  VerticalAlignMiddleOutlined
-} from '@ant-design/icons-vue'
+import { CloseOutlined } from '@ant-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import type { Key } from 'ant-design-vue/lib/_util/type'
 import { firstCapitalize } from '@/utils/utils'
 import { useDebounceFn } from '@vueuse/core'
+import DropdownMenu from './DropdownMenu.vue'
 
-enum TabEnums {
+export enum TabEnums {
   REFRESH_PAGE, // 刷新当前页
   CLOSE_CURRENT, // 关闭当前
   CLOSE_OTHER, // 关闭其他
@@ -161,18 +148,14 @@ export default defineComponent({
   name: 'TabsLayout',
   emits: ['toggleMaximize'],
   components: {
-    RedoOutlined,
     CloseOutlined,
-    VerticalAlignTopOutlined,
-    VerticalAlignMiddleOutlined,
     Icon,
     Tabs,
     TabPane,
-    Menu,
-    MenuItem,
     Dropdown,
     Button,
-    Tooltip
+    Tooltip,
+    DropdownMenu
   },
   props: {
     maximize: {
@@ -185,6 +168,7 @@ export default defineComponent({
     const router = useRouter()
     const tabStore = useTabStore()
     const isRefresh = ref(false) // 是否刷新
+    const isDropdown = ref(false) // 是否显示下拉菜单
     const timeout = reactive<ITimeout>({
       icon: null,
       refresh: null
@@ -212,6 +196,7 @@ export default defineComponent({
 
     // 监听所选向变化，标签页跟随变化
     watch(() => activeKey.value, value => {
+      console.log('activeKey:', activeKey.value)
       if (value !== route.path) {
         router.push(value)
       }
@@ -249,12 +234,19 @@ export default defineComponent({
       return res
     }
 
+    /** 获取tabs下标 */
+    const getTabIndex = (key: string): number => {
+      return tabs.value.findIndex(item => item.key === key)
+    }
+
     /**
      * 点击右键功能
      * @param type - 右键下拉选中类型
      * @param key - 标签唯一值，可作为路由
      */
     const handleDropdown = useDebounceFn((type: TabEnums, key: string) => {
+      isDropdown.value = false
+
       switch (type) {
         // 刷新当前页
         case TabEnums.REFRESH_PAGE:
@@ -322,16 +314,27 @@ export default defineComponent({
       context.emit('toggleMaximize')
     }
 
+    /**
+     * 监听菜单变化
+     * @param visible - 是否显示
+     */
+    const handleDropdownChange = (visible: boolean) => {
+      isDropdown.value = visible
+    }
+
     return {
       isRefresh,
+      isDropdown,
       tabs,
       activeKey,
       TabEnums,
       isActive,
-      handleRemove,
       onChange,
+      getTabIndex,
+      handleRemove,
       handleDropdown,
-      handleMaximize
+      handleMaximize,
+      handleDropdownChange
     };
   }
 })

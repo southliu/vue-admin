@@ -2,13 +2,13 @@ import { defineStore } from 'pinia'
 import { menus } from '@/router/menus'
 import { getCacheRoutes } from '@/utils/menus'
 
-interface ITabs {
+export interface ITabs {
   title: string;
   key: string;
   closable?: boolean
 }
 
-interface IState {
+interface ITabsState {
   // 当前选中的标签
   activeKey: string;
   // 标签栏数据
@@ -23,7 +23,7 @@ export const useTabStore = defineStore({
     activeKey: '',
     tabs: [],
     cacheRoutes: []
-  } as IState),
+  } as ITabsState),
   actions: {
     /** 初始化路由缓存 */
     initCacheRoutes() {

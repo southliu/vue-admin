@@ -95,7 +95,7 @@ export default defineComponent({
       type: Object as PropType<Partial<ColProps>>,
       required: false,
       default: () => {
-        return { span: 18 }
+        return { span: 19 }
       }
     },
     loading: {
