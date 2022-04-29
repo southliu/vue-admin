@@ -160,7 +160,8 @@ export default defineComponent({
   props: {
     maximize: {
       type: Boolean,
-      required: true
+      required: true,
+      defaultValue: false
     }
   },
   setup(props, context) {
@@ -196,7 +197,6 @@ export default defineComponent({
 
     // 监听所选向变化，标签页跟随变化
     watch(() => activeKey.value, value => {
-      console.log('activeKey:', activeKey.value)
       if (value !== route.path) {
         router.push(value)
       }

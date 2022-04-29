@@ -72,4 +72,18 @@ export const menus: IMenus[] = [
       // }
     ]
   },
+  {
+    name: 'NotFound',
+    path: '/404',
+    meta: {
+      title: '404 Not Found',
+      isHidden: true
+    },
+    component: () => import('@/pages/errors/404.vue')
+  },
+  {
+    path: '/:pathMatch(.*)',
+    // 访问不存在页面重定向404
+    redirect: '/404',
+  },
 ]

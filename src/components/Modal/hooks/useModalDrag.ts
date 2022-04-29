@@ -20,7 +20,6 @@ export function useModalDragMove() {
   // 单个拖拽逻辑
   const dragItem = (wrap: Element) => {
     if (!wrap) return
-    console.log('yes')
     let dragDom = wrap.querySelector('.ant-modal') as IElement
     let dragHeaderElm = wrap.querySelector('.ant-modal-header') as IElement
     if (!dragHeaderElm || !dragDom) return;

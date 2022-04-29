@@ -13,7 +13,7 @@
     <div class="header-right flex items-center">
       <GlobalSearch />
       <Fullscreen />
-      <Dropdown class="min-w-100px">
+      <Dropdown class="min-w-50px">
         <div class="ant-dropdown-link flex items-center cursor-pointer" @click.prevent>
           <Image
             class="rounded-1/2 overflow-hidden object-cover bg-light-500"
