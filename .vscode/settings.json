@@ -34,5 +34,6 @@
     "gifsicle",
     "optipng",
     "mozjpeg",
+    "tinymce",
   ]
 }

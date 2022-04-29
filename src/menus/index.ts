@@ -2,6 +2,67 @@ import type { IMenus } from './model'
 
 // 如果Layout是以import Layout from '@/layouts/index.vue'形式引入,打包会报错
 
+// 组件菜单
+const ComponentMneus: IMenus[] = [
+  {
+    name: 'Component',
+    path: '/component',
+    meta: {
+      title: '组件',
+      icon: 'fluent:box-20-regular'
+    },
+    component: () => import('@/layouts/index.vue'),
+    redirect: '/system/user',
+    children: [
+      {
+        name: 'ComponentCopy',
+        path: '/component/copy',
+        meta: {
+          title: '复制组件',
+          keepAlive: true
+        },
+        component: () => import('@/pages/component/copy/index.vue')
+      },
+      {
+        name: 'ComponentTinymce',
+        path: '/component/tinymce',
+        meta: {
+          title: '富文本',
+          keepAlive: true
+        },
+        component: () => import('@/pages/component/tinymce/index.vue')
+      },
+      {
+        name: 'ComponentUpload',
+        path: '/component/upload',
+        meta: {
+          title: '上传',
+          keepAlive: true
+        },
+        component: () => import('@/pages/component/upload/index.vue')
+      },
+      {
+        name: 'ComponentVirtualScroll',
+        path: '/component/virtualScroll',
+        meta: {
+          title: '虚拟滚动',
+          keepAlive: true
+        },
+        component: () => import('@/pages/component/virtualScroll/index.vue')
+      },
+      {
+        name: 'ComponentWatermark',
+        path: '/component/watermark',
+        meta: {
+          title: '水印组件',
+          keepAlive: true
+        },
+        component: () => import('@/pages/component/watermark/index.vue')
+      },
+    ]
+  }
+]
+
 // 系统管理
 export const SystemMenus: IMenus[] = [
   {
@@ -86,6 +147,7 @@ export const menus: IMenus[] = [
       },
     ]
   },
+  // ...ComponentMneus,
   ...SystemMenus,
   {
     path: '/:pathMatch(.*)',

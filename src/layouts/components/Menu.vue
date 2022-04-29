@@ -33,7 +33,7 @@
 
 <script lang="ts">
 import { defineComponent, onMounted, ref, watch } from 'vue'
-import { menus } from '@/router/menus'
+import { menus } from '@/menus'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useRoute, useRouter } from 'vue-router'

@@ -1,4 +1,4 @@
-import type { IMenus } from '@/router/model';
+import type { IMenus } from '@/menus/model';
 import type { ISidebar } from '@/stores/menu';
 import type { RouteRecordRaw } from 'vue-router'
 

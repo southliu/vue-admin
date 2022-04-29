@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { menus } from '@/router/menus'
+import { menus } from '@/menus'
 import { getCacheRoutes } from '@/utils/menus'
 
 export interface ITabs {

@@ -4,7 +4,7 @@ import {
   NavigationGuardNext,
   RouteLocationNormalized
 } from 'vue-router'
-import { menus } from './menus'
+import { menus } from '../menus'
 import { useToken } from '@/hooks'
 import NProgress from 'nprogress'
 import { TITLE_PREFIX } from '@/utils/config'
