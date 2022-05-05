@@ -4,7 +4,7 @@
     :class="{ 'header-close-menu': collapsed, 'header-none': maximize }"
   >
     <Header
-      class="border-b-1 border-b-light-700 box-border"
+      class="header-driver box-border"
       :class="{ 'none': maximize }"
       :collapsed="collapsed"
       @toggleCollapsed="toggleCollapsed"
@@ -107,6 +107,10 @@ export default defineComponent({
 
 .header-close-menu {
   left: @layout_left_close !important;
+}
+
+.header-driver {
+  border-bottom: 1px solid #eee;
 }
 
 .menu {

@@ -278,7 +278,7 @@ export default defineComponent({
             router.push(activeKey.value)
             cacheRoutes.value.push(routerName)
             clearRefresh()
-            message.success({ content: '刷新成功!', key: 'refresh' })
+            message.success({ content: '刷新成功', key: 'refresh' })
           }, 200)
           // icon 1秒后转回来
           timeout.icon = setTimeout(() => {

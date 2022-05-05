@@ -6,7 +6,6 @@ import Element from './App.vue'
 
 // 样式
 import 'uno.css'
-import 'virtual:windi.css'
 import 'nprogress/nprogress.css'
 import '@/assets/css/scrollbar.less'
 

@@ -15,13 +15,13 @@
       <Fullscreen />
       <Dropdown class="min-w-50px">
         <div class="ant-dropdown-link flex items-center cursor-pointer" @click.prevent>
-          <Image
+          <img
             class="rounded-1/2 overflow-hidden object-cover bg-light-500"
             :src="Logo"
             :width="30"
             :height="30"
             alt="LOGO"
-          />
+          >
           <span class="ml-2 text-base">South</span>
         </div>
         <template #overlay>
@@ -50,8 +50,7 @@ import {
   Menu,
   MenuItem,
   Dropdown,
-  MenuProps,
-  Image
+  MenuProps
 } from 'ant-design-vue'
 import {
   MenuFoldOutlined,
@@ -83,7 +82,6 @@ export default defineComponent({
     GlobalSearch,
     Menu,
     MenuItem,
-    Image,
     Dropdown
   },
   props: {

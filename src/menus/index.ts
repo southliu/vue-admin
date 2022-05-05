@@ -1,12 +1,12 @@
-import type { IMenus } from './model'
+import type { IMenus } from '../router/model'
 
 // 如果Layout是以import Layout from '@/layouts/index.vue'形式引入,打包会报错
 
 // 组件菜单
-const ComponentMneus: IMenus[] = [
+const ComponentMenus: IMenus[] = [
   {
     name: 'Component',
-    path: '/component',
+    path: '/components',
     meta: {
       title: '组件',
       icon: 'fluent:box-20-regular'
@@ -16,48 +16,48 @@ const ComponentMneus: IMenus[] = [
     children: [
       {
         name: 'ComponentCopy',
-        path: '/component/copy',
+        path: '/components/copy',
         meta: {
-          title: '复制组件',
+          title: '剪切板',
           keepAlive: true
         },
-        component: () => import('@/pages/component/copy/index.vue')
+        component: () => import('@/pages/demo/copy/index.vue')
       },
       {
         name: 'ComponentTinymce',
-        path: '/component/tinymce',
+        path: '/components/tinymce',
         meta: {
           title: '富文本',
           keepAlive: true
         },
-        component: () => import('@/pages/component/tinymce/index.vue')
+        component: () => import('@/pages/demo/tinymce/index.vue')
       },
       {
         name: 'ComponentUpload',
-        path: '/component/upload',
+        path: '/components/upload',
         meta: {
           title: '上传',
           keepAlive: true
         },
-        component: () => import('@/pages/component/upload/index.vue')
+        component: () => import('@/pages/demo/upload/index.vue')
       },
       {
         name: 'ComponentVirtualScroll',
-        path: '/component/virtualScroll',
+        path: '/components/virtualScroll',
         meta: {
           title: '虚拟滚动',
           keepAlive: true
         },
-        component: () => import('@/pages/component/virtualScroll/index.vue')
+        component: () => import('@/pages/demo/virtualScroll/index.vue')
       },
       {
         name: 'ComponentWatermark',
-        path: '/component/watermark',
+        path: '/components/watermark',
         meta: {
           title: '水印组件',
           keepAlive: true
         },
-        component: () => import('@/pages/component/watermark/index.vue')
+        component: () => import('@/pages/demo/watermark/index.vue')
       },
     ]
   }
@@ -147,7 +147,7 @@ export const menus: IMenus[] = [
       },
     ]
   },
-  // ...ComponentMneus,
+  ...ComponentMenus,
   ...SystemMenus,
   {
     path: '/:pathMatch(.*)',

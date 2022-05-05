@@ -18,7 +18,7 @@
         name="oldPassword"
         label="旧密码"
         :rules="[
-          { required: true, message: '请输入旧密码!' },
+          { required: true, message: '请输入旧密码' },
           passwordRule
         ]"
       >
@@ -29,7 +29,7 @@
         name="newPassword"
         label="新密码"
         :rules="[
-          { required: true, message: '请输入新密码!' },
+          { required: true, message: '请输入新密码' },
           passwordRule
         ]"
       >
@@ -40,7 +40,7 @@
         name="confirmPassword"
         label="重复密码"
         :rules="[
-          { required: true, message: '请输入重复密码!' },
+          { required: true, message: '请输入重复密码' },
           passwordRule
         ]"
       >
@@ -95,7 +95,7 @@ export default defineComponent({
         .then(values => {
           // 密码不一致不通过
           if (values.newPassword !== values.confirmPassword) {
-            return message.warning({ content: '重复密码不一致!', key: 'password' })
+            return message.warning({ content: '重复密码不一致', key: 'password' })
           }
 
           console.log('修改密码：', values)

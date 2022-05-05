@@ -37,7 +37,7 @@ export function getLocalInfo<T>(key: string) {
       data = decryption(json)
     } catch {
       // 解密失败
-      message.error({ content: '数据解密失败!', key: 'decryption' })
+      message.error({ content: '数据解密失败', key: 'decryption' })
     }
 
     // 当有数据时

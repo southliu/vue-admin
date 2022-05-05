@@ -2,7 +2,7 @@
   <div class="bg-light-400 w-screen h-screen">
     <div class="box w-300px h-290px p-30px rounded-5px bg-white">
       <div class="pb-30px pt-10px flex items-center justify-center">
-        <Image
+        <img
           class="mr-2 object-contain"
           :width="30"
           :height="30"
@@ -20,7 +20,7 @@
       >
         <FormItem
           name="username"
-          :rules="[{ required: true, message: '请输入用户名!' }]"
+          :rules="[{ required: true, message: '请输入用户名' }]"
         >
           <Input v-model:value="formState.username" placeholder="用户名">
             <template #prefix>
@@ -32,7 +32,7 @@
         <FormItem
           name="password"
           :rules="[
-            { required: true, message: '请输入密码!' },
+            { required: true, message: '请输入密码' },
             passwordRule
           ]"
         >
@@ -73,8 +73,7 @@ import {
   FormItem,
   Button,
   Input,
-  InputPassword,
-  Image
+  InputPassword
 } from 'ant-design-vue'
 import Logo from '@/assets/images/logo.png'
 
@@ -86,8 +85,7 @@ export default defineComponent({
     FormItem,
     Button,
     Input,
-    InputPassword,
-    Image
+    InputPassword
   },
   setup() {
     const router = useRouter()

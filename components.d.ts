@@ -15,6 +15,8 @@ declare module 'vue' {
     BasicPagination: typeof import('./src/components/Pagination/BasicPagination.vue')['default']
     BasicSearch: typeof import('./src/components/Search/BasicSearch.vue')['default']
     BasicTable: typeof import('./src/components/Table/BasicTable.vue')['default']
+    Copy: typeof import('./src/components/Copy/index.vue')['default']
+    CopyBtn: typeof import('./src/components/Buttons/CopyBtn.vue')['default']
     DeleteBtn: typeof import('./src/components/Buttons/DeleteBtn.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']

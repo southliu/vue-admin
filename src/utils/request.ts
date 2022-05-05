@@ -19,7 +19,7 @@ const request = axios.create({
 // 异常处理
 const handleError = (error: string): Promise<string> => {
   console.log('错误信息:', error)
-  message.error({ content: error || '服务器错误!', key: 'error' })
+  message.error({ content: error || '服务器错误', key: 'error' })
   return Promise.reject(error)
 }
 
