@@ -35,6 +35,7 @@ specifiers:
   prettier: ^2.5.1
   rollup: ^2.70.1
   rollup-plugin-visualizer: ^5.6.0
+  tinymce: ^6.0.2
   typescript: ^4.4.4
   unocss: ^0.28.1
   unplugin-auto-import: ^0.6.1
@@ -61,6 +62,7 @@ dependencies:
   dayjs: 1.10.8
   nprogress: 0.2.0
   pinia: 2.0.11_typescript@4.6.2+vue@3.2.31
+  tinymce: 6.0.2
   vite-plugin-windicss: 1.8.2_vite@2.8.6
   vue: 3.2.31
   vue-router: 4.0.13_vue@3.2.31
@@ -4433,6 +4435,10 @@ packages:
   /tinycolor2/1.4.2:
     resolution: {integrity: sha512-vJhccZPs965sV/L2sU4oRQVAos0pQXwsvTLkWYdqJ+a8Q5kPFzJTuOFwy7UniPli44NKQGAglksjvOcpo95aZA==}
     dev: true
+
+  /tinymce/6.0.2:
+    resolution: {integrity: sha512-i4OEzcTF6mGxZ+scumOoWiaI9HYn6uya980hJ+9jwnhgLbhBb+73ar2t9Ewfkns3DTl2Ez3r1pQs2tpT+ka29Q==}
+    dev: false
 
   /tinypool/0.1.2:
     resolution: {integrity: sha512-fvtYGXoui2RpeMILfkvGIgOVkzJEGediv8UJt7TxdAOY8pnvUkFg/fkvqTfXG9Acc9S17Cnn1S4osDc2164guA==}

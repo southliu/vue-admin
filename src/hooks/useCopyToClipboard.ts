@@ -1,5 +1,9 @@
 import { message } from "ant-design-vue"
 
+/**
+ * 剪切板
+ * @param text - 复制内容
+ */
 export const useCopyToClipboard = (text: string) => {
   // 创建一个文本域 
   const textArea = document.createElement('textarea')

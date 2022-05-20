@@ -70,6 +70,10 @@ export default defineComponent({
       const { componentProps } = item
 
       switch (item.component) {
+        // 自定义
+        // case 'Customize':
+        //   return item.render()
+
         // 输入框
         case 'Input':
           return (

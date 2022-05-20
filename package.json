@@ -21,6 +21,7 @@
     "dayjs": "^1.10.7",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.9",
+    "tinymce": "^6.0.2",
     "vite-plugin-windicss": "^1.6.3",
     "vue": "^3.2.31",
     "vue-router": "^4.0.13",
