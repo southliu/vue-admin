@@ -118,18 +118,12 @@ export const menus: IMenus[] = [
     component: () => import('@/pages/login/index.vue')
   },
   {
-    name: 'Layout',
+    name: 'ErrorPages',
     path: '/',
     redirect: '/dashboard',
     meta: { isHidden: true },
     component: () => import('@/layouts/index.vue'),
     children: [
-      {
-        name: 'Dashboard',
-        path: '/dashboard',
-        meta: { title: '首页' },
-        component: () => import('@/pages/dashboard/index.vue')
-      },
       {
         name: 'empty',
         path: '/empty',
@@ -145,6 +139,24 @@ export const menus: IMenus[] = [
         },
         component: () => import('@/pages/errors/404.vue')
       },
+    ]
+  },
+  {
+    name: 'Layout',
+    path: '/',
+    redirect: '/dashboard',
+    meta: {
+      title: '仪表盘',
+      icon: 'la:tachometer-alt'
+    },
+    component: () => import('@/layouts/index.vue'),
+    children: [
+      {
+        name: 'Dashboard',
+        path: '/dashboard',
+        meta: { title: '数据总览' },
+        component: () => import('@/pages/dashboard/index.vue')
+      }
     ]
   },
   ...ComponentMenus,

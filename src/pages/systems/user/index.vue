@@ -4,6 +4,7 @@
       <BasicSearch
         :list="searches.list"
         :data="searches.data"
+        :loading="loading"
         :is-search="true"
         :is-create="true"
         @onCreate="onCreate"

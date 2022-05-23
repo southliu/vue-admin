@@ -20,7 +20,6 @@ export default defineComponent({
 
     watch(() => props.icon, value => {
       data.value = renderHTML(value) || ''
-      console.log('data.value:', data.value)
     })
 
     return () => h(

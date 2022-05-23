@@ -1,5 +1,5 @@
-import { request } from '@/utils/request'
 import { ISystemUser, ISystemUserResult } from '@/pages/systems/user/model'
+import { request } from '@/utils/request'
 
 enum API {
   URL = '/authority/user',

@@ -13,7 +13,7 @@ export function createProxy(list: ProxyList = []) {
   
   for (let [prefix, target] of list) {
     res[`^${prefix}`] = {
-      target: target,
+      target,
       changeOrigin: true,
       // ws: true,
       rewrite: path => path.replace(new RegExp(`^${prefix}`), ''),

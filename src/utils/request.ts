@@ -57,6 +57,7 @@ request.interceptors.response.use(
     // 权限不足
     if (res?.code === 601) {
       router.push('/login')
+      useToken().removeToken()
       handleError(res.message)
 
       return response
