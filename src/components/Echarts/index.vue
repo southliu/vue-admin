@@ -3,7 +3,7 @@
 </template>
 
 <script lang="ts">
-import type { PropType } from 'vue'
+import { PropType, watch } from 'vue'
 import type { ECBasicOption } from 'echarts/types/dist/shared'
 import { defineComponent, onMounted, ref } from 'vue'
 import echarts from './lib/echarts'
@@ -31,7 +31,12 @@ export default defineComponent({
 
     onMounted(() => {
       // 初始化chart
-      let chartInstance = echarts.init(chartRef.value as HTMLDivElement)
+      const chartInstance = echarts.init(chartRef.value as HTMLDivElement)
+      chartInstance.setOption(props.option)
+    })
+
+    watch(() => props.option, value => {
+      const chartInstance = echarts.init(chartRef.value as HTMLDivElement)
       chartInstance.setOption(props.option)
     })
     

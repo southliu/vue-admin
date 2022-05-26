@@ -9,8 +9,7 @@
     @handleFinish="handleSearch"
   />
   <Line
-    :hash="datum.items.hash"
-    :legend="datum.items.legend"
+    :items="datum.items"
   />
   <Pie />
 </template>

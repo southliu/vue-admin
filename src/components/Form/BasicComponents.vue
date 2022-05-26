@@ -191,7 +191,7 @@ export default defineComponent({
             h(Checkbox, {
               'onChange': (value: CheckboxChangeEvent) => emit('update:value', value.target.checked),
               ...componentProps as CheckboxProps,
-              checked: props.value as boolean,
+              checked: !!props.value,
               innerHTML: (componentProps as CheckboxProps)?.name || '',
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })

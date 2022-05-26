@@ -6,7 +6,6 @@
   />
 </template>
 
-
 <script lang="ts">
 import { defineComponent, ref, watch } from 'vue'
 import type { ECBasicOption } from 'echarts/types/dist/shared'
@@ -16,7 +15,7 @@ type ISeriesData = {
   name: string;
   type: string;
   data: number[];
-}[]
+}
 
 export default defineComponent({
   name: 'Line',
@@ -24,47 +23,16 @@ export default defineComponent({
     Echarts
   },
   props: {
-    hash: {
-      type: Array,
-      required: true
-    },
-    legend: {
+    items: {
       type: Object,
       required: true
     }
   },
   setup(props) {
-    const { hash, legend } = props
     const legendData = ref<string[]>([])
     const legendKeys = ref<string[]>([])
-    const seriesData: ISeriesData = []
+    const seriesData = ref<ISeriesData[]>([])
     const hours = new Array(24).fill(true).map((value, index) => index)
-
-    watch(() => props.hash, value => {
-      for (let key in value) {
-        legendData.value.push(legend[key])
-        legendKeys.value.push(key)
-        const currentData: number[] = []
-
-        hours.forEach((item) => {
-          hash?.length > 0 &&
-            hash.forEach((data: any) => {
-              if (data.hour === item) {
-                currentData.push(data[key] || 0);
-              }
-            });
-        });
-
-        seriesData.push({
-          name: legend[key],
-          type: 'line',
-          data: currentData,
-        });
-
-        console.log('currentData:', currentData)
-      }
-    })
-
 
     const option = ref<ECBasicOption>({
       title: {
@@ -99,6 +67,32 @@ export default defineComponent({
       },
       series: seriesData,
     })
+
+    watch(() => props.items, value => {
+      const data: ISeriesData[] = []
+      for (let key in value.legend) {
+        legendData.value.push(value.legend[key])
+        legendKeys.value.push(key)
+        const currentData: number[] = []
+
+        hours.forEach((item) => {
+          value.hash?.length > 0 &&
+            value.hash.forEach((data: any) => {
+              if (data.hour === item) {
+                currentData.push(data[key] || 0);
+              }
+            });
+        });
+
+        data.push({
+          name: value.legend[key] as string,
+          type: 'line',
+          data: currentData,
+        });
+      }
+      option.value = { ...option.value, series: data }
+    })
+
     return {
       option
     }
