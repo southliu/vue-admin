@@ -41,8 +41,6 @@ export default defineComponent({
     const hours = new Array(24).fill(true).map((value, index) => index)
 
     watch(() => props.legend, value => {
-      console.log('value:', value)
-
       for (let key in value) {
         legendData.value.push(legend[key])
         legendKeys.value.push(key)

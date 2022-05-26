@@ -15,7 +15,7 @@ export type IFormData = Record<string, IAllDataType>
 type IDefaultDataComponents = 'Input' |
                               'InputNumber' |
                               'Textarea' |
-                              'InputPassword'  |
+                              'InputPassword' |
                               'AutoComplete' |
                               'customize'
 
@@ -32,14 +32,14 @@ type IRadioComponents = 'RadioGroup' | 'Switch'
 type ITimeComponents = 'DatePicker' | 'RangePicker'
 
 // 组件集合
-export type IComponents =  IDefaultDataComponents |
-                    ISelectComponents |
-                    ICheckboxComponents |
-                    ITimeComponents |
-                    IRadioComponents
+export type IComponents = IDefaultDataComponents |
+                          ISelectComponents |
+                          ICheckboxComponents |
+                          ITimeComponents |
+                          IRadioComponents
 
 // 组件参数
-export type IComponentProps =  Partial<
+export type IComponentProps = Partial<
                                 InputProps &
                                 SelectProps &
                                 CheckboxGroupProps &

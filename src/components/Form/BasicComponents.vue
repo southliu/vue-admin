@@ -26,6 +26,7 @@ import type { IFormList } from '@/types/form'
 import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { Dayjs } from 'dayjs'
+import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
 
 export default defineComponent({
   props: {
@@ -182,8 +183,9 @@ export default defineComponent({
         case 'Checkbox':
           return (
             h(Checkbox, {
+              'onChange': (value: CheckboxChangeEvent) => emit('update:value', value.target.checked),
               ...componentProps as CheckboxProps,
-              value: props.value as boolean,
+              checked: props.value as boolean,
               innerHTML: componentProps?.name || '',
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })

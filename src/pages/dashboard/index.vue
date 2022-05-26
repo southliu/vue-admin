@@ -16,11 +16,12 @@
 </template>
 
 <script lang="ts">
-import type { IDashboardResult } from './model';
+import type { IDashboardResult } from './model'
 import { defineComponent, reactive, ref } from 'vue'
 import { useLoading } from '@/hooks'
 import { IFormData } from '@/types/form'
 import { getDataTrends } from '@/servers/dashboard'
+import { SOURCE_TYPE } from '@/utils/constants'
 import Pie from './components/Pie.vue'
 import Line from './components/Line.vue'
 import dayjs from 'dayjs'
@@ -50,17 +51,10 @@ export default defineComponent({
     // 搜索数据
     const searches = reactive<ISearchData>({
       data: {
-        pay_date: dayjs()
+        pay_date: dayjs(),
+        all_pay: true,
       },
       list: [
-        {
-          title: '来源',
-          key: 'source',
-          component: 'Select',
-          componentProps: {
-            options: []
-          }
-        },
         {
           title: '日期',
           key: 'pay_date',
@@ -75,8 +69,7 @@ export default defineComponent({
           wrapperCol: 200,
           component: 'Select',
           componentProps: {
-            options: [
-            ]
+            options: []
           }
         },
         {
@@ -98,8 +91,16 @@ export default defineComponent({
           }
         },
         {
+          title: '来源',
+          key: 'source',
+          component: 'Select',
+          componentProps: {
+            options: SOURCE_TYPE
+          }
+        },
+        {
           title: '全服充值',
-          key: 'all_pay',
+          key: 'all_pay2',
           wrapperCol: 15,
           component: 'Checkbox'
         },
@@ -135,6 +136,7 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
+      console.log('values:', values)
       // 日期转化
       if (values.pay_date) values.pay_date = (values.pay_date as dayjs.Dayjs).format('YYYY-MM-DD')
       startLoading()
