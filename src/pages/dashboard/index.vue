@@ -21,7 +21,7 @@ import { defineComponent, reactive, ref } from 'vue'
 import { useLoading } from '@/hooks'
 import { IFormData } from '@/types/form'
 import { getDataTrends } from '@/servers/dashboard'
-import { SOURCE_TYPE } from '@/utils/constants'
+import { GAME_PACKAGE_TYPE, SOURCE_TYPE } from '@/utils/constants'
 import Pie from './components/Pie.vue'
 import Line from './components/Line.vue'
 import dayjs from 'dayjs'
@@ -53,6 +53,7 @@ export default defineComponent({
       data: {
         pay_date: dayjs(),
         all_pay: true,
+        package_types: [0]
       },
       list: [
         {
@@ -69,16 +70,18 @@ export default defineComponent({
           wrapperCol: 200,
           component: 'Select',
           componentProps: {
+            mode: 'multiple',
             options: []
           }
         },
         {
           title: '包类型',
           key: 'package_types',
-          wrapperCol: 140,
+          wrapperCol: 150,
           component: 'Select',
           componentProps: {
-            options: []
+            mode: 'multiple',
+            options: GAME_PACKAGE_TYPE
           }
         },
         {
@@ -100,7 +103,7 @@ export default defineComponent({
         },
         {
           title: '全服充值',
-          key: 'all_pay2',
+          key: 'all_pay',
           wrapperCol: 15,
           component: 'Checkbox'
         },
@@ -136,6 +139,14 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
+      // 单选框数据处理- true：1 false：0
+      const { all_pay, new_pay, register, active, active_total } = values
+      if (values.all_pay) values.all_pay = all_pay ? 1 : 0
+      if (values.new_pay) values.new_pay = new_pay ? 1 : 0
+      if (values.register) values.register = register ? 1 : 0
+      if (values.active) values.active = active ? 1 : 0
+      if (values.active_total) values.active_total = active_total ? 1 : 0
+
       console.log('values:', values)
       // 日期转化
       if (values.pay_date) values.pay_date = (values.pay_date as dayjs.Dayjs).format('YYYY-MM-DD')

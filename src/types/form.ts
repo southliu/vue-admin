@@ -39,12 +39,11 @@ export type IComponents = IDefaultDataComponents |
                           IRadioComponents
 
 // 组件参数
-export type IComponentProps = Partial<
-                                InputProps &
-                                SelectProps &
-                                CheckboxGroupProps &
-                                RadioProps &
-                                DatePickerProps>
+export type IComponentProps = InputProps |
+                              SelectProps |
+                              CheckboxGroupProps |
+                              RadioProps |
+                              DatePickerProps
 
 // 表单规则
 export type IFormRule = RuleObject & {

@@ -1,5 +1,16 @@
 <script lang="ts">
 import { defineComponent, h, PropType } from 'vue'
+import type {
+  InputProps,
+  InputNumberProps,
+  TreeSelectProps,
+  CheckboxProps,
+  CheckboxGroupProps,
+  RadioGroupProps,
+  SwitchProps,
+  AutoCompleteProps,
+  SelectProps,
+} from 'ant-design-vue'
 import {
   Input,
   InputNumber,
@@ -12,15 +23,6 @@ import {
   RadioGroup,
   Switch,
   DatePicker
-} from 'ant-design-vue'
-import type {
-  InputProps,
-  InputNumberProps,
-  TreeSelectProps,
-  CheckboxProps,
-  CheckboxGroupProps,
-  RadioGroupProps,
-  SwitchProps,
 } from 'ant-design-vue'
 import type { IFormList } from '@/types/form'
 import type { SelectValue } from 'ant-design-vue/lib/select'
@@ -93,7 +95,7 @@ export default defineComponent({
             h(InputPassword, {
               allowClear,
               placeholder: pleaseEnter,
-              ...componentProps,
+              ...componentProps as InputProps,
               value: props.value as string,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
             })
@@ -117,7 +119,7 @@ export default defineComponent({
             h(AutoComplete, {
               allowClear,
               placeholder: pleaseEnter,
-              ...componentProps,
+              ...componentProps as AutoCompleteProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
@@ -140,8 +142,9 @@ export default defineComponent({
           return (
             h(Select, {
               allowClear,
+              maxTagCount: "responsive",
               placeholder: pleaseSelect,
-              ...componentProps,
+              ...componentProps as SelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
@@ -152,6 +155,7 @@ export default defineComponent({
           return (
             h(TreeSelect, {
               allowClear,
+              maxTagCount: "responsive",
               placeholder: pleaseSelect,
               ...componentProps as TreeSelectProps,
               value: props.value as SelectValue,
@@ -186,7 +190,7 @@ export default defineComponent({
               'onChange': (value: CheckboxChangeEvent) => emit('update:value', value.target.checked),
               ...componentProps as CheckboxProps,
               checked: props.value as boolean,
-              innerHTML: componentProps?.name || '',
+              innerHTML: (componentProps as CheckboxProps)?.name || '',
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })
           )

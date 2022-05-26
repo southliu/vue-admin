@@ -2,11 +2,6 @@
  * 公用常数
  */
 
-interface IContent {
-  value: string | number;
-  label: string;
-}
-
 /**
  * 颜色
  */
@@ -18,10 +13,26 @@ export enum colors {
   info = '#909399'
 }
 
+interface IContent {
+  value: string | number;
+  label: string;
+  color?: colors;
+}
+
 /**
  * 来源
  */
  export const SOURCE_TYPE: IContent[] = [
   { value: '43', label: '新SDK' },
   { value: '67', label: '旧SDK' }
+]
+
+
+/**
+ * 游戏包类型
+ */
+ export const GAME_PACKAGE_TYPE: IContent[] = [
+  { value: 0, label: '自投' },
+  { value: 1, label: 'CPS' },
+  { value: 2, label: '联运' }
 ]
