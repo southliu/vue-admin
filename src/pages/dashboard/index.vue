@@ -17,11 +17,11 @@
 
 <script lang="ts">
 import type { IDashboardResult } from './model'
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { useLoading } from '@/hooks'
 import { IFormData } from '@/types/form'
 import { getDataTrends } from '@/servers/dashboard'
-import { GAME_PACKAGE_TYPE, SOURCE_TYPE } from '@/utils/constants'
+import { GAME_PACKAGE_TYPE, SOURCE_TYPE, DATE_FORMAT } from '@/utils/constants'
 import Pie from './components/Pie.vue'
 import Line from './components/Line.vue'
 import dayjs from 'dayjs'
@@ -51,7 +51,7 @@ export default defineComponent({
     // 搜索数据
     const searches = reactive<ISearchData>({
       data: {
-        pay_date: dayjs(),
+        pay_date: dayjs().format(DATE_FORMAT),
         all_pay: true,
         package_types: [0]
       },
@@ -61,7 +61,8 @@ export default defineComponent({
           key: 'pay_date',
           component: 'DatePicker',
           componentProps: {
-            allowClear: false
+            allowClear: false,
+            format: DATE_FORMAT
           }
         },
         {
@@ -147,9 +148,8 @@ export default defineComponent({
       if (values.active) values.active = active ? 1 : 0
       if (values.active_total) values.active_total = active_total ? 1 : 0
 
-      console.log('values:', values)
       // 日期转化
-      if (values.pay_date) values.pay_date = (values.pay_date as dayjs.Dayjs).format('YYYY-MM-DD')
+      // if (values.pay_date) values.pay_date = (values.pay_date as dayjs.Dayjs).format('YYYY-MM-DD')
       startLoading()
       searches.data = values
       const query = { ...values }
@@ -157,6 +157,10 @@ export default defineComponent({
       datum.value = data as IDashboardResult
       endLoading()
     }
+
+    onMounted(() => {
+      handleSearch(searches.data)
+    })
 
     return {
       datum,

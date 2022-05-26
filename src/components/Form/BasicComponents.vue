@@ -10,6 +10,7 @@ import type {
   SwitchProps,
   AutoCompleteProps,
   SelectProps,
+  DatePickerProps
 } from 'ant-design-vue'
 import {
   Input,
@@ -29,6 +30,7 @@ import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { Dayjs } from 'dayjs'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
+import dayjs from 'dayjs'
 
 export default defineComponent({
   props: {
@@ -212,9 +214,12 @@ export default defineComponent({
               allowClear,
               placeholder: pleaseSelect,
               ...componentProps as object,
-              defaultValue: props.value as string | Dayjs,
-              value: props.value as string | Dayjs,
-              'onUpdate:value': (value: string | Dayjs) => emit('update:value', value)
+              defaultValue: dayjs(props.value as string),
+              value: dayjs(props.value as string),
+              'onUpdate:value': (value: Dayjs | string) => {
+                const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
+                emit('update:value', (value as Dayjs).format(format.toString()))
+              }
             })
           )
 
@@ -225,8 +230,16 @@ export default defineComponent({
               allowClear,
               placeholder: [pleaseSelect, pleaseSelect],
               ...componentProps as object,
-              value: props.value as [string, string] | [Dayjs, Dayjs],
-              'onUpdate:value': (value: [string, string] | [Dayjs, Dayjs]) => emit('update:value', value)
+              value: (props.value as [string, string])?.length > 1 ?
+                    [dayjs((props.value as [string, string])[0]), dayjs((props.value as [string, string])[1])] : ['', ''],
+              'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
+                const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
+                const data = [
+                  (value as [Dayjs, Dayjs])[0].format(format.toString()),
+                  (value as [Dayjs, Dayjs])[1].format(format.toString())
+                ]
+                emit('update:value', data)
+              }
             })
           )
       }

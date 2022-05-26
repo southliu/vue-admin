@@ -19,6 +19,9 @@ interface IContent {
   color?: colors;
 }
 
+// 日期格式化
+export const DATE_FORMAT = 'YYYY-MM-DD'
+
 /**
  * 来源
  */
