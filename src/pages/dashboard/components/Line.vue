@@ -70,6 +70,7 @@ export default defineComponent({
 
     watch(() => props.items, value => {
       const data: ISeriesData[] = []
+      if (!value.legend || !value.hash) return
       for (let key in value.legend) {
         legendData.value.push(value.legend[key])
         legendKeys.value.push(key)

@@ -214,8 +214,8 @@ export default defineComponent({
               allowClear,
               placeholder: pleaseSelect,
               ...componentProps as object,
-              defaultValue: dayjs(props.value as string),
-              value: dayjs(props.value as string),
+              defaultValue: props.value ? dayjs(props.value as string) : undefined,
+              value: props.value ? dayjs(props.value as string) : undefined,
               'onUpdate:value': (value: Dayjs | string) => {
                 const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
                 emit('update:value', (value as Dayjs).format(format.toString()))
@@ -230,7 +230,9 @@ export default defineComponent({
               allowClear,
               placeholder: [pleaseSelect, pleaseSelect],
               ...componentProps as object,
-              value: (props.value as [string, string])?.length > 1 ?
+              defaultValue: (props.value as [string, string])?.length > 1 && (props.value as [string, string])?.[0] ?
+                    [dayjs((props.value as [string, string])[0]), dayjs((props.value as [string, string])[1])] : ['', ''],
+              value: (props.value as [string, string])?.length > 1 && (props.value as [string, string])?.[0] ?
                     [dayjs((props.value as [string, string])[0]), dayjs((props.value as [string, string])[1])] : ['', ''],
               'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
                 const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
