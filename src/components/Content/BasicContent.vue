@@ -1,11 +1,11 @@
 <template>
   <div class="h-full bg px-2 py-4 box-border ">
-    <div id="container" class="h-full bg-white relative overflow-y-auto">
+    <div id="container" class="h-full bg-white relative overflow-auto">
       <div id="top">
         <slot name="top"></slot>
       </div>
 
-      <div id="content" class="pt-6 px-5 overflow-y-auto">
+      <div id="content" class="p-5 overflow-auto">
         <slot></slot>
       </div>
 

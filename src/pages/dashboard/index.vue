@@ -1,5 +1,6 @@
 <template>
   <BasicSearch
+    :labelCol="70"
     :list="searches.list"
     :data="searches.data"
     :loading="loading"
@@ -53,13 +54,79 @@ export default defineComponent({
       },
       list: [
         {
+          title: '来源',
+          key: 'source',
+          component: 'Select',
+          componentProps: {
+            options: []
+          }
+        },
+        {
           title: '日期',
           key: 'pay_date',
           component: 'DatePicker',
           componentProps: {
             allowClear: false
           }
-        }
+        },
+        {
+          title: '游戏ID',
+          key: 'game_ids',
+          wrapperCol: 200,
+          component: 'Select',
+          componentProps: {
+            options: [
+            ]
+          }
+        },
+        {
+          title: '包类型',
+          key: 'package_types',
+          wrapperCol: 140,
+          component: 'Select',
+          componentProps: {
+            options: []
+          }
+        },
+        {
+          title: '合作公司',
+          key: 'partners',
+          wrapperCol: 220,
+          component: 'Select',
+          componentProps: {
+            options: []
+          }
+        },
+        {
+          title: '全服充值',
+          key: 'all_pay',
+          wrapperCol: 15,
+          component: 'Checkbox'
+        },
+        {
+          title: '新增充值',
+          key: 'new_pay',
+          wrapperCol: 15,
+          component: 'Checkbox'
+        },
+        {
+          title: '注册',
+          key: 'register',
+          wrapperCol: 15,
+          component: 'Checkbox'
+        },
+        {
+          title: '登录',
+          key: 'active',
+          wrapperCol: 15,
+          component: 'Checkbox'
+        },
+        {
+          title: '累积登录',
+          key: 'active_total',
+          wrapperCol: 15,
+          component: 'Checkbox'
+        } 
       ]
     })
     

@@ -56,6 +56,8 @@ export type IFormList = {
   key: string; // 唯一标识
   title: string; // 标题
   rules?: IFormRule[]; // 规则
+  labelCol?: number; // label宽度
+  wrapperCol?: number; // 内容宽度
   component: IComponents; // 组件
   componentProps?: IComponentProps; // 组件参数
 }

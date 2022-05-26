@@ -10,5 +10,5 @@ export function useTableHeight() {
   // 容器高度 - 顶部高度 - 底部高度 = 表格高度
   const containerInnerHeight = containerHeight - footerHeight - topHeight // 表格高度
 
-  return containerInnerHeight - 25
+  return containerInnerHeight - 45
 }

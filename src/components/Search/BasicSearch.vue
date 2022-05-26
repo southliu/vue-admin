@@ -1,12 +1,11 @@
 <template>
-  <div class="bg-white pt-4 pb-1 px-5">
+  <div id="searches" class="bg-white pt-4 pb-1 px-5">
     <Form
       ref="formRef"
       labelAlign="left"
       scrollToFirstError
       layout="inline"
       :model="formState"
-      :label-col="labelCol"
       :wrapper-col="wrapperCol"
       @finish="onFinish"
       @finishFailed="onFinishFailed"
@@ -17,6 +16,8 @@
         :name="item.key"
         :label="item.title"
         :rules="item.rules"
+        :label-col="{ style: { width: `${ item.labelCol }px` } }"
+        :wrapper-col="{ style: { width: `${ item.wrapperCol }px` } }"
       >
         <BasicComponents
           :item="item"
@@ -84,19 +85,9 @@ export default defineComponent({
       type: Array as PropType<IFormList[]>,
       required: true
     },
-    labelCol: {
-      type: Object as PropType<Partial<ColProps>>,
-      required: false,
-      default: () => {
-        return { style: { width: '50px' } }
-      }
-    },
     wrapperCol: {
       type: Object as PropType<Partial<ColProps>>,
       required: false,
-      default: () => {
-        return { span: 19 }
-      }
     },
     loading: {
       type: Boolean
@@ -172,3 +163,9 @@ export default defineComponent({
   }
 })
 </script>
+
+<style>
+#searches .ant-form-inline .ant-form-item {
+  padding-bottom: 4px !important;
+}
+</style>
