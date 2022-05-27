@@ -3,7 +3,7 @@ import { router } from '@/router'
 import { message } from 'ant-design-vue'
 import { useToken } from '@/hooks'
 
-const prefixUrl = (import.meta.env.VITE_PROXY as string)
+const prefixUrl = (import.meta.env.VITE_BASE_URL as string)
 
 // 请求列表(防重复提交)
 const requestList: string[] = [];
