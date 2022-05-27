@@ -24,7 +24,7 @@
   />
   <div
     id="con"
-    class="con transition-all overflow-hidden"
+    class="con transition-all overflow-auto"
     :class="{ 'con-close-menu': collapsed, 'con-maximize': maximize }"
   >
     <router-view v-slot="{ Component }">
@@ -47,17 +47,24 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, defineAsyncComponent, ref } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
-import UpdatePassword from '@/components/UpdatePassword/index.vue'
 import type { IUpdatePassword } from '@/components/UpdatePassword/model'
 
 export default defineComponent({
   name: 'Layout',
-  components: { Header, Menu, Tabs, UpdatePassword },
+  components: {
+    Header,
+    Menu,
+    Tabs,
+    // 异步组件，需要时才加载
+    UpdatePassword: defineAsyncComponent(() => (
+      import('@/components/UpdatePassword/index.vue')
+    ))
+  },
   setup() {
     const tabStore = useTabStore()
     const collapsed = ref(false) // 是否收起菜单

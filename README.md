@@ -66,6 +66,7 @@ pnpm build
 - [ ] 安全优化
 - [ ] cli生成增删改查
 - [ ] 手机端适配
+- [ ] defineAsyncComponent异步加载Modal、UpdatePassword
 - [x] 剪切板功能
 - [ ] 富文本组件
 - [ ] 上传组件
@@ -99,6 +100,7 @@ pnpm build
         component: IComponents; // 组件名，参考(https://next.antdv.com/components/overview-cn)
         componentProps?: IComponentProps; // 组件参数，官方组件参数
       ```
+      **componentProps内的方法都是on开头，如dropdownVisibleChange要改为onDropdownVisibleChange**
 
     2. `BasicTable`表格
       ```base

@@ -34,16 +34,16 @@
 </template>
 
 <script lang="ts">
+import type { IGlobalSearchResult } from './model'
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { Modal, Input } from 'ant-design-vue'
-import SearchResult from './SearchResult.vue'
-import SearchFooter from './SearchFooter.vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useDebounceFn, onKeyStroke } from '@vueuse/core'
-import type { IGlobalSearchResult } from './model'
 import { storeToRefs } from 'pinia'
+import SearchResult from './SearchResult.vue'
+import SearchFooter from './SearchFooter.vue'
 import Icon from '@/components/Icon/index.vue';
 
 export default defineComponent({

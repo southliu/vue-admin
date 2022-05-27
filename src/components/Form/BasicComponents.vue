@@ -209,13 +209,14 @@ export default defineComponent({
 
         // 时间
         case 'DatePicker':
+          const dateValue = props.value ? dayjs(props.value as string) : undefined
           return (
             h(DatePicker, {
               allowClear,
               placeholder: pleaseSelect,
               ...componentProps as object,
-              defaultValue: props.value ? dayjs(props.value as string) : undefined,
-              value: props.value ? dayjs(props.value as string) : undefined,
+              defaultValue: dateValue,
+              value: dateValue,
               'onUpdate:value': (value: Dayjs | string) => {
                 const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
                 emit('update:value', (value as Dayjs).format(format.toString()))
@@ -225,15 +226,15 @@ export default defineComponent({
 
         // 时间区间
         case 'RangePicker':
+          const rangeValue: [Dayjs, Dayjs] | undefined = (props.value as [string, string])?.length > 1 && (props.value as [string, string])?.[0] ?
+                    [dayjs((props.value as [string, string])[0]), dayjs((props.value as [string, string])[1])] : undefined
           return (
             h(DatePicker.RangePicker, {
               allowClear,
               placeholder: [pleaseSelect, pleaseSelect],
               ...componentProps as object,
-              defaultValue: (props.value as [string, string])?.length > 1 && (props.value as [string, string])?.[0] ?
-                    [dayjs((props.value as [string, string])[0]), dayjs((props.value as [string, string])[1])] : ['', ''],
-              value: (props.value as [string, string])?.length > 1 && (props.value as [string, string])?.[0] ?
-                    [dayjs((props.value as [string, string])[0]), dayjs((props.value as [string, string])[1])] : ['', ''],
+              defaultValue: rangeValue,
+              value: rangeValue,
               'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
                 const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
                 const data = [

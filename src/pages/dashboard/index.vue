@@ -8,10 +8,17 @@
     :is-create="false"
     @handleFinish="handleSearch"
   />
-  <Line
-    :items="datum.items"
-  />
-  <Pie />
+  <div class="align-center">
+    <Line
+      :items="datum.items"
+    />
+    <Pie
+      :data="datum.game_data"
+    />
+    <Descriptions
+      :data="datum.rows"
+    />
+  </div>
 </template>
 
 <script lang="ts">
@@ -21,17 +28,26 @@ import { useLoading } from '@/hooks'
 import { IFormData } from '@/types/form'
 import { getDataTrends } from '@/servers/dashboard'
 import { GAME_PACKAGE_TYPE, SOURCE_TYPE, DATE_FORMAT } from '@/utils/constants'
+import { useGameStore } from '@/stores/game'
+import { usePartnerStore } from '@/stores/partner'
+import { storeToRefs } from 'pinia'
 import Pie from './components/Pie.vue'
 import Line from './components/Line.vue'
+import Descriptions from './components/Descriptions.vue'
 import dayjs from 'dayjs'
 
 export default defineComponent({
   components: {
     Pie,
     Line,
+    Descriptions
   },
   setup() {
     const { loading, startLoading, endLoading } = useLoading()
+    const gameStore = useGameStore()
+    const { gameList } = storeToRefs(gameStore)
+    const partnerStore = usePartnerStore()
+    const { partnerList } = storeToRefs(partnerStore)
 
     // 数据参数
     const datum = ref<IDashboardResult>({
@@ -67,11 +83,15 @@ export default defineComponent({
         {
           title: '游戏ID',
           key: 'game_ids',
-          wrapperCol: 200,
+          wrapperCol: 250,
           component: 'Select',
           componentProps: {
             mode: 'multiple',
-            options: []
+            options: gameList,
+            onDropdownVisibleChange: (open: boolean) => {
+              console.log('open:', open)
+              open && gameStore.getGame()
+            }
           }
         },
         {
@@ -87,10 +107,15 @@ export default defineComponent({
         {
           title: '合作公司',
           key: 'partners',
-          wrapperCol: 220,
+          wrapperCol: 260,
           component: 'Select',
           componentProps: {
-            options: []
+            mode: 'multiple',
+            options: partnerList,
+            onDropdownVisibleChange: (open: boolean) => {
+              console.log('open:', open)
+              open && partnerStore.getPartner()
+            }
           }
         },
         {

@@ -12,10 +12,9 @@
 
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
+import { defineComponent, defineAsyncComponent, ref } from 'vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { Tooltip } from 'ant-design-vue'
-import SearchModal from './components/SearchModal.vue'
 import type { IGlobalSearchModal } from './components/model'
 
 export default defineComponent({
@@ -23,7 +22,7 @@ export default defineComponent({
   components: {
     SearchOutlined,
     Tooltip,
-    SearchModal
+    SearchModal: defineAsyncComponent(() => import('./components/SearchModal.vue'))
   },
   setup() {
     const modalRef = ref<IGlobalSearchModal>()

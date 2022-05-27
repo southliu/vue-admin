@@ -17,12 +17,12 @@
         <div class="ant-dropdown-link flex items-center cursor-pointer" @click.prevent>
           <img
             class="rounded-1/2 overflow-hidden object-cover bg-light-500"
-            :src="Logo"
-            :width="30"
-            :height="30"
-            alt="LOGO"
+            :src="Avatar"
+            :width="27"
+            :height="27"
+            alt="头像"
           >
-          <span class="ml-2 text-base">South</span>
+          <span class="ml-2 text-15px min-w-50px">用户信息</span>
         </div>
         <template #overlay>
           <Menu @click="onClickDropdown">
@@ -45,7 +45,7 @@
 import { defineComponent, createVNode } from 'vue'
 import Fullscreen from '@/components/Fullscreen/index.vue'
 import GlobalSearch from '@/components/GlobalSearch/index.vue'
-import Logo from '@/assets/images/logo.png'
+import Avatar from '@/assets/images/avatar.png'
 import {
   Menu,
   MenuItem,
@@ -134,7 +134,7 @@ export default defineComponent({
     };
 
     return {
-      Logo,
+      Avatar,
       Dropdowns,
       toggleCollapsed,
       onClickDropdown

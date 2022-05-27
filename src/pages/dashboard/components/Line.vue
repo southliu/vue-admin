@@ -1,5 +1,6 @@
 <template>
   <Echarts
+    class="mx-auto"
     width="100%"
     height="300px"
     :option="option"
