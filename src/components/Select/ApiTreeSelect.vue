@@ -1,15 +1,15 @@
 <script lang="ts">
 import type { PropType } from 'vue'
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
-import type { IApiSelectProps } from '@/types/form'
+import type { IApiTreeSelectProps } from '@/types/form'
 import { defineComponent, ref, h } from 'vue'
-import { Select } from 'ant-design-vue'
+import { TreeSelect } from 'ant-design-vue'
 
 export default defineComponent({
   name: 'ApiSelect',
   props: {
     componentProps: {
-      type: Object as PropType<IApiSelectProps>,
+      type: Object as PropType<IApiTreeSelectProps>,
       required: true
     },
     allowClear: {
@@ -27,7 +27,7 @@ export default defineComponent({
     },
   },
   components: {
-    Select
+    TreeSelect
   },
   setup(props) {
     const {
@@ -41,7 +41,7 @@ export default defineComponent({
     const options = ref<DefaultOptionType[]>([])
 
     return () => h(
-      Select, {
+      TreeSelect, {
         allowClear,
         maxTagCount,
         placeholder,

@@ -2,6 +2,7 @@ import type { IAllDataType } from './public'
 import type {
   InputProps,
   SelectProps,
+  TreeSelectProps,
   RadioProps,
   CheckboxGroupProps,
   DatePickerProps
@@ -46,13 +47,20 @@ export type IApiSelectProps = {
   api?: IApi;
 } & SelectProps
 
+// ApiTreeSelect
+export type IApiTreeSelectProps = {
+  api?: IApi;
+} & TreeSelectProps
+
 // 组件参数
 export type IComponentProps = InputProps |
                               SelectProps |
+                              TreeSelectProps |
                               CheckboxGroupProps |
                               RadioProps |
                               DatePickerProps |
-                              IApiSelectProps
+                              IApiSelectProps |
+                              IApiTreeSelectProps
 
 // 表单规则
 export type IFormRule = RuleObject & {

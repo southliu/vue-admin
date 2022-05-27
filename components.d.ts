@@ -5,6 +5,8 @@
 declare module 'vue' {
   export interface GlobalComponents {
     ApiSelect: typeof import('./src/components/Select/ApiSelect.vue')['default']
+    'ApiSelect copy': typeof import('./src/components/Select/ApiSelect copy.vue')['default']
+    ApiTreeSelect: typeof import('./src/components/Select/ApiTreeSelect.vue')['default']
     BasicBtn: typeof import('./src/components/Buttons/BasicBtn.vue')['default']
     BasicComponents: typeof import('./src/components/Form/BasicComponents.vue')['default']
     BasicContent: typeof import('./src/components/Content/BasicContent.vue')['default']
@@ -20,8 +22,6 @@ declare module 'vue' {
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']
     Icon: typeof import('./src/components/Icon/index.vue')['default']
-    Line: typeof import('./src/components/Echarts/Line.vue')['default']
-    Pie: typeof import('./src/components/Echarts/Pie.vue')['default']
     SearchFooter: typeof import('./src/components/GlobalSearch/components/SearchFooter.vue')['default']
     SearchModal: typeof import('./src/components/GlobalSearch/components/SearchModal.vue')['default']
     SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']

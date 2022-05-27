@@ -25,13 +25,14 @@ import {
   Switch,
   DatePicker
 } from 'ant-design-vue'
-import type { IApiSelectProps, IFormList } from '@/types/form'
+import type { IApiSelectProps, IApiTreeSelectProps, IFormList } from '@/types/form'
 import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { Dayjs } from 'dayjs'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
 import dayjs from 'dayjs'
-import ApiSelectVue from '../Select/ApiSelect.vue'
+import ApiSelect from '../Select/ApiSelect.vue'
+import ApiTreeSelect from '../Select/ApiTreeSelect.vue'
 
 export default defineComponent({
   props: {
@@ -156,11 +157,11 @@ export default defineComponent({
         // 下拉框
         case 'ApiSelect':
           return (
-            h(ApiSelectVue, {
+            h(ApiSelect, {
               allowClear,
               maxTagCount: "responsive",
               placeholder: pleaseSelect,
-              componentProps: componentProps as SelectProps & IApiSelectProps,
+              componentProps: componentProps as IApiSelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
@@ -174,6 +175,19 @@ export default defineComponent({
               maxTagCount: "responsive",
               placeholder: pleaseSelect,
               ...componentProps as TreeSelectProps,
+              value: props.value as SelectValue,
+              'onUpdate:value': (value: SelectValue) => emit('update:value', value)
+            })
+          )
+
+        // 下拉框
+        case 'ApiTreeSelect':
+          return (
+            h(ApiTreeSelect, {
+              allowClear,
+              maxTagCount: "responsive",
+              placeholder: pleaseSelect,
+              componentProps: componentProps as IApiTreeSelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
