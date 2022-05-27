@@ -3,7 +3,8 @@ import { defineStore } from 'pinia'
 export const useMenuStore = defineStore({
   id: 'user',
   state: () => ({
-    token: ''
+    token: '',
+    userInfos: []
   }),
   actions: {
     /**
@@ -12,6 +13,6 @@ export const useMenuStore = defineStore({
      */
     setToken(value: string) {
       this.token = value
-    }
+    },
   },
 })

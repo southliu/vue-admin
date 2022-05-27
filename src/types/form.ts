@@ -6,6 +6,7 @@ import type {
   CheckboxGroupProps,
   DatePickerProps
 } from "ant-design-vue";
+import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { RuleObject } from 'ant-design-vue/lib/form'
 
 // 数据类型
@@ -20,7 +21,7 @@ type IDefaultDataComponents = 'Input' |
                               'customize'
 
 // 下拉组件
-type ISelectComponents = 'Select' | 'TreeSelect'
+type ISelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect'
 
 // 复选框组件
 type ICheckboxComponents = 'Checkbox' | 'CheckboxGroup'
@@ -38,12 +39,20 @@ export type IComponents = IDefaultDataComponents |
                           ITimeComponents |
                           IRadioComponents
 
+type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
+
+// ApiSelect
+export type IApiSelectProps = {
+  api?: IApi;
+} & SelectProps
+
 // 组件参数
 export type IComponentProps = InputProps |
                               SelectProps |
                               CheckboxGroupProps |
                               RadioProps |
-                              DatePickerProps
+                              DatePickerProps |
+                              IApiSelectProps
 
 // 表单规则
 export type IFormRule = RuleObject & {

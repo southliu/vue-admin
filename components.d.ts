@@ -4,6 +4,7 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ApiSelect: typeof import('./src/components/Select/ApiSelect.vue')['default']
     BasicBtn: typeof import('./src/components/Buttons/BasicBtn.vue')['default']
     BasicComponents: typeof import('./src/components/Form/BasicComponents.vue')['default']
     BasicContent: typeof import('./src/components/Content/BasicContent.vue')['default']

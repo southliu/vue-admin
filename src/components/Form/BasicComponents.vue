@@ -25,12 +25,13 @@ import {
   Switch,
   DatePicker
 } from 'ant-design-vue'
-import type { IFormList } from '@/types/form'
+import type { IApiSelectProps, IFormList } from '@/types/form'
 import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { Dayjs } from 'dayjs'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
 import dayjs from 'dayjs'
+import ApiSelectVue from '../Select/ApiSelect.vue'
 
 export default defineComponent({
   props: {
@@ -147,6 +148,19 @@ export default defineComponent({
               maxTagCount: "responsive",
               placeholder: pleaseSelect,
               ...componentProps as SelectProps,
+              value: props.value as SelectValue,
+              'onUpdate:value': (value: SelectValue) => emit('update:value', value)
+            })
+          )
+
+        // 下拉框
+        case 'ApiSelect':
+          return (
+            h(ApiSelectVue, {
+              allowClear,
+              maxTagCount: "responsive",
+              placeholder: pleaseSelect,
+              componentProps: componentProps as SelectProps & IApiSelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
