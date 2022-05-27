@@ -79,7 +79,7 @@ export default defineComponent({
 
         hours.forEach((item) => {
           value.hash?.length > 0 &&
-            value.hash.forEach((data: any) => {
+            value.hash.forEach((data: Record<string, number>) => {
               if (data.hour === item) {
                 currentData.push(data[key] || 0);
               }

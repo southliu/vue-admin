@@ -8,13 +8,18 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, watch } from 'vue'
 import type { ECBasicOption } from 'echarts/types/dist/shared'
+import { defineComponent, ref, watch } from 'vue'
 import Echarts from '@/components/Echarts/index.vue'
 
 type ILeftData = {
   value: number;
   name: string;
+}
+
+interface IData {
+  pay_money: number;
+  game_name: string;
 }
 
 export default defineComponent({
@@ -50,7 +55,7 @@ export default defineComponent({
 
     watch(() => props.data, value => {
       const data: ILeftData[] = []
-      value?.length > 0 && value.forEach((item: any) => {
+      value?.length > 0 && value.forEach((item: IData) => {
         data.push({
           value: item.pay_money,
           name: `${item.game_name}: ${item.pay_money}元`

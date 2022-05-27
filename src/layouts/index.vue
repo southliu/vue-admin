@@ -24,22 +24,24 @@
   />
   <div
     id="con"
-    class="con transition-all overflow-auto min-w-785px"
+    class="con transition-all overflow-auto"
     :class="{ 'con-close-menu': collapsed, 'con-maximize': maximize }"
   >
-    <router-view v-slot="{ Component }">
-      <keep-alive :include="tabStore.cacheRoutes">
+    <div class="min-w-785px">
+      <router-view v-slot="{ Component }">
+        <keep-alive :include="tabStore.cacheRoutes">
+          <component
+            v-if="$route.meta.keepAlive"
+            :is="Component"
+            :key="$route.path"
+          />
+        </keep-alive>
         <component
-          v-if="$route.meta.keepAlive"
           :is="Component"
-          :key="$route.path"
+          v-if="!$route.meta.keepAlive"
         />
-      </keep-alive>
-      <component
-        :is="Component"
-        v-if="!$route.meta.keepAlive"
-      />
-    </router-view>
+      </router-view>
+    </div>
   </div>
 
   <!-- 修改密码 -->

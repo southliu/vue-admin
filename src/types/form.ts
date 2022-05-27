@@ -42,15 +42,17 @@ export type IComponents = IDefaultDataComponents |
 
 type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
 
-// ApiSelect
-export type IApiSelectProps = {
+// api参数
+interface IApiParam {
   api?: IApi;
-} & SelectProps
+  params?: object;
+}
+
+// ApiSelect
+export type IApiSelectProps = IApiParam & SelectProps
 
 // ApiTreeSelect
-export type IApiTreeSelectProps = {
-  api?: IApi;
-} & TreeSelectProps
+export type IApiTreeSelectProps = IApiParam & TreeSelectProps
 
 // 组件参数
 export type IComponentProps = InputProps |

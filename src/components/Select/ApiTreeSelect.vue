@@ -36,7 +36,7 @@ export default defineComponent({
       maxTagCount,
       placeholder,
     } = props
-    const { api } = componentProps
+    const { api, params } = componentProps
     
     const options = ref<DefaultOptionType[]>([])
 
@@ -50,7 +50,7 @@ export default defineComponent({
         onDropdownVisibleChange: async (open: boolean) => {
           componentProps.onDropdownVisibleChange && componentProps.onDropdownVisibleChange(open)
           if (open && api) {
-            api().then(data => {
+            api(params).then(data => {
               options.value = data
             })
           }
