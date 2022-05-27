@@ -24,7 +24,7 @@
   />
   <div
     id="con"
-    class="con transition-all overflow-auto"
+    class="con transition-all overflow-auto min-w-785px"
     :class="{ 'con-close-menu': collapsed, 'con-maximize': maximize }"
   >
     <router-view v-slot="{ Component }">
@@ -47,7 +47,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, ref } from 'vue'
+import { defineComponent, defineAsyncComponent, ref, onMounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
@@ -86,6 +86,11 @@ export default defineComponent({
     const toggleMaximize = () => {
       maximize.value = !maximize.value
     }
+    
+    onMounted(() => {
+      // 手机首次进来收缩菜单
+      if (window.innerWidth <= 768) collapsed.value = true
+    })
 
     return {
       tabStore,
