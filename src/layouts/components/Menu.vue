@@ -21,13 +21,19 @@
     <Menu
       v-model:openKeys="openKeys"
       v-model:selectedKeys="selectedKeys"
-      class="overflow-y-auto h-full"
+      class="overflow-y-auto h-full z-1000"
       mode="inline"
       theme="dark"
       :inline-collapsed="collapsed"
     >
       <MenuChildren :list="menuList" :handleClick="handleClick" />
     </Menu>
+
+    <div
+      v-if="isPhone && !collapsed"
+      class="cover fixed right-0 top-0 bottom-0 h-full z-999"
+      @click="hiddenMenu"
+    />
   </div>
 </template>
 
@@ -45,6 +51,7 @@ import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'MenuLayout',
+  emits: ['toggleCollapsed'],
   props: {
     collapsed: {
       type: Boolean,
@@ -55,14 +62,14 @@ export default defineComponent({
     Menu,
     MenuChildren
   },
-  setup() {
+  setup(props,context) {
     const route = useRoute()
     const router = useRouter()
     const tabStore = useTabStore()
     const selectedKeys = ref<string[]>([]);
     const openKeys = ref<string[]>([]);
     const menuStore = useMenuStore()
-    const { menuList, menuArr } = storeToRefs(menuStore)
+    const { isPhone, menuList, menuArr } = storeToRefs(menuStore)
 
     // 监听路由变化，菜单跟随变化
     watch(() => route.path, value => {
@@ -102,6 +109,14 @@ export default defineComponent({
     const handleClick = (key: string, title: string) => {
       router.push(key)
       tabStore.addTabs({ title, key })
+      
+      // 手机端点击隐藏菜单
+      if (isPhone) context.emit('toggleCollapsed')
+    }
+
+    /** 隐藏菜单 */
+    const hiddenMenu = () => {
+      context.emit('toggleCollapsed')
     }
 
     // 监听菜单选中值是否和路由值匹配
@@ -112,10 +127,12 @@ export default defineComponent({
     })
 
     return {
+      isPhone,
       Logo,
       menuList,
       selectedKeys,
       openKeys,
+      hiddenMenu,
       handleClick,
     }
   }
@@ -123,11 +140,18 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@import '@/assets/css/default.less';
+
 .title {
   color: #fff;
 }
 
 .title-close {
   display: none;
+}
+
+.cover {
+  left: @layout_left;
+  background: rgba(0, 0, 0, 0.1);
 }
 </style>

@@ -1,7 +1,11 @@
 <template>
   <div
     class="header flex flex-col box-border overflow-hidden"
-    :class="{ 'header-close-menu': collapsed, 'header-none': maximize }"
+    :class="{
+      'header-close-menu': collapsed,
+      'header-none': maximize,
+      'header-phone z-999': isPhone
+    }"
   >
     <Header
       class="header-driver box-border"
@@ -19,13 +23,23 @@
   </div>
   <Menu
     class="menu"
-    :class="{ 'menu-close': collapsed, 'menu-none': maximize }"
     :collapsed="collapsed"
+    :class="{
+      'menu-close': collapsed,
+      'menu-none': maximize || (isPhone && collapsed),
+      'z-1000': isPhone
+    }"
+    @toggleCollapsed="toggleCollapsed"
   />
   <div
     id="con"
     class="con transition-all overflow-auto"
-    :class="{ 'con-close-menu': collapsed, 'con-maximize': maximize }"
+    :class="{ 
+      'con-close-menu': collapsed, 
+      'con-maximize': maximize,
+      'con-phone': isPhone,
+      'z-1': isPhone && !collapsed
+    }"
   >
     <div class="min-w-785px">
       <router-view v-slot="{ Component }">
@@ -51,6 +65,8 @@
 <script lang="ts">
 import { defineComponent, defineAsyncComponent, ref, onMounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
+import { useMenuStore } from '@/stores/menu'
+import { storeToRefs } from 'pinia'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
@@ -69,6 +85,8 @@ export default defineComponent({
   },
   setup() {
     const tabStore = useTabStore()
+    const menuStore = useMenuStore()
+    const { isPhone } = storeToRefs(menuStore)
     const collapsed = ref(false) // 是否收起菜单
     const maximize = ref(false) // 是否窗口最大化
     // 修改密码组件ref
@@ -90,11 +108,14 @@ export default defineComponent({
     }
     
     onMounted(() => {
+      const isPhone = window.innerWidth <= 768
       // 手机首次进来收缩菜单
-      if (window.innerWidth <= 768) collapsed.value = true
+      if (isPhone) collapsed.value = true
+      menuStore.setPhone(isPhone)
     })
 
     return {
+      isPhone,
       tabStore,
       collapsed,
       maximize,
@@ -169,4 +190,11 @@ export default defineComponent({
   width: 0 !important;
 }
 
+.con-phone {
+  left: 0 !important;
+}
+
+.header-phone {
+  left: 0 !important;
+}
 </style>
