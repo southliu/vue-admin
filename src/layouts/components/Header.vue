@@ -22,7 +22,7 @@
             :height="27"
             alt="头像"
           >
-          <span class="ml-2 text-15px min-w-50px">用户信息</span>
+          <span class="ml-2 text-15px min-w-50px truncate">{{ username ?? '用户名' }}</span>
         </div>
         <template #overlay>
           <Menu @click="onClickDropdown">
@@ -62,6 +62,8 @@ import {
 import { useRouter } from 'vue-router'
 import { useToken } from '@/hooks'
 import { Modal } from 'ant-design-vue'
+import { USERNAME } from '@/utils/config'
+import { getLocalInfo } from '@/utils/local'
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -134,6 +136,7 @@ export default defineComponent({
     };
 
     return {
+      username: getLocalInfo(USERNAME),
       Avatar,
       Dropdowns,
       toggleCollapsed,

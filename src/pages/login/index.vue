@@ -68,6 +68,8 @@ import { login } from '@/servers/login'
 import { passwordRule } from '@/utils/config'
 import { useLoading, useToken } from '@/hooks'
 import { useRouter } from 'vue-router'
+import { USERNAME } from '@/utils/config'
+import { setLocalInfo } from '@/utils/local'
 import {
   Form,
   FormItem,
@@ -105,7 +107,9 @@ export default defineComponent({
       startLoading()
       const { data } = await login(values)
       if (data) {
-        setToken(data.data.token)
+        const { data: { token, user } } = data
+        setToken(token)
+        setLocalInfo(USERNAME, user?.username || '')
         router.push('/system/user')
       }
       endLoading()

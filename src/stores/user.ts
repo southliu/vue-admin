@@ -4,7 +4,10 @@ export const useMenuStore = defineStore({
   id: 'user',
   state: () => ({
     token: '',
-    userInfos: []
+    userInfos: {
+      id: 0,
+      username: ''
+    }
   }),
   actions: {
     /**
