@@ -57,7 +57,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, nextTick, ref, watch } from 'vue'
+import { defineComponent, nextTick, PropType, ref, watch } from 'vue'
 import { Modal, Tooltip, Button } from 'ant-design-vue'
 import { useModalDragMove } from './hooks/useModalDrag'
 import Icon from '../Icon/index.vue'
@@ -75,9 +75,9 @@ export default defineComponent({
       default: 520
     },
     layout: {
-      type: Object,
+      type: String as PropType<'horizontal'|'vertical'|'inline'>,
       required: false,
-      // default: 
+      default: 'horizontal'
     },
     title: {
       type: String,

@@ -41,7 +41,7 @@
       'z-1': isPhone && !collapsed
     }"
   >
-    <div class="min-w-785px">
+    <div class="h-full min-w-785px">
       <router-view v-slot="{ Component }">
         <keep-alive :include="tabStore.cacheRoutes">
           <component
