@@ -12,6 +12,7 @@ declare global {
 
   // 新增数据
   interface ICreateData {
+    id: string;
     isVisible: boolean;
     title: string;
     data: IFormData;

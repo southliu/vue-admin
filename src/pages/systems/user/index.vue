@@ -101,6 +101,7 @@ export default defineComponent({
 
     // 新增数据
     const creates = reactive<ICreateData>({
+      id: '',
       isVisible: false,
       title: '新增',
       data: {
