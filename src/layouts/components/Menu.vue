@@ -31,7 +31,7 @@
 
     <div
       v-if="isPhone && !collapsed"
-      class="cover fixed right-0 top-0 bottom-0 h-full z-999"
+      class="cover fixed right-0 top-0 bottom-0 h-full bg-gray-500 bg-opacity-10 z-2"
       @click="hiddenMenu"
     />
   </div>
@@ -111,7 +111,7 @@ export default defineComponent({
       tabStore.addTabs({ title, key })
       
       // 手机端点击隐藏菜单
-      if (isPhone) context.emit('toggleCollapsed')
+      if (isPhone.value) context.emit('toggleCollapsed')
     }
 
     /** 隐藏菜单 */
@@ -152,6 +152,5 @@ export default defineComponent({
 
 .cover {
   left: @layout_left;
-  background: rgba(0, 0, 0, 0.1);
 }
 </style>
