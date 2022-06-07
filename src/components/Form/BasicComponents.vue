@@ -1,5 +1,4 @@
 <script lang="ts">
-import { defineComponent, h, PropType } from 'vue'
 import type {
   InputProps,
   InputNumberProps,
@@ -30,6 +29,10 @@ import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { Dayjs } from 'dayjs'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
+import type { IBasicData } from "@/types/public"
+import type { PropType } from 'vue'
+import { defineComponent, h } from 'vue'
+import { exportBusiness } from '../Business'
 import dayjs from 'dayjs'
 import ApiSelect from '../Select/ApiSelect.vue'
 import ApiTreeSelect from '../Select/ApiTreeSelect.vue'
@@ -41,7 +44,7 @@ export default defineComponent({
       required: true
     },
     value: {
-      type: [String, Number, Boolean, Object],
+      type: [String, Number, Boolean, Object] as PropType<IBasicData | undefined>,
       required: false
     }
   },
@@ -282,7 +285,7 @@ export default defineComponent({
       }
     }
 
-    return () => itemRender(item)
+    return () => itemRender(item) || exportBusiness(item, props.value)
   }
 })
 </script>

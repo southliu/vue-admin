@@ -28,18 +28,19 @@ import { useLoading } from '@/hooks'
 import { IFormData } from '@/types/form'
 import { getDataTrends } from '@/servers/dashboard'
 import { GAME_PACKAGE_TYPE, SOURCE_TYPE, DATE_FORMAT } from '@/utils/constants'
+import { getPartner } from '@/servers/platform/partner'
 import Pie from './components/Pie.vue'
 import Line from './components/Line.vue'
 import Descriptions from './components/Descriptions.vue'
 import dayjs from 'dayjs'
-import { getPartner } from '@/servers/platform/partner'
-import { getGames } from '@/servers/platform/game'
+import BasicSearch from '@/components/Search/BasicSearch.vue'
 
 export default defineComponent({
   components: {
     Pie,
     Line,
-    Descriptions
+    Descriptions,
+    BasicSearch
   },
   setup() {
     const { loading, startLoading, endLoading } = useLoading()
@@ -79,11 +80,7 @@ export default defineComponent({
           title: '游戏ID',
           key: 'game_ids',
           wrapperCol: 250,
-          component: 'ApiTreeSelect',
-          componentProps: {
-            multiple: true,
-            api: getGames
-          }
+          component: 'GameSelect',
         },
         {
           title: '包类型',
@@ -142,7 +139,7 @@ export default defineComponent({
           key: 'active_total',
           wrapperCol: 15,
           component: 'Checkbox'
-        } 
+        }
       ]
     })
     

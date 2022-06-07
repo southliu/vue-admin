@@ -9,6 +9,7 @@ import type {
 } from "ant-design-vue";
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { RuleObject } from 'ant-design-vue/lib/form'
+import type { IBusinessComponentType } from '@/components/Business';
 
 // 数据类型
 export type IFormData = Record<string, IAllDataType>
@@ -19,7 +20,8 @@ type IDefaultDataComponents = 'Input' |
                               'Textarea' |
                               'InputPassword' |
                               'AutoComplete' |
-                              'customize'
+                              'customize' |
+                              IBusinessComponentType
 
 // 下拉组件
 type ISelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect'

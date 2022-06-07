@@ -16,18 +16,20 @@ const request = axios.create({
   timeout: 180 * 1000
 })
 
-// 异常处理
-const handleError = (error: string): Promise<string> => {
+/**
+ * 异常处理
+ * @param error - 错误信息
+ */
+const handleError = (error: string) => {
   console.log('错误信息:', error)
   message.error({ content: error || '服务器错误', key: 'error' })
-  return Promise.reject(error)
 }
 
 // 请求拦截
 request.interceptors.request.use(
   (config) => {
-    const token = useToken().getToken()
-    if (config?.headers) config.headers['Authorization'] = `Bearer ${token}`
+    const token = useToken().getToken() || ''
+    if (config?.headers && token) config.headers['Authorization'] = `Bearer ${token}`
 
     // 防止重复提交（如果本次是重复操作，则取消，否则将该操作标记到requestList中）
     const requestFlag = JSON.stringify(config.url) + JSON.stringify(config.data) + '&' + config.method;
@@ -36,7 +38,7 @@ request.interceptors.request.use(
     } else {
       requestList.push(requestFlag);
     }
-
+    
     return config
   },
   (error) => {
@@ -60,19 +62,21 @@ request.interceptors.response.use(
       useToken().removeToken()
       handleError(res.message)
 
-      return response
+      return Promise.reject(response)
     }
 
     // 错误处理
     if (res?.code !== 200) {
       handleError(res.message)
+      return Promise.reject(response)
     }
 
-    return response
+    return Promise.resolve(response)
   },
   (error) => {
     //置空请求列表
     requestList.length = 0;
+    handleError(error)
     return Promise.reject(error)
   }
 )
