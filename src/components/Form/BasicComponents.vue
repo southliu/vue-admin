@@ -147,6 +147,7 @@ export default defineComponent({
             h(Select, {
               allowClear,
               maxTagCount: "responsive",
+              optionFilterProp: "label",
               placeholder: pleaseSelect,
               ...componentProps as SelectProps,
               value: props.value as SelectValue,
@@ -160,6 +161,7 @@ export default defineComponent({
             h(ApiSelect, {
               allowClear,
               maxTagCount: "responsive",
+              optionFilterProp: "label",
               placeholder: pleaseSelect,
               componentProps: componentProps as IApiSelectProps,
               value: props.value as SelectValue,
@@ -173,7 +175,9 @@ export default defineComponent({
             h(TreeSelect, {
               allowClear,
               maxTagCount: "responsive",
+              treeNodeFilterProp: 'label',
               placeholder: pleaseSelect,
+              showSearch: true,
               ...componentProps as TreeSelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
@@ -186,6 +190,8 @@ export default defineComponent({
             h(ApiTreeSelect, {
               allowClear,
               maxTagCount: "responsive",
+              treeNodeFilterProp: 'label',
+              showSearch: true,
               placeholder: pleaseSelect,
               componentProps: componentProps as IApiTreeSelectProps,
               value: props.value as SelectValue,

@@ -1,6 +1,5 @@
 import type { IAllDataType, IArrayData } from "@/types/public"
 
-
 /**
  * 首字母大写
  * @param str - 传入英文字符串
@@ -11,6 +10,7 @@ export function firstCapitalize(str: string): string {
 
 /**
  * 过滤空数据
+ * @param obj - 传入对象
  */
 type IEmptyData = Record<string, IAllDataType>
 export function filterEmptyValue(obj: IEmptyData): IEmptyData {
@@ -42,6 +42,28 @@ export function filterEmptyValue(obj: IEmptyData): IEmptyData {
     ) continue
 
     res[key] = obj[key]
+  }
+
+  return res
+}
+
+/**
+ * 递归数据
+ * @param data - 数据源
+ */
+interface IRecursiveChildren<T> { children?: T[] }
+export function recursiveData<T extends IRecursiveChildren<T>, U>(
+  data: T[],
+  callback: (data: T) => U
+): U[] {
+  if (data. length === 0) return []
+  const res: U[] = []
+
+  for (let i = 0; i < data.length; i++) {
+    const element = data[i]
+    const filterData = callback(element)
+    const children = element.children ? recursiveData(element.children, callback) : undefined
+    res.push({ ...filterData, children })
   }
 
   return res

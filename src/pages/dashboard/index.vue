@@ -79,9 +79,9 @@ export default defineComponent({
           title: '游戏ID',
           key: 'game_ids',
           wrapperCol: 250,
-          component: 'ApiSelect',
+          component: 'ApiTreeSelect',
           componentProps: {
-            mode: 'multiple',
+            multiple: true,
             api: getGames
           }
         },

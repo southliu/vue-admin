@@ -1,7 +1,7 @@
 <script lang="ts">
 import type { PropType } from 'vue'
-import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { IApiTreeSelectProps } from '@/types/form'
+import type { TreeSelectProps } from 'ant-design-vue'
 import { defineComponent, ref, h } from 'vue'
 import { TreeSelect } from 'ant-design-vue'
 
@@ -38,7 +38,7 @@ export default defineComponent({
     } = props
     const { api, params } = componentProps
     
-    const options = ref<DefaultOptionType[]>([])
+    const options = ref<TreeSelectProps['treeData']>([])
 
     return () => h(
       TreeSelect, {
@@ -46,7 +46,7 @@ export default defineComponent({
         maxTagCount,
         placeholder,
         ...componentProps,
-        options: options.value,
+        treeData: options.value,
         onDropdownVisibleChange: async (open: boolean) => {
           componentProps.onDropdownVisibleChange && componentProps.onDropdownVisibleChange(open)
           if (open && api) {

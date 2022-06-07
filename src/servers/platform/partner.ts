@@ -19,7 +19,7 @@ export function getPartner(data?: unknown): Promise<DefaultOptionType[]> {
     request.get<IServerResult<IResult[]>>(`${API.URL}`, { params: data }).then(res => {
       const data: DefaultOptionType[] = []
 
-      res.data.data.forEach(item => {
+      res?.data?.data.forEach(item => {
         data.push({
           label: item.name,
           value: item.id

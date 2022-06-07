@@ -1,5 +1,6 @@
 import type { DefaultOptionType } from 'ant-design-vue/lib/select';
 import { request } from '@/utils/request'
+import { recursiveData } from '@/utils/utils';
 
 enum API {
   URL = '/platform/game',
@@ -9,21 +10,24 @@ enum API {
 interface IResult {
   id: string;
   name: string;
+  children?: IResult[];
 }
 
 export function getGames(data?: unknown): Promise<DefaultOptionType[]> {
   return new Promise((resolve, reject) => {
     request.get<IServerResult<IResult[]>>(`${API.COMMON_URL}/games`, { params: data }).then(res => {
-      const data: DefaultOptionType[] = []
 
-      res.data.data.forEach(item => {
-        data.push({
-          label: item.name,
-          value: item.id
-        })
+      // 递归数据
+     const result = recursiveData<IResult, DefaultOptionType>(res?.data?.data, item => {
+        const { id, name } = item
+        const filterData = {
+          value: id,
+          label: `${id}:${name}`
+        }
+        return filterData
       })
 
-      resolve(data)
+      resolve(result)
     }).catch(() => reject([]))
   })
 }
