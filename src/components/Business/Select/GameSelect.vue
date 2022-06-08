@@ -20,7 +20,7 @@ export default defineComponent({
     },
     value: {
       type: [String, Number, Boolean, Object] as PropType<IBasicData>,
-      required: true
+      required: false
     },
     handleEmit: {
       type: Object as PropType<IBusinessEmit>,

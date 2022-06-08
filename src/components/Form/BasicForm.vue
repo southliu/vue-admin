@@ -36,6 +36,7 @@ import { useDebounceFn } from '@vueuse/core'
 import type { PropType } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
+import type { IBasicData } from "@/types/public"
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
 import BasicComponents from './BasicComponents.vue'
@@ -48,7 +49,7 @@ export default defineComponent({
   emits: ['handleFinish'],
   props: {
     data: {
-      type: Object,
+      type: Object as PropType<Record<string, IBasicData>>,
       required: true
     },
     list: {
@@ -87,7 +88,7 @@ export default defineComponent({
   setup(props, context) {
     const formRef = ref<FormInstance>()
     const data = JSON.parse(JSON.stringify(props.data))
-    const formState = reactive(data)
+    const formState = reactive<Record<string, IBasicData>>(data)
 
     /** 外部调内部提交方法 */
     const handleSubmit = useDebounceFn(() => {

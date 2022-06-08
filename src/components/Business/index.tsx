@@ -11,7 +11,7 @@ export type IBusinessEmit = (value: IBasicData) => void
 /**
  * 导出业务组件
  */
-export function exportBusiness(item: IFormList, value: IBasicData, handleEmit: IBusinessEmit) {
+export function exportBusiness(item: IFormList, value?: IBasicData | undefined, handleEmit?: IBusinessEmit) {
   const { component, componentProps } = item
 
   // 属性值

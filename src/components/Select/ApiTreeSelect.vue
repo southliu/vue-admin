@@ -13,7 +13,7 @@ export default defineComponent({
   props: {
     value: {
       type: [String, Array] as PropType<SelectValue>,
-      required: true
+      required: false
     },
     componentProps: {
       type: Object as PropType<IApiTreeSelectProps>,
