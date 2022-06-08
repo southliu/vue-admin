@@ -1,8 +1,8 @@
 <script lang="ts">
 import type { PropType } from 'vue'
-import type { DefaultOptionType } from 'ant-design-vue/lib/select'
+import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select'
 import type { IApiSelectProps } from '@/types/form'
-import { defineComponent, ref, h } from 'vue'
+import { defineComponent, onMounted, ref, h } from 'vue'
 import { Select } from 'ant-design-vue'
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
 import BasicLoading from '../Loading/BasicLoading.vue'
@@ -10,6 +10,10 @@ import BasicLoading from '../Loading/BasicLoading.vue'
 export default defineComponent({
   name: 'ApiSelect',
   props: {
+    value: {
+      type: [String, Array] as PropType<SelectValue>,
+      required: true
+    },
     componentProps: {
       type: Object as PropType<IApiSelectProps>,
       required: true
@@ -20,11 +24,29 @@ export default defineComponent({
     BasicLoading
   },
   setup(props) {
-    const { componentProps } = props
+    const { value, componentProps } = props
     const { api, params } = componentProps
     
     const options = ref<DefaultOptionType[]>([])
     const loading = ref(false)
+
+    /** 获取接口数据 */
+    const getApiData = () => {
+      loading.value = true
+      api && api(params).then(data => {
+        options.value = data
+      }).finally(() => {
+        loading.value = false
+      }).catch(() => {
+        loading.value = false
+      })
+    }
+
+    onMounted(() => {
+      if (value && options.value.length === 0) {
+        getApiData()
+      }
+    })
 
     return () => h(
       Select, {
@@ -32,20 +54,14 @@ export default defineComponent({
         maxTagCount: MAX_TAG_COUNT,
         placeholder: PLEASE_SELECT,
         optionFilterProp: "label",
+        value: value as SelectValue,
         ...componentProps,
         options: options.value,
         notFoundContent: loading && h(BasicLoading),
         onDropdownVisibleChange: async (open: boolean) => {
           componentProps.onDropdownVisibleChange && componentProps.onDropdownVisibleChange(open)
           if (open && api) {
-            loading.value = true
-            api(params).then(data => {
-              options.value = data
-            }).finally(() => {
-              loading.value = false
-            }).catch(() => {
-              loading.value = false
-            })
+            getApiData()
           }
         },
       }

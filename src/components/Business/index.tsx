@@ -24,14 +24,10 @@ export function exportBusiness(item: IFormList, value: IBasicData, handleEmit: I
   switch (component) {
     // 游戏下拉选择
     case 'GameSelect':
-      return (
-        <GameSelect { ...params } />
-      )
+      return <GameSelect { ...params } />
 
     // 合作公司下拉选择
     case 'PartnerSelect':
-      return (
-        <PartnerSelect { ...params } />
-      )
+      return <PartnerSelect { ...params } />
   }
 }

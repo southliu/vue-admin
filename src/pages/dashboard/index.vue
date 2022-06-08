@@ -94,7 +94,7 @@ export default defineComponent({
         {
           title: '合作公司',
           key: 'partners',
-          wrapperCol: 260,
+          wrapperCol: 300,
           component: 'PartnerSelect'
         },
         {
