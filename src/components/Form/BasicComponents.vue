@@ -30,9 +30,11 @@ import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { Dayjs } from 'dayjs'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
 import type { IBasicData } from "@/types/public"
-import type { PropType } from 'vue'
+import type { IBusinessEmit } from '../Business'
+import type {  PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 import { exportBusiness } from '../Business'
+import { PLEASE_ENTER, PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
 import dayjs from 'dayjs'
 import ApiSelect from '../Select/ApiSelect.vue'
 import ApiTreeSelect from '../Select/ApiTreeSelect.vue'
@@ -44,8 +46,8 @@ export default defineComponent({
       required: true
     },
     value: {
-      type: [String, Number, Boolean, Object] as PropType<IBasicData | undefined>,
-      required: false
+      type: [String, Number, Boolean, Object] as PropType<IBasicData>,
+      required: true
     }
   },
   emits: ['update:value', 'update:modelValue'],
@@ -62,15 +64,12 @@ export default defineComponent({
     Switch,
     DatePicker,
   },
-  setup(props, { emit }) {
+  setup(props, context) {
     const { item } = props
+    const { emit } = context
 
     // 默认允许关闭
     const allowClear = true
-    // 请输入
-    const pleaseEnter = '请输入'
-    // 请选择
-    const pleaseSelect = '请选择'
 
     /**
      * 渲染不同组件
@@ -89,7 +88,7 @@ export default defineComponent({
           return (
             h(Input, {
               allowClear,
-              placeholder: pleaseEnter,
+              placeholder: PLEASE_ENTER,
               ...componentProps as InputProps,
               value: props.value as string,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
@@ -101,7 +100,7 @@ export default defineComponent({
           return (
             h(InputPassword, {
               allowClear,
-              placeholder: pleaseEnter,
+              placeholder: PLEASE_ENTER,
               ...componentProps as InputProps,
               value: props.value as string,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
@@ -113,7 +112,7 @@ export default defineComponent({
           return (
             h(InputNumber, {
               allowClear,
-              placeholder: pleaseEnter,
+              placeholder: PLEASE_ENTER,
               ...componentProps as InputNumberProps,
               value: props.value as number,
               'onUpdate:value': (value: number) => emit('update:value', value)
@@ -125,7 +124,7 @@ export default defineComponent({
           return (
             h(AutoComplete, {
               allowClear,
-              placeholder: pleaseEnter,
+              placeholder: PLEASE_ENTER,
               ...componentProps as AutoCompleteProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
@@ -137,7 +136,7 @@ export default defineComponent({
           return (
             h(Input.Textarea, {
               allowClear,
-              placeholder: pleaseEnter,
+              placeholder: PLEASE_ENTER,
               ...componentProps,
               value: props.value as string,
               'onUpdate:value': (value: string) => emit('update:value', value)
@@ -149,9 +148,9 @@ export default defineComponent({
           return (
             h(Select, {
               allowClear,
-              maxTagCount: "responsive",
+              maxTagCount: MAX_TAG_COUNT,
               optionFilterProp: "label",
-              placeholder: pleaseSelect,
+              placeholder: PLEASE_SELECT,
               ...componentProps as SelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
@@ -163,9 +162,8 @@ export default defineComponent({
           return (
             h(ApiSelect, {
               allowClear,
-              maxTagCount: "responsive",
-              optionFilterProp: "label",
-              placeholder: pleaseSelect,
+              maxTagCount: MAX_TAG_COUNT,
+              placeholder: PLEASE_SELECT,
               componentProps: componentProps as IApiSelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
@@ -177,9 +175,9 @@ export default defineComponent({
           return (
             h(TreeSelect, {
               allowClear,
-              maxTagCount: "responsive",
+              maxTagCount: MAX_TAG_COUNT,
               treeNodeFilterProp: 'label',
-              placeholder: pleaseSelect,
+              placeholder: PLEASE_SELECT,
               showSearch: true,
               ...componentProps as TreeSelectProps,
               value: props.value as SelectValue,
@@ -192,10 +190,8 @@ export default defineComponent({
           return (
             h(ApiTreeSelect, {
               allowClear,
-              maxTagCount: "responsive",
-              treeNodeFilterProp: 'label',
-              showSearch: true,
-              placeholder: pleaseSelect,
+              maxTagCount: MAX_TAG_COUNT,
+              placeholder: PLEASE_SELECT,
               componentProps: componentProps as IApiTreeSelectProps,
               value: props.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
@@ -250,7 +246,7 @@ export default defineComponent({
           return (
             h(DatePicker, {
               allowClear,
-              placeholder: pleaseSelect,
+              placeholder: PLEASE_SELECT,
               ...componentProps as object,
               defaultValue: dateValue,
               value: dateValue,
@@ -268,7 +264,7 @@ export default defineComponent({
           return (
             h(DatePicker.RangePicker, {
               allowClear,
-              placeholder: [pleaseSelect, pleaseSelect],
+              placeholder: [PLEASE_SELECT, PLEASE_SELECT],
               ...componentProps as object,
               defaultValue: rangeValue,
               value: rangeValue,
@@ -285,7 +281,15 @@ export default defineComponent({
       }
     }
 
-    return () => itemRender(item) || exportBusiness(item, props.value)
+    /**
+     * 父组件传送数据
+     * @param value - 传送值
+     */
+    const handleEmit: IBusinessEmit = value => {
+      emit('update:value', value)
+    }
+
+    return () => itemRender(item) || exportBusiness(item, props.value, handleEmit)
   }
 })
 </script>

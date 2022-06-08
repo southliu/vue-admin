@@ -1,14 +1,15 @@
+import type { Plugin } from 'vite'
+import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
+import { presetUno, presetAttributify, presetIcons } from 'unocss'
+import { configVisualizerConfig } from './visualizer'
+import { configStyleImportPlugin } from './styleImport'
 import vue from '@vitejs/plugin-vue'
 import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
 import PurgeIcons from 'vite-plugin-purge-icons'
 import Components from 'unplugin-vue-components/vite'
-import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import Unocss from 'unocss/vite'
-import { presetUno, presetAttributify, presetIcons } from 'unocss'
-import { configVisualizerConfig } from './visualizer'
-import { configStyleImportPlugin } from './styleImport'
-import type { Plugin } from 'vite';
+import vueJsx from '@vitejs/plugin-vue-jsx'
 
 export function createVitePlugins() {
   // 插件参数
@@ -22,6 +23,9 @@ export function createVitePlugins() {
         presetAttributify(), 
         presetIcons()
       ],
+    }),
+    vueJsx({
+      // options are passed on to @vue/babel-plugin-jsx
     }),
     AutoImport({
       resolvers: [

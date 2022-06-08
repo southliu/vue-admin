@@ -28,7 +28,6 @@ import { useLoading } from '@/hooks'
 import { IFormData } from '@/types/form'
 import { getDataTrends } from '@/servers/dashboard'
 import { GAME_PACKAGE_TYPE, SOURCE_TYPE, DATE_FORMAT } from '@/utils/constants'
-import { getPartner } from '@/servers/platform/partner'
 import Pie from './components/Pie.vue'
 import Line from './components/Line.vue'
 import Descriptions from './components/Descriptions.vue'
@@ -96,11 +95,7 @@ export default defineComponent({
           title: '合作公司',
           key: 'partners',
           wrapperCol: 260,
-          component: 'ApiSelect',
-          componentProps: {
-            mode: 'multiple',
-            api: getPartner,
-          }
+          component: 'PartnerSelect'
         },
         {
           title: '来源',

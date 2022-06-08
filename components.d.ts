@@ -23,7 +23,7 @@ declare module 'vue' {
     GameSelect: typeof import('./src/components/Business/Select/GameSelect.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']
     Icon: typeof import('./src/components/Icon/index.vue')['default']
-    Loading: typeof import('./src/components/Loading/index.vue')['default']
+    PartnerSelect: typeof import('./src/components/Business/Select/PartnerSelect.vue')['default']
     SearchFooter: typeof import('./src/components/GlobalSearch/components/SearchFooter.vue')['default']
     SearchModal: typeof import('./src/components/GlobalSearch/components/SearchModal.vue')['default']
     SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']
