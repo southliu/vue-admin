@@ -12,9 +12,9 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import { CopyBtn } from '@/components/Buttons'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import Copy from '@/components/Copy/index.vue'
-import { CopyBtn } from '@/components/Buttons'
 
 export default defineComponent({
   name: 'DemoCopy',

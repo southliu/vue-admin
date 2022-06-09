@@ -21,6 +21,21 @@ export function exportBusiness(item: IFormList, value?: IBasicData, handleEmit?:
     handleEmit: handleEmit as IBusinessEmit
   }
 
+  // 获取业务组件
+  // const files = import.meta.glob('./**/*.vue');
+
+  // for (let key in files) {
+  //   const start = key.lastIndexOf('/') + 1
+  //   const end = key.lastIndexOf('.')
+  //   const name = key.substring(start, end) // 获取组件名
+
+  //   if (name === component) {
+  //     const module = await import(key)
+  //     const File = module.default || module
+  //     return <File { ...params } />
+  //   }
+  // }
+
   switch (component) {
     // 游戏下拉选择
     case 'GameSelect':
