@@ -46,7 +46,7 @@ export default defineComponent({
       required: true
     },
     value: {
-      type: [String, Number, Boolean, Object] as PropType<IBasicData | undefined>,
+      type: [String, Number, Boolean, Object] as PropType<IBasicData>,
       required: false
     }
   },

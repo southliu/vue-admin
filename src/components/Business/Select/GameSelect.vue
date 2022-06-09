@@ -16,15 +16,15 @@ export default defineComponent({
   props: {
     componentProps: {
       type: Object as PropType<IComponentProps>,
-      required: true
+      required: false
     },
     value: {
       type: [String, Number, Boolean, Object] as PropType<IBasicData>,
       required: false
     },
     handleEmit: {
-      type: Object as PropType<IBusinessEmit>,
-      required: true
+      type: Function as PropType<IBusinessEmit>,
+      required: false
     }
   },
   setup(props, context) {
@@ -40,7 +40,7 @@ export default defineComponent({
             api: getGames
           },
           value: value as SelectValue,
-          'onUpdate:value': (value: SelectValue) => handleEmit(value)
+          'onUpdate:value': (value: SelectValue) => handleEmit && handleEmit(value)
         }
       )
     )

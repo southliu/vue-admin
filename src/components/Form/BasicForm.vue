@@ -49,7 +49,7 @@ export default defineComponent({
   emits: ['handleFinish'],
   props: {
     data: {
-      type: Object as PropType<Record<string, IBasicData>>,
+      type: Object,
       required: true
     },
     list: {

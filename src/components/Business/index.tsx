@@ -11,14 +11,14 @@ export type IBusinessEmit = (value: IBasicData) => void
 /**
  * 导出业务组件
  */
-export function exportBusiness(item: IFormList, value?: IBasicData | undefined, handleEmit?: IBusinessEmit) {
+export function exportBusiness(item: IFormList, value?: IBasicData, handleEmit?: IBusinessEmit) {
   const { component, componentProps } = item
 
   // 属性值
   const params = {
     value,
     componentProps: componentProps as IComponentProps,
-    handleEmit
+    handleEmit: handleEmit as IBusinessEmit
   }
 
   switch (component) {
