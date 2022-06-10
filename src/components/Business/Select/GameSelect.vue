@@ -4,8 +4,8 @@
  */
 import type { SelectValue, TreeSelectProps } from 'ant-design-vue/lib/tree-select'
 import type { IComponentProps } from '@/types/form'
-import type { IBasicData } from '@/types/public'
 import type { IBusinessEmit } from '../index'
+import type { IAllDataType } from '@/types/public'
 import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 import { getGames } from "@/servers/platform/game"
@@ -19,7 +19,7 @@ export default defineComponent({
       required: false
     },
     value: {
-      type: [String, Number, Boolean, Object] as PropType<IBasicData>,
+      type: Object as PropType<IAllDataType>,
       required: false
     },
     handleEmit: {

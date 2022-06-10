@@ -56,7 +56,7 @@ import type { IBasicForm } from '@/components/Form/model'
 import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
-import { getMenuPage, createMenu, updateMenu, deleteMenu } from '@/servers/systems/menu'
+import { getMenuPage, getMenuById, createMenu, updateMenu, deleteMenu } from '@/servers/systems/menu'
 import { useLoading } from '@/hooks'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
@@ -85,6 +85,12 @@ export default defineComponent({
   setup() {
     const createFormRef = ref<IBasicForm>()
     const { loading, startLoading, endLoading } = useLoading()
+
+    // 初始化新增数据
+    const initCreate = {
+      status: 1,
+      module: 'authority'
+    }
 
     // 搜索数据
     const searches = reactive<ISearchData>({
@@ -120,10 +126,7 @@ export default defineComponent({
       id: '',
       isVisible: false,
       title: '新增',
-      data: {
-        status: 1,
-        module: 'authority'
-      },
+      data: initCreate,
       list: [
         {
           title: '名称',
@@ -263,18 +266,23 @@ export default defineComponent({
       creates.isVisible = !creates.isVisible
       creates.title = ADD_TITLE
       creates.id = ''
+      creates.data = initCreate
     }
 
     /**
      * 点击编辑
      * @param record - 当前行数据
      */
-    const onUpdate = (record: IFormData) => {
+    const onUpdate = async (record: IFormData) => {
       const { id, name } = record
       creates.isVisible = !creates.isVisible
       creates.id = id as string
       creates.title = EDIT_TITLE(name as string)
-      creates.data = record
+
+      startLoading()
+      const { data: { data } } = await getMenuById(id as string)
+      endLoading()
+      creates.data = data
     }
 
     /**

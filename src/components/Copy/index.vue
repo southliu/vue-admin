@@ -26,7 +26,6 @@ export default defineComponent({
     const handleCopy = (value: string) => {
       if (!value) return message.warning({ content: '请输入复制内容', key: 'copy' })
       useCopyToClipboard(value)
-      console.log(value)
     }
 
     return {

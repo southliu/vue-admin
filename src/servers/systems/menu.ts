@@ -11,9 +11,18 @@ enum API {
  */
 export function getMenuPage(data: Partial<ISystemMenu> & IPaginationData) {
   return request.get<IPageServerResult<ISystemMenuResult[]>>(
-    API.URL + '/index',
+    `${API.URL}/index`,
     { params: data }
   )
+}
+
+/**
+ * 根据ID获取数据
+ * @param id - ID
+ * @param data - 请求数据
+ */
+export function getMenuById(id: string) {
+  return request.get(`${API.URL}/${id}`)
 }
 
 /**
@@ -30,7 +39,7 @@ export function createMenu(data: unknown) {
  * @param data - 请求数据
  */
 export function updateMenu(id: string, data: unknown) {
-  return request.post(`${API.URL}/${id}`, data)
+  return request.put(`${API.URL}/${id}`, data)
 }
 
 /**

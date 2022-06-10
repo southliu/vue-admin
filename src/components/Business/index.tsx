@@ -1,5 +1,5 @@
 import type { IFormList, IComponentProps } from "@/types/form"
-import type { IBasicData } from "@/types/public"
+import type { IAllDataType } from "@/types/public"
 import GameSelect from './Select/GameSelect.vue'
 import PartnerSelect from './Select/PartnerSelect.vue'
 
@@ -10,12 +10,12 @@ import PartnerSelect from './Select/PartnerSelect.vue'
 export type IBusinessComponentType = 'GameSelect' | 'PartnerSelect'
 
 // 组件数据发送类型
-export type IBusinessEmit = (value: IBasicData) => void
+export type IBusinessEmit = (value: IAllDataType) => void
 
 /**
  * 导出业务组件
  */
-export function exportBusiness(item: IFormList, value?: IBasicData, handleEmit?: IBusinessEmit) {
+export function exportBusiness(item: IFormList, value?: IAllDataType, handleEmit?: IBusinessEmit) {
   const { component, componentProps } = item
 
   // 属性值

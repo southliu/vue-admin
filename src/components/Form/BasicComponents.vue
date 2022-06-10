@@ -29,15 +29,17 @@ import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { Dayjs } from 'dayjs'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
-import type { IBasicData } from "@/types/public"
+import type { IAllDataType } from "@/types/public"
 import type { IBusinessEmit } from '../Business'
 import type { PropType } from 'vue'
-import { defineComponent, h } from 'vue'
+import { defineComponent, watch, ref, h } from 'vue'
 import { exportBusiness } from '../Business'
 import { PLEASE_ENTER, PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
 import dayjs from 'dayjs'
 import ApiSelect from '../Select/ApiSelect.vue'
 import ApiTreeSelect from '../Select/ApiTreeSelect.vue'
+
+type IComponentValue = IAllDataType | Dayjs | [Dayjs, Dayjs] | [string, string]
 
 export default defineComponent({
   props: {
@@ -46,7 +48,7 @@ export default defineComponent({
       required: true
     },
     value: {
-      type: [String, Number, Boolean, Object] as PropType<IBasicData>,
+      type: [String, Number, Boolean, Object] as PropType<IComponentValue>,
       required: false
     }
   },
@@ -65,11 +67,17 @@ export default defineComponent({
     DatePicker,
   },
   setup(props, context) {
-    const { item, value } = props
+    const { item } = props
     const { emit } = context
+    const componentValue = ref(props.value)
 
     // 默认允许关闭
     const allowClear = true
+
+    // 监听组件值变化
+    watch(() => props.value, value => {
+      componentValue.value = value
+    })
 
     /**
      * 渲染不同组件
@@ -90,7 +98,7 @@ export default defineComponent({
               allowClear,
               placeholder: PLEASE_ENTER,
               ...componentProps as InputProps,
-              value: value as string,
+              value: componentValue.value as string,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
             })
           )
@@ -102,7 +110,7 @@ export default defineComponent({
               allowClear,
               placeholder: PLEASE_ENTER,
               ...componentProps as InputProps,
-              value: value as string,
+              value: componentValue.value as string,
               'onUpdate:value': (value: string | number) => emit('update:value', value)
             })
           )
@@ -114,7 +122,7 @@ export default defineComponent({
               allowClear,
               placeholder: PLEASE_ENTER,
               ...componentProps as InputNumberProps,
-              value: value as number,
+              value: componentValue.value as number,
               'onUpdate:value': (value: number) => emit('update:value', value)
             })
           )
@@ -126,7 +134,7 @@ export default defineComponent({
               allowClear,
               placeholder: PLEASE_ENTER,
               ...componentProps as AutoCompleteProps,
-              value: value as SelectValue,
+              value: componentValue.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
           )
@@ -138,7 +146,7 @@ export default defineComponent({
               allowClear,
               placeholder: PLEASE_ENTER,
               ...componentProps,
-              value: value as string,
+              value: componentValue.value as string,
               'onUpdate:value': (value: string) => emit('update:value', value)
             })
           )
@@ -152,7 +160,7 @@ export default defineComponent({
               optionFilterProp: "label",
               placeholder: PLEASE_SELECT,
               ...componentProps as SelectProps,
-              value: value as SelectValue,
+              value: componentValue.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
           )
@@ -165,7 +173,7 @@ export default defineComponent({
               maxTagCount: MAX_TAG_COUNT,
               placeholder: PLEASE_SELECT,
               componentProps: componentProps as IApiSelectProps,
-              value: value as SelectValue,
+              value: componentValue.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
           )
@@ -180,7 +188,7 @@ export default defineComponent({
               placeholder: PLEASE_SELECT,
               showSearch: true,
               ...componentProps as TreeSelectProps,
-              value: value as SelectValue,
+              value: componentValue.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
           )
@@ -193,7 +201,7 @@ export default defineComponent({
               maxTagCount: MAX_TAG_COUNT,
               placeholder: PLEASE_SELECT,
               componentProps: componentProps as IApiTreeSelectProps,
-              value: value as SelectValue,
+              value: componentValue.value as SelectValue,
               'onUpdate:value': (value: SelectValue) => emit('update:value', value)
             })
           )
@@ -203,7 +211,7 @@ export default defineComponent({
           return (
             h(RadioGroup, {
               ...componentProps as RadioGroupProps,
-              value: value as boolean,
+              value: componentValue.value as boolean,
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })
           )
@@ -213,7 +221,7 @@ export default defineComponent({
           return (
             h(Switch, {
               ...componentProps as SwitchProps,
-              value: value as boolean,
+              value: componentValue.value as boolean,
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })
           )
@@ -224,7 +232,7 @@ export default defineComponent({
             h(Checkbox, {
               'onChange': (value: CheckboxChangeEvent) => emit('update:value', value.target.checked),
               ...componentProps as CheckboxProps,
-              checked: !!value,
+              checked: !!componentValue.value,
               innerHTML: (componentProps as CheckboxProps)?.name || '',
               'onUpdate:value': (value: boolean) => emit('update:value', value)
             })
@@ -235,14 +243,14 @@ export default defineComponent({
           return (
             h(CheckboxGroup, {
               ...componentProps as CheckboxGroupProps,
-              value: value as CheckboxValueType[],
+              value: componentValue.value as CheckboxValueType[],
               'onUpdate:value': (value: CheckboxValueType[]) => emit('update:value', value)
             })
           )
 
         // 时间
         case 'DatePicker':
-          const dateValue = value ? dayjs(value as string) : undefined
+          const dateValue = componentValue.value ? dayjs(componentValue.value as string) : undefined
           return (
             h(DatePicker, {
               allowClear,
@@ -252,15 +260,15 @@ export default defineComponent({
               value: dateValue,
               'onUpdate:value': (value: Dayjs | string) => {
                 const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
-                emit('update:value', (value as Dayjs).format(format.toString()))
+                emit('update:value', (componentValue.value as Dayjs).format(format.toString()))
               }
             })
           )
 
         // 时间区间
         case 'RangePicker':
-          const rangeValue: [Dayjs, Dayjs] | undefined = (value as [string, string])?.length > 1 && (value as [string, string])?.[0] ?
-                    [dayjs((value as [string, string])[0]), dayjs((value as [string, string])[1])] : undefined
+          const rangeValue: [Dayjs, Dayjs] | undefined = (componentValue.value as [string, string])?.length > 1 && (componentValue.value as [string, string])?.[0] ?
+                    [dayjs((componentValue.value as [string, string])[0]), dayjs((componentValue.value as [string, string])[1])] : undefined
           return (
             h(DatePicker.RangePicker, {
               allowClear,
@@ -271,8 +279,8 @@ export default defineComponent({
               'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
                 const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
                 const data = [
-                  (value as [Dayjs, Dayjs])[0].format(format.toString()),
-                  (value as [Dayjs, Dayjs])[1].format(format.toString())
+                  (componentValue.value as [Dayjs, Dayjs])[0].format(format.toString()),
+                  (componentValue.value as [Dayjs, Dayjs])[1].format(format.toString())
                 ]
                 emit('update:value', data)
               }
@@ -289,7 +297,7 @@ export default defineComponent({
       emit('update:value', value)
     }
 
-    return () => itemRender(item) || exportBusiness(item, value, handleEmit)
+    return () => itemRender(item) || exportBusiness(item, componentValue.value as IAllDataType, handleEmit)
   }
 })
 </script>

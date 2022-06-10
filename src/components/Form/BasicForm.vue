@@ -30,15 +30,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
-import { Form, FormItem, Button } from 'ant-design-vue'
-import { useDebounceFn } from '@vueuse/core'
 import type { PropType } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
-import type { IBasicData } from "@/types/public"
+import type { IAllDataType } from "@/types/public"
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
+import { defineComponent, ref, watch } from 'vue'
+import { Form, FormItem, Button } from 'ant-design-vue'
+import { useDebounceFn } from '@vueuse/core'
 import BasicComponents from './BasicComponents.vue'
 import { filterEmptyValue } from '@/utils/utils'
 
@@ -88,7 +88,12 @@ export default defineComponent({
   setup(props, context) {
     const formRef = ref<FormInstance>()
     const data = JSON.parse(JSON.stringify(props.data))
-    const formState = reactive<Record<string, IBasicData>>(data)
+    const formState = ref<Record<string, IAllDataType>>(data)
+
+    // 监听表单数据变化
+    watch(() => props.data, value => {
+      formState.value = value
+    })
 
     /** 外部调内部提交方法 */
     const handleSubmit = useDebounceFn(() => {
