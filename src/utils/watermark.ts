@@ -8,7 +8,6 @@
  * @param fontSize - 水印字体的大小
  * @param opacity - 水印透明度（0~1之间取值）
  */
-
 export const Watermark = (
   content: string = '这是水印',
   height: number = 300,
@@ -57,6 +56,7 @@ export const Watermark = (
   DivLayer.style.left = '-100px'; // 改变整体水印的left值
   DivLayer.style.zIndex = '99999'; // 水印页面层级
   DivLayer.style.pointerEvents = 'none';
+  DivLayer.style.userSelect = 'none';
 
   document.body.appendChild(DivLayer); // 到页面中
 };

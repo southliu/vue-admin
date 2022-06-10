@@ -12,22 +12,24 @@
         alt="LOGO"
       />
       <span
-        class="title ml-3 text-xl font-bold truncate"
-        :class="{ 'title-close': collapsed }"
+        class="text-white ml-3 text-xl font-bold truncate"
+        :class="{ 'hidden': collapsed }"
       >
         后台系统
       </span>
     </div>
-    <Menu
-      v-model:openKeys="openKeys"
-      v-model:selectedKeys="selectedKeys"
-      class="overflow-y-auto h-full z-1000"
-      mode="inline"
-      theme="dark"
-      :inline-collapsed="collapsed"
-    >
-      <MenuChildren :list="menuList" :handleClick="handleClick" />
-    </Menu>
+    <div class="menu-height overflow-y-auto">
+      <Menu
+        v-model:openKeys="openKeys"
+        v-model:selectedKeys="selectedKeys"
+        class="h-full z-1000"
+        mode="inline"
+        theme="dark"
+        :inline-collapsed="collapsed"
+      >
+        <MenuChildren :list="menuList" :handleClick="handleClick" />
+      </Menu>
+    </div>
 
     <div
       v-if="isPhone && !collapsed"
@@ -142,12 +144,8 @@ export default defineComponent({
 <style lang="less" scoped>
 @import '@/assets/css/default.less';
 
-.title {
-  color: #fff;
-}
-
-.title-close {
-  display: none;
+.menu-height {
+  height: calc(100% - 50px);
 }
 
 .cover {

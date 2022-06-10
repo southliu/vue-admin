@@ -11,6 +11,10 @@ export const PLEASE_ENTER = '请输入' // 输入框默认文字
 export const PLEASE_SELECT = '请选择'// 选择框默认文字
 export const MAX_TAG_COUNT = 'responsive' // 最多显示多少个标签，responsive：自适应
 
+// 新增/编辑标题
+export const ADD_TITLE = '新增'
+export const EDIT_TITLE = (name: string) => `编辑${ name ? `[${name}]` : '' }`
+
 // 密码规则
 export const passwordRule = {
   pattern: /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z~!@\.\_\-*]{6,30}$/,

@@ -9,7 +9,7 @@
   >
     <Header
       class="header-driver box-border"
-      :class="{ 'none': maximize }"
+      :class="{ 'hidden': maximize }"
       :collapsed="collapsed"
       @toggleCollapsed="toggleCollapsed"
       @onUpdatePassword="onUpdatePassword"
@@ -176,11 +176,6 @@ export default defineComponent({
   left: 0 !important;
   top: calc(@layout_top / 2);
 }
-
-.none {
-  display: none;
-}
-
 .header-none {
   left: 0 !important;
   height: calc(@layout_top / 2)

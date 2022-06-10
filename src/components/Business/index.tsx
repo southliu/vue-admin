@@ -3,8 +3,12 @@ import type { IBasicData } from "@/types/public"
 import GameSelect from './Select/GameSelect.vue'
 import PartnerSelect from './Select/PartnerSelect.vue'
 
-// 组件类型
+/**
+ * 组件类型
+ * @description 每次引入组件时，需要声明类型
+ */
 export type IBusinessComponentType = 'GameSelect' | 'PartnerSelect'
+
 // 组件数据发送类型
 export type IBusinessEmit = (value: IBasicData) => void
 

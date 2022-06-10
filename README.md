@@ -83,7 +83,7 @@ pnpm build
 - [ ] 富文本组件
 - [ ] 上传组件
 - [ ] 虚拟滚动组件
-- [ ] 水印组件
+- [x] 水印组件
 - [ ] 密码强度显示
 - [x] 内容最大化功能
 - [x] 404错误页
@@ -125,4 +125,9 @@ pnpm build
         total: number; // 分页总数
         defaultCurrent: number; // 当前页码数
       ```
-        
+
+    4. 自定义组件
+      - 业务组件存放在`src/components/Business`目录下，每次新增组件想要在index.tsx文件中引入。
+      - 特殊自定义公共组件:
+        1. ApiSelect：点击下拉框自动获取下拉数据，在antv的Select参数基础上添加了api参数，根据api参数获取接口数据。
+        2. ApiTreeSelect：点击下拉框自动获取下拉数据，在antv的TreeSelect参数基础上添加了api参数，根据api参数获取接口数据。

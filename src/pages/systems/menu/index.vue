@@ -14,10 +14,10 @@
 
     <BasicTable :data="tables" :loading="loading">
       <template v-slot:operate='row'>
-        <!-- <UpdateBtn
+        <UpdateBtn
           class="mr-2"
           @click="onUpdate(row.record)"
-        /> -->
+        />
         <DeleteBtn
           @click="handleDelete(row.record.id)"
         />
@@ -38,7 +38,7 @@
     v-model:visible="creates.isVisible"
     :title="creates.title"
     @handleFinish="createSubmit"
-    @handleCancel="onCreate"
+    @handleCancel="onCloseCreate"
   >
     <BasicForm
       ref="createFormRef"
@@ -59,6 +59,7 @@ import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { getMenuPage, createMenu, updateMenu, deleteMenu } from '@/servers/systems/menu'
 import { useLoading } from '@/hooks'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
+import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { MENU_MODULE, MENU_STATUS, MENU_ACTIONS } from '@/utils/constants'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
@@ -260,7 +261,7 @@ export default defineComponent({
     /** 点击新增 */
     const onCreate = () => {
       creates.isVisible = !creates.isVisible
-      creates.title = '新增'
+      creates.title = ADD_TITLE
       creates.id = ''
     }
 
@@ -272,7 +273,7 @@ export default defineComponent({
       const { id, name } = record
       creates.isVisible = !creates.isVisible
       creates.id = id as string
-      creates.title = `编辑(${ name as string })`
+      creates.title = EDIT_TITLE(name as string)
       creates.data = record
     }
 
@@ -290,6 +291,11 @@ export default defineComponent({
         message.success(data?.message || '操作成功')
       }
       endLoading()
+    }
+
+    /** 关闭新增/编辑 */
+    const onCloseCreate = () => {
+      creates.isVisible = false
     }
 
     /**
@@ -327,6 +333,7 @@ export default defineComponent({
       onCreate,
       onUpdate,
       createSubmit,
+      onCloseCreate,
       handleSearch,
       handleCreate,
       handleDelete,
