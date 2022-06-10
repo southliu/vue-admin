@@ -93,6 +93,8 @@ export default defineComponent({
     // 监听表单数据变化
     watch(() => props.data, value => {
       formState.value = value
+      // 清除表单验证结果
+      formRef.value?.clearValidate();
     })
 
     /** 外部调内部提交方法 */
@@ -107,11 +109,6 @@ export default defineComponent({
           console.log('错误信息:', info);
         });
     })
-
-    /** 外部调内部重置方法 */
-    const handleReset = () => {
-      formRef.value?.resetFields();
-    }
 
     /**
      * 提交处理
@@ -135,7 +132,6 @@ export default defineComponent({
       formState,
       onFinish,
       onFinishFailed,
-      handleReset,
       handleSubmit,
     };
   }

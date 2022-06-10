@@ -43,7 +43,7 @@
     <BasicForm
       ref="createFormRef"
       :list="creates.list"
-      :label-col="{ span: 7 }"
+      :label-col="{ span: 6 }"
       :data="creates.data"
       @handleFinish="handleCreate"
     />
@@ -59,7 +59,7 @@ import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { getMenuPage, getMenuById, createMenu, updateMenu, deleteMenu } from '@/servers/systems/menu'
 import { useLoading } from '@/hooks'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
-import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
+import { ADD_TITLE, EDIT_TITLE, INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
 import { MENU_MODULE, MENU_STATUS, MENU_ACTIONS } from '@/utils/constants'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
@@ -131,11 +131,13 @@ export default defineComponent({
         {
           title: '名称',
           key: 'name',
+          rules: INPUT_REQUIRED,
           component: 'Input'
         },
         {
           title: '状态',
           key: 'status',
+          rules: SELECT_REQUIRED,
           component: 'Select',
           componentProps: {
             options: MENU_STATUS
@@ -144,6 +146,7 @@ export default defineComponent({
         {
           title: '模块',
           key: 'module',
+          rules: SELECT_REQUIRED,
           component: 'Select',
           componentProps: {
             options: MENU_MODULE
@@ -152,15 +155,17 @@ export default defineComponent({
         {
           title: '控制器',
           key: 'controller',
+          rules: SELECT_REQUIRED,
           component: 'Input'
         },
         {
           title: '动作',
           key: 'action',
+          rules: SELECT_REQUIRED,
           component: 'Input'
         },
         {
-          title: '需要同时创建的菜单',
+          title: '同时创建菜单',
           key: 'actions',
           component: 'CheckboxGroup',
           componentProps: {
