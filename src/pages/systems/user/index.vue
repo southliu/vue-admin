@@ -2,7 +2,7 @@
   <BasicContent>
     <template #top>
       <BasicSearch
-        :list="searches.list"
+        :list="searchList"
         :data="searches.data"
         :loading="loading"
         :is-search="true"
@@ -12,7 +12,11 @@
       />
     </template>
 
-    <BasicTable :data="tables" :loading="loading">
+    <BasicTable
+      :data="tables"
+      :columns="tableColumns"
+      :loading="loading"
+    >
       <template v-slot:operate='row'>
         <UpdateBtn
           class="mr-2"
@@ -42,7 +46,7 @@
   >
     <BasicForm
       ref="createFormRef"
-      :list="creates.list"
+      :list="createList"
       :data="creates.data"
       @handleFinish="handleCreate"
     />
@@ -50,12 +54,13 @@
 </template>
 
 <script lang="ts">
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
-import { defineComponent, h, onMounted, reactive, ref } from 'vue'
-import { getSystemUserPage } from '@/servers/systems/user'
-import { useLoading } from '@/hooks'
 import type { IFormData } from '@/types/form'
 import type { IBasicForm } from '@/components/Form/model'
+import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
+import { getSystemUserPage } from '@/servers/systems/user'
+import { searchList, createList, tableColumns } from './data'
+import { useLoading } from '@/hooks'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
@@ -84,19 +89,7 @@ export default defineComponent({
 
     // 搜索数据
     const searches = reactive<ISearchData>({
-      data: {},
-      list: [
-        {
-          title: '年龄',
-          key: 'age',
-          component: 'InputNumber'
-        },
-        {
-          title: '名字',
-          key: 'name',
-          component: 'Input'
-        }
-      ]
+      data: {}
     })
 
     // 新增数据
@@ -106,82 +99,13 @@ export default defineComponent({
       title: '新增',
       data: {
         username: '',
-      },
-      list: [
-        {
-          title: '用户名',
-          key: 'username',
-          component: 'Input'
-        },
-        {
-          title: '姓名',
-          key: 'real_name',
-          component: 'Input'
-        },
-        {
-          title: '角色',
-          key: 'roles_name',
-          component: 'Input'
-        },
-        {
-          title: '类型',
-          key: 'type',
-          component: 'Select',
-          componentProps: {
-            options: [
-              { label: '123', value: '123' },
-              { label: '456', value: '456' },
-            ]
-          }
-        }
-      ]
+      }
     })
     
     // 表格数据
     const tables = reactive<ITableData>({
       total: 0,
-      data: [],
-      columns: [
-        {
-          title: 'ID',
-          field: 'id'
-        },
-        {
-          title: '用户名',
-          field: 'username'
-        },
-        {
-          title: '姓名',
-          field: 'real_name'
-        },
-        {
-          title: '角色',
-          field: 'roles_name'
-        },
-        {
-          title: '手机号',
-          field: 'phone'
-        },
-        {
-          title: '邮箱',
-          field: 'email'
-        },
-        {
-          title: '状态',
-          field: 'status',
-          slots: {
-            default: ({ row }) => [
-              h('span', { innerHTML: row.status ? '开启' : '关闭' })
-            ]
-          }
-        },
-        {
-          title: '操作',
-          field: 'operate',
-          minWidth: 160,
-          slots: { default: 'operate' }
-        },
-      ]
+      data: []
     })
 
     // 分页数据
@@ -278,6 +202,9 @@ export default defineComponent({
       creates,
       tables,
       pagination,
+      searchList,
+      createList,
+      tableColumns,
       onCreate,
       onUpdate,
       createSubmit,

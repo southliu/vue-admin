@@ -1,5 +1,5 @@
-import type { VxeGridProps } from "vxe-table";
-import type { IFormData, IFormList } from "./form";
+import type { VxeTableProps } from "vxe-table"
+import type { IFormData } from "./form"
 
 export {}
 
@@ -7,7 +7,6 @@ declare global {
   // 搜索数据
   interface ISearchData {
     data: IFormData;
-    list: IFormList[];
   }
 
   // 新增数据
@@ -16,7 +15,6 @@ declare global {
     isVisible: boolean;
     title: string;
     data: IFormData;
-    list: IFormList[];
   }
 
   // 分页数据
@@ -28,7 +26,7 @@ declare global {
   // 表格数据
   type ITableData = {
     total: number;
-  } & VxeGridProps
+  } & VxeTableProps
 
    // 接口响应数据
    interface IServerResult<T = undefined> {

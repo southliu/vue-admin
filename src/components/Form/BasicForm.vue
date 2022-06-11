@@ -15,7 +15,8 @@
         :key="item.key"
         :name="item.key"
         :label="item.title"
-        :rules="item.rules"
+        :rules="!item.hidden ? item.rules : []"
+        :class="{ 'hidden': item.hidden }"
       >
         <BasicComponents
           :item="item"
@@ -109,6 +110,12 @@ export default defineComponent({
           console.log('错误信息:', info);
         });
     })
+    
+    /** 外部调内部重置方法 */
+    const handleReset = () => {
+      formRef.value?.resetFields();
+      formRef.value?.clearValidate();
+    }
 
     /**
      * 提交处理
@@ -133,7 +140,14 @@ export default defineComponent({
       onFinish,
       onFinishFailed,
       handleSubmit,
+      handleReset
     };
   }
 })
 </script>
+
+<style lang="less" scoped>
+.hidden {
+  display: none !important;
+}
+</style>

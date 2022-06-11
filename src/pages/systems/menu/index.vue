@@ -2,7 +2,7 @@
   <BasicContent>
     <template #top>
       <BasicSearch
-        :list="searches.list"
+        :list="searchList"
         :data="searches.data"
         :loading="loading"
         :is-search="true"
@@ -12,8 +12,12 @@
       />
     </template>
 
-    <BasicTable :data="tables" :loading="loading">
-      <template v-slot:operate='row'>
+    <BasicTable
+      :data="tables"
+      :columns="tableColumns"
+      :loading="loading"
+    >
+     <template v-slot:operate='row'>
         <UpdateBtn
           class="mr-2"
           @click="onUpdate(row.record)"
@@ -42,7 +46,7 @@
   >
     <BasicForm
       ref="createFormRef"
-      :list="creates.list"
+      :list="createList(creates.id)"
       :label-col="{ span: 6 }"
       :data="creates.data"
       @handleFinish="handleCreate"
@@ -59,8 +63,8 @@ import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { getMenuPage, getMenuById, createMenu, updateMenu, deleteMenu } from '@/servers/systems/menu'
 import { useLoading } from '@/hooks'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
-import { ADD_TITLE, EDIT_TITLE, INPUT_REQUIRED, SELECT_REQUIRED } from '@/utils/config'
-import { MENU_MODULE, MENU_STATUS, MENU_ACTIONS } from '@/utils/constants'
+import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
+import { searchList, createList, tableColumns } from './data'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
@@ -94,31 +98,7 @@ export default defineComponent({
 
     // 搜索数据
     const searches = reactive<ISearchData>({
-      data: {},
-      list: [
-        {
-          title: '状态',
-          key: 'status',
-          component: 'Select',
-          componentProps: {
-            options: MENU_STATUS
-          }
-        },
-        {
-          title: '模块',
-          key: 'module',
-          wrapperCol: 170,
-          component: 'Select',
-          componentProps: {
-            options: MENU_MODULE
-          }
-        },
-        {
-          title: '控制器',
-          key: 'controller',
-          component: 'Input'
-        }
-      ]
+      data: {}
     })
 
     // 新增数据
@@ -126,101 +106,13 @@ export default defineComponent({
       id: '',
       isVisible: false,
       title: '新增',
-      data: initCreate,
-      list: [
-        {
-          title: '名称',
-          key: 'name',
-          rules: INPUT_REQUIRED,
-          component: 'Input'
-        },
-        {
-          title: '状态',
-          key: 'status',
-          rules: SELECT_REQUIRED,
-          component: 'Select',
-          componentProps: {
-            options: MENU_STATUS
-          }
-        },
-        {
-          title: '模块',
-          key: 'module',
-          rules: SELECT_REQUIRED,
-          component: 'Select',
-          componentProps: {
-            options: MENU_MODULE
-          }
-        },
-        {
-          title: '控制器',
-          key: 'controller',
-          rules: SELECT_REQUIRED,
-          component: 'Input'
-        },
-        {
-          title: '动作',
-          key: 'action',
-          rules: SELECT_REQUIRED,
-          component: 'Input'
-        },
-        {
-          title: '同时创建菜单',
-          key: 'actions',
-          component: 'CheckboxGroup',
-          componentProps: {
-            options: MENU_ACTIONS
-          }
-        },
-      ]
+      data: initCreate
     })
     
     // 表格数据
     const tables = reactive<ITableData>({
       total: 0,
-      data: [],
-      columns: [
-        {
-          title: 'ID',
-          field: 'id'
-        },
-        {
-          title: '名称',
-          field: 'name'
-        },
-        {
-          title: '状态',
-          field: 'status'
-        },
-        {
-          title: '模块',
-          field: 'module'
-        },
-        {
-          title: '控制器',
-          field: 'controller'
-        },
-        {
-          title: '动作',
-          field: 'action'
-        },
-        {
-          title: '创建时间',
-          field: 'created_at',
-          minWidth: 140
-        },
-        {
-          title: '更新时间',
-          field: 'updated_at',
-          minWidth: 140
-        },
-        {
-          title: '操作',
-          field: 'operate',
-          minWidth: 160,
-          slots: { default: 'operate' }
-        },
-      ]
+      data: []
     })
 
     // 分页数据
@@ -343,6 +235,9 @@ export default defineComponent({
       creates,
       tables,
       pagination,
+      searchList,
+      tableColumns,
+      createList,
       onCreate,
       onUpdate,
       createSubmit,

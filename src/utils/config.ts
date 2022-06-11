@@ -17,7 +17,6 @@ export const SELECT_REQUIRED = [{ required: true, message: PLEASE_SELECT }]// �
 export const ADD_TITLE = '新增'
 export const EDIT_TITLE = (name: string) => `编辑${ name ? `[${name}]` : '' }`
 
-
 // 密码规则
 export const passwordRule = {
   pattern: /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z~!@\.\_\-*]{6,30}$/,

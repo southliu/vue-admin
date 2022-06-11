@@ -4,7 +4,7 @@
     :height="tableHeight"
     :loading="loading"
     :data="data.data"
-    :columns="handleColumns(data?.columns)"
+    :columns="handleColumns(columns)"
   >
     <template #operate="{ row }">
       <slot name="operate" :record="row" />
@@ -27,6 +27,10 @@ export default defineComponent({
   props: {
     data: {
       type: Object as PropType<ITableData>,
+      required: true
+    },
+    columns: {
+      type: Array as PropType<VxeGridPropTypes.Columns>,
       required: true
     },
     loading: {

@@ -1,4 +1,3 @@
-import type { IAllDataType } from './public'
 import type {
   InputProps,
   SelectProps,
@@ -7,6 +6,7 @@ import type {
   CheckboxGroupProps,
   DatePickerProps
 } from "ant-design-vue";
+import type { IAllDataType } from './public'
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { RuleObject } from 'ant-design-vue/lib/form'
 import type { IBusinessComponentType } from '@/components/Business';
@@ -75,6 +75,7 @@ export type IFormRule = RuleObject & {
 export type IFormList = {
   key: string; // 唯一标识
   title: string; // 标题
+  hidden?: boolean; // 是否隐藏
   rules?: IFormRule[]; // 规则
   labelCol?: number; // label宽度
   wrapperCol?: number; // 内容宽度
