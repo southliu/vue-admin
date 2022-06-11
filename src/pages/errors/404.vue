@@ -25,7 +25,7 @@ export default defineComponent({
 
    // 跳转首页
    const goIndex = () => {
-     router.push('/login')
+     router.push('/dashboard')
    }
    
    return {

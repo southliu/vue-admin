@@ -27,8 +27,10 @@ declare module 'vue' {
     SearchFooter: typeof import('./src/components/GlobalSearch/components/SearchFooter.vue')['default']
     SearchModal: typeof import('./src/components/GlobalSearch/components/SearchModal.vue')['default']
     SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']
+    Tinymce: typeof import('./src/components/Tinymce/index.vue')['default']
     UpdateBtn: typeof import('./src/components/Buttons/UpdateBtn.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']
+    WangEditor: typeof import('./src/components/WangEditor/index.vue')['default']
   }
 }
 

@@ -24,13 +24,13 @@ const ComponentMenus: IMenus[] = [
         component: () => import('@/pages/demo/copy/index.vue')
       },
       {
-        name: 'ComponentTinymce',
-        path: '/components/tinymce',
+        name: 'ComponentWangEditor',
+        path: '/components/wangEditor',
         meta: {
           title: '富文本',
           keepAlive: true
         },
-        component: () => import('@/pages/demo/tinymce/index.vue')
+        component: () => import('@/pages/demo/wangEditor/index.vue')
       },
       {
         name: 'ComponentUpload',
