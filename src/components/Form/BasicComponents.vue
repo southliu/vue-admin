@@ -38,6 +38,7 @@ import { PLEASE_ENTER, PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
 import dayjs from 'dayjs'
 import ApiSelect from '../Select/ApiSelect.vue'
 import ApiTreeSelect from '../Select/ApiTreeSelect.vue'
+import WangEditor from '../WangEditor/index.vue'
 
 type IComponentValue = IAllDataType | Dayjs | [Dayjs, Dayjs] | [string, string]
 
@@ -53,23 +54,10 @@ export default defineComponent({
     }
   },
   emits: ['update:value', 'update:modelValue'],
-  components: {
-    Input,
-    InputNumber,
-    InputPassword,
-    AutoComplete,
-    Select,
-    TreeSelect,
-    Checkbox,
-    CheckboxGroup,
-    RadioGroup,
-    Switch,
-    DatePicker,
-  },
   setup(props, context) {
     const { item } = props
     const { emit } = context
-    const componentValue = ref(props.value)
+    const componentValue = ref<IComponentValue>(props.value)
 
     // 默认允许关闭
     const allowClear = true

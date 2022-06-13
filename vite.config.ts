@@ -1,6 +1,6 @@
 import { defineConfig, loadEnv } from 'vite'
 import { handleEnv } from './build/utils'
-// import { createProxy } from './build/vite/proxy'
+import { createProxy } from './build/vite/proxy'
 import { createVitePlugins } from './build/plugins'
 
 // https://vitejs.dev/config/
@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
       port: VITE_SERVER_PORT,
       open: true,
       // 跨域处理
-      // proxy: createProxy(viteEnv.VITE_PROXY)
+      proxy: createProxy(viteEnv.VITE_PROXY)
     },
     css: {
       preprocessorOptions: {

@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import type { App } from 'vue'
 import { createPinia } from 'pinia'
 import { router } from './router'
+import { routerIntercept } from './router/intercept'
 import Element from './App.vue'
 
 // 样式
@@ -31,4 +32,8 @@ app
   .use(router)
   .use(useTable)
   .use(createPinia())
+
+// 路由拦截处理
+routerIntercept(router)
+
 app.mount('#app')

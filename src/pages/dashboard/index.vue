@@ -67,6 +67,10 @@ export default defineComponent({
         package_types: [0]
       }
     })
+
+    onMounted(() => {
+      handleSearch(searches.data)
+    })
     
     /**
      * 搜索提交
@@ -90,10 +94,6 @@ export default defineComponent({
       datum.value = data as IDashboardResult
       endLoading()
     }
-
-    onMounted(() => {
-      handleSearch(searches.data)
-    })
 
     return {
       datum,

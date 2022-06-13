@@ -7,49 +7,61 @@
       :mode="mode"
     />
     <Editor
-      style="height: 500px; overflow-y: hidden;"
+      style="overflow-y: hidden;"
+      :style="`height: ${ height || 300 }px`"
       v-model="valueHtml"
       :defaultConfig="editorConfig"
       :mode="mode"
       @onCreated="handleCreated"
+      @onChange="handleChange"
     />
   </div>
 </template>
 
 <script lang="ts">
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-
-import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
+import type { IDomEditor } from '@wangeditor/editor'
+import { defineComponent, onBeforeUnmount, ref, shallowRef } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 
-export default {
+export default defineComponent({
   components: { Editor, Toolbar },
-  setup() {
+  props: {
+    modelValue: {
+      type: String,
+      required: false
+    },
+    height: {
+      type: Number,
+      required: false
+    }
+  },
+  setup(props, { emit }) {
+    const { modelValue } = props
     // 编辑器实例，必须用 shallowRef
     const editorRef = shallowRef()
-
     // 内容 HTML
-    const valueHtml = ref('<p>hello</p>')
-
-    // 模拟 ajax 异步获取内容
-    onMounted(() => {
-        setTimeout(() => {
-            valueHtml.value = '<p>这是内容</p>'
-        }, 1500)
-    })
-
+    const valueHtml = ref(modelValue || '')
+    // 工具栏配置
     const toolbarConfig = {}
+    // 编辑器配置
     const editorConfig = { placeholder: '请输入内容...' }
 
     // 组件销毁时，也及时销毁编辑器
     onBeforeUnmount(() => {
-        const editor = editorRef.value
-        if (editor == null) return
-        editor.destroy()
+      const editor = editorRef.value
+      if (editor == null) return
+      editor.destroy()
     })
 
-    const handleCreated = (editor: string) => {
+    /** 记录editor实例 */
+    const handleCreated = (editor: IDomEditor) => {
       editorRef.value = editor // 记录 editor 实例，重要！
+    }
+
+    /** 监听值变化 */
+    const handleChange = (editor: IDomEditor) => {
+      emit('update:modelValue', editor.getHtml())
     }
 
     return {
@@ -58,8 +70,9 @@ export default {
       mode: 'default', // 或 'simple'
       toolbarConfig,
       editorConfig,
-      handleCreated
+      handleCreated,
+      handleChange
     };
   }
-}
+})
 </script>    

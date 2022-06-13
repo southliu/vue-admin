@@ -45,6 +45,15 @@ export default defineComponent({
   setup (props) {
     const tableHeight = ref(0)
 
+    onMounted(() => {
+      getTableHeight()
+      startResize()
+    })
+
+    onUnmounted(() => {
+      stopResize()
+    })
+
     // 表格参数
     const gridOptions = reactive<ITableData>({
       border: true, // 边框
@@ -116,15 +125,6 @@ export default defineComponent({
     const stopResize = () => {
       window.removeEventListener('resize', handleSize)
     }
-
-    onMounted(() => {
-      getTableHeight()
-      startResize()
-    })
-
-    onUnmounted(() => {
-      stopResize()
-    })
 
     return {
       tableHeight,

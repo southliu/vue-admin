@@ -31,6 +31,12 @@ export default defineComponent({
     const options = ref<TreeSelectProps['treeData']>([])
     const loading = ref(false)
 
+    onMounted(() => {
+      if (value && options.value && options.value.length === 0) {
+        getApiData()
+      }
+    })
+
     /** 获取接口数据 */
     const getApiData = () => {
       loading.value = true
@@ -42,12 +48,6 @@ export default defineComponent({
         loading.value = false
       })
     }
-
-    onMounted(() => {
-      if (value && options.value && options.value.length === 0) {
-        getApiData()
-      }
-    })
 
     return () => h(
       TreeSelect, {

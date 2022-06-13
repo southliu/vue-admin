@@ -93,6 +93,14 @@ export default defineComponent({
     // 修改密码组件ref
     const updatePasswordRef = ref<IUpdatePassword>()
 
+    onMounted(() => {
+      startResize()
+    })
+
+    onUnmounted(() => {
+      stopResize()
+    })
+
     /** 点击修改密码 */
     const onUpdatePassword = () => {
       updatePasswordRef.value?.toggle()
@@ -129,14 +137,6 @@ export default defineComponent({
     const stopResize = () => {
       window.removeEventListener('resize', handleSize)
     }
-
-    onMounted(() => {
-      startResize()
-    })
-
-    onUnmounted(() => {
-      stopResize()
-    })
 
     return {
       isPhone,

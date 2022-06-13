@@ -3,6 +3,9 @@ import { router } from '@/router'
 import { message } from 'ant-design-vue'
 import { useToken } from '@/hooks'
 
+// 当前环境 development:开发环境 production:生产环境
+const env = (import.meta.env.VITE_ENV as string)
+// 生成环境所用的接口
 const prefixUrl = (import.meta.env.VITE_BASE_URL as string)
 
 // 请求列表(防重复提交)
@@ -12,17 +15,24 @@ const source = CancelToken.source()
 
 // 请求配置
 const request = axios.create({
-  baseURL: prefixUrl,
+  baseURL: env === 'development' ? '/api' : prefixUrl,
   timeout: 180 * 1000
 })
 
 /**
  * 异常处理
  * @param error - 错误信息
+ * @param content - 自定义内容
  */
-const handleError = (error: string) => {
+const handleError = (error: string, content?: string) => {
   console.log('错误信息:', error)
-  message.error({ content: error || '服务器错误', key: 'error' })
+  message.error({ content: content || error, key: 'error' })
+}
+
+/** 权限不足 */
+const handleNotPermission = () => {
+  useToken().removeToken()
+  router.push('/login')
 }
 
 // 请求拦截
@@ -42,7 +52,7 @@ request.interceptors.request.use(
     return config
   },
   (error) => {
-    console.log(error)
+    handleError(error, '服务器错误')
     return Promise.reject(error)
   }
 )
@@ -56,12 +66,17 @@ request.interceptors.response.use(
     const index = requestList.findIndex(item => item === requestFlag)
     requestList.splice(index, 1);
 
+    // 后端框架错误提醒
+    if (res.code === 0) {
+      handleError(res.message, '权限不足,请重新登录')
+      handleNotPermission()
+      return Promise.reject(response)
+    }
+
     // 权限不足
     if (res?.code === 601) {
-      router.push('/login')
-      useToken().removeToken()
       handleError(res.message)
-
+      handleNotPermission()
       return Promise.reject(response)
     }
 
@@ -76,7 +91,7 @@ request.interceptors.response.use(
   (error) => {
     //置空请求列表
     requestList.length = 0;
-    handleError(error)
+    handleError(error, '服务器错误')
     return Promise.reject(error)
   }
 )

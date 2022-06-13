@@ -48,6 +48,6 @@ declare global {
   // env数据
   interface IViteEnv {
     VITE_SERVER_PORT: number;
-    // VITE_PROXY: [string, string][];
+    VITE_PROXY: [string, string][];
   }
 }

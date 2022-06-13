@@ -35,12 +35,16 @@ type IRadioComponents = 'RadioGroup' | 'Switch'
 // 时间组件
 type ITimeComponents = 'DatePicker' | 'RangePicker'
 
+// 富文本编辑器
+type IEditorComponents = 'WangEditor'
+
 // 组件集合
 export type IComponents = IDefaultDataComponents |
                           ISelectComponents |
                           ICheckboxComponents |
                           ITimeComponents |
-                          IRadioComponents
+                          IRadioComponents |
+                          IEditorComponents
 
 type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
 
