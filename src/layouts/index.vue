@@ -63,14 +63,15 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, ref, onMounted } from 'vue'
+import type { IUpdatePassword } from '@/components/UpdatePassword/model'
+import { defineComponent, defineAsyncComponent, ref, onMounted, onUnmounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { storeToRefs } from 'pinia'
+import { useDebounceFn } from '@vueuse/core'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
-import type { IUpdatePassword } from '@/components/UpdatePassword/model'
 
 export default defineComponent({
   name: 'Layout',
@@ -106,12 +107,35 @@ export default defineComponent({
     const toggleMaximize = () => {
       maximize.value = !maximize.value
     }
-    
-    onMounted(() => {
+
+    /** 判断是否是手机端 */
+    const handleIsPhone = useDebounceFn(() => {
       const isPhone = window.innerWidth <= 768
       // 手机首次进来收缩菜单
       if (isPhone) collapsed.value = true
       menuStore.setPhone(isPhone)
+    }, 500)
+    
+    /** 滚动事件防抖 */
+    const handler = () => handleIsPhone()
+    const handleSize = useDebounceFn(handler, 200)
+  
+    /** 开始监听滚动事件 */
+    const startResize = () => {
+      window.addEventListener('resize', handleSize)
+    }
+
+    /** 结束监听滚动事件 */
+    const stopResize = () => {
+      window.removeEventListener('resize', handleSize)
+    }
+
+    onMounted(() => {
+      startResize()
+    })
+
+    onUnmounted(() => {
+      stopResize()
     })
 
     return {

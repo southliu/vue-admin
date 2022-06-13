@@ -13,14 +13,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, h, ref, reactive, onMounted, onUnmounted } from 'vue'
-import { Grid } from 'vxe-table'
 import type { PropType } from 'vue'
 import type { VxeGridPropTypes } from 'vxe-table'
+import { defineComponent, h, ref, reactive, onMounted, onUnmounted } from 'vue'
+import { Grid } from 'vxe-table'
 import { useTableHeight } from './hooks/useTableHeight'
+import { useDebounceFn } from '@vueuse/core'
 import 'vxe-table/es/table/style.css'
 import 'vxe-table/es/header/style.css'
-import { useDebounceFn } from '@vueuse/core'
 
 export default defineComponent({
   name: 'BasicTable',
@@ -98,7 +98,7 @@ export default defineComponent({
       return array
     }
 
-    // 获取表格高度
+    /** 获取表格高度 */
     const getTableHeight = () => {
       tableHeight.value = useTableHeight()
     }
@@ -107,12 +107,12 @@ export default defineComponent({
     const handler = () => getTableHeight()
     const handleSize = useDebounceFn(handler, 200)
   
-    // 开始监听滚动事件
+    /** 开始监听滚动事件 */
     const startResize = () => {
       window.addEventListener('resize', handleSize)
     }
 
-    // 结束监听滚动事件
+    /** 结束监听滚动事件 */
     const stopResize = () => {
       window.removeEventListener('resize', handleSize)
     }
