@@ -32,6 +32,7 @@ import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
 import type { IAllDataType } from "@/types/public"
 import type { IBusinessEmit } from '../Business'
 import type { PropType } from 'vue'
+import type { IWangEditorProps } from '../WangEditor/model'
 import { defineComponent, watch, ref, h } from 'vue'
 import { exportBusiness } from '../Business'
 import { PLEASE_ENTER, PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
@@ -272,6 +273,16 @@ export default defineComponent({
                 ]
                 emit('update:value', data)
               }
+            })
+          )
+
+        // 富文本编辑器
+        case 'WangEditor':
+          return (
+            h(WangEditor, {
+              modelValue: componentValue.value as string,
+              height: (componentProps as IWangEditorProps)?.height || 300,
+              'onUpdate:modelValue': (modelValue: string) => emit('update:value', modelValue)
             })
           )
       }

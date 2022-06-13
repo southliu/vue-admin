@@ -21,7 +21,7 @@ export function routerIntercept(router: Router) {
 
     // 无token返回登录页
     if (!token && to.path !== '/login') {
-      message.error({ content: '用户授权过期,请重新登录', key: 'not_token' })
+      message.error({ content: '用户授权过期，请重新登录', key: 'not_token' })
       next({ path: `/login?redirect=${to.path}` })
     }
 

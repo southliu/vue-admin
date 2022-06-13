@@ -9,7 +9,8 @@ import type {
 import type { IAllDataType } from './public'
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { RuleObject } from 'ant-design-vue/lib/form'
-import type { IBusinessComponentType } from '@/components/Business';
+import type { IBusinessComponentType } from '@/components/Business'
+import { IWangEditorProps } from '@/components/WangEditor/model'
 
 // 数据类型
 export type IFormData = Record<string, IAllDataType>
@@ -68,7 +69,8 @@ export type IComponentProps = InputProps |
                               RadioProps |
                               DatePickerProps |
                               IApiSelectProps |
-                              IApiTreeSelectProps
+                              IApiTreeSelectProps |
+                              IWangEditorProps
 
 // 表单规则
 export type IFormRule = RuleObject & {

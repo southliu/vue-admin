@@ -1,7 +1,7 @@
 <template>
   <div class="p-2">
     <WangEditor
-      v-model="value"
+      v-model="editorValue"
       :height="500"
     />
   </div>
@@ -17,10 +17,10 @@ export default defineComponent({
     WangEditor
   },
   setup() {
-    const value = ref('<p>Hello World!</p>')
+    const editorValue = ref('')
 
     return {
-      value
+      editorValue
     }
   },
 })

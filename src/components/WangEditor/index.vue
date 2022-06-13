@@ -21,7 +21,7 @@
 <script lang="ts">
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import type { IDomEditor } from '@wangeditor/editor'
-import { defineComponent, onBeforeUnmount, ref, shallowRef } from 'vue'
+import { defineComponent, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 
 export default defineComponent({
@@ -54,12 +54,24 @@ export default defineComponent({
       editor.destroy()
     })
 
+    // 监听组件值变化
+    watch(() => props.modelValue, value => {
+      const content = isHtml(value as string) ? value : `<p>${value}</p>`
+      valueHtml.value = content as string
+    })
+
+    /** 判断最外层是否有标签 */
+    const isHtml = (text: string) => {
+      const reg = /^<([a-zA-Z]+)[^>]*>(.*)<\/\1>$/
+      return reg.test(text)
+    }
+
     /** 记录editor实例 */
     const handleCreated = (editor: IDomEditor) => {
       editorRef.value = editor // 记录 editor 实例，重要！
     }
 
-    /** 监听值变化 */
+    /** 处理变更 */
     const handleChange = (editor: IDomEditor) => {
       emit('update:modelValue', editor.getHtml())
     }

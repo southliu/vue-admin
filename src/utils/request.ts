@@ -68,7 +68,7 @@ request.interceptors.response.use(
 
     // 后端框架错误提醒
     if (res.code === 0) {
-      handleError(res.message, '权限不足,请重新登录')
+      handleError(res.message, '权限不足，请重新登录')
       handleNotPermission()
       return Promise.reject(response)
     }
