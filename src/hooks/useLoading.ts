@@ -15,9 +15,14 @@ export function useLoading(initValue: boolean = false) {
     loading.value = false
   }
 
+  const toggleLoading = () => {
+    loading.value = !loading.value
+  }
+
   return {
     loading,
     startLoading,
-    endLoading
+    endLoading,
+    toggleLoading
   }
 }

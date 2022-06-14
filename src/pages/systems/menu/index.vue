@@ -4,7 +4,6 @@
       <BasicSearch
         :list="searchList"
         :data="searches.data"
-        :loading="loading"
         :is-search="true"
         :is-create="true"
         @onCreate="onCreate"
@@ -15,7 +14,6 @@
     <BasicTable
       :data="tables"
       :columns="tableColumns"
-      :loading="loading"
     >
      <template v-slot:operate='row'>
         <UpdateBtn
@@ -61,7 +59,6 @@ import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { message } from 'ant-design-vue'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { getMenuPage, getMenuById, createMenu, updateMenu, deleteMenu } from '@/servers/systems/menu'
-import { useLoading } from '@/hooks'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './data'
@@ -88,7 +85,6 @@ export default defineComponent({
   },
   setup() {
     const createFormRef = ref<IBasicForm>()
-    const { loading, startLoading, endLoading } = useLoading()
 
     // 初始化新增数据
     const initCreate = {
@@ -129,13 +125,11 @@ export default defineComponent({
      * 获取表格数据
      */
     const getPage = async () => {
-      startLoading()
       const query = { ...pagination, ...searches.data }
       const { data: { data } } = await getMenuPage(query)
       const { items, total } = data
       tables.data = items
       tables.total = total
-      endLoading()
     }
 
     /** 表格提交 */
@@ -148,14 +142,12 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
-      startLoading()
       searches.data = values
       const query = { ...pagination, ...values }
       const { data: { data } } = await getMenuPage(query)
       const { items, total } = data
       tables.data = items
       tables.total = total
-      endLoading()
     }
 
     /** 点击新增 */
@@ -176,9 +168,7 @@ export default defineComponent({
       creates.id = id as string
       creates.title = EDIT_TITLE(name as string)
 
-      startLoading()
       const { data: { data } } = await getMenuById(id as string)
-      endLoading()
       creates.data = data
     }
 
@@ -187,7 +177,6 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleCreate = async (values: IFormData) => {
-      startLoading()
       const functions = () => creates.id ? updateMenu(creates.id, values) :  createMenu(values)
       const { data } = await functions()
       if (data?.code === 200) {
@@ -195,7 +184,6 @@ export default defineComponent({
         creates.isVisible = false
         message.success(data?.message || '操作成功')
       }
-      endLoading()
     }
 
     /** 关闭新增/编辑 */
@@ -208,13 +196,11 @@ export default defineComponent({
      * @param id
      */
     const handleDelete = async (id: string | number) => {
-      startLoading()
       const { data } = await deleteMenu(id as string)
       if (data?.code === 200) {
         message.success(data?.message || '删除成功')
         getPage()
       }
-      endLoading()
     }
 
     /**
@@ -229,7 +215,6 @@ export default defineComponent({
     }
 
     return {
-      loading,
       createFormRef,
       searches,
       creates,

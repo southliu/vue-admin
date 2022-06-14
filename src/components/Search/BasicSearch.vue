@@ -30,7 +30,7 @@
         <Button
           type="primary"
           html-type="submit"
-          :loading="loading"
+          :loading="globalLoading || loading"
         >
           <template #icon>
             <SearchOutlined />
@@ -43,7 +43,7 @@
         <Button
           v-if="isCreate"
           type="primary"
-          :loading="loading"
+          :loading="globalLoading || loading"
           @click="onCreate"
         >
           <template #icon>
@@ -59,15 +59,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
-import { Form, FormItem, Button } from 'ant-design-vue'
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
-import { useDebounceFn } from '@vueuse/core'
 import type { PropType } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
+import { defineComponent, reactive, ref } from 'vue'
+import { Form, FormItem, Button } from 'ant-design-vue'
+import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
+import { useDebounceFn } from '@vueuse/core'
+import { useLoadingStore } from '@/stores/loading'
+import { storeToRefs } from 'pinia'
 import BasicComponents from '../Form/BasicComponents.vue'
 import { filterEmptyValue } from '@/utils/utils'
 
@@ -110,6 +112,8 @@ export default defineComponent({
   setup(props, context) {
     const formRef = ref<FormInstance>()
     const formState = reactive(props.data)
+    const loadingStore = useLoadingStore()
+    const { globalLoading } = storeToRefs(loadingStore)
 
     /** 外部调内部提交方法 */
     const handleSubmit = useDebounceFn(() => {
@@ -152,6 +156,7 @@ export default defineComponent({
     }
 
     return {
+      globalLoading,
       formRef,
       formState,
       onCreate,

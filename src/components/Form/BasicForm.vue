@@ -40,8 +40,8 @@ import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
 import { defineComponent, ref, watch } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
 import { useDebounceFn } from '@vueuse/core'
-import BasicComponents from './BasicComponents.vue'
 import { filterEmptyValue } from '@/utils/utils'
+import BasicComponents from './BasicComponents.vue'
 
 type IFinishFun = (values: IFormData) => void
 

@@ -2,7 +2,7 @@
   <Grid
     v-bind="gridOptions"
     :height="tableHeight"
-    :loading="loading"
+    :loading="globalLoading || loading"
     :data="data.data"
     :columns="handleColumns(columns)"
   >
@@ -19,6 +19,8 @@ import { defineComponent, h, ref, reactive, onMounted, onUnmounted } from 'vue'
 import { Grid } from 'vxe-table'
 import { useTableHeight } from './hooks/useTableHeight'
 import { useDebounceFn } from '@vueuse/core'
+import { useLoadingStore } from '@/stores/loading'
+import { storeToRefs } from 'pinia'
 import 'vxe-table/es/table/style.css'
 import 'vxe-table/es/header/style.css'
 
@@ -35,7 +37,7 @@ export default defineComponent({
     },
     loading: {
       type: Boolean,
-      required: true,
+      required: false,
       default: false
     }
   },
@@ -44,6 +46,8 @@ export default defineComponent({
   },
   setup (props) {
     const tableHeight = ref(0)
+    const loadingStore = useLoadingStore()
+    const { globalLoading } = storeToRefs(loadingStore)
 
     onMounted(() => {
       getTableHeight()
@@ -127,6 +131,7 @@ export default defineComponent({
     }
 
     return {
+      globalLoading,
       tableHeight,
       gridOptions,
       handleColumns

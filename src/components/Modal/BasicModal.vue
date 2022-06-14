@@ -4,6 +4,7 @@
     :width="isFullscreen ? '100%' : width"
     :layout="layout"
     :mask-closable="false"
+    :loading="globalLoading"
     :wrap-class-name="isFullscreen ? 'full-modal' : ''"
   >
     <template #closeIcon>
@@ -48,6 +49,7 @@
       <Button
         v-if="isPermission"
         type="primary"
+        :loading="globalLoading"
         @click="onFinish"
       >
         确认
@@ -60,6 +62,9 @@
 import { defineComponent, nextTick, PropType, ref, watch } from 'vue'
 import { Modal, Tooltip, Button } from 'ant-design-vue'
 import { useModalDragMove } from './hooks/useModalDrag'
+import { useDebounceFn } from '@vueuse/core'
+import { useLoadingStore } from '@/stores/loading'
+import { storeToRefs } from 'pinia'
 import Icon from '../Icon/index.vue'
 
 export default defineComponent({
@@ -96,6 +101,9 @@ export default defineComponent({
     Button
   },
   setup(props, context) {
+    const loadingStore = useLoadingStore()
+    const { globalLoading } = storeToRefs(loadingStore)
+
     // 是否最大化
     const isFullscreen = ref(false)
 
@@ -105,9 +113,9 @@ export default defineComponent({
     }
 
     /** 点击确认 */
-    const onFinish = () => {
+    const onFinish = useDebounceFn(() => {
       context.emit('handleFinish')
-    }
+    }, 500)
 
     /** 最大化 */
     const onFullScreen = () => {
@@ -125,6 +133,7 @@ export default defineComponent({
     })
 
     return {
+      globalLoading,
       isFullscreen,
       onCancel,
       onFinish,

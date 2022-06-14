@@ -1,15 +1,8 @@
-<template>
-  <Button
-    type="primary"
-    @click="onClick"
-  >
-    {{ content }}
-  </Button>
-</template>
-
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, h } from 'vue'
 import { Button } from 'ant-design-vue'
+import { useLoadingStore } from '@/stores/loading'
+import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'UpdateBtn',
@@ -24,14 +17,25 @@ export default defineComponent({
     }
   },
   setup(props, context) {
+    const { content } = props
+    const loadingStore = useLoadingStore()
+    const { globalLoading } = storeToRefs(loadingStore)
+
     /** 点击编辑 */
     const onClick = () => {
       context.emit('click')
     }
 
-    return {
-      onClick
-    }
+    return () => (
+      h(
+        Button, {
+          type: "primary",
+          loading: globalLoading.value,
+          innerHTML: content as string,
+          onClick,
+        }
+      )
+    )
   },
 })
 </script>

@@ -15,7 +15,7 @@ export const SELECT_REQUIRED = [{ required: true, message: PLEASE_SELECT }]// �
 
 // 新增/编辑标题
 export const ADD_TITLE = '新增'
-export const EDIT_TITLE = (name: string) => `编辑${ name ? `[${name}]` : '' }`
+export const EDIT_TITLE = (name: string) => `编辑${ name ? `(${name})` : '' }`
 
 // 密码规则
 export const passwordRule = {
