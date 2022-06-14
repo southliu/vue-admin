@@ -101,6 +101,7 @@ export default defineComponent({
     Button
   },
   setup(props, context) {
+    const { visible } = props
     const loadingStore = useLoadingStore()
     const { globalLoading } = storeToRefs(loadingStore)
 
@@ -123,7 +124,7 @@ export default defineComponent({
     }
 
     // 监听显示开启拖拽
-    watch(() => props.visible, async (value) => {
+    watch(() => visible, async (value) => {
       if (value) {
         await nextTick()
         useModalDragMove()

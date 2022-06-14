@@ -118,6 +118,7 @@ export const tableColumns: VxeGridPropTypes.Columns = [
     title: '操作',
     field: 'operate',
     minWidth: 160,
+    showOverflow: false,
     slots: { default: 'operate' }
   }
 ]
