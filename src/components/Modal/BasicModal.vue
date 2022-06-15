@@ -8,31 +8,33 @@
     :wrap-class-name="isFullscreen ? 'full-modal' : ''"
   >
     <template #closeIcon>
-      <div class="h-full flex items-center justify-center :hover:text-white">
-        <Tooltip
-          class="p-10px font-16px text-#00000073 hover:text-#404040"
-          placement="bottom"
-          @click="onFullScreen"
-        >
-          <template #title>
-            <span>{{ isFullscreen ? '退出最大化' : '最大化' }}</span>
-          </template>
-          <Icon
-            class="text-lg"
-            :icon="!isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'"
-          />
-        </Tooltip>
+      <div class="mt-7px">
+        <div class="h-full flex items-center justify-center :hover:text-white">
+          <Tooltip
+            class="p-10px font-16px text-#00000073 hover:text-#404040"
+            placement="bottom"
+            @click="onFullScreen"
+          >
+            <template #title>
+              <span>{{ isFullscreen ? '退出最大化' : '最大化' }}</span>
+            </template>
+            <Icon
+              class="text-lg"
+              :icon="!isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'"
+            />
+          </Tooltip>
 
-        <Tooltip
-          class="p-10px font-16px text-#00000073 hover:text-#404040"
-          placement="bottom"
-          @click="onCancel"
-        >
-          <template #title>
-            <span>关闭</span>
-          </template>
-          <Icon class="text-lg" icon="ant-design:close-outlined" />
-        </Tooltip>
+          <Tooltip
+            class="p-10px font-16px text-#00000073 hover:text-#404040"
+            placement="bottom"
+            @click="onCancel"
+          >
+            <template #title>
+              <span>关闭</span>
+            </template>
+            <Icon class="text-lg" icon="ant-design:close-outlined" />
+          </Tooltip>
+        </div>
       </div>
     </template>
 
@@ -101,7 +103,6 @@ export default defineComponent({
     Button
   },
   setup(props, context) {
-    const { visible } = props
     const loadingStore = useLoadingStore()
     const { globalLoading } = storeToRefs(loadingStore)
 
@@ -124,7 +125,7 @@ export default defineComponent({
     }
 
     // 监听显示开启拖拽
-    watch(() => visible, async (value) => {
+    watch(() => props.visible, async (value) => {
       if (value) {
         await nextTick()
         useModalDragMove()
@@ -146,7 +147,7 @@ export default defineComponent({
 
 <style lang="less">
 .ant-modal-close-x {
-  width: 100px;
+  width: 100px !important;
 }
 
 .full-modal {

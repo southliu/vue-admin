@@ -131,3 +131,14 @@ pnpm build
       - 特殊自定义公共组件:
         1. ApiSelect：点击下拉框自动获取下拉数据，在antv的Select参数基础上添加了api参数，根据api参数获取接口数据。
         2. ApiTreeSelect：点击下拉框自动获取下拉数据，在antv的TreeSelect参数基础上添加了api参数，根据api参数获取接口数据。
+
+## 打包Nginx
+### history模式刷新页面会404，需要在`nginx/conf/nginx.conf`配置：
+```
+server {
+  location / {
+    root   html;
+    index  index.html index.htm;        
+    try_files $uri $uri/ /index.html; #匹配不到任何静态资源，跳到同一个index.html
+  }
+```

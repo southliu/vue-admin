@@ -77,8 +77,8 @@ export default defineComponent({
 
       switch (item.component) {
         // 自定义
-        // case 'Customize':
-        //   return item.render()
+        case 'Customize':
+          return item.render && item.render()
 
         // 输入框
         case 'Input':

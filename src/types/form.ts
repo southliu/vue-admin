@@ -5,11 +5,12 @@ import type {
   RadioProps,
   CheckboxGroupProps,
   DatePickerProps
-} from "ant-design-vue";
+} from "ant-design-vue"
 import type { IAllDataType } from './public'
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { RuleObject } from 'ant-design-vue/lib/form'
 import type { IBusinessComponentType } from '@/components/Business'
+import type { VNode } from "vue"
 import { IWangEditorProps } from '@/components/WangEditor/model'
 
 // 数据类型
@@ -36,6 +37,9 @@ type IRadioComponents = 'RadioGroup' | 'Switch'
 // 时间组件
 type ITimeComponents = 'DatePicker' | 'RangePicker'
 
+// 自定义组件
+type ICustomizeComponents = 'Customize'
+
 // 富文本编辑器
 type IEditorComponents = 'WangEditor'
 
@@ -45,6 +49,7 @@ export type IComponents = IDefaultDataComponents |
                           ICheckboxComponents |
                           ITimeComponents |
                           IRadioComponents |
+                          ICustomizeComponents |
                           IEditorComponents
 
 type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
@@ -87,4 +92,5 @@ export type IFormList = {
   wrapperCol?: number; // 内容宽度
   component: IComponents; // 组件
   componentProps?: IComponentProps; // 组件参数
+  render?: () => VNode; // 自定义渲染
 }

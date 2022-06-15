@@ -59,16 +59,21 @@
   </div>
 
   <!-- 修改密码 -->
-  <UpdatePassword ref="updatePasswordRef" />
+  <UpdatePassword
+    v-if="isUpdatePassword"
+    :visible="isUpdatePassword"
+    @handleCancel="onUpdatePassword"
+    @handleSubmit="onUpdatePassword"
+  />
 </template>
 
 <script lang="ts">
-import type { IUpdatePassword } from '@/components/UpdatePassword/model'
-import { defineComponent, defineAsyncComponent, ref, onMounted, onUnmounted } from 'vue'
+import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
+import { createAsyncComponent } from '@/utils/createAsyncComponent'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
@@ -80,7 +85,7 @@ export default defineComponent({
     Menu,
     Tabs,
     // 异步组件，需要时才加载
-    UpdatePassword: defineAsyncComponent(() => (
+    UpdatePassword: createAsyncComponent(() => (
       import('@/components/UpdatePassword/index.vue')
     ))
   },
@@ -90,8 +95,7 @@ export default defineComponent({
     const { isPhone } = storeToRefs(menuStore)
     const collapsed = ref(false) // 是否收起菜单
     const maximize = ref(false) // 是否窗口最大化
-    // 修改密码组件ref
-    const updatePasswordRef = ref<IUpdatePassword>()
+    const isUpdatePassword = ref(false) // 是否显示修改密码
 
     onMounted(() => {
       startResize()
@@ -103,7 +107,7 @@ export default defineComponent({
 
     /** 点击修改密码 */
     const onUpdatePassword = () => {
-      updatePasswordRef.value?.toggle()
+      isUpdatePassword.value = !isUpdatePassword.value
     }
 
     /** 收缩菜单 */
@@ -140,13 +144,13 @@ export default defineComponent({
 
     return {
       isPhone,
+      isUpdatePassword,
       tabStore,
       collapsed,
       maximize,
       onUpdatePassword,
       toggleCollapsed,
-      toggleMaximize,
-      updatePasswordRef
+      toggleMaximize
     }
   }
 })

@@ -3,7 +3,7 @@
     :visible="visible"
     title="修改密码"
     :width="450"
-    @handleCancel="toggle"
+    @handleCancel="handleCancel"
     @handleFinish="onFinish"
   >
     <Form
@@ -51,11 +51,11 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive, ref } from 'vue'
-import BasicModal from '../Modal/BasicModal.vue'
-import { Form, FormItem, Input, message } from 'ant-design-vue'
 import type { FormInstance } from 'ant-design-vue'
+import { defineComponent, reactive, ref } from 'vue'
+import { Form, FormItem, Input, message } from 'ant-design-vue'
 import { passwordRule } from '@/utils/config'
+import BasicModal from '../Modal/BasicModal.vue'
 
 interface IFormData {
   oldPassword: string,
@@ -65,16 +65,21 @@ interface IFormData {
 
 export default defineComponent({
   name: 'UpdatePassword',
-  emits: ['handleCancel'],
+  emits: ['handleCancel', 'handleSubmit'],
+  props: {
+    visible: {
+      type: Boolean,
+      required: true
+    }
+  },
   components: {
     BasicModal,
     Input,
     Form,
     FormItem,
   },
-  setup(props, context) {
+  setup(props, { emit }) {
     const formRef = ref<FormInstance>()
-    const visible = ref(false)
 
     // 表单数据
     const formState = reactive<IFormData>({
@@ -83,9 +88,9 @@ export default defineComponent({
       confirmPassword: ''
     })
 
-    /** 外部调内部切换开关方法 */
-    const toggle = () => {
-      visible.value = !visible.value
+    /** 关闭弹窗 */
+    const handleCancel = () => {
+      emit('handleCancel')
     }
 
     /** 点击确认 */
@@ -98,17 +103,17 @@ export default defineComponent({
             return message.warning({ content: '重复密码不一致', key: 'password' })
           }
 
+          emit('handleSubmit', values)
           console.log('修改密码：', values)
         })
     }
 
     return {
-      visible,
       formRef,
       formState,
       passwordRule,
-      toggle,
-      onFinish
+      onFinish,
+      handleCancel
     }
   },
 })
