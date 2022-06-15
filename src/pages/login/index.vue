@@ -110,7 +110,7 @@ export default defineComponent({
         const { data: { token, user } } = data
         setToken(token)
         setLocalInfo(USERNAME, user?.username || '')
-        router.push('/system/user')
+        router.push('/dashboard')
       }
       endLoading()
     };

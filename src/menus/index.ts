@@ -1,110 +1,8 @@
 import type { IMenus } from '../router/model'
+import { DemoMenus } from './demo'
+import { SystemMenus } from './system'
 
 // 如果Layout是以import Layout from '@/layouts/index.vue'形式引入,打包会报错
-
-// 组件菜单
-const ComponentMenus: IMenus[] = [
-  {
-    name: 'Component',
-    path: '/components',
-    meta: {
-      title: '组件',
-      icon: 'fluent:box-20-regular'
-    },
-    component: () => import('@/layouts/index.vue'),
-    redirect: '/system/user',
-    children: [
-      {
-        name: 'ComponentCopy',
-        path: '/components/copy',
-        meta: {
-          title: '剪切板',
-          keepAlive: true
-        },
-        component: () => import('@/pages/demo/copy/index.vue')
-      },
-      {
-        name: 'ComponentWangEditor',
-        path: '/components/wangEditor',
-        meta: {
-          title: '富文本',
-          keepAlive: true
-        },
-        component: () => import('@/pages/demo/wangEditor/index.vue')
-      },
-      {
-        name: 'ComponentUpload',
-        path: '/components/upload',
-        meta: {
-          title: '上传',
-          keepAlive: true
-        },
-        component: () => import('@/pages/demo/upload/index.vue')
-      },
-      {
-        name: 'ComponentVirtualScroll',
-        path: '/components/virtualScroll',
-        meta: {
-          title: '虚拟滚动',
-          keepAlive: true
-        },
-        component: () => import('@/pages/demo/virtualScroll/index.vue')
-      },
-      {
-        name: 'ComponentWatermark',
-        path: '/components/watermark',
-        meta: {
-          title: '水印组件',
-          keepAlive: true
-        },
-        component: () => import('@/pages/demo/watermark/index.vue')
-      },
-    ]
-  }
-]
-
-// 系统管理
-export const SystemMenus: IMenus[] = [
-  {
-    name: 'System',
-    path: '/system',
-    meta: {
-      title: '系统管理',
-      icon: 'ion:settings-outline'
-    },
-    component: () => import('@/layouts/index.vue'),
-    redirect: '/system/user',
-    children: [
-      {
-        name: 'SystemUser',
-        path: '/system/user',
-        meta: {
-          title: '用户管理',
-          keepAlive: true
-        },
-        component: () => import('@/pages/systems/user/index.vue')
-      },
-      // {
-      //   name: 'SystemRole',
-      //   path: '/system/role',
-      //   meta: {
-      //     title: '角色管理',
-      //     keepAlive: true
-      //   },
-      //   component: () => import('@/pages/systems/role/index.vue')
-      // },
-      {
-        name: 'SystemMenu',
-        path: '/system/menu',
-        meta: {
-          title: '菜单管理',
-          keepAlive: true
-        },
-        component: () => import('@/pages/systems/menu/index.vue')
-      }
-    ]
-  },
-]
 
 // 菜单
 export const menus: IMenus[] = [
@@ -159,7 +57,7 @@ export const menus: IMenus[] = [
       }
     ]
   },
-  ...ComponentMenus,
+  ...DemoMenus,
   ...SystemMenus,
   {
     path: '/:pathMatch(.*)',

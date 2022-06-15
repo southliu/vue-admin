@@ -5,7 +5,12 @@
     :data-title="item.title"
   >
     <template #icon>
-      <Icon v-if="item?.icon" :icon="item.icon" />
+      <Icon
+        v-if="item?.icon"
+        class="mt-2px"
+        :icon="item.icon"
+        :style="{ fontSize: '16px' }"
+      />
     </template>
 
     <template #title>{{ item.title }}</template>

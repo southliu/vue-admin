@@ -1,6 +1,8 @@
 <template>
   <ConfigProvider :locale="zhCN">
-    <router-view></router-view>
+    <div class="font-sans">
+      <router-view />
+    </div>
   </ConfigProvider>
 </template>
 
