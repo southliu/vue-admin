@@ -1,11 +1,11 @@
-import type { Router } from "vue-router";import {
-  NavigationGuardNext,
-  RouteLocationNormalized
-} from 'vue-router'
+import type { Router } from "vue-router";
+import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { useToken } from '@/hooks'
 import { TITLE_PREFIX } from '@/utils/config'
 import { message } from "ant-design-vue";
 import NProgress from 'nprogress'
+
+NProgress.configure({ showSpinner: false })
 
 /**
  * 路由拦截处理

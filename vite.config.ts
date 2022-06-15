@@ -11,7 +11,7 @@ export default defineConfig(({ mode }) => {
   const { VITE_SERVER_PORT } = viteEnv
 
   return {
-    base: './',
+    base: '/',
     plugins: createVitePlugins(),
     resolve: {
       alias: {
