@@ -42,8 +42,8 @@
 </template>
 
 <script lang="ts">
+import type { IGlobalSearchResult } from '../model'
 import { defineComponent, PropType } from 'vue'
-import type { IGlobalSearchResult } from './model'
 import Icon from '@/components/Icon/index.vue';
 
 export default defineComponent({

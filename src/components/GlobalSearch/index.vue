@@ -7,33 +7,37 @@
     />
   </Tooltip>
 
-  <SearchModal ref="modalRef" />
+  <SearchModal
+    v-if="visible"
+    :visible="visible"
+    @toggle="toggle"
+  />
 </template>
 
 
 <script lang="ts">
-import { defineComponent, defineAsyncComponent, ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { Tooltip } from 'ant-design-vue'
-import type { IGlobalSearchModal } from './components/model'
+import SearchModal from './components/SearchModal.vue'
 
 export default defineComponent({
   name: 'GlobalSearch',
   components: {
     SearchOutlined,
     Tooltip,
-    SearchModal: defineAsyncComponent(() => import('./components/SearchModal.vue'))
+    SearchModal
   },
   setup() {
-    const modalRef = ref<IGlobalSearchModal>()
+    const visible = ref(false)
 
     /** 切换搜索框显示状态 */
     const toggle = () => {
-      modalRef.value?.toggle()
+      visible.value = !visible.value
     }
 
     return {
-      modalRef,
+      visible,
       toggle
     }
   },

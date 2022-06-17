@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts">
-import type { IGlobalSearchResult } from './model'
+import type { IGlobalSearchResult } from '../model'
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { Modal, Input } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
@@ -48,6 +48,7 @@ import Icon from '@/components/Icon/index.vue';
 
 export default defineComponent({
   name: 'SearchModal',
+  emits: ['toggle'],
   components: {
     Modal,
     Input,
@@ -55,13 +56,18 @@ export default defineComponent({
     SearchResult,
     SearchFooter
   },
-  setup() {
+  props: {
+    visible: {
+      type: Boolean,
+      required: true
+    }
+  },
+  setup(props, { emit }) {
     const router = useRouter()
     const tabStore = useTabStore()
     const menuStore = useMenuStore()
     const { menuArr } = storeToRefs(menuStore)
     const inputRef = ref()
-    const visible = ref(false)
     const value = ref('')
     let active = ref<IGlobalSearchResult>({ title: '', key: '', index: 0 })
     const resultList = ref<IGlobalSearchResult[]>([])
@@ -73,7 +79,7 @@ export default defineComponent({
 
     /** 开关切换 */
     const toggle = () => {
-      visible.value = !visible.value
+      emit('toggle')
     }
 
     /** 处理回车事件 */
@@ -89,7 +95,7 @@ export default defineComponent({
     /** 处理鼠标上键 */
     const handleUp = () => {
       // 如果列表值为空直接退出
-      if (!visible.value) return
+      if (!props.visible) return
       const value = resultList.value
       const index = active.value.index as number - 1
       if (!value[index]) return
@@ -100,7 +106,7 @@ export default defineComponent({
     /** 处理鼠标下键 */
     const handleKeydown = () => {
       // 如果列表值为空直接退出
-      if (!visible.value) return
+      if (!props.visible) return
       const value = resultList.value
       const index = active.value.index as number + 1
       if (!value[index]) return
@@ -151,7 +157,6 @@ export default defineComponent({
 
     return {
       inputRef,
-      visible,
       value,
       active,
       resultList,

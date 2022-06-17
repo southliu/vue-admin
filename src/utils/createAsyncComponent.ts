@@ -24,7 +24,7 @@ export function createAsyncComponent(
 ): AsyncComponentOptions {
   const {
     size = 'small',
-    delay = 500,
+    delay = 200,
     timeout = 30000,
     loading = false,
     retry = true
