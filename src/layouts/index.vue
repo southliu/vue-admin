@@ -60,7 +60,6 @@
 
   <!-- 修改密码 -->
   <UpdatePassword
-    v-if="isUpdatePassword"
     :visible="isUpdatePassword"
     @handleCancel="onUpdatePassword"
     @handleSubmit="onUpdatePassword"
@@ -73,10 +72,10 @@ import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
-import { createAsyncComponent } from '@/utils/createAsyncComponent'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
+import UpdatePassword from '@/components/UpdatePassword/index.vue'
 
 export default defineComponent({
   name: 'Layout',
@@ -84,10 +83,7 @@ export default defineComponent({
     Header,
     Menu,
     Tabs,
-    // 异步组件，需要时才加载
-    UpdatePassword: createAsyncComponent(() => (
-      import('@/components/UpdatePassword/index.vue')
-    ))
+    UpdatePassword
   },
   setup() {
     const tabStore = useTabStore()
