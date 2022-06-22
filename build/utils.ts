@@ -1,5 +1,11 @@
 type IEnvConfigs = Record<string, string>
 
+// env数据
+interface IViteEnv {
+  VITE_SERVER_PORT: number;
+  VITE_PROXY: [string, string][];
+}
+
 /**
  * 处理转化env
  * @param envConfigs 

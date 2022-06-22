@@ -14,7 +14,7 @@
       showSizeChanger
       showQuickJumper
       size="small"
-      :show-total="() => showTotal(total)"
+      :show-total="() => total && showTotal(total)"
       :defaultCurrent="page"
       :defaultPageSize="pageSize"
       :total="total"
@@ -33,7 +33,7 @@ export default defineComponent({
   props: {
     total: {
       type: Number,
-      required: true
+      required: false
     },
     page: {
       type: Number,

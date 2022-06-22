@@ -36,6 +36,7 @@ import type { IWangEditorProps } from '../WangEditor/model'
 import { defineComponent, watch, ref, h } from 'vue'
 import { exportBusiness } from '../Business'
 import { PLEASE_ENTER, PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
+import { DATE_FORMAT } from '@/utils/constants'
 import dayjs from 'dayjs'
 import ApiSelect from '../Select/ApiSelect.vue'
 import ApiTreeSelect from '../Select/ApiTreeSelect.vue'
@@ -248,8 +249,8 @@ export default defineComponent({
               defaultValue: dateValue,
               value: dateValue,
               'onUpdate:value': (value: Dayjs | string) => {
-                const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
-                emit('update:value', (componentValue.value as Dayjs).format(format.toString()))
+                const format = (componentProps as DatePickerProps)?.format || DATE_FORMAT
+                emit('update:value', (value as Dayjs).format(format.toString()))
               }
             })
           )
@@ -266,10 +267,10 @@ export default defineComponent({
               defaultValue: rangeValue,
               value: rangeValue,
               'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
-                const format = (componentProps as DatePickerProps)?.format || 'YYYY-MM-DD'
+                const format = (componentProps as DatePickerProps)?.format || DATE_FORMAT
                 const data = [
-                  (componentValue.value as [Dayjs, Dayjs])[0].format(format.toString()),
-                  (componentValue.value as [Dayjs, Dayjs])[1].format(format.toString())
+                  (value as [Dayjs, Dayjs])[0].format(format.toString()),
+                  (value as [Dayjs, Dayjs])[1].format(format.toString())
                 ]
                 emit('update:value', data)
               }

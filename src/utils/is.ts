@@ -2,7 +2,7 @@
  * 是否是方法
  * @param val - 参数
  */
-export function isFunction(val: unknown): val is Function {
+export function isFunction(val: unknown): boolean {
   return typeof val === 'function';
 }
 
