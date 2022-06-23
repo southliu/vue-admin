@@ -14,15 +14,14 @@
 
 <script lang="ts">
 import type { PropType } from 'vue'
-import type { VxeGridPropTypes } from 'vxe-table'
+import type { VxeGridProps, VxeGridPropTypes } from 'vxe-table'
 import { defineComponent, h, ref, reactive, onMounted, onUnmounted } from 'vue'
 import { Grid } from 'vxe-table'
 import { useTableHeight } from './hooks/useTableHeight'
 import { useDebounceFn } from '@vueuse/core'
 import { useLoadingStore } from '@/stores/loading'
 import { storeToRefs } from 'pinia'
-import 'vxe-table/es/table/style.css'
-import 'vxe-table/es/header/style.css'
+import 'vxe-table/es/style.min.css'
 
 export default defineComponent({
   name: 'BasicTable',
@@ -34,6 +33,10 @@ export default defineComponent({
     columns: {
       type: Array as PropType<VxeGridPropTypes.Columns>,
       required: true
+    },
+    options: {
+      type: Object as PropType<VxeGridProps>,
+      required: false,
     },
     loading: {
       type: Boolean,
@@ -59,7 +62,7 @@ export default defineComponent({
     })
 
     // 表格参数
-    const gridOptions = reactive<ITableData>({
+    const gridOptions = reactive<VxeGridProps>({
       border: true, // 边框
       showOverflow: true, // 内容过长时显示为省略号
       showHeaderOverflow: true, // 表头所有内容过长时显示为省略号
@@ -70,6 +73,9 @@ export default defineComponent({
         isHover: true, // 当鼠标移到行时，是否要高亮当前行
         isCurrent: true // 当鼠标点击行时，是否要高亮当前行
       },
+      sortConfig: {
+        trigger: 'cell'
+      },
       columnConfig: {
         resizable: true // 每一列是否启用列宽调整
       },
@@ -79,7 +85,7 @@ export default defineComponent({
       scrollY: {
         enabled: true // 纵向虚拟滚动配置
       },
-      ...props.data
+      ...props.options
     })
 
     /**
