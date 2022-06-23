@@ -8,7 +8,7 @@ import type { IBusinessEmit } from '../index'
 import type { IAllDataType } from '@/types/public'
 import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
-import { getGames } from "@/servers/platform/game"
+import { getGames } from '@/servers/platform/game'
 import ApiTreeSelect from '@/components/Select/ApiTreeSelect.vue'
 
 export default defineComponent({
@@ -37,10 +37,12 @@ export default defineComponent({
           componentProps: {
             ...componentProps as TreeSelectProps,
             multiple: true,
-            api: getGames
-          },
-          value: value as SelectValue,
-          'onUpdate:value': (value: SelectValue) => handleEmit && handleEmit(value)
+            api: getGames,
+            value: value as SelectValue,
+            'onUpdate:value': (value: SelectValue) => {
+              handleEmit && handleEmit(value)
+            }
+          }
         }
       )
     )

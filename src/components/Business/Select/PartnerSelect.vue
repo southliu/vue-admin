@@ -3,7 +3,7 @@
  * @description: 合作公司下拉组件
  */
 import type { SelectProps } from 'ant-design-vue'
-import type { SelectValue } from 'ant-design-vue/lib/tree-select'
+import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { IComponentProps } from '@/types/form'
 import type { IBusinessEmit } from '../index'
 import type { IAllDataType } from '@/types/public'
@@ -13,38 +13,36 @@ import { getPartner } from '@/servers/platform/partner'
 import ApiSelect from '@/components/Select/ApiSelect.vue'
 
 export default defineComponent({
-  name: 'PartnerSelect',
+  name: "PartnerSelect",
   props: {
     componentProps: {
       type: Object as PropType<IComponentProps>,
-      required: false
+      required: false,
     },
     value: {
       type: Object as PropType<IAllDataType>,
-      required: false
+      required: false,
     },
     handleEmit: {
       type: Function as PropType<IBusinessEmit>,
-      required: false
-    }
+      required: false,
+    },
   },
   setup(props, context) {
-    const { value, componentProps, handleEmit } = props
-    
-    return () => (
-      h(
-        ApiSelect,
-        {
-          componentProps: {
-            ...componentProps as SelectProps,
-            mode: 'multiple',
-            api: getPartner
-          },
+    const { value, componentProps, handleEmit } = props;
+
+    return () =>
+      h(ApiSelect, {
+        componentProps: {
+          ...(componentProps as SelectProps),
+          mode: 'multiple',
+          api: getPartner,
           value: value as SelectValue,
-          'onUpdate:value': (value: SelectValue) => handleEmit && handleEmit(value)
-        }
-      )
-    )
+          'onUpdate:value': (value: SelectValue) => {
+            handleEmit && handleEmit(value);
+          },
+        },
+      });
   },
-})
+});
 </script>

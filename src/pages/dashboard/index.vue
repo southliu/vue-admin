@@ -1,24 +1,23 @@
 <template>
-  <BasicSearch
-    :labelCol="70"
-    :list="searchList"
-    :data="searches.data"
-    :loading="loading"
-    :is-search="true"
-    :is-create="false"
-    @handleFinish="handleSearch"
-  />
-  <div class="align-center">
-    <Line
-      :items="datum.items"
-    />
-    <Pie
-      :data="datum.game_data"
-    />
-    <Descriptions
-      :data="datum.rows"
-    />
-  </div>
+  <BasicContent>
+    <template #top>
+      <BasicSearch
+        :labelCol="70"
+        :list="searchList"
+        :data="searches.data"
+        :loading="loading"
+        :is-search="true"
+        :is-create="false"
+        @handleFinish="handleSearch"
+      />
+    </template>
+
+    <div class="align-center">
+      <Line :items="datum.items" />
+      <Pie :data="datum.game_data" />
+      <Descriptions :data="datum.rows" />
+    </div>
+  </BasicContent>
 </template>
 
 <script lang="ts">
@@ -34,13 +33,15 @@ import Line from './components/Line.vue'
 import Descriptions from './components/Descriptions.vue'
 import dayjs from 'dayjs'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
+import BasicContent from '@/components/Content/BasicContent.vue'
 
 export default defineComponent({
   components: {
     Pie,
     Line,
     Descriptions,
-    BasicSearch
+    BasicSearch,
+    BasicContent
   },
   setup() {
     const { loading, startLoading, endLoading } = useLoading()
