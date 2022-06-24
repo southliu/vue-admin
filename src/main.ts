@@ -15,6 +15,7 @@ import '@purge-icons/generated'
 
 // vxe-table
 import { Header, Column, Table, Grid } from 'vxe-table'
+import 'vxe-table/es/style.min.css'
 import './assets/css/vxeTable.less'
 
 function useTable (app: App) {

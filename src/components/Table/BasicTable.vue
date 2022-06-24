@@ -21,7 +21,6 @@ import { useTableHeight } from './hooks/useTableHeight'
 import { useDebounceFn } from '@vueuse/core'
 import { useLoadingStore } from '@/stores/loading'
 import { storeToRefs } from 'pinia'
-import 'vxe-table/es/style.min.css'
 
 export default defineComponent({
   name: 'BasicTable',
