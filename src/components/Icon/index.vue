@@ -13,7 +13,7 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props, context) {
+  setup(props) {
     // 初始化渲染
     const initData = `<i class="iconify" data-icon="${props.icon}" />`
     const data = ref(initData)

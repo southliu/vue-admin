@@ -100,8 +100,8 @@ export default defineComponent({
 
     /** 外部调内部提交方法 */
     const handleSubmit = useDebounceFn(() => {
-      formRef.value && formRef.value
-        .validateFields()
+      formRef.value
+        ?.validateFields()
         .then(values => {
           const params = filterEmptyValue(values)
           context.emit('handleFinish', params)

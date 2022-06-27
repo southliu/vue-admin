@@ -92,7 +92,7 @@ export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): 
  * @param route
  */
  function hasChildren(route: RouteRecordRaw): boolean {
-  return Boolean(route.children && route.children.length)
+  return Boolean(route.children?.length)
 }
 
 /**

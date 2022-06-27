@@ -39,7 +39,7 @@ export default defineComponent({
     /** 获取接口数据 */
     const getApiData = () => {
       loading.value = true
-      api && api(params).then(data => {
+      api?.(params).then(data => {
         options.value = data
       }).finally(() => {
         loading.value = false
@@ -59,7 +59,7 @@ export default defineComponent({
         options: options.value,
         notFoundContent: loading && h(BasicLoading),
         onDropdownVisibleChange: async (open: boolean) => {
-          componentProps.onDropdownVisibleChange && componentProps.onDropdownVisibleChange(open)
+          componentProps.onDropdownVisibleChange?.(open)
           if (open && api) {
             getApiData()
           }

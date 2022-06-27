@@ -79,7 +79,7 @@ export default defineComponent({
       switch (item.component) {
         // 自定义
         case 'Customize':
-          return item.render && item.render()
+          return item.render?.()
 
         // 输入框
         case 'Input':
@@ -269,8 +269,8 @@ export default defineComponent({
               'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
                 const format = (componentProps as DatePickerProps)?.format || DATE_FORMAT
                 const data = [
-                  (value as [Dayjs, Dayjs])[0].format(format.toString()),
-                  (value as [Dayjs, Dayjs])[1].format(format.toString())
+                  (value as [Dayjs, Dayjs])[0].format(format as string),
+                  (value as [Dayjs, Dayjs])[1].format(format as string)
                 ]
                 emit('update:value', data)
               }

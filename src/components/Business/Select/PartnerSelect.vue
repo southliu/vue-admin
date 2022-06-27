@@ -29,7 +29,7 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const { value, componentProps, handleEmit } = props;
+    const { value, componentProps, handleEmit } = props
 
     return () =>
       h(ApiSelect, {
@@ -39,7 +39,7 @@ export default defineComponent({
           api: getPartner,
           value: value as SelectValue,
           'onUpdate:value': (value: SelectValue) => {
-            handleEmit && handleEmit(value);
+            handleEmit?.(value)
           },
         },
       });

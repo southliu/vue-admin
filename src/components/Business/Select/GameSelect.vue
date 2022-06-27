@@ -31,20 +31,17 @@ export default defineComponent({
     const { value, componentProps, handleEmit } = props
     
     return () => (
-      h(
-        ApiTreeSelect,
-        {
-          componentProps: {
-            ...componentProps as TreeSelectProps,
-            multiple: true,
-            api: getGames,
-            value: value as SelectValue,
-            'onUpdate:value': (value: SelectValue) => {
-              handleEmit && handleEmit(value)
-            }
+      h(ApiTreeSelect, {
+        componentProps: {
+          ...componentProps as TreeSelectProps,
+          multiple: true,
+          api: getGames,
+          value: value as SelectValue,
+          'onUpdate:value': (value: SelectValue) => {
+            handleEmit?.(value)
           }
         }
-      )
+      })
     )
   },
 })
