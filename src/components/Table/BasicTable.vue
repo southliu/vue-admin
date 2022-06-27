@@ -1,15 +1,17 @@
 <template>
-  <Grid
-    v-bind="gridOptions"
-    :height="tableHeight"
-    :loading="globalLoading || loading"
-    :data="data.data"
-    :columns="handleColumns(columns)"
-  >
-    <template #operate="{ row }">
-      <slot name="operate" :record="row" />
-    </template>
-  </Grid>
+  <div :id="id">
+    <Grid
+      v-bind="gridOptions"
+      :height="tableHeight"
+      :loading="globalLoading || loading"
+      :data="data.data"
+      :columns="handleColumns(columns)"
+    >
+      <template #operate="{ row }">
+        <slot name="operate" :record="row" />
+      </template>
+    </Grid>
+  </div>
 </template>
 
 <script lang="ts">
@@ -25,6 +27,11 @@ import { storeToRefs } from 'pinia'
 export default defineComponent({
   name: 'BasicTable',
   props: {
+    id: {
+      type: String,
+      required: false,
+      default: 'table'
+    },
     data: {
       type: Object as PropType<ITableData>,
       required: true
@@ -100,7 +107,7 @@ export default defineComponent({
         element.minWidth = element.minWidth || 50
 
         // 如果表格存在默认值设置，则跳过当前循环
-        if (element.slots?.default) continue
+        if (element.slots && Object.keys(element.slots).length > 0) continue
 
         // 为每项添加default插槽
         if (!element.slots) element.slots = {}
@@ -118,7 +125,7 @@ export default defineComponent({
 
     /** 获取表格高度 */
     const getTableHeight = () => {
-      tableHeight.value = useTableHeight()
+      tableHeight.value = useTableHeight(props.id)
     }
 
     // 滚动事件防抖

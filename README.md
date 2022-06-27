@@ -77,9 +77,8 @@ pnpm build
 - [ ] 安全优化
 - [ ] cli生成增删改查
 - [ ] 手机端适配
-- [ ] defineAsyncComponent异步加载Modal、UpdatePassword
 - [x] 剪切板功能
-- [ ] 富文本组件
+- [x] 富文本组件
 - [ ] 上传组件
 - [ ] 虚拟滚动组件
 - [x] 水印组件
