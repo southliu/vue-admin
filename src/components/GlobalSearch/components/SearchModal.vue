@@ -44,7 +44,7 @@ import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import SearchResult from './SearchResult.vue'
 import SearchFooter from './SearchFooter.vue'
-import Icon from '@/components/Icon/index.vue';
+import Icon from '@/components/Icon/index.vue'
 
 export default defineComponent({
   name: 'SearchModal',

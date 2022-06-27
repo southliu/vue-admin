@@ -6,7 +6,6 @@ declare module 'vue' {
   export interface GlobalComponents {
     ApiSelect: typeof import('./src/components/Select/ApiSelect.vue')['default']
     ApiTreeSelect: typeof import('./src/components/Select/ApiTreeSelect.vue')['default']
-    BasicBtn: typeof import('./src/components/Buttons/BasicBtn.vue')['default']
     BasicComponents: typeof import('./src/components/Form/BasicComponents.vue')['default']
     BasicContent: typeof import('./src/components/Content/BasicContent.vue')['default']
     BasicForm: typeof import('./src/components/Form/BasicForm.vue')['default']
@@ -17,6 +16,7 @@ declare module 'vue' {
     BasicTable: typeof import('./src/components/Table/BasicTable.vue')['default']
     Copy: typeof import('./src/components/Copy/index.vue')['default']
     CopyBtn: typeof import('./src/components/Buttons/components/CopyBtn.vue')['default']
+    DateBtn: typeof import('./src/components/Business/Button/DateBtn.vue')['default']
     DeleteBtn: typeof import('./src/components/Buttons/components/DeleteBtn.vue')['default']
     Echarts: typeof import('./src/components/Echarts/index.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']

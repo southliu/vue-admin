@@ -53,7 +53,7 @@
         </Button>
       </FormItem>
 
-      <slot name="otherBtn"></slot>
+      <slot name="other"></slot>
     </Form>
   </div>
 </template>

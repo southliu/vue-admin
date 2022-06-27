@@ -40,7 +40,7 @@
 import { defineComponent, PropType } from 'vue'
 import { MenuItem, SubMenu } from 'ant-design-vue'
 import type { ISidebar } from '@/stores/menu'
-import Icon from '@/components/Icon/index.vue';
+import Icon from '@/components/Icon/index.vue'
 
 // 递归菜单用
 export default defineComponent({

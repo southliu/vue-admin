@@ -12,11 +12,9 @@
       />
     </template>
 
-    <div class="align-center">
-      <Line :items="datum.items" />
-      <Pie :data="datum.game_data" />
-      <Descriptions :data="datum.rows" />
-    </div>
+    <Line :items="datum.items" />
+    <Pie :data="datum.game_data" />
+    <Descriptions :data="datum.rows" />
   </BasicContent>
 </template>
 
@@ -87,12 +85,11 @@ export default defineComponent({
       if (values.active_total) values.active_total = active_total ? 1 : 0
 
       // 日期转化
-      // if (values.pay_date) values.pay_date = (values.pay_date as dayjs.Dayjs).format('YYYY-MM-DD')
       startLoading()
       searches.data = values
       const query = { ...values }
       const { data: { data } } = await getDataTrends(query)
-      datum.value = data as IDashboardResult
+      datum.value = data
       endLoading()
     }
 

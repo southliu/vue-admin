@@ -44,6 +44,11 @@ export default defineComponent({
       type: Object as PropType<VxeGridProps>,
       required: false,
     },
+    offsetHeight: {
+      type: Number,
+      required: false,
+      default: 0
+    },
     loading: {
       type: Boolean,
       required: false,
@@ -125,7 +130,7 @@ export default defineComponent({
 
     /** 获取表格高度 */
     const getTableHeight = () => {
-      tableHeight.value = useTableHeight(props.id)
+      tableHeight.value = useTableHeight(props.id, props.offsetHeight)
     }
 
     // 滚动事件防抖
