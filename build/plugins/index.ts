@@ -3,6 +3,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configVisualizerConfig } from './visualizer'
 import { configStyleImportPlugin } from './styleImport'
+import { createI18n } from './i18n'
 import vue from '@vitejs/plugin-vue'
 import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -16,6 +17,7 @@ export function createVitePlugins() {
   const vitePlugins: (Plugin | Plugin[])[] = [
     vue(),
     windiCSS(),
+    createI18n(),
     PurgeIcons({}),
     Unocss({
       presets: [
