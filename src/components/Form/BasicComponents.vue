@@ -38,8 +38,8 @@ import { exportBusiness } from '../Business'
 import { PLEASE_ENTER, PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
 import { DATE_FORMAT } from '@/utils/constants'
 import dayjs from 'dayjs'
-import ApiSelect from '../Select/ApiSelect.vue'
-import ApiTreeSelect from '../Select/ApiTreeSelect.vue'
+import ApiSelect from '../Selects/ApiSelect.vue'
+import ApiTreeSelect from '../Selects/ApiTreeSelect.vue'
 import WangEditor from '../WangEditor/index.vue'
 
 type IComponentValue = IAllDataType | Dayjs | [Dayjs, Dayjs] | [string, string]

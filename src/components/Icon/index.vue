@@ -1,6 +1,7 @@
 <script lang="ts">
 import { defineComponent, ref, h, watch } from 'vue'
 import { renderHTML } from "@iconify/iconify"
+import Icon from '@ant-design/icons-vue'
 
 /**
  * 图标组件
@@ -23,10 +24,11 @@ export default defineComponent({
     })
 
     return () => h(
-      'div',
+      Icon, null,
       {
-        class: 'inline-block',
-        innerHTML: data.value
+        component: () => (
+          h('span', { innerHTML: data.value })
+        )
       }
     )
   }

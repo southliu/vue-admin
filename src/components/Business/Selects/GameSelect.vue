@@ -9,7 +9,7 @@ import type { IAllDataType } from '@/types/public'
 import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 import { getGames } from '@/servers/platform/game'
-import ApiTreeSelect from '@/components/Select/ApiTreeSelect.vue'
+import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue'
 
 export default defineComponent({
   name: 'GameSelect',

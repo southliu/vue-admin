@@ -16,7 +16,7 @@
         :name="item.key"
         :label="item.title"
         :rules="!item.hidden ? item.rules : []"
-        :class="{ 'hidden': item.hidden }"
+        :class="{ '!hidden': item.hidden }"
       >
         <BasicComponents
           :item="item"
@@ -145,9 +145,3 @@ export default defineComponent({
   }
 })
 </script>
-
-<style lang="less" scoped>
-.hidden {
-  display: none !important;
-}
-</style>

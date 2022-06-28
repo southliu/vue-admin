@@ -1,7 +1,7 @@
 import type { IFormList, IComponentProps } from "@/types/form"
 import type { IAllDataType } from "@/types/public"
-import GameSelect from './Select/GameSelect.vue'
-import PartnerSelect from './Select/PartnerSelect.vue'
+import GameSelect from './Selects/GameSelect.vue'
+import PartnerSelect from './Selects/PartnerSelect.vue'
 
 /**
  * 组件类型

@@ -40,6 +40,7 @@
     "axios",
     "jrtt",
     "brotli",
+    "entypo",
   ],
   "vue3snippets.enable-compile-vue-file-on-did-save-code": false
 }

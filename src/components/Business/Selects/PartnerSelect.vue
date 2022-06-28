@@ -10,7 +10,7 @@ import type { IAllDataType } from '@/types/public'
 import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 import { getPartner } from '@/servers/platform/partner'
-import ApiSelect from '@/components/Select/ApiSelect.vue'
+import ApiSelect from '@/components/Selects/ApiSelect.vue'
 
 export default defineComponent({
   name: "PartnerSelect",
