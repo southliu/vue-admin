@@ -18,6 +18,7 @@
         :rules="item.rules"
         :label-col="{ style: { width: `${ item.labelCol }px` } }"
         :wrapper-col="{ style: { width: `${ item.wrapperCol }px` } }"
+        :style="{ display: 'inline-block' }"
       >
         <BasicComponents
           :item="item"
@@ -172,5 +173,11 @@ export default defineComponent({
 <style>
 #searches .ant-form-inline .ant-form-item {
   padding-bottom: 4px !important;
+}
+
+@media (max-width: 575px) {
+  #searches .ant-form-item .ant-form-item-label > label {
+    margin-right: 5px !important;
+  }
 }
 </style>

@@ -41,7 +41,7 @@
       'z-1': isPhone && !collapsed
     }"
   >
-    <div class="h-full min-w-785px">
+    <div class="h-full min-w-1024px">
       <router-view v-slot="{ Component }">
         <keep-alive :include="tabStore.cacheRoutes">
           <component
@@ -94,6 +94,7 @@ export default defineComponent({
     const isUpdatePassword = ref(false) // 是否显示修改密码
 
     onMounted(() => {
+      handleIsPhone()
       startResize()
     })
 

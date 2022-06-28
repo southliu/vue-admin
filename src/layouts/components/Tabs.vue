@@ -19,7 +19,7 @@
         <template #tab>
           <Dropdown :trigger="['contextmenu']">
             <div
-              class="flex items-center w-full px-3 py-1 mr-0 border border-light-900"
+              class="flex items-center justify-between w-full px-3 py-1 mr-0 border border-light-900"
               :class="{
                 'bg-blue-700': isActive(item.key),
                 'text-white': isActive(item.key)
