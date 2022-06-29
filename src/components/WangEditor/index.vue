@@ -20,9 +20,10 @@
 
 <script lang="ts">
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import type { IDomEditor } from '@wangeditor/editor'
+import type { IDomEditor, IEditorConfig } from '@wangeditor/editor'
 import { defineComponent, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import { FILE_API } from '@/utils/config'
 
 export default defineComponent({
   components: { Editor, Toolbar },
@@ -45,7 +46,19 @@ export default defineComponent({
     // 工具栏配置
     const toolbarConfig = {}
     // 编辑器配置
-    const editorConfig = { placeholder: '请输入内容...' }
+    const editorConfig: Partial<IEditorConfig> = {
+      placeholder: '请输入内容...',
+      MENU_CONF: {
+        uploadImage: {
+          // 上传图片地址
+          server: FILE_API
+        },
+        uploadVideo: {
+          // 上传视频地址
+          server: FILE_API
+        }
+      }
+    }
 
     // 组件销毁时，也及时销毁编辑器
     onBeforeUnmount(() => {

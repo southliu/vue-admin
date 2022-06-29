@@ -33,7 +33,7 @@
           name="password"
           :rules="[
             { required: true, message: '请输入密码' },
-            passwordRule
+            PASSWORD_RULE
           ]"
         >
           <InputPassword v-model:value="formState.password">
@@ -65,7 +65,7 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormProps } from 'ant-design-vue'
 import type { ILoginData } from './model'
 import { login } from '@/servers/login'
-import { passwordRule } from '@/utils/config'
+import { PASSWORD_RULE } from '@/utils/config'
 import { useLoading, useToken } from '@/hooks'
 import { useRouter } from 'vue-router'
 import { USERNAME } from '@/utils/config'
@@ -126,7 +126,7 @@ export default defineComponent({
     return {
       loading,
       formState,
-      passwordRule,
+      PASSWORD_RULE,
       Logo,
       handleFinish,
       handleFinishFailed,

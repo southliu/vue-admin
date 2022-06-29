@@ -19,7 +19,7 @@
         label="旧密码"
         :rules="[
           { required: true, message: '请输入旧密码' },
-          passwordRule
+          PASSWORD_RULE
         ]"
       >
         <Input v-model:value="formState.oldPassword" placeholder="请输入" />
@@ -30,7 +30,7 @@
         label="新密码"
         :rules="[
           { required: true, message: '请输入新密码' },
-          passwordRule
+          PASSWORD_RULE
         ]"
       >
         <Input v-model:value="formState.newPassword" placeholder="请输入" />
@@ -41,7 +41,7 @@
         label="重复密码"
         :rules="[
           { required: true, message: '请输入重复密码' },
-          passwordRule
+          PASSWORD_RULE
         ]"
       >
         <Input v-model:value="formState.confirmPassword" placeholder="请输入" />
@@ -54,7 +54,7 @@
 import type { FormInstance } from 'ant-design-vue'
 import { defineComponent, reactive, ref } from 'vue'
 import { Form, FormItem, Input, message } from 'ant-design-vue'
-import { passwordRule } from '@/utils/config'
+import { PASSWORD_RULE } from '@/utils/config'
 import BasicModal from '../Modal/BasicModal.vue'
 
 interface IFormData {
@@ -111,7 +111,7 @@ export default defineComponent({
     return {
       formRef,
       formState,
-      passwordRule,
+      PASSWORD_RULE,
       onFinish,
       handleCancel
     }
