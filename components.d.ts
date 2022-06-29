@@ -30,6 +30,7 @@ declare module 'vue' {
     SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']
     UpdateBtn: typeof import('./src/components/Buttons/components/UpdateBtn.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']
+    UploadBtn: typeof import('./src/components/Buttons/components/UploadBtn.vue')['default']
     WangEditor: typeof import('./src/components/WangEditor/index.vue')['default']
   }
 }

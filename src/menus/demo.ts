@@ -31,15 +31,6 @@ export const DemoMenus: IMenus[] = [
         component: () => import('@/pages/demo/wangEditor/index.vue')
       },
       {
-        name: 'DemoUpload',
-        path: '/demo/upload',
-        meta: {
-          title: '上传',
-          keepAlive: true
-        },
-        component: () => import('@/pages/demo/upload/index.vue')
-      },
-      {
         name: 'DemoVirtualScroll',
         path: '/demo/virtualScroll',
         meta: {

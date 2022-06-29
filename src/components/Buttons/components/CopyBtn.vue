@@ -5,7 +5,7 @@
     @click="onClick"
   >
     <template #icon>
-      <Icon class="w-1rem h-1rem" icon="ant-design:copy-outlined" />
+      <Icon icon="ant-design:copy-outlined" />
     </template>
     {{ text }}
   </Button>
