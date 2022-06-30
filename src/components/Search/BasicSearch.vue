@@ -6,7 +6,7 @@
       scrollToFirstError
       layout="inline"
       :model="formState"
-      :wrapper-col="wrapperCol"
+      :wrapper-col="{...wrapperCol}"
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
@@ -65,7 +65,7 @@ import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
-import { defineComponent, reactive, ref } from 'vue'
+import { defineComponent, watch, ref } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { useDebounceFn } from '@vueuse/core'
@@ -112,9 +112,14 @@ export default defineComponent({
   },
   setup(props, context) {
     const formRef = ref<FormInstance>()
-    const formState = reactive(props.data)
+    const formState = ref(props.data)
     const loadingStore = useLoadingStore()
     const { globalLoading } = storeToRefs(loadingStore)
+
+    // 监听表单数据变化
+    watch(() => props.data, value => {
+      formState.value = value
+    })
 
     /** 外部调内部提交方法 */
     const handleSubmit = useDebounceFn(() => {

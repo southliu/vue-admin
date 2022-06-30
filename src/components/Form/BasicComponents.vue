@@ -31,7 +31,7 @@ import type { Dayjs } from 'dayjs'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
 import type { IAllDataType } from "@/types/public"
 import type { IBusinessEmit } from '../Business'
-import type { PropType } from 'vue'
+import type { PropType, Ref } from 'vue'
 import type { IWangEditorProps } from '../WangEditor/model'
 import { defineComponent, watch, ref, h } from 'vue'
 import { exportBusiness } from '../Business'
@@ -59,7 +59,7 @@ export default defineComponent({
   setup(props, context) {
     const { item } = props
     const { emit } = context
-    const componentValue = ref<IComponentValue>(props.value)
+    const componentValue: Ref<IComponentValue> = ref<IComponentValue>(props.value)
 
     // 默认允许关闭
     const allowClear = true
@@ -249,14 +249,15 @@ export default defineComponent({
               defaultValue: dateValue,
               value: dateValue,
               'onUpdate:value': (value: Dayjs | string) => {
-                const format = (componentProps as DatePickerProps)?.format || DATE_FORMAT
-                emit('update:value', (value as Dayjs).format(format.toString()))
+                const format = ((componentProps as DatePickerProps)?.format || DATE_FORMAT) as string
+                emit('update:value', (value as Dayjs).format(format))
               }
             })
           )
 
         // 时间区间
         case 'RangePicker':
+          const format = ((componentProps as DatePickerProps)?.format || DATE_FORMAT) as string
           const rangeValue: [Dayjs, Dayjs] | undefined = (componentValue.value as [string, string])?.length > 1 && (componentValue.value as [string, string])?.[0] ?
                     [dayjs((componentValue.value as [string, string])[0]), dayjs((componentValue.value as [string, string])[1])] : undefined
           return (
@@ -267,10 +268,9 @@ export default defineComponent({
               defaultValue: rangeValue,
               value: rangeValue,
               'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
-                const format = (componentProps as DatePickerProps)?.format || DATE_FORMAT
                 const data = [
-                  (value as [Dayjs, Dayjs])[0].format(format as string),
-                  (value as [Dayjs, Dayjs])[1].format(format as string)
+                  (value as [Dayjs, Dayjs])[0].format(format),
+                  (value as [Dayjs, Dayjs])[1].format(format)
                 ]
                 emit('update:value', data)
               }

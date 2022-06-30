@@ -1,5 +1,5 @@
 <template>
-  <div :id="id">
+  <div :id="id" class="vxe_table">
     <Grid
       v-bind="gridOptions"
       :height="tableHeight"
@@ -44,15 +44,22 @@ export default defineComponent({
       type: Object as PropType<VxeGridProps>,
       required: false,
     },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    // 高度偏移差
     offsetHeight: {
       type: Number,
       required: false,
       default: 0
     },
-    loading: {
+    // 是否开启监听窗口变化而更改高度
+    isResize: {
       type: Boolean,
       required: false,
-      default: false
+      default: true
     }
   },
   components: {
@@ -65,11 +72,15 @@ export default defineComponent({
 
     onMounted(() => {
       getTableHeight()
-      startResize()
+      if (props.isResize) {
+        startResize()
+      }
     })
 
     onUnmounted(() => {
-      stopResize()
+      if (props.isResize) {
+        stopResize()
+      }
     })
 
     // 表格参数
@@ -79,6 +90,7 @@ export default defineComponent({
       showHeaderOverflow: true, // 表头所有内容过长时显示为省略号
       autoResize: true, // 自动监听父元素的变化去重新计算表格
       stripe: true, // 斑马纹
+      size: 'small', // 表格尺寸
       rowConfig: {
         useKey: true, // 是否需要为每一行的 VNode 设置 key 属性
         isHover: true, // 当鼠标移到行时，是否要高亮当前行
