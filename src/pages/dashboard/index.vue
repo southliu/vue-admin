@@ -6,8 +6,8 @@
         :list="searchList"
         :data="searches.data"
         :loading="loading"
-        :is-search="true"
-        :is-create="false"
+        :isSearch="true"
+        :isCreate="false"
         @handleFinish="handleSearch"
       />
     </template>

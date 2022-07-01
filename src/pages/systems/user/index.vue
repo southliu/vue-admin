@@ -5,8 +5,8 @@
         :list="searchList"
         :data="searches.data"
         :loading="loading"
-        :is-search="true"
-        :is-create="true"
+        :isSearch="true"
+        :isCreate="true"
         @onCreate="onCreate"
         @handleFinish="handleSearch"
       />
