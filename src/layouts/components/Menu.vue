@@ -27,7 +27,10 @@
         theme="dark"
         :inline-collapsed="collapsed"
       >
-        <MenuChildren :list="menuList" :handleClick="handleClick" />
+        <MenuChildren
+          :list="menuList"
+          :handleClick="handleClick"
+        />
       </Menu>
     </div>
 
@@ -40,7 +43,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, watch } from 'vue'
+import { defineComponent, onMounted, ref } from 'vue'
 import { menus } from '@/menus'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
@@ -68,24 +71,18 @@ export default defineComponent({
     const route = useRoute()
     const router = useRouter()
     const tabStore = useTabStore()
-    const selectedKeys = ref<string[]>([]);
     const openKeys = ref<string[]>([]);
     const menuStore = useMenuStore()
-    const { isPhone, menuList, menuArr } = storeToRefs(menuStore)
-
-    // 监听路由变化，菜单跟随变化
-    watch(() => route.path, value => {
-      if ([value] !== selectedKeys.value) {
-        selectedKeys.value = [route.path]
-      }
-    })
+    const {
+      isPhone,
+      selectedKeys,
+      menuList,
+      menuArr
+    } = storeToRefs(menuStore)
 
     onMounted(() => {
       menuList.value = getMenus(menus)
       menuArr.value = menusToArray(menus)
-
-      // 选中路由当前项
-      selectedKeys.value = [route.path]
 
       // 菜单第一个展开
       if (menuList.value.length > 0 && openKeys.value.length === 0) {
@@ -94,10 +91,10 @@ export default defineComponent({
 
       // 获取当前路由标签
       for (let i = 0; i < menuArr.value.length; i++) {
-        const element = menuArr.value[i];
-        const { key, title } = element
-        if (key === route.path) {
-          tabStore.addTabs({ key, title })
+        const element = menuArr.value[i]
+        const { key, path, title } = element
+        if (path === route.path) {
+          tabStore.addTabs({ key, path, title })
           break
         }
       }
@@ -108,9 +105,9 @@ export default defineComponent({
      * @param key - 唯一值
      * @param title - 标题
      */
-    const handleClick = (key: string, title: string) => {
-      router.push(key)
-      tabStore.addTabs({ title, key })
+    const handleClick = (key: string, path: string, title: string) => {
+      router.push(path)
+      tabStore.addTabs({ title, path, key })
       
       // 手机端点击隐藏菜单
       if (!!isPhone.value) context.emit('toggleCollapsed')
@@ -120,13 +117,6 @@ export default defineComponent({
     const hiddenMenu = () => {
       context.emit('toggleCollapsed')
     }
-
-    // 监听菜单选中值是否和路由值匹配
-    watch(() => route.path, value => {
-      if ([value] !== selectedKeys.value) {
-        selectedKeys.value = [route.path]
-      }
-    })
 
     return {
       isPhone,

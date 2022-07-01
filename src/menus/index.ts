@@ -18,7 +18,7 @@ export const menus: IMenus[] = [
   {
     name: 'ErrorPages',
     path: '/',
-    redirect: '/dashboard',
+    redirect: '/404',
     meta: { isHidden: true },
     component: () => import('@/layouts/index.vue'),
     children: [
@@ -52,7 +52,10 @@ export const menus: IMenus[] = [
       {
         name: 'Dashboard',
         path: '/dashboard',
-        meta: { title: '数据总览' },
+        meta: {
+          title: '数据总览',
+          keepAlive: true
+        },
         component: () => import('@/pages/dashboard/index.vue')
       }
     ]

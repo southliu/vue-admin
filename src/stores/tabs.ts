@@ -1,16 +1,19 @@
 import { defineStore } from 'pinia'
-import { menus } from '@/menus'
-import { getCacheRoutes } from '@/utils/menus'
 
 export interface ITabs {
   title: string;
   key: string;
+  path: string;
   closable?: boolean
 }
 
 interface ITabsState {
   // 当前选中的标签
   activeKey: string;
+  // 路由名称
+  pathName: string;
+  // 上一个路径
+  prevPath: string;
   // 标签栏数据
   tabs: ITabs[];
   // 缓存的路由名称
@@ -21,21 +24,44 @@ export const useTabStore = defineStore({
   id: 'tabs',
   state: () => ({
     activeKey: '',
+    pathName: '',
+    prevPath: '',
     tabs: [],
     cacheRoutes: []
   } as ITabsState),
   actions: {
-    /** 初始化路由缓存 */
-    initCacheRoutes() {
-      this.cacheRoutes = getCacheRoutes(menus)
+    /** 
+     * 添加缓存路由
+     * @param key - 路由值
+     */
+    addCacheRoutes(key: string) {
+      if (!this.cacheRoutes.includes(key)) {
+        this.cacheRoutes.push(key)
+      }
     },
 
     /**
-     * 点击标签
+     * 添加上一个路径地址
+     * @param path - 路径
+     */
+    addPrevPath(path: string) {
+      this.prevPath = path
+    },
+
+    /**
+     * 设置选中的标签
      * @param targetKey - 当前选中唯一值
      */
-    clickTabs(targetKey: string) {
+    setActiveKey(targetKey: string) {
       this.activeKey = targetKey
+    },
+
+    /**
+     * 设置路由名称
+     * @param name - 路由名称
+     */
+    setPathName(name: string) {
+      this.pathName = name
     },
 
     /**
@@ -43,7 +69,7 @@ export const useTabStore = defineStore({
      * @param tab - 标签数据
      */
     addTabs(tab: ITabs) {
-      this.activeKey = tab.key
+      this.activeKey = tab.path
       // 查询是否有重复的标签页
       for (let i = 0; i < this.tabs.length; i++) {
         const element = this.tabs[i];
@@ -73,9 +99,9 @@ export const useTabStore = defineStore({
       // 如果当前key是选中的key
       if (this.tabs.length && this.activeKey === targetKey) {
         if (lastIndex >= 0) {
-          this.activeKey = this.tabs[lastIndex].key
+          this.activeKey = this.tabs[lastIndex].path
         } else {
-          this.activeKey = this.tabs[0].key
+          this.activeKey = this.tabs[0].path
         }
       }
     },

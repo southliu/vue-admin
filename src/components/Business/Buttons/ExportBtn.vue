@@ -1,5 +1,5 @@
 <template>
- <Button @click="handleClick">
+ <Button class="mr-10px" @click="handleClick">
     <template #icon>
       <Icon
         class="text-17px"

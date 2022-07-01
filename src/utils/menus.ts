@@ -19,7 +19,8 @@ export function getMenus(menus: IMenus[], result: ISidebar[] = []): ISidebar[] {
 
     // 当有缓存则添加数据
     result.push({
-      key: item.path,
+      key: item.name as string,
+      path: item.path,
       title: item?.meta?.title || '',
       icon: item?.meta?.icon,
       children
@@ -45,7 +46,8 @@ export function menusToArray(menus: IMenus[], result: ISidebar[] = []): ISidebar
 
     // 当有缓存则添加数据
     !hasChildren(item) && result.push({
-      key: item.path,
+      key: item.name as string,
+      path: item.path,
       title: item?.meta?.title || '',
       icon: item?.meta?.icon,
       children
@@ -71,6 +73,7 @@ export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): 
     // 当有缓存则添加数据
     keepAlive(item) && result.push(item.name as string)
   }
+
   return result
 }
 

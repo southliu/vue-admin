@@ -2,5 +2,6 @@
 export interface IGlobalSearchResult {
   title: string;
   key: string;
+  path: string;
   index: number;
 }

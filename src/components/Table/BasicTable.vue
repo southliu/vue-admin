@@ -71,7 +71,7 @@ export default defineComponent({
     const { globalLoading } = storeToRefs(loadingStore)
 
     onMounted(() => {
-      getTableHeight()
+      handleSize()
       if (props.isResize) {
         startResize()
       }

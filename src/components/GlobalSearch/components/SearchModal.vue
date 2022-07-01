@@ -44,7 +44,7 @@ import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import SearchResult from './SearchResult.vue'
 import SearchFooter from './SearchFooter.vue'
-import Icon from '@/components/Icon/index.vue'
+import Icon from '@/components/Icon/index.vue';
 
 export default defineComponent({
   name: 'SearchModal',
@@ -69,8 +69,13 @@ export default defineComponent({
     const { menuArr } = storeToRefs(menuStore)
     const inputRef = ref()
     const value = ref('')
-    let active = ref<IGlobalSearchResult>({ title: '', key: '', index: 0 })
     const resultList = ref<IGlobalSearchResult[]>([])
+    let active = ref<IGlobalSearchResult>({
+      title: '',
+      key: '',
+      path: '',
+      index: 0
+    })
 
     // 初始化聚焦input框
     onMounted(() => {
@@ -85,9 +90,9 @@ export default defineComponent({
     /** 处理回车事件 */
     const handleEnter = () => {
       if (active.value.key) {
-        const { title, key } = active.value
-        router.push(key)
-        tabStore.addTabs({ title, key })
+        const { title, key, path } = active.value
+        router.push(path)
+        tabStore.addTabs({ title, key, path })
         toggle()
       }
     }
@@ -99,8 +104,8 @@ export default defineComponent({
       const value = resultList.value
       const index = active.value.index as number - 1
       if (!value[index]) return
-      const { key, title } = value[index]
-      active.value = { key, title, index }
+      const { key, title, path } = value[index]
+      active.value = { key, path, title, index }
     }
 
     /** 处理鼠标下键 */
@@ -110,8 +115,8 @@ export default defineComponent({
       const value = resultList.value
       const index = active.value.index as number + 1
       if (!value[index]) return
-      const { key, title } = value[index]
-      active.value = { key, title, index }
+      const { key, title, path } = value[index]
+      active.value = { key, path, title, index }
     }
 
     /**
@@ -119,8 +124,8 @@ export default defineComponent({
      * @param item - active值
      */
     const changeActive = (item: IGlobalSearchResult) => {
-      const { key, title, index } = item
-      active.value = { index, key, title }
+      const { key, title, path, index } = item
+      active.value = { index, key, title, path }
     }
 
     /**
@@ -131,9 +136,9 @@ export default defineComponent({
       if (!value) return []
       let result: IGlobalSearchResult[] = [], index = 0
       for (let i = 0; i < menuArr.value.length; i++) {
-        const { title, key } = menuArr.value[i];
+        const { title, key, path } = menuArr.value[i];
         if (title.includes(value)) {
-          result.push({ title, key, index }) 
+          result.push({ title, key, path, index }) 
           ++index
         }
       }

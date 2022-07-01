@@ -34,6 +34,7 @@ import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
 
 export default defineComponent({
+  name: 'Dashboard',
   components: {
     Pie,
     Line,

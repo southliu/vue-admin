@@ -13,7 +13,9 @@
       />
     </template>
 
-    <template #title>{{ item.title }}</template>
+    <template #title>
+      {{ item.title }}
+    </template>
 
     <template
       v-for="child in item.children"
@@ -21,8 +23,8 @@
     >
       <MenuItem
         v-if="!child?.children?.length"
-        :key="child.key"
-        @click="handleClick(child.key, child.title)"
+        :key="child.path"
+        @click="handleClick(child.key, child.path, child.title)"
       >
         {{ child.title }}
       </MenuItem>
@@ -33,6 +35,7 @@
         :handleClick="handleClick"
       />
     </template>
+
   </SubMenu>
 </template>
 
@@ -51,7 +54,7 @@ export default defineComponent({
       required: true
     },
     handleClick: {
-      type: Function as PropType<(key: string, title: string) => void>,
+      type: Function as PropType<(key: string, path: string, title: string) => void>,
       required: true
     }
   },

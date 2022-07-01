@@ -14,24 +14,24 @@
       <TabPane
         class="overflow-auto"
         v-for="(item, index) in tabs"
-        :key="item.key"
+        :key="item.path"
       >
         <template #tab>
           <Dropdown :trigger="['contextmenu']">
             <div
               class="flex items-center justify-between w-full px-3 py-1 mr-0 border border-light-900"
               :class="{
-                'bg-blue-700': isActive(item.key),
-                'text-white': isActive(item.key)
+                'bg-blue-700': isActive(item.path),
+                'text-white': isActive(item.path)
               }"
             >
               <div class="mr-5px">{{ item.title }}</div>
-              <div v-if="tabs.length > 1" @click.stop="handleRemove(item.key)">
+              <div v-if="tabs.length > 1" @click.stop="handleRemove(item.path)">
                 <CloseOutlined
                   class="p-1 rounded-1/2 text-11px"
                   :class="{
-                    'hover:bg-light-900': !isActive(item.key),
-                    'hover:bg-blue-800': isActive(item.key),
+                    'hover:bg-light-900': !isActive(item.path),
+                    'hover:bg-blue-800': isActive(item.path),
                   }"
                   style="margin-right: 0 !important"
                 />
@@ -39,8 +39,9 @@
             </div>
             <template #overlay>
               <DropdownMenu
+                :pathName="pathName"
                 :activeKey="activeKey"
-                :currentKey="item.key"
+                :currentKey="item.path"
                 :index="index"
                 :list="tabs"
                 @handleDropdown="handleDropdown"
@@ -61,7 +62,7 @@
           <Icon
             class="flex items-center justify-center text-lg cursor-pointer"
             :class="{ 'animate-spin': isRefresh }"
-            @click="handleDropdown(TabEnums.REFRESH_PAGE, activeKey)"
+            @click="handleDropdown(TabEnums.REFRESH_PAGE, pathName)"
             icon="ant-design:reload-outlined"
           />
         </Tooltip>
@@ -87,6 +88,7 @@
             <DropdownMenu
               :currentKey="activeKey"
               :activeKey="activeKey"
+              :pathName="pathName"
               :index="getTabIndex(activeKey)"
               :list="tabs"
               @handleDropdown="handleDropdown"
@@ -112,10 +114,13 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, reactive, ref, watch } from 'vue'
+import type { Key } from 'ant-design-vue/lib/_util/type'
+import { defineComponent, reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTabStore } from '@/stores/tabs'
-import Icon from '@/components/Icon/index.vue'
+import { CloseOutlined } from '@ant-design/icons-vue'
+import { useRoute, useRouter } from 'vue-router'
+import { useDebounceFn } from '@vueuse/core'
 import {
   Tabs,
   TabPane,
@@ -124,12 +129,8 @@ import {
   Tooltip,
   message
 } from 'ant-design-vue'
-import { CloseOutlined } from '@ant-design/icons-vue'
-import { useRoute, useRouter } from 'vue-router'
-import type { Key } from 'ant-design-vue/lib/_util/type'
-import { firstCapitalize } from '@/utils/utils'
-import { useDebounceFn } from '@vueuse/core'
 import DropdownMenu from './DropdownMenu.vue'
+import Icon from '@/components/Icon/index.vue'
 
 export enum TabEnums {
   REFRESH_PAGE, // 刷新当前页
@@ -160,7 +161,7 @@ export default defineComponent({
   props: {
     maximize: {
       type: Boolean,
-      required: true,
+      required: false,
       defaultValue: false
     }
   },
@@ -174,10 +175,15 @@ export default defineComponent({
       icon: null,
       refresh: null
     })
-    const { tabs, activeKey, cacheRoutes } = storeToRefs(tabStore)
     const {
-      initCacheRoutes,
-      clickTabs,
+      tabs,
+      prevPath,
+      pathName,
+      activeKey,
+      cacheRoutes
+    } = storeToRefs(tabStore)
+    const {
+      addPrevPath,
       removeCurrent,
       removeOther,
       removeLeft,
@@ -190,24 +196,12 @@ export default defineComponent({
      */
     const isActive = (key: string) => key === activeKey.value
 
-    onMounted(() => {
-      // 初始化路由缓存
-      initCacheRoutes()
-    })
-
-    // 监听所选向变化，标签页跟随变化
-    watch(() => activeKey.value, value => {
-      if (value !== route.path) {
-        router.push(value)
-      }
-    })
-
     /**
      * 点击标签
      * @param targetKey - 当前选中唯一值
      */
     const onChange = (targetKey: Key) => {
-      clickTabs(targetKey as string)
+      router.push(targetKey as string)
     }
 
     /**
@@ -218,25 +212,9 @@ export default defineComponent({
       removeCurrent(targetKey)
     }
 
-    /**
-     * 将路由转化为首字母大写字符串，/asd/zxc => AsdZxc
-     * @param str - 路由参数值
-     */
-    const filterRouterName = (str: string): string => {
-      // 分割斜线
-      const arr = str.split('/')
-      let res = ''
-
-      arr.forEach(item => {
-        res += firstCapitalize(item)
-      })
-
-      return res
-    }
-
     /** 获取tabs下标 */
     const getTabIndex = (key: string): number => {
-      return tabs.value.findIndex(item => item.key === key)
+      return tabs.value.findIndex(item => item.path === key)
     }
 
     /**
@@ -250,14 +228,15 @@ export default defineComponent({
       switch (type) {
         // 刷新当前页
         case TabEnums.REFRESH_PAGE:
-          // 获取当前路由名称
-          const routerName = filterRouterName(key)
+          // 缓存上一个路径地址
+          addPrevPath(route.path)
+
           // 当timeout没执行时刷新页面
           if (!timeout.icon) {
             isRefresh.value = true
           
             // 去除缓存路由中当前路由
-            cacheRoutes.value = cacheRoutes.value.filter(item => item !== routerName)
+            cacheRoutes.value = cacheRoutes.value.filter(item => item !== key)
 
             // 调转空白页
             router.push('/empty')
@@ -275,8 +254,7 @@ export default defineComponent({
 
           // 200毫秒调转回来
           timeout.refresh = setTimeout(() => {
-            router.push(activeKey.value)
-            cacheRoutes.value.push(routerName)
+            router.push(prevPath.value)
             clearRefresh()
             message.success({ content: '刷新成功', key: 'refresh' })
           }, 200)
@@ -326,6 +304,7 @@ export default defineComponent({
       isRefresh,
       isDropdown,
       tabs,
+      pathName,
       activeKey,
       TabEnums,
       isActive,

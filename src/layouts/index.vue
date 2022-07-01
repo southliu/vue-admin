@@ -47,7 +47,7 @@
           <component
             v-if="$route.meta.keepAlive"
             :is="Component"
-            :key="$route.path"
+            :key="$route.name"
           />
         </keep-alive>
         <component
