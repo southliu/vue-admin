@@ -7,20 +7,28 @@ import type { RouteRecordRaw } from 'vue-router'
  * @param menus - 菜单数据
  * @param result - 返回结果数据
  */
-export function getMenus(menus: IMenus[], result: ISidebar[] = []): ISidebar[] {
+export function getMenus(
+  menus: IMenus[],
+  result: ISidebar[] = [],
+  topValue: string | undefined = undefined
+): ISidebar[] {
   for (let i = 0; i < menus.length; i++) {
-    const item = menus[i];
+    const item = menus[i], top = topValue || item.name as string
   
     // 隐藏菜单跳过循环
     if (hasHidden(item)) continue
 
     // 当前有子路由继续遍历
-    const children = hasChildren(item) ? getMenus(item.children as IMenus[], []) : undefined
+    let children = undefined
+    if (hasChildren(item)) {
+      children = getMenus(item.children as IMenus[], [], top)
+    }
 
     // 当有缓存则添加数据
     result.push({
       key: item.name as string,
       path: item.path,
+      top,
       title: item?.meta?.title || '',
       icon: item?.meta?.icon,
       children
@@ -34,20 +42,25 @@ export function getMenus(menus: IMenus[], result: ISidebar[] = []): ISidebar[] {
  * @param menus - 菜单数据
  * @param result - 返回结果数据
  */
-export function menusToArray(menus: IMenus[], result: ISidebar[] = []): ISidebar[] {
+export function menusToArray(
+  menus: IMenus[],
+  result: ISidebar[] = [],
+  topValue: string | undefined = undefined
+): ISidebar[] {
   for (let i = 0; i < menus.length; i++) {
-    const item = menus[i];
+    const item = menus[i], top = topValue || item.name as string
   
     // 隐藏菜单跳过循环
     if (hasHidden(item)) continue
 
     // 当前有子路由继续遍历
-    const children = hasChildren(item) ? menusToArray(item.children as IMenus[], result) : undefined
+    const children = hasChildren(item) ? menusToArray(item.children as IMenus[], result, top) : undefined
 
     // 当有缓存则添加数据
     !hasChildren(item) && result.push({
       key: item.name as string,
       path: item.path,
+      top,
       title: item?.meta?.title || '',
       icon: item?.meta?.icon,
       children

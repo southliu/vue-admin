@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia'
 
+// 菜单
 export interface ISidebar {
   key: string;
   path: string;
+  top: string;
   title: string;
   icon?: string;
   children?: ISidebar[]

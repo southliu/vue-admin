@@ -26,6 +26,7 @@
         mode="inline"
         theme="dark"
         :inline-collapsed="collapsed"
+        @openChange="openChange"
       >
         <MenuChildren
           :list="menuList"
@@ -43,16 +44,17 @@
 </template>
 
 <script lang="ts">
+import type { Key } from 'ant-design-vue/lib/_util/type'
 import { defineComponent, onMounted, ref } from 'vue'
 import { menus } from '@/menus'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useRoute, useRouter } from 'vue-router'
 import { Menu } from 'ant-design-vue'
-import MenuChildren from './MenuChildren.vue'
-import Logo from '@/assets/images/logo.png'
 import { getMenus, menusToArray } from '@/utils/menus'
 import { storeToRefs } from 'pinia'
+import MenuChildren from './MenuChildren.vue'
+import Logo from '@/assets/images/logo.png'
 
 export default defineComponent({
   name: 'MenuLayout',
@@ -85,8 +87,11 @@ export default defineComponent({
       menuArr.value = menusToArray(menus)
 
       // 菜单第一个展开
-      if (menuList.value.length > 0 && openKeys.value.length === 0) {
-        openKeys.value = [menuList.value[0].key]
+      for (let i = 0; i < menuArr.value.length; i++) {
+        if (menuArr.value[i].path === route.path) {
+          openKeys.value = [menuArr.value[i].top]
+          break
+        }
       }
 
       // 获取当前路由标签
@@ -99,6 +104,14 @@ export default defineComponent({
         }
       }
     })
+
+    /**
+     * 菜单展开事件
+     * @param keys - 展开下标
+     */
+    const openChange = (keys: Key[]) => {
+      openKeys.value = [keys[keys.length - 1] as string || '']
+    }
 
     /**
      * 点击菜单
@@ -124,6 +137,7 @@ export default defineComponent({
       menuList,
       selectedKeys,
       openKeys,
+      openChange,
       hiddenMenu,
       handleClick,
     }
