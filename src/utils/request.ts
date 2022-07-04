@@ -2,15 +2,12 @@ import axios from 'axios'
 import { router } from '@/router'
 import { message } from 'ant-design-vue'
 import { useToken } from '@/hooks'
-import { useLoadingStore } from '@/stores/loading'
 
 // 当前环境 development:开发环境 production:生产环
 
 const env = (import.meta.env.VITE_ENV as string)
 // 生成环境所用的接口
 const prefixUrl = (import.meta.env.VITE_BASE_URL as string)
-
-const loadingStore = useLoadingStore()
 
 // 请求列表(防重复提交)
 const requestList: string[] = [];
@@ -29,8 +26,6 @@ const request = axios.create({
  * @param content - 自定义内容
  */
 const handleError = (error: string, content?: string) => {
-  loadingStore.setLoading(false)
-
   console.log('错误信息:', error)
   message.error({ content: content || error, key: 'error' })
 }
@@ -44,8 +39,6 @@ const handleNotPermission = () => {
 // 请求拦截
 request.interceptors.request.use(
   (config) => {
-    loadingStore.setLoading(true)
-
     const token = useToken().getToken() || ''
     if (config?.headers && token) config.headers['Authorization'] = `Bearer ${token}`
 
@@ -68,8 +61,6 @@ request.interceptors.request.use(
 // 响应拦截
 request.interceptors.response.use(
   (response) => {
-    loadingStore.setLoading(false)
-
     const res = response.data
     // 请求返回后，将请求标记从requestList中移除
     const requestFlag = JSON.stringify(response.config.url) + JSON.stringify(response.config.data) + '&' + response.config.method;

@@ -4,7 +4,7 @@
     :width="isFullscreen ? '100%' : width"
     :layout="layout"
     :mask-closable="false"
-    :loading="globalLoading"
+    :loading="loading"
     :wrap-class-name="isFullscreen ? 'full-modal' : ''"
   >
     <template #closeIcon>
@@ -44,14 +44,16 @@
       </span>
     </template>
 
-    <slot></slot>
+    <Spin :spinning="loading">
+      <slot></slot>
+    </Spin>
 
     <template #footer>
       <Button @click="onCancel">取消</Button>
       <Button
         v-if="isPermission"
         type="primary"
-        :loading="globalLoading"
+        :loading="loading"
         @click="onFinish"
       >
         确认
@@ -62,11 +64,9 @@
 
 <script lang="ts">
 import { defineComponent, nextTick, PropType, ref, watch } from 'vue'
-import { Modal, Tooltip, Button } from 'ant-design-vue'
+import { Modal, Tooltip, Button, Spin } from 'ant-design-vue'
 import { useModalDragMove } from './hooks/useModalDrag'
 import { useDebounceFn } from '@vueuse/core'
-import { useLoadingStore } from '@/stores/loading'
-import { storeToRefs } from 'pinia'
 import Icon from '../Icon/index.vue'
 
 export default defineComponent({
@@ -95,17 +95,20 @@ export default defineComponent({
       type: Boolean,
       default: true
     },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
   },
   components: {
     Icon,
     Modal,
     Tooltip,
-    Button
+    Button,
+    Spin
   },
   setup(props, context) {
-    const loadingStore = useLoadingStore()
-    const { globalLoading } = storeToRefs(loadingStore)
-
     // 是否最大化
     const isFullscreen = ref(false)
 
@@ -135,7 +138,6 @@ export default defineComponent({
     })
 
     return {
-      globalLoading,
       isFullscreen,
       onCancel,
       onFinish,

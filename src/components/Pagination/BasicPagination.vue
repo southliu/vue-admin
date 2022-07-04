@@ -1,20 +1,23 @@
 <template>
-  <div class="
-    pagination
-    w-full
-    flex
-    items-center
-    justify-end
-    bg-white
-    px-5
-    min-h-40px
-    z-999"
+  <div
+    class="
+      pagination
+      w-full
+      flex
+      items-center
+      justify-end
+      bg-white
+      px-5
+      min-h-40px
+      z-999
+    "
   >
     <Pagination
       showSizeChanger
       showQuickJumper
       size="small"
-      :show-total="() => total && showTotal(total)"
+      :disabled="loading"
+      :showTotal="() => showTotal(total || 0)"
       :defaultCurrent="page"
       :defaultPageSize="pageSize"
       :total="total"
@@ -25,7 +28,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Pagination } from 'ant-design-vue'
+import { Pagination, Spin } from 'ant-design-vue'
 
 export default defineComponent({
   name: 'BasicPagination',
@@ -44,9 +47,15 @@ export default defineComponent({
       type: Number,
       required: true,
       default: 20
+    },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   components: {
+    Spin,
     Pagination 
   },
   setup(props, context) {

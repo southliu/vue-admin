@@ -1,7 +1,7 @@
 <template>
   <Button
     type="primary"
-    :loading="globalLoading"
+    :loading="loading"
     @click="onClick"
   >
     <template #icon>
@@ -15,8 +15,6 @@
 import { defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
-import { useLoadingStore } from '@/stores/loading'
-import { storeToRefs } from 'pinia'
 import Icon from '@/components/Icon/index.vue'
 
 export default defineComponent({
@@ -29,22 +27,23 @@ export default defineComponent({
     text: {
       type: String
     },
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
     value: {
       type: String,
       required: true
     }
   },
   setup(props) {
-    const loadingStore = useLoadingStore()
-    const { globalLoading } = storeToRefs(loadingStore)
-
     /** 点击编辑 */
     const onClick = () => {
       useCopyToClipboard(props.value)
     }
 
     return {
-      globalLoading,
       onClick
     }
   },

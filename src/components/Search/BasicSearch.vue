@@ -31,7 +31,7 @@
         <Button
           type="primary"
           html-type="submit"
-          :loading="globalLoading || loading"
+          :loading="loading"
         >
           <template #icon>
             <SearchOutlined />
@@ -44,7 +44,7 @@
         <Button
           v-if="isCreate"
           type="primary"
-          :loading="globalLoading || loading"
+          :loading="loading"
           @click="onCreate"
         >
           <template #icon>
@@ -69,8 +69,6 @@ import { defineComponent, watch, ref } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { useDebounceFn } from '@vueuse/core'
-import { useLoadingStore } from '@/stores/loading'
-import { storeToRefs } from 'pinia'
 import BasicComponents from '../Form/BasicComponents.vue'
 import { filterEmptyValue } from '@/utils/utils'
 
@@ -113,8 +111,6 @@ export default defineComponent({
   setup(props, context) {
     const formRef = ref<FormInstance>()
     const formState = ref(props.data)
-    const loadingStore = useLoadingStore()
-    const { globalLoading } = storeToRefs(loadingStore)
 
     // 监听表单数据变化
     watch(() => props.data, value => {
@@ -162,7 +158,6 @@ export default defineComponent({
     }
 
     return {
-      globalLoading,
       formRef,
       formState,
       onCreate,

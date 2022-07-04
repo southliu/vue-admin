@@ -3,7 +3,7 @@
     <Button
       v-for="item in list"
       :key="item.value"
-      :loading="globalLoading || loading"
+      :loading="loading"
       class="mr-10px"
       @click="handleClick(item.value)"
     >
@@ -29,8 +29,6 @@
 import { defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
 import { DATE_FORMAT } from '@/utils/constants'
-import { useLoadingStore } from '@/stores/loading'
-import { storeToRefs } from 'pinia'
 import Icon from '@/components/Icon/index.vue'
 import dayjs from 'dayjs'
 
@@ -70,9 +68,6 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const loadingStore = useLoadingStore()
-    const { globalLoading } = storeToRefs(loadingStore)
-
     const list: IList[] = [
       { title: '前一天', value: 'yesterday' },
       { title: '下一天', value: 'tomorrow' },
@@ -139,7 +134,6 @@ export default defineComponent({
 
     return {
       list,
-      globalLoading,
       handleClick
     }
   },

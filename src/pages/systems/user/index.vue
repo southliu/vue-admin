@@ -20,9 +20,11 @@
       <template v-slot:operate='row'>
         <UpdateBtn
           class="mr-2"
+          :loading="createLoading"
           @click="onUpdate(row.record)"
         />
         <DeleteBtn
+          :loading="loading"
           @click="handleDelete(row.record.age)"
         />
       </template>
@@ -33,6 +35,7 @@
         :page="pagination.page"
         :pageSize="pagination.pageSize"
         :total="tables.total"
+        :loading="loading"
         @handleChange="handlePagination"
       />
     </template>
@@ -41,6 +44,7 @@
   <BasicModal
     v-model:visible="creates.isVisible"
     :title="creates.title"
+    :loading="createLoading"
     @handleFinish="createSubmit"
     @handleCancel="onCreate"
   >
@@ -60,7 +64,7 @@ import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { getSystemUserPage } from '@/servers/systems/user'
 import { searchList, createList, tableColumns } from './data'
-import { useLoading } from '@/hooks'
+import { useCreateLoading, useLoading } from '@/hooks'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
@@ -86,6 +90,7 @@ export default defineComponent({
   setup() {
     const createFormRef = ref<IBasicForm>()
     const { loading, startLoading, endLoading } = useLoading()
+    const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
 
     // 搜索数据
     const searches = reactive<ISearchData>({
@@ -163,9 +168,11 @@ export default defineComponent({
      * @param record - 当前行数据
      */
     const onUpdate = (record: IFormData) => {
+      startCreateLoading()
       creates.isVisible = !creates.isVisible
       creates.title = '编辑'
       creates.data = record
+      endCreateLoading()
     }
 
     /**
@@ -173,7 +180,9 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleCreate = (values: IFormData) => {
+      startCreateLoading()
       console.log('handleCreate:', values)
+      endCreateLoading()
     }
 
     /**
@@ -197,6 +206,7 @@ export default defineComponent({
 
     return {
       loading,
+      createLoading,
       createFormRef,
       searches,
       creates,

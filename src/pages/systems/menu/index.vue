@@ -4,6 +4,7 @@
       <BasicSearch
         :list="searchList"
         :data="searches.data"
+        :loading="loading"
         :isSearch="true"
         :isCreate="true"
         @onCreate="onCreate"
@@ -14,13 +15,16 @@
     <BasicTable
       :data="tables"
       :columns="tableColumns"
+      :loading="loading"
     >
      <template v-slot:operate='row'>
         <UpdateBtn
           class="mr-2"
+          :loading="createLoading"
           @click="onUpdate(row.record)"
         />
         <DeleteBtn
+          :loading="loading"
           @click="handleDelete(row.record.id)"
         />
       </template>
@@ -31,6 +35,7 @@
         :page="pagination.page"
         :pageSize="pagination.pageSize"
         :total="tables.total"
+        :loading="loading"
         @handleChange="handlePagination"
       />
     </template>
@@ -38,6 +43,7 @@
 
   <BasicModal
     v-model:visible="creates.isVisible"
+    :loading="createLoading"
     :title="creates.title"
     @handleFinish="createSubmit"
     @handleCancel="onCloseCreate"
@@ -62,6 +68,7 @@ import { getMenuPage, getMenuById, createMenu, updateMenu, deleteMenu } from '@/
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './data'
+import { useLoading, useCreateLoading } from '@/hooks'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
@@ -85,6 +92,8 @@ export default defineComponent({
   },
   setup() {
     const createFormRef = ref<IBasicForm>()
+    const { loading, startLoading, endLoading } = useLoading()
+    const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
 
     // 初始化新增数据
     const initCreate = {
@@ -125,11 +134,7 @@ export default defineComponent({
      * 获取表格数据
      */
     const getPage = async () => {
-      const query = { ...pagination, ...searches.data }
-      const { data: { data } } = await getMenuPage(query)
-      const { items, total } = data
-      tables.data = items
-      tables.total = total
+      handleSearch(searches.data)
     }
 
     /** 表格提交 */
@@ -142,12 +147,14 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
+      startLoading()
       searches.data = values
       const query = { ...pagination, ...values }
       const { data: { data } } = await getMenuPage(query)
       const { items, total } = data
       tables.data = items
       tables.total = total
+      endLoading()
     }
 
     /** 点击新增 */
@@ -168,8 +175,10 @@ export default defineComponent({
       creates.id = id as string
       creates.title = EDIT_TITLE(name as string)
 
+      startCreateLoading()
       const { data: { data } } = await getMenuById(id as string)
       creates.data = data
+      endCreateLoading()
     }
 
     /**
@@ -177,6 +186,7 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleCreate = async (values: IFormData) => {
+      startCreateLoading()
       const functions = () => creates.id ? updateMenu(creates.id, values) :  createMenu(values)
       const { data } = await functions()
       if (data?.code === 200) {
@@ -184,6 +194,7 @@ export default defineComponent({
         creates.isVisible = false
         message.success(data?.message || '操作成功')
       }
+      endCreateLoading()
     }
 
     /** 关闭新增/编辑 */
@@ -196,11 +207,13 @@ export default defineComponent({
      * @param id
      */
     const handleDelete = async (id: string | number) => {
+      startLoading()
       const { data } = await deleteMenu(id as string)
       if (data?.code === 200) {
         message.success(data?.message || '删除成功')
         getPage()
       }
+      endLoading()
     }
 
     /**
@@ -215,6 +228,8 @@ export default defineComponent({
     }
 
     return {
+      loading,
+      createLoading,
       createFormRef,
       searches,
       creates,

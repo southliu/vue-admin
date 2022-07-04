@@ -1,7 +1,7 @@
 <template>
   <Button
     type="primary"
-    :loading="globalLoading"
+    :loading="loading"
     @click="onClick"
   >
     编辑
@@ -11,8 +11,6 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
-import { useLoadingStore } from '@/stores/loading'
-import { storeToRefs } from 'pinia'
 
 export default defineComponent({
   name: 'UpdateBtn',
@@ -20,17 +18,20 @@ export default defineComponent({
   components: {
     Button
   },
+  props: {
+    loading: {
+      type: Boolean,
+      required: false,
+      default: false
+    }
+  },
   setup(props, context) {
-    const loadingStore = useLoadingStore()
-    const { globalLoading } = storeToRefs(loadingStore)
-
     /** 点击编辑 */
     const onClick = () => {
       context.emit('click')
     }
 
     return {
-      globalLoading,
       onClick
     }
   },

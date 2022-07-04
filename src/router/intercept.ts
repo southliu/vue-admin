@@ -24,11 +24,15 @@ export function routerIntercept(router: Router) {
     const token = getToken()
     NProgress.start()
 
+    // 设置激活标签栏
+    setActiveKey(to.path)
+    // 设置菜单选择的key
+    setSelectedKeys([to.path])
+    // 设置路径名
+    setPathName(to.name as string)
+
     // 缓存keepAlive
     if (to.meta?.keepAlive && to.name) {
-      setActiveKey(to.path)
-      setSelectedKeys([to.path])
-      setPathName(to.name as string)
       addCacheRoutes(to.name as string)
     }
 
