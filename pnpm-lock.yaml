@@ -53,7 +53,7 @@ specifiers:
   vue: ^3.2.31
   vue-router: ^4.0.13
   vue-tsc: ^0.29.8
-  vxe-table: ^4.2.2-beta.0
+  vxe-table: ^4.2.8
   windicss-analysis: ^0.3.5
   xe-utils: ^3.5.4
 
@@ -74,7 +74,7 @@ dependencies:
   vite-plugin-windicss: 1.8.2_vite@2.8.6
   vue: 3.2.31
   vue-router: 4.0.13_vue@3.2.31
-  vxe-table: 4.2.2-beta.0_vue@3.2.31+xe-utils@3.5.4
+  vxe-table: 4.2.8_vue@3.2.31+xe-utils@3.5.4
   xe-utils: 3.5.4
 
 devDependencies:
@@ -6066,8 +6066,8 @@ packages:
       '@vue/shared': 3.2.31
     dev: false
 
-  /vxe-table/4.2.2-beta.0_vue@3.2.31+xe-utils@3.5.4:
-    resolution: {integrity: sha512-3zjWz/u2G9O/4n31n5MTl39oaqxelG2+Q8PFeZxU2UA0bwUhrgU1Qw+9quO7sB6KbFTpK+4MY/t1CirdmDP2YQ==}
+  /vxe-table/4.2.8_vue@3.2.31+xe-utils@3.5.4:
+    resolution: {integrity: sha512-t0IwE0XHZ+FKrE0x3daqm48OJprXEzDFfZWaqX64W/32n4LcCjywL9cMtL0WwplL3IHpDoe9JfKOp9d+jYwrUA==}
     peerDependencies:
       vue: ^3.2.2
       xe-utils: ^3.5.0

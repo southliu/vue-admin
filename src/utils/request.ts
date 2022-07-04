@@ -3,9 +3,6 @@ import { router } from '@/router'
 import { message } from 'ant-design-vue'
 import { useToken } from '@/hooks'
 
-// 当前环境 development:开发环境 production:生产环
-
-const env = (import.meta.env.VITE_ENV as string)
 // 生成环境所用的接口
 const prefixUrl = (import.meta.env.VITE_BASE_URL as string)
 
@@ -16,7 +13,7 @@ const source = CancelToken.source()
 
 // 请求配置
 const request = axios.create({
-  baseURL: env === 'development' ? '/api' : prefixUrl,
+  baseURL: process.env.NODE_ENV !== 'production' ? '/api' : prefixUrl,
   timeout: 180 * 1000
 })
 

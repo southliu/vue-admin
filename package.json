@@ -28,7 +28,7 @@
     "vite-plugin-windicss": "^1.6.3",
     "vue": "^3.2.31",
     "vue-router": "^4.0.13",
-    "vxe-table": "^4.2.2-beta.0",
+    "vxe-table": "^4.2.8",
     "xe-utils": "^3.5.4"
   },
   "devDependencies": {

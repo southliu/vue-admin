@@ -17,7 +17,7 @@ export const menus: IMenus[] = [
   },
   {
     name: 'ErrorPages',
-    path: '/',
+    path: '/404',
     redirect: '/404',
     meta: { isHidden: true },
     component: () => import('@/layouts/index.vue'),

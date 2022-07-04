@@ -44,7 +44,6 @@
         <Button
           v-if="isCreate"
           type="primary"
-          :loading="loading"
           @click="onCreate"
         >
           <template #icon>
