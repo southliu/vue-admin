@@ -13,7 +13,7 @@ interface IUser {
 }
 
 // 授权数据
-interface IPermissions {
+export interface IPermissions {
   id: string;
   operation: string[];
 }

@@ -1,14 +1,21 @@
+import type { IGlobalSearchResult } from './../components/GlobalSearch/model';
+import type { ICheckPermissions } from './permissions';
 import type { IMenus } from '@/router/model';
 import type { ISidebar } from '@/stores/menu';
 import type { RouteRecordRaw } from 'vue-router'
+import { checkPermission } from './permissions';
 
 /**
  * 获取菜单数据，只获取最底层菜单数据
+ * TODO: 后续转wasm
  * @param menus - 菜单数据
  * @param result - 返回结果数据
+ * @param permissions - 权限
+ * @param topValue - 头部值
  */
 export function getMenus(
   menus: IMenus[],
+  permissions: string[],
   result: ISidebar[] = [],
   topValue: string | undefined = undefined
 ): ISidebar[] {
@@ -18,49 +25,31 @@ export function getMenus(
     // 隐藏菜单跳过循环
     if (hasHidden(item)) continue
 
+    // 空子路由跳出循环
+    if (item?.children && item.children?.length === 0) continue
+
+    // 没有子路由进行权限判断
+    const permissionParams: ICheckPermissions = {
+      value: item.meta?.rule || '',
+      permissions
+    }
+    if (!item?.children && !checkPermission(permissionParams)) continue
+
     // 当前有子路由继续遍历
     let children = undefined
     if (hasChildren(item)) {
-      children = getMenus(item.children as IMenus[], [], top)
+      children = getMenus(item.children as IMenus[], permissions, [], top)
     }
+
+    // 有子路由切子数据为空跳过循环
+    if (children && children?.length === 0) continue
 
     // 当有缓存则添加数据
     result.push({
       key: item.name as string,
       path: item.path,
       top,
-      title: item?.meta?.title || '',
-      icon: item?.meta?.icon,
-      children
-    })
-  }
-  return result
-}
-
-/**
- * 过滤菜单返回一维数组
- * @param menus - 菜单数据
- * @param result - 返回结果数据
- */
-export function menusToArray(
-  menus: IMenus[],
-  result: ISidebar[] = [],
-  topValue: string | undefined = undefined
-): ISidebar[] {
-  for (let i = 0; i < menus.length; i++) {
-    const item = menus[i], top = topValue || item.name as string
-  
-    // 隐藏菜单跳过循环
-    if (hasHidden(item)) continue
-
-    // 当前有子路由继续遍历
-    const children = hasChildren(item) ? menusToArray(item.children as IMenus[], result, top) : undefined
-
-    // 当有缓存则添加数据
-    !hasChildren(item) && result.push({
-      key: item.name as string,
-      path: item.path,
-      top,
+      rule: item?.meta?.rule || '',
       title: item?.meta?.title || '',
       icon: item?.meta?.icon,
       children
@@ -91,15 +80,68 @@ export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): 
 }
 
 /**
- * 寻找与路由匹配的第一值
- * @param route 
+ * 根据路由地址获取当前菜单值
+ * @param route - 路由地址
+ * @param menus - 菜单数据
  */
+interface ICurrentMenuResult {
+  key: string;
+  path: string;
+  top: string;
+  title: string;
+}
+export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): ICurrentMenuResult {
+  let res: ICurrentMenuResult = {
+    key: '',
+    path: '',
+    top: '',
+    title: ''
+  }
+  for (let i = 0; i < menus.length; i++) {
+    const element = menus[i]
+    if (element.path === route) {
+      res = element
+    }
+    if (res.key) return res
+    // 如果存在子路由则遍历子路由
+    if (element.children && element.children?.length > 0) {
+      res = getCurrentMenuByRoute(route, element.children)
+    }
+  }
+  return res
+}
+
+
+/**
+ * 根据名称获取当前菜单值
+ * @param name - 名称
+ * @param menus - 菜单数据
+ */
+export function getCurrentMenuByName(
+  name: string,
+  menus: ISidebar[],
+  res: IGlobalSearchResult[] = []
+): IGlobalSearchResult[] {
+  for (let i = 0; i < menus.length; i++) {
+    const element = menus[i]
+    if (element.title.includes(name)) {
+      const { title, key, path } = element
+      const params = { title, key, path, index: res.length }
+      res.push(params)
+    }
+    // 如果存在子路由则遍历子路由
+    if (element.children && element.children?.length > 0) {
+      getCurrentMenuByName(name, element.children, res)
+    }
+  }
+  return res
+}
 
 /**
  * 路由是否缓存
  * @param route
  */
- function keepAlive(route: RouteRecordRaw): boolean {
+function keepAlive(route: RouteRecordRaw): boolean {
   return Boolean(route?.meta?.keepAlive)
 }
 
@@ -107,7 +149,7 @@ export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): 
  * 是否有子路由
  * @param route
  */
- function hasChildren(route: RouteRecordRaw): boolean {
+function hasChildren(route: RouteRecordRaw): boolean {
   return Boolean(route.children?.length)
 }
 
@@ -115,6 +157,6 @@ export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): 
  * 是否隐藏菜单列表
  * @param route
  */
- function hasHidden(route: RouteRecordRaw): boolean {
-  return Boolean(route?.meta?.isHidden)
+function hasHidden(route: RouteRecordRaw): boolean {
+  return Boolean(route?.meta?.hidden)
 }

@@ -10,6 +10,7 @@
     <Header
       class="header-driver box-border"
       :class="{ 'none': maximize }"
+      :username="username"
       :collapsed="collapsed"
       @toggleCollapsed="toggleCollapsed"
       @onUpdatePassword="onUpdatePassword"
@@ -70,8 +71,11 @@
 import { defineComponent, ref, onMounted, onUnmounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
+import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
+import { getPermissions } from '@/servers/permissions'
+import { permissionsToArray } from '@/utils/permissions'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
@@ -88,19 +92,40 @@ export default defineComponent({
   setup() {
     const tabStore = useTabStore()
     const menuStore = useMenuStore()
+    const userStore = useUserStore()
+    const { setUserInfo, setPermissions } = userStore
     const { isPhone } = storeToRefs(menuStore)
+    const { userInfo } = storeToRefs(userStore)
+    const username = ref(userInfo.value?.username || '') // 用户名
     const collapsed = ref(false) // 是否收起菜单
     const maximize = ref(false) // 是否窗口最大化
     const isUpdatePassword = ref(false) // 是否显示修改密码
 
+
     onMounted(() => {
       handleIsPhone()
       startResize()
+
+      // 如果用户id不存在则重新获取
+      if (!userInfo.value?.id) {
+        getUserInfo()
+      }
     })
 
     onUnmounted(() => {
       stopResize()
     })
+
+    /** 获取用户信息和权限 */
+    const getUserInfo = async () => {
+      const { data } = await getPermissions({ refresh_cache: false })
+      if (data) {
+        const { data: { user, permissions } } = data
+        username.value = user.username
+        setUserInfo(user)
+        setPermissions(permissionsToArray(permissions))
+      }
+    }
 
     /** 点击修改密码 */
     const onUpdatePassword = () => {
@@ -142,6 +167,7 @@ export default defineComponent({
     return {
       isPhone,
       isUpdatePassword,
+      username,
       tabStore,
       collapsed,
       maximize,

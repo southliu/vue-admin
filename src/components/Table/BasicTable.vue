@@ -21,6 +21,7 @@ import { defineComponent, h, ref, reactive, onMounted, onUnmounted } from 'vue'
 import { Grid } from 'vxe-table'
 import { useTableHeight } from './hooks/useTableHeight'
 import { useDebounceFn } from '@vueuse/core'
+import { EMPTY_VALUE } from '@/utils/config'
 
 export default defineComponent({
   name: 'BasicTable',
@@ -127,7 +128,7 @@ export default defineComponent({
         element.slots = {
           default: ({ row }) => [
             h('span', {
-              innerHTML: row?.[element.field as string] || import.meta.env.VITE_TABLE_EMPTY_VALUE
+              innerHTML: row?.[element.field as string] || EMPTY_VALUE
             })
           ]
         }

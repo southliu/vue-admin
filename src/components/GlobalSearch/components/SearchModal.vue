@@ -40,6 +40,7 @@ import { Modal, Input } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
+import { getCurrentMenuByName } from '@/utils/menus'
 import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import SearchResult from './SearchResult.vue'
@@ -66,7 +67,7 @@ export default defineComponent({
     const router = useRouter()
     const tabStore = useTabStore()
     const menuStore = useMenuStore()
-    const { menuArr } = storeToRefs(menuStore)
+    const { menuList } = storeToRefs(menuStore)
     const inputRef = ref()
     const value = ref('')
     const resultList = ref<IGlobalSearchResult[]>([])
@@ -134,14 +135,7 @@ export default defineComponent({
      */
     const handleSearch = (value: string) => {
       if (!value) return []
-      let result: IGlobalSearchResult[] = [], index = 0
-      for (let i = 0; i < menuArr.value.length; i++) {
-        const { title, key, path } = menuArr.value[i];
-        if (title.includes(value)) {
-          result.push({ title, key, path, index }) 
-          ++index
-        }
-      }
+      let result = getCurrentMenuByName(value, menuList.value)
       return result
     }
 

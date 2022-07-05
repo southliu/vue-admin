@@ -5,6 +5,7 @@ export interface ISidebar {
   key: string;
   path: string;
   top: string;
+  rule: string;
   title: string;
   icon?: string;
   children?: ISidebar[]
@@ -13,7 +14,6 @@ export interface ISidebar {
 interface IState {
   isPhone: boolean;
   selectedKeys: string[];
-  menuArr: ISidebar[],
   menuList: ISidebar[],
 }
 
@@ -22,7 +22,6 @@ export const useMenuStore = defineStore({
   state: () => ({
     isPhone: false,
     selectedKeys: [],
-    menuArr: [],
     menuList: []
   } as IState),
   actions: {

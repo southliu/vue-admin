@@ -36,8 +36,15 @@ export default defineComponent({
     })
 
     watch(() => props.option, value => {
-      const chartInstance = echarts.init(chartRef.value as HTMLDivElement)
-      chartInstance.setOption(props.option)
+      if (value) {
+        // 摧毁echarts后在初始化
+        if (chartRef.value && echarts !== null && echarts != undefined) {
+          echarts?.dispose(chartRef.value)
+        }
+        // 初始化chart
+        const chartInstance = echarts.init(chartRef.value as HTMLDivElement)
+        chartInstance.setOption(value)
+      }
     })
     
     return {

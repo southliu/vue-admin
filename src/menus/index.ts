@@ -11,7 +11,7 @@ export const menus: IMenus[] = [
     path: '/login',
     meta: {
       title: '登录',
-      isHidden: true
+      hidden: true
     },
     component: () => import('@/pages/login/index.vue')
   },
@@ -19,7 +19,7 @@ export const menus: IMenus[] = [
     name: 'ErrorPages',
     path: '/404',
     redirect: '/404',
-    meta: { isHidden: true },
+    meta: { hidden: true },
     component: () => import('@/layouts/index.vue'),
     children: [
       {
@@ -33,7 +33,7 @@ export const menus: IMenus[] = [
         path: '/404',
         meta: {
           title: '404 Not Found',
-          isHidden: true
+          hidden: true
         },
         component: () => import('@/pages/errors/404.vue')
       },
@@ -54,6 +54,7 @@ export const menus: IMenus[] = [
         path: '/dashboard',
         meta: {
           title: '数据总览',
+          rule: '/stat/data-trends',
           keepAlive: true
         },
         component: () => import('@/pages/dashboard/index.vue')
@@ -65,7 +66,7 @@ export const menus: IMenus[] = [
   {
     path: '/:pathMatch(.*)',
     meta: {
-      isHidden: true
+      hidden: true
     },
     // 访问不存在页面重定向404
     redirect: '/404',

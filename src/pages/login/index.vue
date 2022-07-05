@@ -60,16 +60,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, reactive } from 'vue'
-import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import type { FormProps } from 'ant-design-vue'
 import type { ILoginData } from './model'
+import { defineComponent, reactive } from 'vue'
+import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { login } from '@/servers/login'
 import { PASSWORD_RULE } from '@/utils/config'
 import { useLoading, useToken } from '@/hooks'
 import { useRouter } from 'vue-router'
-import { USERNAME } from '@/utils/config'
-import { setLocalInfo } from '@/utils/local'
+import { useUserStore } from '@/stores/user'
+import { permissionsToArray } from '@/utils/permissions'
 import {
   Form,
   FormItem,
@@ -93,6 +93,7 @@ export default defineComponent({
   setup() {
     const router = useRouter()
     const { loading, startLoading, endLoading } = useLoading()
+    const { setUserInfo, setPermissions } = useUserStore()
     const { setToken } = useToken()
 
     const formState = reactive<ILoginData>({
@@ -108,9 +109,10 @@ export default defineComponent({
       startLoading()
       const { data } = await login(values)
       if (data) {
-        const { data: { token, user } } = data
+        const { data: { token, user, permissions } } = data
         setToken(token)
-        setLocalInfo(USERNAME, user?.username || '')
+        setUserInfo(user)
+        setPermissions(permissionsToArray(permissions))
         router.push('/dashboard')
       }
       endLoading()

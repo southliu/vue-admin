@@ -17,6 +17,7 @@ export const SystemMenus: IMenus[] = [
         path: '/system/user',
         meta: {
           title: '用户管理',
+          rule: '/authority/user',
           keepAlive: true
         },
         component: () => import('@/pages/systems/user/index.vue')
@@ -35,6 +36,7 @@ export const SystemMenus: IMenus[] = [
         path: '/system/menu',
         meta: {
           title: '菜单管理',
+          rule: '/authority/menu',
           keepAlive: true
         },
         component: () => import('@/pages/systems/menu/index.vue')

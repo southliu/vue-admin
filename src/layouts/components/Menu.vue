@@ -45,13 +45,14 @@
 
 <script lang="ts">
 import type { Key } from 'ant-design-vue/lib/_util/type'
-import { defineComponent, onMounted, ref } from 'vue'
+import { defineComponent, ref, watch } from 'vue'
 import { menus } from '@/menus'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
+import { useUserStore } from '@/stores/user'
 import { useRoute, useRouter } from 'vue-router'
 import { Menu } from 'ant-design-vue'
-import { getMenus, menusToArray } from '@/utils/menus'
+import { getMenus, getCurrentMenuByRoute } from '@/utils/menus'
 import { storeToRefs } from 'pinia'
 import MenuChildren from './MenuChildren.vue'
 import Logo from '@/assets/images/logo.png'
@@ -75,33 +76,22 @@ export default defineComponent({
     const tabStore = useTabStore()
     const openKeys = ref<string[]>([]);
     const menuStore = useMenuStore()
+    const userStore = useUserStore()
+    const { permissions } = storeToRefs(userStore)
     const {
       isPhone,
       selectedKeys,
       menuList,
-      menuArr
     } = storeToRefs(menuStore)
 
-    onMounted(() => {
-      menuList.value = getMenus(menus)
-      menuArr.value = menusToArray(menus)
-
-      // 菜单第一个展开
-      for (let i = 0; i < menuArr.value.length; i++) {
-        if (menuArr.value[i].path === route.path) {
-          openKeys.value = [menuArr.value[i].top]
-          break
-        }
-      }
-
-      // 获取当前路由标签
-      for (let i = 0; i < menuArr.value.length; i++) {
-        const element = menuArr.value[i]
-        const { key, path, title } = element
-        if (path === route.path) {
-          tabStore.addTabs({ key, path, title })
-          break
-        }
+    // 监听权限数据
+    watch(permissions, value => {
+      if (value?.length > 0) {
+        const newMenus = getMenus(menus, permissions.value)
+        const { key, path, title, top } = getCurrentMenuByRoute(route.path, newMenus)
+        menuList.value = newMenus
+        openKeys.value = [top]
+        tabStore.addTabs({ key, path, title })
       }
     })
 

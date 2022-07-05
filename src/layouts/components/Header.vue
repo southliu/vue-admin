@@ -6,7 +6,6 @@
       <div class="text-lg cursor-pointer" @click="toggleCollapsed">
         <MenuUnfoldOutlined v-if="collapsed" />
         <MenuFoldOutlined v-else />
-        <!-- <Icon class="text-lg" :icon="collapsed ? 'ant-design:menu-unfold-outlined' : 'ant-design:menu-fold-outlined'" /> -->
       </div>
     </div>
 
@@ -22,7 +21,7 @@
             :height="27"
             alt="头像"
           >
-          <span class="ml-2 text-15px min-w-50px truncate">{{ username ?? '用户名' }}</span>
+          <span class="ml-2 text-15px min-w-50px truncate">{{ username || 'south-admin' }}</span>
         </div>
         <template #overlay>
           <Menu @click="onClickDropdown">
@@ -62,8 +61,6 @@ import {
 import { useRouter } from 'vue-router'
 import { useToken } from '@/hooks'
 import { Modal } from 'ant-design-vue'
-import { USERNAME } from '@/utils/config'
-import { getLocalInfo } from '@/utils/local'
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -89,6 +86,10 @@ export default defineComponent({
   props: {
     collapsed: {
       type: Boolean,
+      required: true
+    },
+    username: {
+      type: String,
       required: true
     }
   },
@@ -136,7 +137,6 @@ export default defineComponent({
     };
 
     return {
-      username: getLocalInfo(USERNAME),
       Avatar,
       Dropdowns,
       toggleCollapsed,

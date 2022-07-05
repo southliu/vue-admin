@@ -12,7 +12,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
-import { Watermark, RemoveWatermark } from '@/utils/watermark'
+import { useWatermark } from '@/hooks'
 import { Button } from 'ant-design-vue';
 
 export default defineComponent({
@@ -22,6 +22,16 @@ export default defineComponent({
     Button
   },
   setup() {
+    const { Watermark, RemoveWatermark } = useWatermark({
+      content: '这是水印',
+      height: 300,
+      width: 350,
+      rotate: -20,
+      color: '#000',
+      fontSize: 30,
+      opacity: .07
+    })
+
     const openWatermark = () => {
       Watermark()
     }

@@ -4,7 +4,8 @@ import type { RouteRecordRaw } from "vue-router"
 interface IMeta {
   meta?: {
     title?: string;
-    isHidden?: boolean;
+    rule?: string;
+    hidden?: boolean;
     keepAlive?: boolean;
     icon?: string;
   }
