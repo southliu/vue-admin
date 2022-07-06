@@ -5,6 +5,7 @@ export interface ISidebar {
   key: string;
   path: string;
   top: string;
+  topTitle: string;
   rule: string;
   title: string;
   icon?: string;
@@ -13,6 +14,7 @@ export interface ISidebar {
 
 interface IState {
   isPhone: boolean;
+  openKeys: string[];
   selectedKeys: string[];
   menuList: ISidebar[],
 }
@@ -21,6 +23,7 @@ export const useMenuStore = defineStore({
   id: 'menu',
   state: () => ({
     isPhone: false,
+    openKeys: [],
     selectedKeys: [],
     menuList: []
   } as IState),
@@ -31,6 +34,15 @@ export const useMenuStore = defineStore({
      */
     setPhone(isPhone: boolean) {
       this.isPhone = isPhone
+    },
+
+    
+    /**
+     * 设置展开值
+     * @param arr - 展开值
+     */
+     setOpenKeys(arr: string[]) {
+      this.openKeys = arr
     },
 
     /**

@@ -40,7 +40,7 @@ import { Modal, Input } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
-import { getCurrentMenuByName } from '@/utils/menus'
+import { getCurrentMenuByName, getCurrentMenuByRoute } from '@/utils/menus'
 import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import SearchResult from './SearchResult.vue'
@@ -67,7 +67,7 @@ export default defineComponent({
     const router = useRouter()
     const tabStore = useTabStore()
     const menuStore = useMenuStore()
-    const { menuList } = storeToRefs(menuStore)
+    const { menuList, openKeys } = storeToRefs(menuStore)
     const inputRef = ref()
     const value = ref('')
     const resultList = ref<IGlobalSearchResult[]>([])
@@ -75,6 +75,7 @@ export default defineComponent({
       title: '',
       key: '',
       path: '',
+      topTitle: '',
       index: 0
     })
 
@@ -95,6 +96,11 @@ export default defineComponent({
         router.push(path)
         tabStore.addTabs({ title, key, path })
         toggle()
+
+        // 设置菜单展开
+        const { top } = getCurrentMenuByRoute(path, menuList.value)
+        openKeys.value = [top]
+        tabStore.addTabs({ key, path, title })
       }
     }
 
@@ -105,8 +111,8 @@ export default defineComponent({
       const value = resultList.value
       const index = active.value.index as number - 1
       if (!value[index]) return
-      const { key, title, path } = value[index]
-      active.value = { key, path, title, index }
+      const { key, title, topTitle, path } = value[index]
+      active.value = { key, path, title, topTitle, index }
     }
 
     /** 处理鼠标下键 */
@@ -116,8 +122,8 @@ export default defineComponent({
       const value = resultList.value
       const index = active.value.index as number + 1
       if (!value[index]) return
-      const { key, title, path } = value[index]
-      active.value = { key, path, title, index }
+      const { key, title, topTitle, path } = value[index]
+      active.value = { key, path, title, topTitle, index }
     }
 
     /**
@@ -125,8 +131,8 @@ export default defineComponent({
      * @param item - active值
      */
     const changeActive = (item: IGlobalSearchResult) => {
-      const { key, title, path, index } = item
-      active.value = { index, key, title, path }
+      const { key, title, topTitle, path, index } = item
+      active.value = { index, key, title, topTitle, path }
     }
 
     /**

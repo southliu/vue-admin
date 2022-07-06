@@ -17,10 +17,13 @@ export function getMenus(
   menus: IMenus[],
   permissions: string[],
   result: ISidebar[] = [],
-  topValue: string | undefined = undefined
+  topValue: string | undefined = undefined,
+  topTitle: string | undefined = undefined
 ): ISidebar[] {
   for (let i = 0; i < menus.length; i++) {
-    const item = menus[i], top = topValue || item.name as string
+    const item = menus[i],
+          top = topValue || item.name as string,
+          title = topTitle || item?.meta?.title || '' as string
   
     // 隐藏菜单跳过循环
     if (hasHidden(item)) continue
@@ -38,7 +41,7 @@ export function getMenus(
     // 当前有子路由继续遍历
     let children = undefined
     if (hasChildren(item)) {
-      children = getMenus(item.children as IMenus[], permissions, [], top)
+      children = getMenus(item.children as IMenus[], permissions, [], top, topTitle)
     }
 
     // 有子路由切子数据为空跳过循环
@@ -49,6 +52,7 @@ export function getMenus(
       key: item.name as string,
       path: item.path,
       top,
+      topTitle: title,
       rule: item?.meta?.rule || '',
       title: item?.meta?.title || '',
       icon: item?.meta?.icon,
@@ -88,6 +92,7 @@ interface ICurrentMenuResult {
   key: string;
   path: string;
   top: string;
+  topTitle: string;
   title: string;
 }
 export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): ICurrentMenuResult {
@@ -95,6 +100,7 @@ export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): ICurren
     key: '',
     path: '',
     top: '',
+    topTitle: '',
     title: ''
   }
   for (let i = 0; i < menus.length; i++) {
@@ -111,7 +117,6 @@ export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): ICurren
   return res
 }
 
-
 /**
  * 根据名称获取当前菜单值
  * @param name - 名称
@@ -124,9 +129,9 @@ export function getCurrentMenuByName(
 ): IGlobalSearchResult[] {
   for (let i = 0; i < menus.length; i++) {
     const element = menus[i]
-    if (element.title.includes(name)) {
-      const { title, key, path } = element
-      const params = { title, key, path, index: res.length }
+    if (!element.children && element.title.includes(name)) {
+      const { title, key, path, topTitle } = element
+      const params = { title, key, path, topTitle, index: res.length }
       res.push(params)
     }
     // 如果存在子路由则遍历子路由

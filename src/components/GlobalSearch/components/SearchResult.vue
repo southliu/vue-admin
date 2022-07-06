@@ -33,7 +33,10 @@
      >
         <div class="flex items-center">
           <Icon class="text-lg mr-1" icon="gg:menu-boxed" />
-          <span>{{ item.title }}</span>
+          <span>
+            {{ item.topTitle ? `${item.topTitle} > ` : '' }}
+            {{ item.title }}
+          </span>
         </div>
         <Icon class="icon text-20px p-2px mr-5px" icon="ant-design:enter-outlined" />
       </li>
