@@ -1,9 +1,8 @@
-import type { IGlobalSearchResult } from './../components/GlobalSearch/model';
-import type { ICheckPermissions } from './permissions';
-import type { IMenus } from '@/router/model';
-import type { ISidebar } from '@/stores/menu';
+import type { IGlobalSearchResult } from './../components/GlobalSearch/model'
+import type { IMenus } from '@/router/model'
+import type { ISidebar } from '@/stores/menu'
 import type { RouteRecordRaw } from 'vue-router'
-import { checkPermission } from './permissions';
+import { checkPermission } from './permissions'
 
 /**
  * 获取菜单数据，只获取最底层菜单数据
@@ -32,11 +31,7 @@ export function getMenus(
     if (item?.children && item.children?.length === 0) continue
 
     // 没有子路由进行权限判断
-    const permissionParams: ICheckPermissions = {
-      value: item.meta?.rule || '',
-      permissions
-    }
-    if (!item?.children && !checkPermission(permissionParams)) continue
+    if (!item?.children && !checkPermission(item.meta?.rule || '', permissions)) continue
 
     // 当前有子路由继续遍历
     let children = undefined

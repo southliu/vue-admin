@@ -5,8 +5,7 @@
         :list="searchList"
         :data="searches.data"
         :loading="loading"
-        :isSearch="true"
-        :isCreate="true"
+        :isCreate="pagePermission.create"
         @onCreate="onCreate"
         @handleFinish="handleSearch"
       />
@@ -19,11 +18,13 @@
     >
      <template v-slot:operate='row'>
         <UpdateBtn
+          v-if="pagePermission.update"
           class="mr-2"
           :loading="createLoading"
           @click="onUpdate(row.record)"
         />
         <DeleteBtn
+          v-if="pagePermission.delete"
           :loading="loading"
           @click="handleDelete(row.record.id)"
         />
@@ -69,6 +70,9 @@ import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './data'
 import { useLoading, useCreateLoading } from '@/hooks'
+import { checkPermission } from '@/utils/permissions'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
@@ -92,8 +96,20 @@ export default defineComponent({
   },
   setup() {
     const createFormRef = ref<IBasicForm>()
+    const userStore = useUserStore()
+    const { permissions } = storeToRefs(userStore)
     const { loading, startLoading, endLoading } = useLoading()
     const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
+
+    // 权限前缀
+    const permissionPrefix = '/authority/menu'
+
+    // 权限
+    const pagePermission = reactive({
+      create: checkPermission(`${permissionPrefix}/create`, permissions.value),
+      update: checkPermission(`${permissionPrefix}/update`, permissions.value),
+      delete: checkPermission(`${permissionPrefix}/delete`, permissions.value)
+    })
 
     // 初始化新增数据
     const initCreate = {
@@ -237,6 +253,7 @@ export default defineComponent({
       pagination,
       searchList,
       tableColumns,
+      pagePermission,
       createList,
       onCreate,
       onUpdate,

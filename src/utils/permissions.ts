@@ -1,10 +1,5 @@
 import type { IPermissions } from "@/pages/login/model"
 
-export interface ICheckPermissions {
-  value: string;
-  permissions: string[];
-}
-
 /**
  * 授权参数转字符串数组
  * TODO: 后续转wasm
@@ -27,7 +22,7 @@ export const permissionsToArray = (permissions: IPermissions[]): string[] => {
  * @param value - 检测值
  * @param permissions - 权限
  */
-export const checkPermission = ({ value, permissions }: ICheckPermissions): boolean => {
+export const checkPermission = (value: string, permissions: string[]): boolean => {
   if (!permissions || permissions.length === 0) return false
   return permissions.includes(value)
 }

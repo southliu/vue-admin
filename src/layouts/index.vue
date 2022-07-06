@@ -42,7 +42,7 @@
       'z-1': isPhone && !collapsed
     }"
   >
-    <div class="h-full min-w-1024px">
+    <div v-if="permissions.length > 0" class="h-full min-w-1024px">
       <router-view v-slot="{ Component }">
         <keep-alive :include="tabStore.cacheRoutes">
           <component
@@ -56,6 +56,9 @@
           v-if="!$route.meta.keepAlive"
         />
       </router-view>
+    </div>
+    <div v-else>
+      <BasicLoading class="mt-100px" />
     </div>
   </div>
 
@@ -74,11 +77,14 @@ import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
+import { useWatermark } from '@/hooks'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
+import { WATERMARK_PREFIX } from '@/utils/config'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
+import BasicLoading from '@/components/Loading/BasicLoading.vue'
 import UpdatePassword from '@/components/UpdatePassword/index.vue'
 
 export default defineComponent({
@@ -87,6 +93,7 @@ export default defineComponent({
     Header,
     Menu,
     Tabs,
+    BasicLoading,
     UpdatePassword
   },
   setup() {
@@ -95,16 +102,27 @@ export default defineComponent({
     const userStore = useUserStore()
     const { setUserInfo, setPermissions } = userStore
     const { isPhone } = storeToRefs(menuStore)
-    const { userInfo } = storeToRefs(userStore)
+    const { userInfo, permissions } = storeToRefs(userStore)
     const username = ref(userInfo.value?.username || '') // 用户名
     const collapsed = ref(false) // 是否收起菜单
     const maximize = ref(false) // 是否窗口最大化
     const isUpdatePassword = ref(false) // 是否显示修改密码
 
+    // 水印
+    const { Watermark, RemoveWatermark } = useWatermark({
+      content: `${WATERMARK_PREFIX}${ username ? `-${username}` : ''}`,
+      height: 300,
+      width: 350,
+      rotate: -20,
+      color: '#000',
+      fontSize: 30,
+      opacity: .07
+    })
 
     onMounted(() => {
       handleIsPhone()
       startResize()
+      Watermark()
 
       // 如果用户id不存在则重新获取
       if (!userInfo.value?.id) {
@@ -124,6 +142,8 @@ export default defineComponent({
         username.value = user.username
         setUserInfo(user)
         setPermissions(permissionsToArray(permissions))
+        RemoveWatermark()
+        Watermark(`${WATERMARK_PREFIX}-${user.username}`)
       }
     }
 
@@ -171,6 +191,7 @@ export default defineComponent({
       tabStore,
       collapsed,
       maximize,
+      permissions,
       onUpdatePassword,
       toggleCollapsed,
       toggleMaximize

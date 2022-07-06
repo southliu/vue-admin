@@ -96,7 +96,8 @@ export default defineComponent({
       type: Boolean
     },
     isSearch: {
-      type: Boolean
+      type: Boolean,
+      default: true
     },
     isCreate: {
       type: Boolean
