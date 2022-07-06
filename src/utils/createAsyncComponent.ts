@@ -1,7 +1,6 @@
 /**
- * 创建异步组件
+ * @description: 创建异步组件
  */
-
 import type { AsyncComponentOptions } from "vue";
 import { defineAsyncComponent, h } from "vue";
 import { Spin } from 'ant-design-vue';

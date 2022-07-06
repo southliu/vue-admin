@@ -1,7 +1,7 @@
 import type { Router } from "vue-router";
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { useToken } from '@/hooks'
-import { TITLE_PREFIX } from '@/utils/config'
+import { TITLE_SUFFIX } from '@/utils/config'
 import { message } from "ant-design-vue";
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
@@ -19,7 +19,7 @@ export function routerIntercept(router: Router) {
 
     // 路由拦截
   router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-    document.title = TITLE_PREFIX + (to.meta?.title as string) || '后台管理'
+    document.title = (to.meta?.title ? `${to.meta.title} - ` : '') + TITLE_SUFFIX
     const { getToken } = useToken()
     const token = getToken()
     NProgress.start()

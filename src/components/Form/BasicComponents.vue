@@ -41,6 +41,7 @@ import dayjs from 'dayjs'
 import ApiSelect from '../Selects/ApiSelect.vue'
 import ApiTreeSelect from '../Selects/ApiTreeSelect.vue'
 import WangEditor from '../WangEditor/index.vue'
+import PasswordStrength from '../PasswordStrength/index.vue'
 
 type IComponentValue = IAllDataType | Dayjs | [Dayjs, Dayjs] | [string, string]
 
@@ -97,6 +98,18 @@ export default defineComponent({
         case 'InputPassword':
           return (
             h(InputPassword, {
+              allowClear,
+              placeholder: PLEASE_ENTER,
+              ...componentProps as InputProps,
+              value: componentValue.value as string,
+              'onUpdate:value': (value: string | number) => emit('update:value', value)
+            })
+          )
+
+        // 密码强度
+        case 'PasswordStrength':
+          return (
+            h(PasswordStrength, {
               allowClear,
               placeholder: PLEASE_ENTER,
               ...componentProps as InputProps,

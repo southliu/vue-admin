@@ -19,6 +19,9 @@
 </template>
 
 <script lang="ts">
+/**
+ * @description: 富文本组件
+ */
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import type { IDomEditor, IEditorConfig } from '@wangeditor/editor'
 import { defineComponent, onBeforeUnmount, ref, shallowRef, watch } from 'vue'

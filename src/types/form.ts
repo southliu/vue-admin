@@ -43,6 +43,9 @@ type ICustomizeComponents = 'Customize'
 // 富文本编辑器
 type IEditorComponents = 'WangEditor'
 
+// 密码强度组件
+type IPasswordStrength = 'PasswordStrength'
+
 // 组件集合
 export type IComponents = IDefaultDataComponents |
                           ISelectComponents |
@@ -50,7 +53,8 @@ export type IComponents = IDefaultDataComponents |
                           ITimeComponents |
                           IRadioComponents |
                           ICustomizeComponents |
-                          IEditorComponents
+                          IEditorComponents |
+                          IPasswordStrength
 
 type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
 

@@ -16,6 +16,9 @@
 
 
 <script lang="ts">
+/**
+ * @description: 顶部全局搜索菜单组件
+ */
 import { defineComponent, ref } from 'vue'
 import { SearchOutlined } from '@ant-design/icons-vue'
 import { Tooltip } from 'ant-design-vue'

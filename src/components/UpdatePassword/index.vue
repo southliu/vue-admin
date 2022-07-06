@@ -22,7 +22,7 @@
           PASSWORD_RULE
         ]"
       >
-        <Input v-model:value="formState.oldPassword" placeholder="请输入" />
+        <InputPassword v-model:value="formState.oldPassword" placeholder="请输入" />
       </FormItem>
 
       <FormItem
@@ -33,7 +33,9 @@
           PASSWORD_RULE
         ]"
       >
-        <Input v-model:value="formState.newPassword" placeholder="请输入" />
+        <PasswordStrength
+          v-model:value="formState.newPassword"
+        />
       </FormItem>
 
       <FormItem
@@ -44,18 +46,23 @@
           PASSWORD_RULE
         ]"
       >
-        <Input v-model:value="formState.confirmPassword" placeholder="请输入" />
+        <InputPassword v-model:value="formState.confirmPassword" placeholder="请输入" />
       </FormItem>
     </Form>
   </BasicModal>
 </template>
 
 <script lang="ts">
+/**
+ * @description: 修改密码组件
+ */
 import type { FormInstance } from 'ant-design-vue'
 import { defineComponent, reactive, ref } from 'vue'
-import { Form, FormItem, Input, message } from 'ant-design-vue'
+import { Form, FormItem, InputPassword, message } from 'ant-design-vue'
 import { PASSWORD_RULE } from '@/utils/config'
 import BasicModal from '../Modal/BasicModal.vue'
+import PasswordStrength from '../PasswordStrength/index.vue'
+
 
 interface IFormData {
   oldPassword: string,
@@ -74,9 +81,10 @@ export default defineComponent({
   },
   components: {
     BasicModal,
-    Input,
+    InputPassword,
     Form,
     FormItem,
+    PasswordStrength
   },
   setup(props, { emit }) {
     const formRef = ref<FormInstance>()

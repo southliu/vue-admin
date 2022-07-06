@@ -1,4 +1,7 @@
 <script lang="ts">
+/**
+ * @description: 根据API获取数据下拉组件
+ */
 import type { PropType } from 'vue'
 import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select'
 import type { IApiSelectProps } from '@/types/form'

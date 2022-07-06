@@ -59,6 +59,9 @@
 </template>
 
 <script lang="ts">
+/**
+ * @description: 搜索组件
+ */
 import type { PropType } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '@/types/form'

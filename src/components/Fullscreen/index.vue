@@ -9,6 +9,9 @@
 </template>
 
 <script lang="ts">
+/**
+ * @description: 全屏组件
+ */
 import { defineComponent } from 'vue'
 import { useFullscreen } from '@vueuse/core'
 import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue'

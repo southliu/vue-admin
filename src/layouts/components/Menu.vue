@@ -25,7 +25,7 @@
         class="h-full z-1000"
         mode="inline"
         theme="dark"
-        :inline-collapsed="collapsed"
+        :inlineCollapsed="collapsed"
         @openChange="openChange"
       >
         <MenuChildren
