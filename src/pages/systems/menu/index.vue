@@ -1,5 +1,5 @@
 <template>
-  <BasicContent>
+  <BasicContent v-if="pagePermission.page">
     <template #top>
       <BasicSearch
         :list="searchList"
@@ -106,6 +106,7 @@ export default defineComponent({
 
     // 权限
     const pagePermission = reactive({
+      page: checkPermission(`${permissionPrefix}/index`, permissions.value),
       create: checkPermission(`${permissionPrefix}/create`, permissions.value),
       update: checkPermission(`${permissionPrefix}/update`, permissions.value),
       delete: checkPermission(`${permissionPrefix}/delete`, permissions.value)

@@ -58,7 +58,7 @@
       </router-view>
     </div>
     <div v-else>
-      <BasicLoading class="mt-100px" />
+      <PageLoading class="mt-100px" />
     </div>
   </div>
 
@@ -84,7 +84,7 @@ import { WATERMARK_PREFIX } from '@/utils/config'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
-import BasicLoading from '@/components/Loading/BasicLoading.vue'
+import PageLoading from '@/components/Loading/PageLoading.vue'
 import UpdatePassword from '@/components/UpdatePassword/index.vue'
 
 export default defineComponent({
@@ -93,7 +93,7 @@ export default defineComponent({
     Header,
     Menu,
     Tabs,
-    BasicLoading,
+    PageLoading,
     UpdatePassword
   },
   setup() {

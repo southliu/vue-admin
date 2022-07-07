@@ -14,13 +14,13 @@ import '@/assets/css/scrollbar.less'
 import '@purge-icons/generated'
 
 // vxe-table
-import { Header, Column, Table, Grid } from 'vxe-table'
+import { Column, Table, Grid } from 'vxe-table'
 import 'vxe-table/es/style.min.css'
 import './assets/css/vxeTable.less'
 
 function useTable (app: App) {
   // 表格功能
-  app.use(Header)
+  app
   // 可选组件
   .use(Column)
   // 安装表格
