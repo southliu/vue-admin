@@ -22,7 +22,7 @@
           name="username"
           :rules="[{ required: true, message: '请输入用户名' }]"
         >
-          <Input v-model:value="formState.username" placeholder="用户名">
+          <Input v-model:value="formState.username" placeholder="用户名" autoComplete="username">
             <template #prefix>
               <UserOutlined class="site-form-item-icon" />
             </template>
@@ -36,7 +36,7 @@
             PASSWORD_RULE
           ]"
         >
-          <InputPassword v-model:value="formState.password">
+          <InputPassword v-model:value="formState.password" autoComplete="current-password">
             <template #prefix>
               <LockOutlined class="site-form-item-icon" />
             </template>
@@ -62,14 +62,21 @@
 <script lang="ts">
 import type { FormProps } from 'ant-design-vue'
 import type { ILoginData } from './model'
-import { defineComponent, reactive } from 'vue'
+import { defineComponent, onMounted, reactive } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { login } from '@/servers/login'
 import { PASSWORD_RULE } from '@/utils/config'
-import { useLoading, useToken } from '@/hooks'
+import { useLoading } from '@/hooks/useLoading'
+import { useToken } from '@/hooks/useToken'
+import { useMenuStore } from '@/stores/menu'
+import { useTabStore } from '@/stores/tabs'
+import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
-import { permissionsToArray } from '@/utils/permissions'
+import { useWatermark } from '@/hooks/useWatermark'
+import { checkPermission, permissionsToArray } from '@/utils/permissions'
+import { menus } from '@/menus'
+import { getMenus, getFirstMenu, getCurrentMenuByRoute } from '@/utils/menus'
 import {
   Form,
   FormItem,
@@ -92,14 +99,23 @@ export default defineComponent({
   },
   setup() {
     const router = useRouter()
+    const menuStore = useMenuStore()
+    const tabStore = useTabStore()
     const { loading, startLoading, endLoading } = useLoading()
     const { setUserInfo, setPermissions } = useUserStore()
     const { setToken } = useToken()
+    const { openKeys, menuList } = storeToRefs(menuStore)
+    const { RemoveWatermark } = useWatermark()
 
     const formState = reactive<ILoginData>({
       username: '',
       password: '',
     });
+
+    onMounted(() => {
+      // 清除水印
+      RemoveWatermark()
+    })
 
     /**
      * 处理登录
@@ -107,14 +123,36 @@ export default defineComponent({
      */
     const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
       startLoading()
-      const { data } = await login(values)
-      if (data) {
-        const { data: { token, user, permissions } } = data
-        setToken(token)
-        setUserInfo(user)
-        setPermissions(permissionsToArray(permissions))
-        router.push('/dashboard')
-      }
+      try {
+        const { data } = await login(values)
+        if (data) {
+          const { data: { token, user, permissions } } = data
+          const newPermissions = permissionsToArray(permissions)
+          setToken(token)
+          setUserInfo(user)
+          setPermissions(newPermissions)
+          
+          // 菜单处理
+          const newMenus = getMenus(menus, newPermissions)
+          menuList.value = newMenus
+          // 如果菜单为空，跳转空白页
+          if (newMenus.length === 0) router.push('/empty')
+          // 有跳转首页权限则跳转
+          const isDashboard = checkPermission('/dashboard', newPermissions)
+          const { key, path, title, top } = isDashboard ?
+            getCurrentMenuByRoute('/dashboard', newMenus) :
+            getFirstMenu(newMenus)
+          openKeys.value = [top]
+          tabStore.addTabs({ key, path, title })
+          
+          if (isDashboard) {
+            const nextPath = '/dashboard'
+            router.push(nextPath)
+          } else {
+            router.push(path)
+          }
+        }
+      } catch(err) {}
       endLoading()
     };
 

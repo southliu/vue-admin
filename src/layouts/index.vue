@@ -23,6 +23,7 @@
     </div>
   </div>
   <Menu
+    v-if="permissions.length > 0"
     class="menu"
     :collapsed="collapsed"
     :class="{
@@ -31,6 +32,16 @@
       'z-1000': isPhone
     }"
     @toggleCollapsed="toggleCollapsed"
+  />
+  <Skeleton
+    v-else
+    active
+    class="menu h-100vh"
+    :class="{
+      'menu-close': collapsed,
+      'menu-none': maximize || (isPhone && collapsed),
+      'z-1000': isPhone
+    }"
   />
   <div
     id="con"
@@ -57,8 +68,8 @@
         />
       </router-view>
     </div>
-    <div v-else>
-      <PageLoading class="mt-100px" />
+    <div v-else class="mt-100px">
+      <PageLoading />
     </div>
   </div>
 
@@ -77,10 +88,14 @@ import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
-import { useWatermark } from '@/hooks'
+import { useWatermark } from '@/hooks/useWatermark'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { WATERMARK_PREFIX } from '@/utils/config'
+import { Skeleton } from 'ant-design-vue'
+import { menus } from '@/menus'
+import { useRoute } from 'vue-router'
+import { getMenus, getCurrentMenuByRoute } from '@/utils/menus'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
@@ -93,36 +108,46 @@ export default defineComponent({
     Header,
     Menu,
     Tabs,
+    Skeleton,
     PageLoading,
     UpdatePassword
   },
   setup() {
+    const route = useRoute()
     const tabStore = useTabStore()
     const menuStore = useMenuStore()
     const userStore = useUserStore()
     const { setUserInfo, setPermissions } = userStore
-    const { isPhone } = storeToRefs(menuStore)
     const { userInfo, permissions } = storeToRefs(userStore)
     const username = ref(userInfo.value?.username || '') // 用户名
     const collapsed = ref(false) // 是否收起菜单
     const maximize = ref(false) // 是否窗口最大化
     const isUpdatePassword = ref(false) // 是否显示修改密码
+    const {
+      isPhone,
+      openKeys,
+      menuList,
+    } = storeToRefs(menuStore)
 
     // 水印
-    const { Watermark, RemoveWatermark } = useWatermark({
-      content: `${WATERMARK_PREFIX}${ username ? `-${username}` : ''}`,
-      height: 300,
-      width: 350,
-      rotate: -20,
-      color: '#000',
-      fontSize: 30,
-      opacity: .07
-    })
+    const { Watermark, RemoveWatermark } = useWatermark()
+    const watermarkInfo = (text?: string) => {
+      return {
+        content: text || `${WATERMARK_PREFIX}${ username.value ? `-${username.value}` : ''}`,
+        height: 300,
+        width: 350,
+        rotate: -20,
+        color: '#000',
+        fontSize: 30,
+        opacity: .07
+      }
+    } 
+    Watermark(watermarkInfo())
 
     onMounted(() => {
       handleIsPhone()
       startResize()
-      Watermark()
+      Watermark(watermarkInfo())
 
       // 如果用户id不存在则重新获取
       if (!userInfo.value?.id) {
@@ -139,11 +164,19 @@ export default defineComponent({
       const { data } = await getPermissions({ refresh_cache: false })
       if (data) {
         const { data: { user, permissions } } = data
+        const newPermissions = permissionsToArray(permissions)
         username.value = user.username
         setUserInfo(user)
-        setPermissions(permissionsToArray(permissions))
+        setPermissions(newPermissions)
         RemoveWatermark()
-        Watermark(`${WATERMARK_PREFIX}-${user.username}`)
+        Watermark(watermarkInfo(`${WATERMARK_PREFIX}-${user.username}`))
+
+        // 菜单处理
+        const newMenus = getMenus(menus, newPermissions)
+        const { key, path, title, top } = getCurrentMenuByRoute(route.path, newMenus)
+        menuList.value = newMenus
+        if (top) openKeys.value = [top]
+        if (key) tabStore.addTabs({ key, path, title })
       }
     }
 

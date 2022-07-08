@@ -3,7 +3,7 @@
  */
  export const TITLE_SUFFIX = 'South Admin' // 标题后缀
  export const TOKEN = 'admin_token' // token名称
- export const WATERMARK_PREFIX = 'admin-' // 水印前缀
+ export const WATERMARK_PREFIX = 'admin' // 水印前缀
  export const EMPTY_VALUE = '-' // 空值显示
  
  // 公共组件默认值

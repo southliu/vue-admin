@@ -45,14 +45,11 @@
 
 <script lang="ts">
 import type { Key } from 'ant-design-vue/lib/_util/type'
-import { defineComponent, ref, watch } from 'vue'
-import { menus } from '@/menus'
+import { defineComponent } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
-import { useUserStore } from '@/stores/user'
-import { useRoute, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 import { Menu } from 'ant-design-vue'
-import { getMenus, getCurrentMenuByRoute } from '@/utils/menus'
 import { storeToRefs } from 'pinia'
 import MenuChildren from './MenuChildren.vue'
 import Logo from '@/assets/images/logo.png'
@@ -71,29 +68,15 @@ export default defineComponent({
     MenuChildren
   },
   setup(props,context) {
-    const route = useRoute()
     const router = useRouter()
     const tabStore = useTabStore()
-    const openKeys = ref<string[]>([]);
     const menuStore = useMenuStore()
-    const userStore = useUserStore()
-    const { permissions } = storeToRefs(userStore)
     const {
       isPhone,
+      openKeys,
       selectedKeys,
       menuList,
     } = storeToRefs(menuStore)
-
-    // 监听权限数据
-    watch(permissions, value => {
-      if (value?.length > 0) {
-        const newMenus = getMenus(menus, permissions.value)
-        const { key, path, title, top } = getCurrentMenuByRoute(route.path, newMenus)
-        menuList.value = newMenus
-        openKeys.value = [top]
-        tabStore.addTabs({ key, path, title })
-      }
-    })
 
     /**
      * 菜单展开事件

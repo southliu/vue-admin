@@ -40,5 +40,17 @@ export const useUserStore = defineStore({
     setUserInfo(userInfo: IUserInfo) {
       this.userInfo = userInfo
     },
+
+    /**
+     * 清除用户信息
+     */
+    clearInfo() {
+      this.userInfo = {
+        id: 0,
+        username: '',
+        email: '',
+        phone: ''
+      }
+    }
   },
 })

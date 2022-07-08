@@ -21,7 +21,7 @@
 <script lang="ts">
 import type { IDashboardResult } from './model'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
-import { useLoading } from '@/hooks'
+import { useLoading } from '@/hooks/useLoading'
 import { IFormData } from '@/types/form'
 import { getDataTrends } from '@/servers/dashboard'
 import { DATE_FORMAT } from '@/utils/constants'

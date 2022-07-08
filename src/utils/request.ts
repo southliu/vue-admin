@@ -1,7 +1,7 @@
 import axios from 'axios'
 import { router } from '@/router'
 import { message } from 'ant-design-vue'
-import { useToken } from '@/hooks'
+import { useToken } from '@/hooks/useToken'
 
 // 生成环境所用的接口
 const prefixUrl = (import.meta.env.VITE_BASE_URL as string)

@@ -20,12 +20,12 @@ interface IOption {
  * @param fontSize - 水印字体的大小
  * @param opacity - 水印透明度（0~1之间取值）
  */
-export function useWatermark(options: IOption) {
+export function useWatermark() {
   /**
    * 水印
    * @param text - 水印显示值
    */
-  const Watermark = (text?: string) => {
+  const Watermark = (options: IOption) => {
     const {
       content,
       height,
@@ -55,7 +55,7 @@ export function useWatermark(options: IOption) {
         `
       StrLine += `
         <span style="${style}">
-          ${text || content}
+          ${content}
         </span>
       `
     }

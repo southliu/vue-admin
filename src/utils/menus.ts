@@ -4,6 +4,14 @@ import type { ISidebar } from '@/stores/menu'
 import type { RouteRecordRaw } from 'vue-router'
 import { checkPermission } from './permissions'
 
+interface ICurrentMenuResult {
+  key: string;
+  path: string;
+  top: string;
+  topTitle: string;
+  title: string;
+}
+
 /**
  * 获取菜单数据，只获取最底层菜单数据
  * TODO: 后续转wasm
@@ -83,13 +91,6 @@ export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): 
  * @param route - 路由地址
  * @param menus - 菜单数据
  */
-interface ICurrentMenuResult {
-  key: string;
-  path: string;
-  top: string;
-  topTitle: string;
-  title: string;
-}
 export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): ICurrentMenuResult {
   let res: ICurrentMenuResult = {
     key: '',
@@ -137,6 +138,30 @@ export function getCurrentMenuByName(
   return res
 }
 
+/**
+ * 获取菜单中第一个路由地址
+ * @param menus - 菜单数据
+ */
+export function getFirstMenu(menus: ISidebar[]): ICurrentMenuResult {
+  let res: ICurrentMenuResult = {
+    key: '',
+    path: '',
+    top: '',
+    topTitle: '',
+    title: ''
+  }
+  for (let i = 0; i < menus.length; i++) {
+    const element = menus[i]
+    if (res.key) return res
+    // 如果存在子路由则遍历子路由
+    if (element.children && element.children?.length > 0) {
+      res = getFirstMenu(element.children)
+    } else {
+      return res = element
+    }
+  }
+  return res
+}
 /**
  * 路由是否缓存
  * @param route

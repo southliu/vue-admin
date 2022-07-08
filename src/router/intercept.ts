@@ -1,11 +1,15 @@
 import type { Router } from "vue-router";
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
-import { useToken } from '@/hooks'
+import { useToken } from '@/hooks/useToken'
 import { TITLE_SUFFIX } from '@/utils/config'
 import { message } from "ant-design-vue";
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+import { getCurrentMenuByRoute, getFirstMenu } from '@/utils/menus'
 import NProgress from 'nprogress'
+import { checkPermission } from "@/utils/permissions";
 
 NProgress.configure({ showSpinner: false })
 
@@ -14,8 +18,13 @@ NProgress.configure({ showSpinner: false })
  * @param router - 路由对象
  */
 export function routerIntercept(router: Router) {
-  const { setActiveKey, setPathName, addCacheRoutes } = useTabStore()
-  const { setSelectedKeys } = useMenuStore()
+  const userStore = useUserStore()
+  const menuStore = useMenuStore()
+  const tabStore = useTabStore()
+  const { setActiveKey, setPathName, addCacheRoutes } = tabStore
+  const { setSelectedKeys } = menuStore
+  const { permissions } = storeToRefs(userStore)
+  const { openKeys, menuList } = storeToRefs(menuStore)
 
     // 路由拦截
   router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -44,7 +53,31 @@ export function routerIntercept(router: Router) {
 
     // 有token且在登录页返回首页
     else if (token && to.path === '/login') {
-      next({ path: '/dashboard' })
+      // 有跳转首页权限则跳转
+      const isDashboard = checkPermission('/dashboard', permissions.value)
+      const { key, path, title, top } = isDashboard ?
+        getCurrentMenuByRoute('/dashboard', menuList.value) :
+        getFirstMenu(menuList.value)
+      openKeys.value = [top]
+      tabStore.addTabs({ key, path, title })
+      
+      if (isDashboard) {
+        const nextPath = '/dashboard'
+        next(nextPath)
+      } else {
+        next(path)
+      }
+    }
+
+    // 判断是否有权限
+    else if (to?.meta?.rule && permissions.value?.length > 0) {
+      const isRule = checkPermission((to.meta.rule) as string, permissions.value)
+      if (isRule) {
+        next()
+      } else {
+        // 没权限跳转403
+        next('/403')
+      }
     }
 
     else next()

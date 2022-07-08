@@ -37,6 +37,15 @@ export const menus: IMenus[] = [
         },
         component: () => import('@/pages/errors/404.vue')
       },
+      {
+        name: 'BadRequired',
+        path: '/403',
+        meta: {
+          title: '403 Bad Required',
+          hidden: true
+        },
+        component: () => import('@/pages/errors/403.vue')
+      }
     ]
   },
   {

@@ -16,7 +16,7 @@
       :columns="tableColumns"
       :loading="loading"
     >
-     <template v-slot:operate='row'>
+      <template v-slot:operate='row'>
         <UpdateBtn
           v-if="pagePermission.update"
           class="mr-2"
@@ -69,7 +69,8 @@ import { getMenuPage, getMenuById, createMenu, updateMenu, deleteMenu } from '@/
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './data'
-import { useLoading, useCreateLoading } from '@/hooks'
+import { useLoading } from '@/hooks/useLoading'
+import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'

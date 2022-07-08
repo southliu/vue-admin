@@ -59,7 +59,8 @@ import {
   ExclamationCircleOutlined
 } from '@ant-design/icons-vue'
 import { useRouter } from 'vue-router'
-import { useToken } from '@/hooks'
+import { useToken } from '@/hooks/useToken'
+import { useUserStore } from '@/stores/user'
 import { Modal } from 'ant-design-vue'
 
 // 下拉菜单枚举
@@ -95,7 +96,9 @@ export default defineComponent({
   },
   setup(props, context) {
     const router = useRouter()
+    const userStore = useUserStore()
     const { removeToken } = useToken()
+    const { clearInfo } = userStore
 
     /** 收缩菜单 */
     const toggleCollapsed = () => {
@@ -109,6 +112,7 @@ export default defineComponent({
         icon: createVNode(ExclamationCircleOutlined),
         content: '是否确定退出系统?',
         onOk() {
+          clearInfo()
           removeToken()
           router.push('/login')
         }
