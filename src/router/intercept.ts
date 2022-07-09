@@ -1,4 +1,5 @@
 import type { Router } from "vue-router";
+import type { IMenuItem } from '@/stores/menu'
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { useToken } from '@/hooks/useToken'
 import { TITLE_SUFFIX } from '@/utils/config'
@@ -7,7 +8,7 @@ import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { getCurrentMenuByRoute, getFirstMenu } from '@/utils/menus'
+import { getFirstMenu } from '@/utils/menus'
 import NProgress from 'nprogress'
 import { checkPermission } from "@/utils/permissions";
 
@@ -21,10 +22,10 @@ export function routerIntercept(router: Router) {
   const userStore = useUserStore()
   const menuStore = useMenuStore()
   const tabStore = useTabStore()
+  const { setSelectedKeys, setFirstMenu } = menuStore
   const { setActiveKey, setPathName, addCacheRoutes } = tabStore
-  const { setSelectedKeys } = menuStore
   const { permissions } = storeToRefs(userStore)
-  const { openKeys, menuList } = storeToRefs(menuStore)
+  const { openKeys, menuList, firstMenu } = storeToRefs(menuStore)
 
     // 路由拦截
   router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
@@ -53,20 +54,19 @@ export function routerIntercept(router: Router) {
 
     // 有token且在登录页返回首页
     else if (token && to.path === '/login') {
-      // 有跳转首页权限则跳转
-      const isDashboard = checkPermission('/dashboard', permissions.value)
-      const { key, path, title, top } = isDashboard ?
-        getCurrentMenuByRoute('/dashboard', menuList.value) :
-        getFirstMenu(menuList.value)
-      openKeys.value = [top]
-      tabStore.addTabs({ key, path, title })
-      
-      if (isDashboard) {
-        const nextPath = '/dashboard'
-        next(nextPath)
+      // 跳转第一个有效菜单
+      let obj: IMenuItem = { key: '', path: '', top: '', topTitle: '', title: '' }
+      if (firstMenu.value?.key) {
+        obj = firstMenu.value
       } else {
-        next(path)
+        obj = getFirstMenu(menuList.value)
+        setFirstMenu(obj)
       }
+      const { key, path, title, top } = obj
+      // 菜单展开，添加标签
+      if (top) openKeys.value = [top]
+      if (key) tabStore.addTabs({ key, path, title })
+      next(path)
     }
 
     // 判断是否有权限

@@ -1,16 +1,8 @@
 import type { IGlobalSearchResult } from './../components/GlobalSearch/model'
 import type { IMenus } from '@/router/model'
-import type { ISidebar } from '@/stores/menu'
+import type { IMenuItem, ISidebar } from '@/stores/menu'
 import type { RouteRecordRaw } from 'vue-router'
 import { checkPermission } from './permissions'
-
-interface ICurrentMenuResult {
-  key: string;
-  path: string;
-  top: string;
-  topTitle: string;
-  title: string;
-}
 
 /**
  * 获取菜单数据，只获取最底层菜单数据
@@ -91,8 +83,8 @@ export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): 
  * @param route - 路由地址
  * @param menus - 菜单数据
  */
-export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): ICurrentMenuResult {
-  let res: ICurrentMenuResult = {
+export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): IMenuItem {
+  let res: IMenuItem = {
     key: '',
     path: '',
     top: '',
@@ -142,8 +134,8 @@ export function getCurrentMenuByName(
  * 获取菜单中第一个路由地址
  * @param menus - 菜单数据
  */
-export function getFirstMenu(menus: ISidebar[]): ICurrentMenuResult {
-  let res: ICurrentMenuResult = {
+export function getFirstMenu(menus: ISidebar[]): IMenuItem {
+  let res: IMenuItem = {
     key: '',
     path: '',
     top: '',

@@ -175,6 +175,7 @@ export default defineComponent({
         const newMenus = getMenus(menus, newPermissions)
         const { key, path, title, top } = getCurrentMenuByRoute(route.path, newMenus)
         menuList.value = newMenus
+        // 菜单展开，添加标签
         if (top) openKeys.value = [top]
         if (key) tabStore.addTabs({ key, path, title })
       }

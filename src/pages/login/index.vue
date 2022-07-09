@@ -74,9 +74,9 @@ import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { useWatermark } from '@/hooks/useWatermark'
-import { checkPermission, permissionsToArray } from '@/utils/permissions'
+import { permissionsToArray } from '@/utils/permissions'
 import { menus } from '@/menus'
-import { getMenus, getFirstMenu, getCurrentMenuByRoute } from '@/utils/menus'
+import { getMenus, getFirstMenu } from '@/utils/menus'
 import {
   Form,
   FormItem,
@@ -137,20 +137,12 @@ export default defineComponent({
           menuList.value = newMenus
           // 如果菜单为空，跳转空白页
           if (newMenus.length === 0) router.push('/empty')
-          // 有跳转首页权限则跳转
-          const isDashboard = checkPermission('/dashboard', newPermissions)
-          const { key, path, title, top } = isDashboard ?
-            getCurrentMenuByRoute('/dashboard', newMenus) :
-            getFirstMenu(newMenus)
-          openKeys.value = [top]
-          tabStore.addTabs({ key, path, title })
-          
-          if (isDashboard) {
-            const nextPath = '/dashboard'
-            router.push(nextPath)
-          } else {
-            router.push(path)
-          }
+          // 跳转第一个有效菜单
+          const { key, path, title, top } = getFirstMenu(newMenus)
+          // 菜单展开，添加标签
+          if (top) openKeys.value = [top]
+          if (key) tabStore.addTabs({ key, path, title })
+          router.push(path)
         }
       } catch(err) {}
       endLoading()

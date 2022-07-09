@@ -1,19 +1,24 @@
 import { defineStore } from 'pinia'
 
-// 菜单
-export interface ISidebar {
+// 菜单项
+export interface IMenuItem {
   key: string;
   path: string;
   top: string;
   topTitle: string;
-  rule: string;
   title: string;
+  rule?: string;
   icon?: string;
-  children?: ISidebar[]
+}
+
+// 菜单
+export interface ISidebar extends IMenuItem {
+  children?: IMenuItem[]
 }
 
 interface IState {
   isPhone: boolean;
+  firstMenu: IMenuItem;
   openKeys: string[];
   selectedKeys: string[];
   menuList: ISidebar[],
@@ -23,6 +28,14 @@ export const useMenuStore = defineStore({
   id: 'menu',
   state: () => ({
     isPhone: false,
+    firstMenu: {
+      key: '',
+      path: '',
+      top: '',
+      topTitle: '',
+      rule: '',
+      title: ''
+    },
     openKeys: [],
     selectedKeys: [],
     menuList: []
@@ -35,8 +48,6 @@ export const useMenuStore = defineStore({
     setPhone(isPhone: boolean) {
       this.isPhone = isPhone
     },
-
-    
     /**
      * 设置展开值
      * @param arr - 展开值
@@ -44,7 +55,6 @@ export const useMenuStore = defineStore({
      setOpenKeys(arr: string[]) {
       this.openKeys = arr
     },
-
     /**
      * 设置选中的值
      * @param arr - 选中的值
@@ -52,6 +62,12 @@ export const useMenuStore = defineStore({
      setSelectedKeys(arr: string[]) {
       this.selectedKeys = arr
     },
-    
+    /**
+     * 设置第一个菜单
+     * @param obj - 菜单值
+     */
+    setFirstMenu(obj: IMenuItem) {
+      this.firstMenu = obj
+    }
   }
 })

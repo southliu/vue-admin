@@ -13,43 +13,40 @@
 </template>
 
 <script lang="ts">
+import type { IMenuItem } from '@/stores/menu'
 import { defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
-import { useUserStore } from '@/stores/user'
 import { useMenuStore } from '@/stores/menu'
 import { useTabStore } from '@/stores/tabs'
 import { storeToRefs } from 'pinia'
-import { checkPermission } from '@/utils/permissions'
-import { getCurrentMenuByRoute, getFirstMenu } from '@/utils/menus'
+import { getFirstMenu } from '@/utils/menus'
 
 export default defineComponent({
   name: 'NotFound',
   components: { Button },
   setup() {
     const router = useRouter()
-    const userStore = useUserStore()
     const menuStore = useMenuStore()
     const tabStore = useTabStore()
-    const { permissions } = storeToRefs(userStore)
-    const { openKeys, menuList } = storeToRefs(menuStore)
+    const { setFirstMenu } = menuStore
+    const { openKeys, menuList, firstMenu } = storeToRefs(menuStore)
 
   // 跳转首页
   const goIndex = () => {
-    // 有跳转首页权限则跳转
-    const isDashboard = checkPermission('/dashboard', permissions.value)
-    const { key, path, title, top } = isDashboard ?
-      getCurrentMenuByRoute('/dashboard', menuList.value) :
-      getFirstMenu(menuList.value)
-    openKeys.value = [top]
-    tabStore.addTabs({ key, path, title })
-    
-    if (isDashboard) {
-      const nextPath = '/dashboard'
-      router.push(nextPath)
+    let obj: IMenuItem = { key: '', path: '', top: '', topTitle: '', title: '' }
+    if (firstMenu.value?.key) {
+      obj = firstMenu.value
     } else {
-      router.push(path)
+      obj = getFirstMenu(menuList.value)
+      setFirstMenu(obj)
     }
+    // 跳转第一个有效菜单
+    const { key, path, title, top } = obj
+    // 菜单展开，添加标签
+    if (top) openKeys.value = [top]
+    if (key) tabStore.addTabs({ key, path, title })
+    router.push(path)
   }
    
    return {

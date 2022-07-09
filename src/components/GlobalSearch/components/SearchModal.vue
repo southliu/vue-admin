@@ -97,10 +97,10 @@ export default defineComponent({
         tabStore.addTabs({ title, key, path })
         toggle()
 
-        // 设置菜单展开
+        // 菜单展开，添加标签
         const { top } = getCurrentMenuByRoute(path, menuList.value)
-        openKeys.value = [top]
-        tabStore.addTabs({ key, path, title })
+        if (top) openKeys.value = [top]
+        if (key) tabStore.addTabs({ key, path, title })
       }
     }
 
