@@ -24,3 +24,5 @@ pnpm-debug.log*
 /cypress/screenshots/
 
 stats.html
+
+.env.development

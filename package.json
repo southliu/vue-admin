@@ -67,6 +67,7 @@
     "vite-plugin-purge-icons": "^0.8.1",
     "vite-plugin-style-import": "^2.0.0",
     "vite-plugin-theme": "^0.8.1",
+    "vitest": "^0.18.0",
     "vue-tsc": "^0.29.8",
     "windicss-analysis": "^0.3.5"
   },

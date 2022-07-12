@@ -13,7 +13,7 @@ export interface IMenuItem {
 
 // 菜单
 export interface ISidebar extends IMenuItem {
-  children?: IMenuItem[]
+  children?: ISidebar[]
 }
 
 interface IState {
