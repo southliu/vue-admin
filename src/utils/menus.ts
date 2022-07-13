@@ -23,7 +23,7 @@ export function getMenus(
     const item = menus[i],
           top = topValue || item.name as string,
           title = topTitle || item?.meta?.title || '' as string
-  
+
     // 隐藏菜单跳过循环
     if (hasHidden(item)) continue
 
