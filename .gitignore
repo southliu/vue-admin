@@ -20,7 +20,11 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
+# e2e测试
 /cypress/videos/
 /cypress/screenshots/
+
+# 测试覆盖率
+/coverage/
 
 stats.html

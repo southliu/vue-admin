@@ -48,8 +48,8 @@
             type="primary"
             html-type="submit"
             class="w-full mt-5px rounded-5px tracking-2px"
-            :loading="loading"
-            :disabled="formState.username === '' || formState.password.length < 6"
+            :loading="loading && !isLock"
+            :disabled="formState.username === '' || formState.password.length < 6 || isLock"
           >
             登录
           </Button>
@@ -62,7 +62,7 @@
 <script lang="ts">
 import type { FormProps } from 'ant-design-vue'
 import type { ILoginData } from './model'
-import { defineComponent, onMounted, reactive } from 'vue'
+import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { login } from '@/servers/login'
 import { PASSWORD_RULE } from '@/utils/config'
@@ -107,6 +107,8 @@ export default defineComponent({
     const { openKeys, menuList } = storeToRefs(menuStore)
     const { RemoveWatermark } = useWatermark()
 
+    const isLock = ref(false)
+
     const formState = reactive<ILoginData>({
       username: '',
       password: '',
@@ -125,26 +127,27 @@ export default defineComponent({
       startLoading()
       try {
         const { data } = await login(values)
-        if (data) {
-          const { data: { token, user, permissions } } = data
-          const newPermissions = permissionsToArray(permissions)
-          setToken(token)
-          setUserInfo(user)
-          setPermissions(newPermissions)
-          
-          // 菜单处理
-          const newMenus = getMenus(menus, newPermissions)
-          menuList.value = newMenus
-          // 如果菜单为空，跳转空白页
-          if (newMenus.length === 0) router.push('/empty')
-          // 跳转第一个有效菜单
-          const { key, path, title, top } = getFirstMenu(newMenus)
-          // 菜单展开，添加标签
-          if (top) openKeys.value = [top]
-          if (key) tabStore.addTabs({ key, path, title })
-          router.push(path)
-        }
-      } catch(err) {}
+        const { data: { token, user, permissions } } = data
+        const newPermissions = permissionsToArray(permissions)
+        setToken(token)
+        setUserInfo(user)
+        setPermissions(newPermissions)
+        
+        // 菜单处理
+        const newMenus = getMenus(menus, newPermissions)
+        menuList.value = newMenus
+        // 如果菜单为空，跳转空白页
+        if (newMenus.length === 0) router.push('/empty')
+        // 跳转第一个有效菜单
+        const { key, path, title, top } = getFirstMenu(newMenus)
+        // 菜单展开，添加标签
+        if (top) openKeys.value = [top]
+        if (key) tabStore.addTabs({ key, path, title })
+        isLock.value = true
+        router.push(path)
+      } catch(err) {
+        isLock.value = false
+      }
       endLoading()
     };
 
@@ -157,6 +160,7 @@ export default defineComponent({
     };
 
     return {
+      isLock,
       loading,
       formState,
       PASSWORD_RULE,
