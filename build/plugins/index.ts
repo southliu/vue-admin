@@ -10,6 +10,8 @@ import PurgeIcons from 'vite-plugin-purge-icons'
 import Components from 'unplugin-vue-components/vite'
 import Unocss from 'unocss/vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
+import viteCompression from 'vite-plugin-compression'
+import { pluginExternal } from './external'
 
 export function createVitePlugins() {
   // 插件参数
@@ -27,6 +29,8 @@ export function createVitePlugins() {
     vueJsx({
       // options are passed on to @vue/babel-plugin-jsx
     }),
+    viteCompression(),
+    pluginExternal(),
     AutoImport({
       resolvers: [
         AntDesignVueResolver()

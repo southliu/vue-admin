@@ -126,7 +126,7 @@ export default defineComponent({
               placeholder: PLEASE_ENTER,
               ...componentProps as InputNumberProps,
               value: componentValue.value as number,
-              'onUpdate:value': (value: number) => emit('update:value', value)
+              'onUpdate:value': (value: number | string) => emit('update:value', value)
             })
           )
 
