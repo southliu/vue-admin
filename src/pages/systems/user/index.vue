@@ -128,13 +128,18 @@ export default defineComponent({
      * 获取表格数据
      */
     const getPage = async () => {
-      startLoading()
-      const query = { ...pagination, ...searches.data }
-      const { data: { data } } = await getSystemUserPage(query)
-      const { items, total } = data
-      tables.data = items
-      tables.total = total
-      endLoading()
+      try {
+        startLoading()
+        const query = { ...pagination, ...searches.data }
+        const { data: { data } } = await getSystemUserPage(query)
+        const { items, total } = data
+        tables.data = items
+        tables.total = total
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.error(err)
+      }
     }
 
     /** 表格提交 */
@@ -147,15 +152,19 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
-      console.log('values:', values)
-      startLoading()
-      searches.data = values
-      const query = { ...pagination, ...values }
-      const { data: { data } } = await getSystemUserPage(query)
-      const { items, total } = data
-      tables.data = items
-      tables.total = total
-      endLoading()
+      try {
+        startLoading()
+        searches.data = values
+        const query = { ...pagination, ...values }
+        const { data: { data } } = await getSystemUserPage(query)
+        const { items, total } = data
+        tables.data = items
+        tables.total = total
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.error(err)
+      }
     }
 
     /** 点击新增 */

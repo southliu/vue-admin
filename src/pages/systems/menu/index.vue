@@ -165,14 +165,19 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
-      startLoading()
       searches.data = values
       const query = { ...pagination, ...values }
-      const { data: { data } } = await getMenuPage(query)
-      const { items, total } = data
-      tables.data = items
-      tables.total = total
-      endLoading()
+      try {
+        startLoading()
+        const { data: { data } } = await getMenuPage(query)
+        const { items, total } = data
+        tables.data = items
+        tables.total = total
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.error(err)
+      }
     }
 
     /** 点击新增 */
@@ -193,10 +198,15 @@ export default defineComponent({
       creates.id = id as string
       creates.title = EDIT_TITLE(name as string)
 
-      startCreateLoading()
-      const { data: { data } } = await getMenuById(id as string)
-      creates.data = data
-      endCreateLoading()
+      try {
+        startCreateLoading()
+        const { data: { data } } = await getMenuById(id as string)
+        creates.data = data
+        endCreateLoading()
+      } catch(err) {
+        endCreateLoading()
+        console.error(err)
+      }
     }
 
     /**
@@ -204,15 +214,20 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleCreate = async (values: IFormData) => {
-      startCreateLoading()
-      const functions = () => creates.id ? updateMenu(creates.id, values) :  createMenu(values)
-      const { data } = await functions()
-      if (data?.code === 200) {
-        getPage()
-        creates.isVisible = false
-        message.success(data?.message || '操作成功')
+      try {
+        startCreateLoading()
+        const functions = () => creates.id ? updateMenu(creates.id, values) :  createMenu(values)
+        const { data } = await functions()
+        if (data?.code === 200) {
+          getPage()
+          creates.isVisible = false
+          message.success(data?.message || '操作成功')
+        }
+        endCreateLoading()
+      } catch(err) {
+        endCreateLoading()
+        console.error(err)
       }
-      endCreateLoading()
     }
 
     /** 关闭新增/编辑 */
@@ -225,13 +240,18 @@ export default defineComponent({
      * @param id
      */
     const handleDelete = async (id: string | number) => {
-      startLoading()
-      const { data } = await deleteMenu(id as string)
-      if (data?.code === 200) {
-        message.success(data?.message || '删除成功')
-        getPage()
+      try {
+        startLoading()
+        const { data } = await deleteMenu(id as string)
+        if (data?.code === 200) {
+          message.success(data?.message || '删除成功')
+          getPage()
+        }
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.error(err)
       }
-      endLoading()
     }
 
     /**

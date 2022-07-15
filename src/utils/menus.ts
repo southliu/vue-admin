@@ -6,7 +6,6 @@ import { checkPermission } from './permissions'
 
 /**
  * 获取菜单数据，只获取最底层菜单数据
- * TODO: 后续转wasm
  * @param menus - 菜单数据
  * @param result - 返回结果数据
  * @param permissions - 权限

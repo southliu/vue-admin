@@ -161,23 +161,27 @@ export default defineComponent({
 
     /** 获取用户信息和权限 */
     const getUserInfo = async () => {
-      const { data } = await getPermissions({ refresh_cache: false })
-      if (data) {
-        const { data: { user, permissions } } = data
-        const newPermissions = permissionsToArray(permissions)
-        username.value = user.username
-        setUserInfo(user)
-        setPermissions(newPermissions)
-        RemoveWatermark()
-        Watermark(watermarkInfo(`${WATERMARK_PREFIX}-${user.username}`))
+      try {
+        const { data } = await getPermissions({ refresh_cache: false })
+        if (data) {
+          const { data: { user, permissions } } = data
+          const newPermissions = permissionsToArray(permissions)
+          username.value = user.username
+          setUserInfo(user)
+          setPermissions(newPermissions)
+          RemoveWatermark()
+          Watermark(watermarkInfo(`${WATERMARK_PREFIX}-${user.username}`))
 
-        // 菜单处理
-        const newMenus = getMenus(menus, newPermissions)
-        const { key, path, title, top } = getCurrentMenuByRoute(route.path, newMenus)
-        menuList.value = newMenus
-        // 菜单展开，添加标签
-        if (top) openKeys.value = [top]
-        if (key) tabStore.addTabs({ key, path, title })
+          // 菜单处理
+          const newMenus = getMenus(menus, newPermissions)
+          const { key, path, title, top } = getCurrentMenuByRoute(route.path, newMenus)
+          menuList.value = newMenus
+          // 菜单展开，添加标签
+          if (top) openKeys.value = [top]
+          if (key) tabStore.addTabs({ key, path, title })
+        }
+      } catch(err) {
+        console.error(err)
       }
     }
 

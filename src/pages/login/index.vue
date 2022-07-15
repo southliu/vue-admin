@@ -124,8 +124,8 @@ export default defineComponent({
      * @param values - 表单数据
      */
     const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
-      startLoading()
       try {
+        startLoading()
         const { data } = await login(values)
         const { data: { token, user, permissions } } = data
         const newPermissions = permissionsToArray(permissions)
@@ -145,10 +145,11 @@ export default defineComponent({
         if (key) tabStore.addTabs({ key, path, title })
         isLock.value = true
         router.push(path)
+        endLoading()
       } catch(err) {
         isLock.value = false
+        endLoading()
       }
-      endLoading()
     };
 
     /**

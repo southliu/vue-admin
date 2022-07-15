@@ -2,7 +2,6 @@ import type { IPermissions } from "@/pages/login/model"
 
 /**
  * 授权参数转字符串数组
- * TODO: 后续转wasm
  * @param permissions - 授权值
  */
 export const permissionsToArray = (permissions: IPermissions[]): string[] => {
