@@ -1,10 +1,10 @@
 import { encrypt, decrypt } from 'crypto-js/aes'
 import UTF8 from 'crypto-js/enc-utf8'
 import md5 from 'crypto-js/md5'
-import type { IAllDataType } from './../types/public';
+import type { IAllDataType } from './../types/public'
 
 // 加密密钥
-const CRYPTO_SECRET = '__Vite_Admin_Secret__';
+const CRYPTO_SECRET = '__Vite_Admin_Secret__'
 
 /**
  * 加密
@@ -22,12 +22,12 @@ export function encryption(data: IAllDataType, secret: string = CRYPTO_SECRET) {
  * @param secret - 解密密钥
  */
 export function decryption(data: string, secret: string = CRYPTO_SECRET) {
-  const bytes = decrypt(data, secret);
-  const originalText = bytes.toString(UTF8);
+  const bytes = decrypt(data, secret)
+  const originalText = bytes.toString(UTF8)
   if (originalText) {
-    return JSON.parse(originalText);
+    return JSON.parse(originalText)
   }
-  return null;
+  return null
 }
 
 /**
@@ -35,5 +35,5 @@ export function decryption(data: string, secret: string = CRYPTO_SECRET) {
  * @param data - 加密数据
  */
 export function encryptMd5(data: string) {
-  return md5(data).toString();
+  return md5(data).toString()
 }

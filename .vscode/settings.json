@@ -1,6 +1,7 @@
 {
   "i18n-ally.localesPaths": [],
   "editor.tabSize": 2,
+  "eslint.validate": ["typescript"],
   // 需要在vscode中下载code spell checker插件
   "cSpell.words": [
     "vite",
@@ -43,6 +44,5 @@
     "entypo",
     "scaley",
     "demi"
-  ],
-  "vue3snippets.enable-compile-vue-file-on-did-save-code": false
+  ]
 }

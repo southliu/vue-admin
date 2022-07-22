@@ -4,7 +4,7 @@ import { ref } from "vue"
  * loading加载
  * @param initValue - 初始化状态
  */
-export function useCreateLoading(initValue: boolean = false) {
+export function useCreateLoading(initValue = false) {
   const createLoading = ref(Boolean(initValue))
 
   const startCreateLoading = () => {

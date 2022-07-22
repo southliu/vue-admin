@@ -1,6 +1,6 @@
-import type { DefaultOptionType } from 'ant-design-vue/lib/select';
+import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import { request } from '@/utils/request'
-import { recursiveData } from '@/utils/utils';
+import { recursiveData } from '@/utils/utils'
 
 enum API {
   URL = '/platform/game',

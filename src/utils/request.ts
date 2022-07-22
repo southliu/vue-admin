@@ -7,8 +7,8 @@ import { useToken } from '@/hooks/useToken'
 const prefixUrl = (import.meta.env.VITE_BASE_URL as string)
 
 // 请求列表(防重复提交)
-const requestList: string[] = [];
-const CancelToken = axios.CancelToken;
+const requestList: string[] = []
+const CancelToken = axios.CancelToken
 const source = CancelToken.source()
 
 // 请求配置
@@ -37,14 +37,16 @@ const handleNotPermission = () => {
 request.interceptors.request.use(
   (config) => {
     const token = useToken().getToken() || ''
-    if (config?.headers && token) config.headers['Authorization'] = `Bearer ${token}`
+    if (config?.headers && token) {
+      config.headers.Authorization = `Bearer ${token}`
+    }
 
     // 防止重复提交（如果本次是重复操作，则取消，否则将该操作标记到requestList中）
-    const requestFlag = JSON.stringify(config.url) + JSON.stringify(config.data) + '&' + config.method;
+    const requestFlag = JSON.stringify(config.url) + JSON.stringify(config.data) + '&' + config.method
     if (requestList.includes(requestFlag)) { // 请求标记已经存在，则取消本次请求，否则在请求列表中加入请求标记
-      source.cancel();//取消本次请求
+      source.cancel()//取消本次请求
     } else {
-      requestList.push(requestFlag);
+      requestList.push(requestFlag)
     }
     
     return config
@@ -60,9 +62,9 @@ request.interceptors.response.use(
   (response) => {
     const res = response.data
     // 请求返回后，将请求标记从requestList中移除
-    const requestFlag = JSON.stringify(response.config.url) + JSON.stringify(response.config.data) + '&' + response.config.method;
+    const requestFlag = JSON.stringify(response.config.url) + JSON.stringify(response.config.data) + '&' + response.config.method
     const index = requestList.findIndex(item => item === requestFlag)
-    requestList.splice(index, 1);
+    requestList.splice(index, 1)
 
     // 后端框架错误提醒
     if (res.code === 0) {
@@ -88,7 +90,7 @@ request.interceptors.response.use(
   },
   (error) => {
     //置空请求列表
-    requestList.length = 0;
+    requestList.length = 0
     handleError(error, '服务器错误')
     return Promise.reject(error)
   }

@@ -5,7 +5,7 @@ import type { IPermissions } from "@/pages/login/model"
  * @param permissions - 授权值
  */
 export const permissionsToArray = (permissions: IPermissions[]): string[] => {
-  let res: string[] = []
+  const res: string[] = []
   for (let i = 0; i < permissions.length; i++) {
     const { id, operation } = permissions[i]
     res.push(`/${id}`)
@@ -22,6 +22,8 @@ export const permissionsToArray = (permissions: IPermissions[]): string[] => {
  * @param permissions - 权限
  */
 export const checkPermission = (value: string, permissions: string[]): boolean => {
-  if (!permissions || permissions.length === 0) return false
+  if (!permissions || permissions.length === 0) {
+return false
+}
   return permissions.includes(value)
 }

@@ -14,9 +14,9 @@ export function firstCapitalize(str: string): string {
  */
 type IEmptyData = Record<string, IAllDataType>
 export function filterEmptyValue(obj: IEmptyData): IEmptyData {
-  let res: IEmptyData = {}
+  const res: IEmptyData = {}
 
-  for (let key in obj) {
+  for (const key in obj) {
     // undefined过滤
     if (obj[key] === undefined) continue
 

@@ -1,4 +1,4 @@
-import { message } from 'ant-design-vue';
+import { message } from 'ant-design-vue'
 import { encryption, decryption } from './crypto'
 
 // 默认缓存期限为1天
@@ -20,7 +20,7 @@ export function setLocalInfo(key: string, value: unknown, expire: number | null 
   const time = expire !== null ? new Date().getTime() + expire * 1000 : null
   // 缓存数据
   const data: IStorageData = { value, expire: time }
-  const json = encryption(data);
+  const json = encryption(data)
   window.localStorage.setItem(key, json)
 }
 
@@ -50,7 +50,7 @@ export function getLocalInfo<T>(key: string) {
     }
 
     // 缓存过期或无数据清空当前本地缓存
-    removeLocalInfo(key);
+    removeLocalInfo(key)
     return null
   }
   return null
@@ -61,10 +61,10 @@ export function getLocalInfo<T>(key: string) {
  * @param key - 唯一值
  */
 export function removeLocalInfo(key: string) {
-  window.localStorage.removeItem(key);
+  window.localStorage.removeItem(key)
 }
 
 /** 清空本地缓存 */
 export function clearLocalInfo() {
-  window.localStorage.clear();
+  window.localStorage.clear()
 }

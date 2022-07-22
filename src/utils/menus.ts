@@ -24,13 +24,19 @@ export function getMenus(
           title = topTitle || item?.meta?.title || '' as string
 
     // 隐藏菜单跳过循环
-    if (hasHidden(item)) continue
+    if (hasHidden(item)) {
+continue
+}
 
     // 空子路由跳出循环
-    if (item?.children && item.children?.length === 0) continue
+    if (item?.children && item.children?.length === 0) {
+continue
+}
 
     // 没有子路由进行权限判断
-    if (!item?.children && !checkPermission(item.meta?.rule || '', permissions)) continue
+    if (!item?.children && !checkPermission(item.meta?.rule || '', permissions)) {
+continue
+}
 
     // 当前有子路由继续遍历
     let children = undefined
@@ -39,7 +45,9 @@ export function getMenus(
     }
 
     // 有子路由切子数据为空跳过循环
-    if (children && children?.length === 0) continue
+    if (children && children?.length === 0) {
+continue
+}
 
     // 当有缓存则添加数据
     result.push({
@@ -63,7 +71,7 @@ export function getMenus(
  */
 export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): string[] {
   for (let i = 0; i < menus.length; i++) {
-    const item = menus[i];
+    const item = menus[i]
 
     // 当前有子路由继续遍历
     if (hasChildren(item)) {
@@ -95,7 +103,9 @@ export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): IMenuIt
     if (element.path === route) {
       res = element
     }
-    if (res.key) return res
+    if (res.key) {
+return res
+}
     // 如果存在子路由则遍历子路由
     if (element.children && element.children?.length > 0) {
       res = getCurrentMenuByRoute(route, element.children)
@@ -148,7 +158,8 @@ export function getFirstMenu(menus: ISidebar[]): IMenuItem {
     if (element.children && element.children?.length > 0) {
       res = getFirstMenu(element.children)
     } else {
-      return res = element
+      res = element
+      return res
     }
   }
   return res

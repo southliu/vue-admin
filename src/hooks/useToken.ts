@@ -1,4 +1,4 @@
-import { ref } from 'vue';
+import { ref } from 'vue'
 import { TOKEN } from '@/utils/config'
 import { setLocalInfo, getLocalInfo, removeLocalInfo } from '@/utils/local'
 

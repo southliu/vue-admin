@@ -77,21 +77,26 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
-      // 单选框数据处理- true：1 false：0
-      const { all_pay, new_pay, register, active, active_total } = values
-      if (values.all_pay) values.all_pay = all_pay ? 1 : 0
-      if (values.new_pay) values.new_pay = new_pay ? 1 : 0
-      if (values.register) values.register = register ? 1 : 0
-      if (values.active) values.active = active ? 1 : 0
-      if (values.active_total) values.active_total = active_total ? 1 : 0
+      try {
+        // 单选框数据处理- true：1 false：0
+        const { all_pay, new_pay, register, active, active_total } = values
+        if (values.all_pay) values.all_pay = all_pay ? 1 : 0
+        if (values.new_pay) values.new_pay = new_pay ? 1 : 0
+        if (values.register) values.register = register ? 1 : 0
+        if (values.active) values.active = active ? 1 : 0
+        if (values.active_total) values.active_total = active_total ? 1 : 0
 
-      // 日期转化
-      startLoading()
-      searches.data = values
-      const query = { ...values }
-      const { data: { data } } = await getDataTrends(query)
-      datum.value = data
-      endLoading()
+        // 日期转化
+        startLoading()
+        searches.data = values
+        const query = { ...values }
+        const { data: { data } } = await getDataTrends(query)
+        datum.value = data
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.error(err)
+      }
     }
 
     return {

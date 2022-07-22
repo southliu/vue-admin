@@ -18,7 +18,7 @@ export function handleEnv(envConfigs: IEnvConfigs): IViteEnv {
 
   const proxy: [string, string][] = VITE_PROXY ? JSON.parse(VITE_PROXY.replace(/'/g, '"')) : []
 
-  let res: IViteEnv = {
+  const res: IViteEnv = {
     VITE_SERVER_PORT: Number(VITE_SERVER_PORT) || 8080,
     VITE_PROXY: proxy
   }

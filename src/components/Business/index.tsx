@@ -14,9 +14,16 @@ export type IBusinessEmit = (value: IAllDataType) => void
 
 /**
  * 导出业务组件
+ * @param componentParams - 组件参数
+ * @param value - 组件值
+ * @param handleEmit - 处理数据双向绑定函数
  */
-export function exportBusiness(item: IFormList, value?: IAllDataType, handleEmit?: IBusinessEmit) {
-  const { component, componentProps } = item
+export function exportBusiness(
+  componentParams: IFormList,
+  value?: IAllDataType,
+  handleEmit?: IBusinessEmit
+) {
+  const { component, componentProps } = componentParams
 
   // 属性值
   const params = {
@@ -33,5 +40,8 @@ export function exportBusiness(item: IFormList, value?: IAllDataType, handleEmit
     // 合作公司下拉选择
     case 'PartnerSelect':
       return <PartnerSelect { ...params } />
+
+    default:
+      break
   }
 }

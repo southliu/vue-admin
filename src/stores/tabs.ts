@@ -72,7 +72,7 @@ export const useTabStore = defineStore({
       this.activeKey = tab.path
       // 查询是否有重复的标签页
       for (let i = 0; i < this.tabs.length; i++) {
-        const element = this.tabs[i];
+        const element = this.tabs[i]
         if (element.key === tab.key) {
           return
         }
@@ -88,7 +88,7 @@ export const useTabStore = defineStore({
       // 获取当前key的最后一位位置
       let lastIndex = 0
       for (let i = 0; i < this.tabs.length; i++) {
-        const element = this.tabs[i];
+        const element = this.tabs[i]
         if (element.key === targetKey) {
           lastIndex = i - 1
           break
@@ -120,10 +120,11 @@ export const useTabStore = defineStore({
      * @param targetKey - 标签唯一值
      */
     removeLeft(targetKey: string) {
-      let isCurrent = false, tabs: ITabs[] = []
+      let isCurrent = false
+      const tabs: ITabs[] = []
 
       for (let i = 0; i < this.tabs.length; i++) {
-        const element = this.tabs[i];
+        const element = this.tabs[i]
         // 当前项之后的数据都保存
         if (element.key === targetKey) {
           isCurrent = true
@@ -142,11 +143,12 @@ export const useTabStore = defineStore({
      * @param targetKey - 标签唯一值
      */
     removeRight(targetKey: string) {
-      let index = 0, tabs: ITabs[] = []
+      let index = 0
+      const tabs: ITabs[] = []
 
       // 获取下标
       for (let i = this.tabs.length - 1; i >= 0; i--) {
-        const element = this.tabs[i];
+        const element = this.tabs[i]
         if (element.key === targetKey) {
           index = i
         }
@@ -154,7 +156,7 @@ export const useTabStore = defineStore({
 
       // 重构数据
       for (let i = 0; i <= index; i++) {
-        const element = this.tabs[i];
+        const element = this.tabs[i]
         tabs.push(element)
       }
       

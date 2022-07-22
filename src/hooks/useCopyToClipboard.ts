@@ -24,10 +24,9 @@ export const useCopyToClipboard = (text: string) => {
     // 复制失败将构造的标签 移除
     document.body.removeChild(textArea)
     return false
-  } else {
-  	message.success({ content: "复制成功", key: 'copySuccess' })
-  	// 复制成功后再将构造的标签 移除
-    document.body.removeChild(textArea)
-    return true
-  }
+  } 
+  message.success({ content: "复制成功", key: 'copySuccess' })
+  // 复制成功后再将构造的标签 移除
+  document.body.removeChild(textArea)
+  return true
 }

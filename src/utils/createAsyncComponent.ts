@@ -1,9 +1,9 @@
 /**
  * @description: 创建异步组件
  */
-import type { AsyncComponentOptions } from "vue";
-import { defineAsyncComponent, h } from "vue";
-import { Spin } from 'ant-design-vue';
+import type { AsyncComponentOptions } from "vue"
+import { defineAsyncComponent, h } from "vue"
+import { Spin } from 'ant-design-vue'
 
 interface Options {
   size?: 'default' | 'small' | 'large';
@@ -27,20 +27,20 @@ export function createAsyncComponent(
     timeout = 30000,
     loading = false,
     retry = true
-  } = options;
+  } = options
 
   return defineAsyncComponent({
     loader, // 需要加载的组件
-    loadingComponent: loading ? h(Spin, { spinning: true, size }) : undefined,  // 在加载时显示
+    loadingComponent: loading ? h(Spin, { spinning: true, size }) : undefined, // 在加载时显示
     timeout, // 超时时间
     delay, // 在显⽰加载组件之前延迟毫秒
     onError: !retry
       ? undefined
       : (error, retry, fail, attempts) => {
           if (error.message.match(/fetch/) && attempts <= 3) {
-            retry();
+            retry()
           } else {
-            fail();
+            fail()
           }
         },
   })

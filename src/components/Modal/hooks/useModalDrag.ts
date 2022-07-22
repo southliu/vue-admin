@@ -1,5 +1,5 @@
-import { useTimeout } from "@vueuse/core";
-import { watchEffect } from "vue";
+import { useTimeout } from "@vueuse/core"
+import { watchEffect } from "vue"
 
 interface IElement extends Element {
   offsetLeft: number;
@@ -19,10 +19,14 @@ export function useModalDragMove() {
 
   // 单个拖拽逻辑
   const dragItem = (wrap: Element) => {
-    if (!wrap) return
-    let dragDom = wrap.querySelector('.ant-modal') as IElement
-    let dragHeaderElm = wrap.querySelector('.ant-modal-header') as IElement
-    if (!dragHeaderElm || !dragDom) return;
+    if (!wrap) {
+return
+}
+    const dragDom = wrap.querySelector('.ant-modal') as IElement
+    const dragHeaderElm = wrap.querySelector('.ant-modal-header') as IElement
+    if (!dragHeaderElm || !dragDom) {
+return
+}
 
     // 头部鼠标样式改为move
     dragHeaderElm.style.cursor = 'move'
@@ -49,40 +53,40 @@ export function useModalDragMove() {
       const maxDragDomTop = screenHeight - dragDom.offsetTop - dragDomHeight
 
       // 获取左和上样式值
-      const domLeft = getComputedStyle(dragDom)['left'];
-      const domTop = getComputedStyle(dragDom)['top'];
+      const domLeft = getComputedStyle(dragDom).left
+      const domTop = getComputedStyle(dragDom).top
       let styL = Number(domLeft)
       let styT = Number(domTop)
 
       // 注意在ie中 第一次获取到的值为组件自带50% 移动之后赋值为px
       if (domLeft.includes('%')) {
-        styL = +document.body.clientWidth * (+domLeft.replace(/%/g, '') / 100);
-        styT = +document.body.clientHeight * (+domTop.replace(/%/g, '') / 100);
+        styL = +document.body.clientWidth * (+domLeft.replace(/%/g, '') / 100)
+        styT = +document.body.clientHeight * (+domTop.replace(/%/g, '') / 100)
       } else {
-        styL = +domLeft.replace(/px/g, '');
-        styT = +domTop.replace(/px/g, '');
+        styL = +domLeft.replace(/px/g, '')
+        styT = +domTop.replace(/px/g, '')
       }
 
       document.onmousemove = function (e) {
         // 通过事件委托，计算移动的距离
-        let left = e.clientX - startX;
-        let top = e.clientY - startY;
+        let left = e.clientX - startX
+        let top = e.clientY - startY
 
         // 边界处理
         if (-left > minDragDomLeft) {
-          left = -minDragDomLeft;
+          left = -minDragDomLeft
         } else if (left > maxDragDomLeft) {
-          left = maxDragDomLeft;
+          left = maxDragDomLeft
         }
 
         if (-top > minDragDomTop) {
-          top = -minDragDomTop;
+          top = -minDragDomTop
         } else if (top > maxDragDomTop) {
-          top = maxDragDomTop;
+          top = maxDragDomTop
         }
 
         // 移动当前元素
-        dragDom.style.cssText += `;left:${left + styL}px;top:${top + styT}px;`;
+        dragDom.style.cssText += `;left:${left + styL}px;top:${top + styT}px;`
       }
 
       // 鼠标松开清除
@@ -95,7 +99,7 @@ export function useModalDragMove() {
     /**
      * 防止松开鼠标时，拖拽解除失效
      */
-    document.onmouseup  = () => {
+    document.onmouseup = () => {
       document.onmousemove = null
       document.onmouseup = null
     }
@@ -103,13 +107,13 @@ export function useModalDragMove() {
 
   // 处理拖拽
   const handleDrag = () => {
-    const dragWraps = document.querySelectorAll('.ant-modal-wrap');
+    const dragWraps = document.querySelectorAll('.ant-modal-wrap')
     for (const wrap of Array.from(dragWraps)) {
-      if (!wrap) continue;
-      const display = getComputedStyle(wrap)['display']
+      if (!wrap) continue
+      const display = getComputedStyle(wrap).display
       if (display !== 'none') {
         // 开启拖拽
-        dragItem(wrap);
+        dragItem(wrap)
       }
     }
   }

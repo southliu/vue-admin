@@ -97,7 +97,7 @@ export default defineComponent({
   },
   setup() {
     const createFormRef = ref<IBasicForm>()
-    const userStore = useUserStore()
+    const userStore=useUserStore()
     const { permissions } = storeToRefs(userStore)
     const { loading, startLoading, endLoading } = useLoading()
     const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()

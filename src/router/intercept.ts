@@ -1,16 +1,16 @@
-import type { Router } from "vue-router";
+import type { Router } from "vue-router"
 import type { IMenuItem } from '@/stores/menu'
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { useToken } from '@/hooks/useToken'
 import { TITLE_SUFFIX } from '@/utils/config'
-import { message } from "ant-design-vue";
+import { message } from "ant-design-vue"
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { getFirstMenu } from '@/utils/menus'
 import NProgress from 'nprogress'
-import { checkPermission } from "@/utils/permissions";
+import { checkPermission } from "@/utils/permissions"
 
 NProgress.configure({ showSpinner: false })
 
@@ -50,10 +50,8 @@ export function routerIntercept(router: Router) {
     if (!token && to.path !== '/login') {
       message.error({ content: '用户授权过期，请重新登录', key: 'not_token' })
       next({ path: `/login?redirect=${to.path}` })
-    }
-
-    // 有token且在登录页返回首页
-    else if (token && to.path === '/login') {
+    } else if (token && to.path === '/login') {
+      // 有token且在登录页返回首页
       // 跳转第一个有效菜单
       let obj: IMenuItem = { key: '', path: '', top: '', topTitle: '', title: '' }
       if (firstMenu.value?.key) {
@@ -67,10 +65,8 @@ export function routerIntercept(router: Router) {
       if (top) openKeys.value = [top]
       if (key) tabStore.addTabs({ key, path, title })
       next(path)
-    }
-
-    // 判断是否有权限
-    else if (to?.meta?.rule && permissions.value?.length > 0) {
+    } else if (to?.meta?.rule && permissions.value?.length > 0) {
+      // 判断是否有权限
       const isRule = checkPermission((to.meta.rule) as string, permissions.value)
       if (isRule) {
         next()
@@ -78,9 +74,7 @@ export function routerIntercept(router: Router) {
         // 没权限跳转403
         next('/403')
       }
-    }
-
-    else next()
+    } else next()
   })
 
   // 路由结束处理

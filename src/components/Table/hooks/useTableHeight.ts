@@ -3,7 +3,7 @@
  * @param id - 唯一标识
  * @param offsetHeight - 高度偏移量
  */
- export function useTableHeight(id: string = 'table', offsetHeight: number = 0) {
+ export function useTableHeight(id = 'table', offsetHeight = 0) {
   const height = document.documentElement.clientHeight || 0 // 屏幕可见区域高度
   const tableHeight = document?.getElementById(id)?.getBoundingClientRect()?.top || 0 // 容器高度
   const footerHeight = document?.getElementById('footer')?.offsetHeight || 0 // 容器底顶部高度
