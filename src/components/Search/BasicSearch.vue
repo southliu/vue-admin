@@ -129,13 +129,13 @@ export default defineComponent({
           context.emit('handleFinish', params)
         })
         .catch(info => {
-          console.log('错误信息:', info);
-        });
+          console.log('错误信息:', info)
+        })
     })
 
     /** 外部调内部重置方法 */
     const handleReset = () => {
-      formRef.value?.resetFields();
+      formRef.value?.resetFields()
     }
 
     /** 点击新增 */
@@ -157,7 +157,7 @@ export default defineComponent({
      * @param errorInfo - 错误信息
      */
     const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
-      console.log('错误信息:', errorInfo);
+      console.log('错误信息:', errorInfo)
     }
 
     return {
@@ -168,7 +168,7 @@ export default defineComponent({
       onFinishFailed,
       handleReset,
       handleSubmit,
-    };
+    }
   }
 })
 </script>

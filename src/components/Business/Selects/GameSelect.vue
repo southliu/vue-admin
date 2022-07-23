@@ -28,17 +28,15 @@ export default defineComponent({
     }
   },
   setup(props, context) {
-    const { value, componentProps, handleEmit } = props
-    
     return () => (
       h(ApiTreeSelect, {
         componentProps: {
-          ...componentProps as TreeSelectProps,
+          ...props.componentProps as TreeSelectProps,
           multiple: true,
           api: getGames,
-          value: value as SelectValue,
+          value: props.value as SelectValue,
           'onUpdate:value': (value: SelectValue) => {
-            handleEmit?.(value)
+            props.handleEmit?.(value)
           }
         }
       })

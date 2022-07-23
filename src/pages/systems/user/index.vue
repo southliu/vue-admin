@@ -60,7 +60,7 @@
 <script lang="ts">
 import type { IFormData } from '@/types/form'
 import type { IBasicForm } from '@/components/Form/model'
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
+import type { ICreateData, ISearchData, ITableData, IPaginationData } from '@/types/global'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { getSystemUserPage } from '@/servers/systems/user'
 import { searchList, createList, tableColumns } from './data'
@@ -77,8 +77,6 @@ import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 export default defineComponent({
   name: 'SystemUser',
   components: {
-    SmileOutlined,
-    DownOutlined,
     BasicContent,
     BasicTable,
     BasicPagination,

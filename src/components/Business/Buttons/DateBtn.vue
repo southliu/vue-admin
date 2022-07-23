@@ -32,7 +32,7 @@ import { DATE_FORMAT } from '@/utils/constants'
 import Icon from '@/components/Icon/index.vue'
 import dayjs from 'dayjs'
 
-type IType =  'yesterday' |
+type IType = 'yesterday' |
               'tomorrow' |
               'today' |
               'prevMonth' |
@@ -107,16 +107,20 @@ export default defineComponent({
 
         // 前一月
         case 'prevMonth': {
-          const start = dayjs(props.date).subtract(1, 'month').startOf('month').format(props.format)
-          const end = dayjs(props.date).subtract(1, 'month').endOf('month').format(props.format)
+          const start = dayjs(props.date).subtract(1, 'month').startOf('month')
+.format(props.format)
+          const end = dayjs(props.date).subtract(1, 'month').endOf('month')
+.format(props.format)
           result = [start, end]
           break
         }
 
         // 下一月
         case 'nextMonth': {
-          const start = dayjs(props.date).add(1, 'month').startOf('month').format(props.format)
-          const end = dayjs(props.date).add(1, 'month').endOf('month').format(props.format)
+          const start = dayjs(props.date).add(1, 'month').startOf('month')
+.format(props.format)
+          const end = dayjs(props.date).add(1, 'month').endOf('month')
+.format(props.format)
           result = [start, end]
           break
         }
@@ -128,6 +132,9 @@ export default defineComponent({
           result = [start, end]
           break
         }
+
+        default:
+          break
       }
       emit('handleResult', result)
     }

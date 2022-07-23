@@ -1,4 +1,5 @@
 import type { ILoginData, ILoginResult } from '@/pages/login/model'
+import type { IServerResult } from '@/types/global'
 import { request } from '@/utils/request'
 
 /**

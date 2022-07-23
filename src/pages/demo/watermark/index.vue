@@ -13,7 +13,7 @@
 import { defineComponent } from 'vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import { useWatermark } from '@/hooks/useWatermark'
-import { Button } from 'ant-design-vue';
+import { Button } from 'ant-design-vue'
 
 export default defineComponent({
   name: 'DemoWatermark',

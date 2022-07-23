@@ -38,7 +38,7 @@ import type { IAllDataType } from "@/types/public"
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
 import { defineComponent, ref, watch } from 'vue'
-import { Form, FormItem, Button } from 'ant-design-vue'
+import { Form, FormItem } from 'ant-design-vue'
 import { useDebounceFn } from '@vueuse/core'
 import { filterEmptyValue } from '@/utils/utils'
 import BasicComponents from './BasicComponents.vue'
@@ -83,8 +83,7 @@ export default defineComponent({
   components: {
     BasicComponents,
     Form,
-    FormItem,
-    Button
+    FormItem
   },
   setup(props, context) {
     const formRef = ref<FormInstance>()
@@ -95,7 +94,7 @@ export default defineComponent({
     watch(() => props.data, value => {
       formState.value = value
       // 清除表单验证结果
-      formRef.value?.clearValidate();
+      formRef.value?.clearValidate()
     })
 
     /** 外部调内部提交方法 */
@@ -107,14 +106,14 @@ export default defineComponent({
           context.emit('handleFinish', params)
         })
         .catch(info => {
-          console.log('错误信息:', info);
-        });
+          console.log('错误信息:', info)
+        })
     })
     
     /** 外部调内部重置方法 */
     const handleReset = () => {
-      formRef.value?.resetFields();
-      formRef.value?.clearValidate();
+      formRef.value?.resetFields()
+      formRef.value?.clearValidate()
     }
 
     /**
@@ -131,7 +130,7 @@ export default defineComponent({
      * @param errorInfo - 错误信息
      */
     const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
-      console.log('错误信息:', errorInfo);
+      console.log('错误信息:', errorInfo)
     }
 
     return {
@@ -141,7 +140,7 @@ export default defineComponent({
       onFinishFailed,
       handleSubmit,
       handleReset
-    };
+    }
   }
 })
 </script>

@@ -15,6 +15,7 @@ import { InputSearch, message } from 'ant-design-vue'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 
 export default defineComponent({
+  name: 'CopyComponent',
   components: { InputSearch },
   setup() {
     const value = ref('')

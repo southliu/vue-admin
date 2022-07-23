@@ -23,7 +23,7 @@ export default defineComponent({
       }
     })
 
-    dayjs.locale('zh-cn');
+    dayjs.locale('zh-cn')
     return { zhCN }
   }
 })

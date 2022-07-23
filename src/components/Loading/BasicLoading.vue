@@ -13,9 +13,6 @@ export default defineComponent({
   name: 'BasicLoading',
   components: {
     Spin
-  },
-  setup() {
-    
   }
 })
 </script>

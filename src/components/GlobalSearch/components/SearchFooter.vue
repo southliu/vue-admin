@@ -18,13 +18,11 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { EnterOutlined } from '@ant-design/icons-vue'
 import Icon from '@/components/Icon/index.vue'
 
 export default defineComponent({
   name: 'SearchFooter',
   components: {
-    EnterOutlined,
     Icon
   }
 })

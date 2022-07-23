@@ -19,7 +19,7 @@ type ISeriesData = {
 }
 
 export default defineComponent({
-  name: 'Line',
+  name: 'DescriptionsLine',
   components: {
     Echarts
   },
@@ -72,7 +72,7 @@ export default defineComponent({
     watch(() => props.items, value => {
       const data: ISeriesData[] = []
       if (!value.legend || !value.hash) return
-      for (let key in value.legend) {
+      for (const key in value.legend) {
         legendData.value.push(value.legend[key])
         legendKeys.value.push(key)
         const currentData: number[] = []
@@ -81,16 +81,16 @@ export default defineComponent({
           value.hash?.length > 0 &&
             value.hash.forEach((data: Record<string, number>) => {
               if (data.hour === item) {
-                currentData.push(data[key] || 0);
+                currentData.push(data[key] || 0)
               }
-            });
-        });
+            })
+        })
 
         data.push({
           name: value.legend[key] as string,
           type: 'line',
           data: currentData,
-        });
+        })
       }
       option.value = { ...option.value, series: data }
     })

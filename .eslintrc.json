@@ -4,6 +4,7 @@
         "es2021": true,
         "node": true
     },
+    "parser": "vue-eslint-parser",
     "extends": [
         "eslint:recommended",
         "plugin:vue/vue3-essential",
@@ -19,6 +20,7 @@
         "@typescript-eslint"
     ],
     "rules": {
+        "vue/no-reserved-component-names": "off",
         "@typescript-eslint/ban-ts-ignore": "off",
         "@typescript-eslint/no-unused-vars": "off",
         "@typescript-eslint/explicit-function-return-type": "off",
@@ -33,7 +35,7 @@
         "no-var": "error",
         // "prettier/prettier": "error",
         // 禁止出现console
-        // "no-console": "warn",
+        "no-console": "off",
         // 禁用debugger
         "no-debugger": "warn",
         // 禁止出现重复的 case 标签
@@ -47,7 +49,7 @@
         // 禁止在 return、throw、continue 和 break 语句之后出现不可达代码
         "no-unreachable": "warn",
         // 强制所有控制语句使用一致的括号风格
-        // "curly": "warn",
+        "curly": "off",
         // 要求 switch 语句中有 default 分支
         "default-case": "warn",
         // 强制尽可能地使用点号
@@ -85,7 +87,7 @@
         // 强制在代码块中使用一致的大括号风格
         "brace-style": "warn",
         // 强制使用骆驼拼写法命名约定
-        "camelcase": "warn",
+        "camelcase": "off",
         // 强制使用一致的缩进
         "indent": "off",
         // 强制在 JSX 属性中一致地使用双引号或单引号
@@ -132,12 +134,19 @@
         "arrow-spacing": "warn",
         "prefer-const": "warn",
         "prefer-rest-params": "warn",
-        "no-useless-escape": "warn",
+        "no-useless-escape": "off",
         "no-irregular-whitespace": "warn",
         "no-prototype-builtins": "warn",
         "no-fallthrough": "warn",
         "no-extra-boolean-cast": "warn",
-        "no-case-declarations": "warn",
+        "no-case-declarations": "off",
         "no-async-promise-executor": "warn"
+    },
+    "globals": {
+        "NodeJS": "readonly",
+        "defineProps": "readonly",
+        "defineEmits": "readonly",
+        "defineExpose": "readonly",
+        "withDefaults": "readonly"
     }
 }

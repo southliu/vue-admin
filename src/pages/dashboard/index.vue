@@ -20,6 +20,7 @@
 
 <script lang="ts">
 import type { IDashboardResult } from './model'
+import type { ISearchData } from '@/types/global'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { useLoading } from '@/hooks/useLoading'
 import { IFormData } from '@/types/form'
@@ -34,7 +35,7 @@ import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
 
 export default defineComponent({
-  name: 'Dashboard',
+  name: 'DashboardPage',
   components: {
     Pie,
     Line,

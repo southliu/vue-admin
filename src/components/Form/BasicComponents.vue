@@ -58,7 +58,6 @@ export default defineComponent({
   },
   emits: ['update:value', 'update:modelValue'],
   setup(props, context) {
-    const { item } = props
     const { emit } = context
     const componentValue: Ref<IComponentValue> = ref<IComponentValue>(props.value)
 
@@ -299,6 +298,9 @@ export default defineComponent({
               'onUpdate:modelValue': (modelValue: string) => emit('update:value', modelValue)
             })
           )
+
+        default:
+          break
       }
     }
 
@@ -310,7 +312,7 @@ export default defineComponent({
       emit('update:value', value)
     }
 
-    return () => itemRender(item) || exportBusiness(item, componentValue.value as IAllDataType, handleEmit)
+    return () => itemRender(props.item) || exportBusiness(props.item, componentValue.value as IAllDataType, handleEmit)
   }
 })
 </script>

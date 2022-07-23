@@ -96,7 +96,7 @@ export default defineComponent({
       tabStore.addTabs({ title, path, key })
       
       // 手机端点击隐藏菜单
-      if (!!isPhone.value) context.emit('toggleCollapsed')
+      if (isPhone.value) context.emit('toggleCollapsed')
     }
 
     /** 隐藏菜单 */

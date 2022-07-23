@@ -28,14 +28,11 @@ export default defineComponent({
     BasicLoading
   },
   setup(props) {
-    const { value, componentProps } = props
-    const { api, params } = componentProps
-    
     const options = ref<TreeSelectProps['treeData']>([])
     const loading = ref(false)
 
     onMounted(() => {
-      if (value && options.value?.length === 0) {
+      if (props.value && options.value?.length === 0) {
         getApiData()
       }
     })
@@ -43,11 +40,13 @@ export default defineComponent({
     /** 获取接口数据 */
     const getApiData = () => {
       loading.value = true
-      api?.(params).then(data => {
+      props.componentProps?.api?.(props.componentProps?.params).then(data => {
         options.value = data
-      }).finally(() => {
+      })
+      .finally(() => {
         loading.value = false
-      }).catch(() => {
+      })
+      .catch(() => {
         loading.value = false
       })
     }
@@ -59,13 +58,13 @@ export default defineComponent({
         placeholder: PLEASE_SELECT,
         treeNodeFilterProp: 'label',
         showSearch: true,
-        value: value as SelectValue,
-        ...componentProps,
+        value: props.value as SelectValue,
+        ...props.componentProps,
         treeData: options.value,
-        notFoundContent: loading && h(BasicLoading),
+        notFoundContent: loading.value && h(BasicLoading),
         onDropdownVisibleChange: async (open: boolean) => {
-          componentProps.onDropdownVisibleChange?.(open)
-          if (open && api) {
+          props.componentProps.onDropdownVisibleChange?.(open)
+          if (open && props.componentProps?.api) {
             getApiData()
           }
         },

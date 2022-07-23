@@ -7,7 +7,7 @@ import Icon from '@ant-design/icons-vue'
  * 图标组件
  */
 export default defineComponent({
-  name: 'Icon',
+  name: 'IconBtn',
   props: {
     icon: {
       type: String,

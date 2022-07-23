@@ -33,7 +33,7 @@ export default defineComponent({
      * @param value - 值
      */
     const handleStrength = (value: string) => {
-      let level = 0;
+      let level = 0
       if (/\d/.test(value)) level++ // 有数字强度加1
       if (/[a-z]/.test(value)) level++ // 有小写字母强度加1
       if (/[A-Z]/.test(value)) level++ // 有大写字母强度加1
@@ -63,7 +63,7 @@ export default defineComponent({
           {
             strength: strength.value,
             style: {
-              display: props.value ? 'flex': 'none'
+              display: props.value ? 'flex' : 'none'
             }
           }
         )

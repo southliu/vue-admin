@@ -59,7 +59,7 @@ export const menus: IMenus[] = [
     component: () => import('@/layouts/index.vue'),
     children: [
       {
-        name: 'Dashboard',
+        name: 'DashboardPage',
         path: '/dashboard',
         meta: {
           title: '数据总览',

@@ -40,7 +40,7 @@ export default defineComponent({
         onOk() {
           context.emit('click')
         }
-      });
+      })
     }
 
     return {

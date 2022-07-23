@@ -87,7 +87,7 @@ import {
 import Logo from '@/assets/images/logo.png'
 
 export default defineComponent({
-  name: 'Login',
+  name: 'LoginPage',
   components: {
     UserOutlined,
     LockOutlined,
@@ -112,7 +112,7 @@ export default defineComponent({
     const formState = reactive<ILoginData>({
       username: '',
       password: '',
-    });
+    })
 
     onMounted(() => {
       // 清除水印
@@ -150,15 +150,15 @@ export default defineComponent({
         isLock.value = false
         endLoading()
       }
-    };
+    }
 
     /**
      * 处理失败
      * @param errors - 错误信息
      */
     const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
-      console.log('错误信息:', errors);
-    };
+      console.log('错误信息:', errors)
+    }
 
     return {
       isLock,

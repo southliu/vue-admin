@@ -28,7 +28,7 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import { Pagination, Spin } from 'ant-design-vue'
+import { Pagination } from 'ant-design-vue'
 
 export default defineComponent({
   name: 'BasicPagination',
@@ -55,7 +55,6 @@ export default defineComponent({
     }
   },
   components: {
-    Spin,
     Pagination 
   },
   setup(props, context) {

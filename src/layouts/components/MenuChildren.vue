@@ -62,8 +62,6 @@ export default defineComponent({
     MenuItem,
     SubMenu,
     Icon
-  },
-  setup() {
   }
 })
 </script>

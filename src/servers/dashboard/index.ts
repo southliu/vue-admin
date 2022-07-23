@@ -1,4 +1,5 @@
 import type { IDashboardResult } from '@/pages/dashboard/model'
+import type { IServerResult } from '@/types/global'
 import { request } from '@/utils/request'
 
 /**

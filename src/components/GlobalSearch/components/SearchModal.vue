@@ -45,7 +45,7 @@ import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import SearchResult from './SearchResult.vue'
 import SearchFooter from './SearchFooter.vue'
-import Icon from '@/components/Icon/index.vue';
+import Icon from '@/components/Icon/index.vue'
 
 export default defineComponent({
   name: 'SearchModal',
@@ -71,7 +71,7 @@ export default defineComponent({
     const inputRef = ref()
     const value = ref('')
     const resultList = ref<IGlobalSearchResult[]>([])
-    let active = ref<IGlobalSearchResult>({
+    const active = ref<IGlobalSearchResult>({
       title: '',
       key: '',
       path: '',
@@ -141,7 +141,7 @@ export default defineComponent({
      */
     const handleSearch = (value: string) => {
       if (!value) return []
-      let result = getCurrentMenuByName(value, menuList.value)
+      const result = getCurrentMenuByName(value, menuList.value)
       return result
     }
 
@@ -155,10 +155,10 @@ export default defineComponent({
     }))
 
     // 键盘事件
-    onKeyStroke('Escape', toggle);
-    onKeyStroke('Enter', handleEnter);
-    onKeyStroke('ArrowUp', handleUp);
-    onKeyStroke('ArrowDown', handleKeydown);
+    onKeyStroke('Escape', toggle)
+    onKeyStroke('Enter', handleEnter)
+    onKeyStroke('ArrowUp', handleUp)
+    onKeyStroke('ArrowDown', handleKeydown)
 
     return {
       inputRef,

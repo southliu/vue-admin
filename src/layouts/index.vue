@@ -103,7 +103,7 @@ import PageLoading from '@/components/Loading/PageLoading.vue'
 import UpdatePassword from '@/components/UpdatePassword/index.vue'
 
 export default defineComponent({
-  name: 'Layout',
+  name: 'LayoutComponent',
   components: {
     Header,
     Menu,

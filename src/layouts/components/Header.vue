@@ -77,7 +77,6 @@ export default defineComponent({
     MenuUnfoldOutlined,
     LogoutOutlined,
     FormOutlined,
-    ExclamationCircleOutlined,
     Fullscreen,
     GlobalSearch,
     Menu,
@@ -138,7 +137,7 @@ export default defineComponent({
         default:
           break
       }
-    };
+    }
 
     return {
       Avatar,

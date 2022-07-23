@@ -18,7 +18,7 @@ import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vu
 import { Tooltip } from 'ant-design-vue'
 
 export default defineComponent({
-  name: 'Fullscreen',
+  name: 'FullscreenBtn',
   components: {
     FullscreenOutlined,
     FullscreenExitOutlined,

@@ -1,4 +1,5 @@
-import { ISystemMenu, ISystemMenuResult } from '@/pages/systems/menu/model'
+import type { ISystemMenu, ISystemMenuResult } from '@/pages/systems/menu/model'
+import type { IPageServerResult, IPaginationData } from '@/types/global'
 import { request } from '@/utils/request'
 
 enum API {

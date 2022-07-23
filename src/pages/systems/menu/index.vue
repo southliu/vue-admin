@@ -62,7 +62,7 @@
 <script lang="ts">
 import type { IFormData } from '@/types/form'
 import type { IBasicForm } from '@/components/Form/model'
-import { SmileOutlined, DownOutlined } from '@ant-design/icons-vue'
+import type { ICreateData, ISearchData, ITableData, IPaginationData } from '@/types/global'
 import { message } from 'ant-design-vue'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { getMenuPage, getMenuById, createMenu, updateMenu, deleteMenu } from '@/servers/systems/menu'
@@ -84,8 +84,6 @@ import BasicModal from '@/components/Modal/BasicModal.vue'
 export default defineComponent({
   name: 'SystemMenu',
   components: {
-    SmileOutlined,
-    DownOutlined,
     BasicContent,
     BasicTable,
     BasicPagination,
@@ -97,7 +95,7 @@ export default defineComponent({
   },
   setup() {
     const createFormRef = ref<IBasicForm>()
-    const userStore=useUserStore()
+    const userStore = useUserStore()
     const { permissions } = storeToRefs(userStore)
     const { loading, startLoading, endLoading } = useLoading()
     const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
@@ -216,7 +214,7 @@ export default defineComponent({
     const handleCreate = async (values: IFormData) => {
       try {
         startCreateLoading()
-        const functions = () => creates.id ? updateMenu(creates.id, values) :  createMenu(values)
+        const functions = () => creates.id ? updateMenu(creates.id, values) : createMenu(values)
         const { data } = await functions()
         if (data?.code === 200) {
           getPage()

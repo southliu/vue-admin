@@ -38,7 +38,7 @@ export default defineComponent({
     watch(() => props.option, value => {
       if (value) {
         // 摧毁echarts后在初始化
-        if (chartRef.value && echarts !== null && echarts != undefined) {
+        if (chartRef.value && echarts !== null && echarts !== undefined) {
           echarts?.dispose(chartRef.value)
         }
         // 初始化chart

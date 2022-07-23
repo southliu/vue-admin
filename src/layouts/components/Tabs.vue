@@ -125,7 +125,6 @@ import {
   Tabs,
   TabPane,
   Dropdown,
-  Button,
   Tooltip,
   message
 } from 'ant-design-vue'
@@ -154,7 +153,6 @@ export default defineComponent({
     Tabs,
     TabPane,
     Dropdown,
-    Button,
     Tooltip,
     DropdownMenu
   },
@@ -284,6 +282,9 @@ export default defineComponent({
         case TabEnums.CLOSE_RIGHT:
           removeRight(key)
           break
+
+        default:
+          break
       }
     })
 
@@ -314,7 +315,7 @@ export default defineComponent({
       handleDropdown,
       handleMaximize,
       handleDropdownChange
-    };
+    }
   }
 })
 </script>

@@ -29,20 +29,18 @@ export default defineComponent({
     },
   },
   setup(props, context) {
-    const { value, componentProps, handleEmit } = props
-
     return () =>
       h(ApiSelect, {
         componentProps: {
-          ...(componentProps as SelectProps),
+          ...(props.componentProps as SelectProps),
           mode: 'multiple',
           api: getPartner,
-          value: value as SelectValue,
+          value: props.value as SelectValue,
           'onUpdate:value': (value: SelectValue) => {
-            handleEmit?.(value)
+            props.handleEmit?.(value)
           },
         },
-      });
+      })
   },
-});
+})
 </script>

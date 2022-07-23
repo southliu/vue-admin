@@ -23,7 +23,7 @@ interface IData {
 }
 
 export default defineComponent({
-  name: 'Pie',
+  name: 'DescriptionsPie',
   components: {
     Echarts
   },
@@ -80,7 +80,7 @@ export default defineComponent({
         }
       }
       
-      option.value = {...option.value, series  }
+      option.value = {...option.value, series }
     })
 
     return {

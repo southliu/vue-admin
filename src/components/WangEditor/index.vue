@@ -29,6 +29,7 @@ import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { FILE_API } from '@/utils/config'
 
 export default defineComponent({
+  name: 'WangeditorEditor',
   components: { Editor, Toolbar },
   props: {
     modelValue: {
@@ -41,11 +42,10 @@ export default defineComponent({
     }
   },
   setup(props, { emit }) {
-    const { modelValue } = props
     // 编辑器实例，必须用 shallowRef
     const editorRef = shallowRef()
     // 内容 HTML
-    const valueHtml = ref(modelValue || '')
+    const valueHtml = ref(props.modelValue || '')
     // 工具栏配置
     const toolbarConfig = {}
     // 编辑器配置
@@ -66,7 +66,7 @@ export default defineComponent({
     // 组件销毁时，也及时销毁编辑器
     onBeforeUnmount(() => {
       const editor = editorRef.value
-      if (editor == null) return
+      if (editor === null) return
       editor.destroy()
     })
 
@@ -100,7 +100,7 @@ export default defineComponent({
       editorConfig,
       handleCreated,
       handleChange
-    };
+    }
   }
 })
-</script>    
+</script>

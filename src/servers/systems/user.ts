@@ -1,4 +1,5 @@
-import { ISystemUser, ISystemUserResult } from '@/pages/systems/user/model'
+import type { ISystemUser, ISystemUserResult } from '@/pages/systems/user/model'
+import type { IPageServerResult, IPaginationData } from '@/types/global'
 import { request } from '@/utils/request'
 
 enum API {
