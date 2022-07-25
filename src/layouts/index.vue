@@ -68,9 +68,6 @@
         />
       </router-view>
     </div>
-    <div v-else class="mt-100px">
-      <PageLoading />
-    </div>
   </div>
 
   <!-- 修改密码 -->
@@ -99,7 +96,6 @@ import { getMenus, getCurrentMenuByRoute } from '@/utils/menus'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
-import PageLoading from '@/components/Loading/PageLoading.vue'
 import UpdatePassword from '@/components/UpdatePassword/index.vue'
 
 export default defineComponent({
@@ -109,7 +105,6 @@ export default defineComponent({
     Menu,
     Tabs,
     Skeleton,
-    PageLoading,
     UpdatePassword
   },
   setup() {
@@ -157,6 +152,11 @@ export default defineComponent({
 
     onUnmounted(() => {
       stopResize()
+
+      // 关闭loading
+      if (document?.getElementById('first')) {
+        (document.getElementById('first') as HTMLElement).style.display = 'none'
+      }
     })
 
     /** 获取用户信息和权限 */

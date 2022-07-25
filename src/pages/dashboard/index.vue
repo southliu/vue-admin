@@ -12,9 +12,11 @@
       />
     </template>
 
-    <Line :items="datum.items" />
-    <Pie :data="datum.game_data" />
-    <Descriptions :data="datum.rows" />
+    <Spin :spinning="loading">
+      <Line :items="datum.items" />
+      <Pie :data="datum.game_data" />
+      <Descriptions :data="datum.rows" />
+    </Spin>
   </BasicContent>
 </template>
 
@@ -27,6 +29,7 @@ import { IFormData } from '@/types/form'
 import { getDataTrends } from '@/servers/dashboard'
 import { DATE_FORMAT } from '@/utils/constants'
 import { searchList } from './data'
+import { Spin } from 'ant-design-vue'
 import Pie from './components/Pie.vue'
 import Line from './components/Line.vue'
 import Descriptions from './components/Descriptions.vue'
@@ -39,6 +42,7 @@ export default defineComponent({
   components: {
     Pie,
     Line,
+    Spin,
     Descriptions,
     BasicSearch,
     BasicContent

@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-light-400 w-screen h-screen">
+  <div v-if="!isLock" class="bg-light-400 w-screen h-screen">
     <div class="box w-300px h-290px p-30px rounded-5px bg-white">
       <div class="pb-30px pt-10px flex items-center justify-center">
         <img
@@ -57,6 +57,8 @@
       </Form>
     </div>
   </div>
+
+  <PageLoading v-else />
 </template>
 
 <script lang="ts">
@@ -85,6 +87,7 @@ import {
   InputPassword
 } from 'ant-design-vue'
 import Logo from '@/assets/images/logo.png'
+import PageLoading from '@/components/Loading/PageLoading.vue'
 
 export default defineComponent({
   name: 'LoginPage',
@@ -95,7 +98,8 @@ export default defineComponent({
     FormItem,
     Button,
     Input,
-    InputPassword
+    InputPassword,
+    PageLoading
   },
   setup() {
     const router = useRouter()
@@ -115,6 +119,11 @@ export default defineComponent({
     })
 
     onMounted(() => {
+      // 关闭loading
+      if (document?.getElementById('first')) {
+        (document.getElementById('first') as HTMLElement).style.display = 'none'
+      }
+
       // 清除水印
       RemoveWatermark()
     })
