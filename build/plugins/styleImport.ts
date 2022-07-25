@@ -64,7 +64,7 @@ export function configStyleImportPlugin() {
 
           return ignoreList.includes(name)
             ? ''
-            : replaceList.hasOwnProperty(name)
+            : Object.prototype.hasOwnProperty.call(replaceList, name)
             ? `ant-design-vue/es/${(replaceList as { [name: string]: string })[name]}/style/index`
             : `ant-design-vue/es/${name}/style/index`
         },
