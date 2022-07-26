@@ -9,8 +9,9 @@ import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { getFirstMenu } from '@/utils/menus'
-import NProgress from 'nprogress'
 import { checkPermission } from "@/utils/permissions"
+import NProgress from 'nprogress'
+import pinia from '../stores'
 
 NProgress.configure({ showSpinner: false })
 
@@ -19,20 +20,20 @@ NProgress.configure({ showSpinner: false })
  * @param router - 路由对象
  */
 export function routerIntercept(router: Router) {
-  const userStore = useUserStore()
-  const menuStore = useMenuStore()
-  const tabStore = useTabStore()
-  const { setSelectedKeys, setFirstMenu } = menuStore
-  const { setActiveKey, setPathName, addCacheRoutes } = tabStore
-  const { permissions } = storeToRefs(userStore)
-  const { openKeys, menuList, firstMenu } = storeToRefs(menuStore)
-
     // 路由拦截
   router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
     document.title = (to.meta?.title ? `${to.meta.title} - ` : '') + TITLE_SUFFIX
     const { getToken } = useToken()
     const token = getToken()
     NProgress.start()
+
+    const userStore = useUserStore(pinia)
+    const menuStore = useMenuStore(pinia)
+    const tabStore = useTabStore(pinia)
+    const { setSelectedKeys, setFirstMenu } = menuStore
+    const { setActiveKey, setPathName, addCacheRoutes, addTabs } = tabStore
+    const { permissions } = storeToRefs(userStore)
+    const { openKeys, menuList, firstMenu } = storeToRefs(menuStore)
 
     // 设置激活标签栏
     setActiveKey(to.path)
@@ -63,7 +64,7 @@ export function routerIntercept(router: Router) {
       const { key, path, title, top } = obj
       // 菜单展开，添加标签
       if (top) openKeys.value = [top]
-      if (key) tabStore.addTabs({ key, path, title })
+      if (key) addTabs({ key, path, title })
       next(path)
     } else if (to?.meta?.rule && permissions.value?.length > 0) {
       // 判断是否有权限

@@ -27,6 +27,10 @@ export default defineConfig(({ mode }) => {
       // 跨域处理
       proxy: createProxy(viteEnv.VITE_PROXY)
     },
+    test: {
+      environment: 'jsdom',
+      setupFiles: './tests/index.ts'
+    },
     css: {
       preprocessorOptions: {
         less: {

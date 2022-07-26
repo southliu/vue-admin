@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import type { App } from 'vue'
-import { createPinia } from 'pinia'
+import pinia from './stores'
 import { router } from './router'
 import { routerIntercept } from './router/intercept'
 import Element from './App.vue'
@@ -30,11 +30,12 @@ function useTable (app: App) {
 
 const app = createApp(Element)
 app
+  .use(pinia)
   .use(router)
   .use(useTable)
-  .use(createPinia())
 
-// 路由拦截处理
-routerIntercept(router)
-
-app.mount('#app')
+router.isReady().then(() => {
+  // 路由拦截处理
+  routerIntercept(router)
+  app.mount('#app')
+})
