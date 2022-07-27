@@ -8,7 +8,7 @@
     "report": "cross-env REPORT=true npm run build",
     "analysis": "windicss-analysis",
     "analyze": "pnpm build",
-    "test": "vitest",
+    "test": "cross-env NODE_ENV=test vitest",
     "coverage": "vitest run --coverage",
     "lint": "eslint . --ext .vue,.js,.ts,.jsx,.tsx --fix",
     "postinstall": "husky install"

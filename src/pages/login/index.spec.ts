@@ -1,11 +1,12 @@
 import { describe, it, expect } from 'vitest'
-import { mount, flushPromises } from '@vue/test-utils'
-import { useToken } from '@/hooks/useToken'
+import { mount } from '@vue/test-utils'
+import { login } from '@/servers/login'
 import Login from './index.vue'
 
 // 登录页
 describe('login page', () => {
-  const wrapper = mount(Login) // 挂载容器
+  // 挂载容器
+  const wrapper = mount(Login)
 
   // 至少两个输入框
   it('at least two input', () => {
@@ -21,20 +22,15 @@ describe('login page', () => {
 
   // 输入账户密码
   it('enter username and password', () => {
-    wrapper.vm.formState.username = 'liunanfang'
-    wrapper.vm.formState.password = 'liunanfang123@@'
-    expect(wrapper.vm.formState.username).toBe('liunanfang')
-    expect(wrapper.vm.formState.password).toBe('liunanfang123@@')
+    wrapper.vm.formState.username = 'test123456789'
+    wrapper.vm.formState.password = 'test123456789'
+    expect(wrapper.vm.formState.username).toBe('test123456789')
+    expect(wrapper.vm.formState.password).toBe('test123456789')
   })
 
-  // form提交表单
-  it('form submit', async () => {
-    const { getToken } = useToken()
-    const button = wrapper.find('button')
-    button.trigger('click')
-    const form = wrapper.find('form')
-
-    await flushPromises()
-    console.log('getToken:', getToken())
+  // 接口提交
+  it('login api', async () => {
+    const { data } = await login(wrapper.vm.formState)
+    expect(data.code).toBe(200)
   })
 })
