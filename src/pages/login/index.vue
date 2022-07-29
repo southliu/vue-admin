@@ -26,6 +26,7 @@
             v-model:value="formState.username"
             :allow-clear="true"
             placeholder="用户名"
+            data-test="username"
             auto-complete="username"
           >
             <template #prefix>
@@ -44,6 +45,7 @@
           <InputPassword
             v-model:value="formState.password"
             :allow-clear="true"
+            data-test="password"
             auto-complete="current-password"
           >
            <template #prefix>

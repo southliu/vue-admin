@@ -8,10 +8,16 @@ describe('login page', () => {
   // 挂载容器
   const wrapper = mount(Login)
 
-  // 至少两个输入框
-  it('at least two input', () => {
-    const inputs = wrapper.findAll('input')
-    expect(inputs.length).toBeGreaterThanOrEqual(2)
+  // 是否存在用户名
+  it('has a username', () => {
+    const username = wrapper.find('[data-test="username"]')
+    expect(username.exists()).toBeTruthy
+  })
+
+  // 是否存在密码
+  it('has a password', () => {
+    const password = wrapper.find('[data-test="password"]')
+    expect(password.exists()).toBeTruthy
   })
 
   // 是否存在按钮
@@ -22,10 +28,10 @@ describe('login page', () => {
 
   // 输入账户密码
   it('enter username and password', () => {
-    wrapper.vm.formState.username = 'test123456789'
-    wrapper.vm.formState.password = 'test123456789'
-    expect(wrapper.vm.formState.username).toBe('test123456789')
-    expect(wrapper.vm.formState.password).toBe('test123456789')
+    wrapper.vm.formState.username = 'testPassword'
+    wrapper.vm.formState.password = 'testPassword123&&'
+    expect(wrapper.vm.formState.username).toBe('testPassword')
+    expect(wrapper.vm.formState.password).toBe('testPassword123&&')
   })
 
   // 接口提交
