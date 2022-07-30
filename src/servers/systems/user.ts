@@ -1,5 +1,5 @@
 import type { ISystemUser, ISystemUserResult } from '@/pages/systems/user/model'
-import type { IPageServerResult, IPaginationData } from '@/types/global'
+import type { IPageServerResult, IPaginationData } from '#/global'
 import { request } from '@/utils/request'
 
 enum API {

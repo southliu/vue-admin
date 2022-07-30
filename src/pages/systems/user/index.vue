@@ -58,9 +58,9 @@
 </template>
 
 <script lang="ts">
-import type { IFormData } from '@/types/form'
+import type { IFormData } from '#/form'
 import type { IBasicForm } from '@/components/Form/model'
-import type { ICreateData, ISearchData, ITableData, IPaginationData } from '@/types/global'
+import type { ICreateData, ISearchData, ITableData, IPaginationData } from '#/global'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { getSystemUserPage } from '@/servers/systems/user'
 import { searchList, createList, tableColumns } from './data'

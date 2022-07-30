@@ -64,7 +64,7 @@
  */
 import type { PropType } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
-import type { IFormData, IFormList } from '@/types/form'
+import type { IFormData, IFormList } from '#/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
 import { defineComponent, watch, ref } from 'vue'

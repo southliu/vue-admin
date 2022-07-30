@@ -3,7 +3,7 @@
  * @description: 根据API获取数据树形下拉组件
  */
 import type { PropType } from 'vue'
-import type { IApiTreeSelectProps } from '@/types/form'
+import type { IApiTreeSelectProps } from '#/form'
 import type { TreeSelectProps } from 'ant-design-vue'
 import { defineComponent, onMounted, ref, h } from 'vue'
 import { TreeSelect } from 'ant-design-vue'

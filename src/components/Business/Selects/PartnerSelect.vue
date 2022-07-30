@@ -4,9 +4,9 @@
  */
 import type { SelectProps } from 'ant-design-vue'
 import type { SelectValue } from 'ant-design-vue/lib/select'
-import type { IComponentProps } from '@/types/form'
+import type { IComponentProps } from '#/form'
 import type { IBusinessEmit } from '../index'
-import type { IAllDataType } from '@/types/public'
+import type { IAllDataType } from '#/public'
 import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 import { getPartner } from '@/servers/platform/partner'

@@ -15,7 +15,8 @@ export default defineConfig(({ mode }) => {
     plugins: createVitePlugins(),
     resolve: {
       alias: {
-        '@': '/src'
+        '@': '/src',
+        '#': '/types'
       }
     },
     define: {

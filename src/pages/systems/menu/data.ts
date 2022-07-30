@@ -1,4 +1,4 @@
-import type { IFormList } from "@/types/form"
+import type { IFormList } from "#/form"
 import type { VxeGridPropTypes } from "vxe-table"
 import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config"
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from "@/utils/constants"

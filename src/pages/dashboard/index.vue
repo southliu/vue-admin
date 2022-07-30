@@ -22,10 +22,10 @@
 
 <script lang="ts">
 import type { IDashboardResult } from './model'
-import type { ISearchData } from '@/types/global'
+import type { ISearchData } from '#/global'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { useLoading } from '@/hooks/useLoading'
-import { IFormData } from '@/types/form'
+import { IFormData } from '#/form'
 import { getDataTrends } from '@/servers/dashboard'
 import { DATE_FORMAT } from '@/utils/constants'
 import { searchList } from './data'

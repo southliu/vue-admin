@@ -1,4 +1,4 @@
-import type { IFormList } from "@/types/form"
+import type { IFormList } from "#/form"
 import { DATE_FORMAT, GAME_PACKAGE_TYPE, SOURCE_TYPE } from "@/utils/constants"
 
 // 搜索数据

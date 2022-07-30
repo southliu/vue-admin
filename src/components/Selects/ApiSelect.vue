@@ -4,7 +4,7 @@
  */
 import type { PropType } from 'vue'
 import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select'
-import type { IApiSelectProps } from '@/types/form'
+import type { IApiSelectProps } from '#/form'
 import { defineComponent, onMounted, ref, h } from 'vue'
 import { Select } from 'ant-design-vue'
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'

@@ -1,5 +1,5 @@
-import type { IFormList, IComponentProps } from "@/types/form"
-import type { IAllDataType } from "@/types/public"
+import type { IFormList, IComponentProps } from "#/form"
+import type { IAllDataType } from "#/public"
 import GameSelect from './Selects/GameSelect.vue'
 import PartnerSelect from './Selects/PartnerSelect.vue'
 

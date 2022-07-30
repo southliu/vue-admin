@@ -24,12 +24,12 @@ import {
   Switch,
   DatePicker
 } from 'ant-design-vue'
-import type { IApiSelectProps, IApiTreeSelectProps, IFormList } from '@/types/form'
+import type { IApiSelectProps, IApiTreeSelectProps, IFormList } from '#/form'
 import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { CheckboxValueType } from 'ant-design-vue/es/checkbox/interface'
 import type { Dayjs } from 'dayjs'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
-import type { IAllDataType } from "@/types/public"
+import type { IAllDataType } from "#/public"
 import type { IBusinessEmit } from '../Business'
 import type { PropType, Ref } from 'vue'
 import type { IWangEditorProps } from '../WangEditor/model'

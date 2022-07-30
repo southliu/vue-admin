@@ -1,7 +1,7 @@
+import type { IAllDataType } from '#/public'
 import { encrypt, decrypt } from 'crypto-js/aes'
 import UTF8 from 'crypto-js/enc-utf8'
 import md5 from 'crypto-js/md5'
-import type { IAllDataType } from './../types/public'
 
 // 加密密钥
 const CRYPTO_SECRET = '__Vite_Admin_Secret__'

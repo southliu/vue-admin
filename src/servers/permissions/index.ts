@@ -1,5 +1,5 @@
 import type { ILoginResult } from '@/pages/login/model'
-import type { IServerResult } from '@/types/global'
+import type { IServerResult } from '#/global'
 import { request } from '@/utils/request'
 
 /**

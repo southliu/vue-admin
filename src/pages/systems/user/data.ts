@@ -1,4 +1,4 @@
-import type { IFormList } from "@/types/form"
+import type { IFormList } from "#/form"
 import type { VxeGridPropTypes } from "vxe-table"
 import { h } from "vue"
 
