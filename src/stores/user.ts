@@ -34,13 +34,24 @@ export const useUserStore = defineStore({
       this.permissions = permissions
     },
     /**
+     * 获取用户权限
+     */
+    getPermissions() {
+      return this.permissions
+    },
+    /**
      * 设置用户信息
      * @param userInfo - 用户值
      */
     setUserInfo(userInfo: IUserInfo) {
       this.userInfo = userInfo
     },
-
+    /**
+     * 获取用户信息
+     */
+    getUserInfo() {
+      return this.userInfo
+    },
     /**
      * 清除用户信息
      */
