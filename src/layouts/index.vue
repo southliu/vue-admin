@@ -112,6 +112,8 @@ export default defineComponent({
     const tabStore = useTabStore()
     const menuStore = useMenuStore()
     const userStore = useUserStore()
+    const { addTabs } = tabStore
+    const { setSelectedKeys } = menuStore
     const { setUserInfo, setPermissions } = userStore
     const { userInfo, permissions } = storeToRefs(userStore)
     const username = ref(userInfo.value?.username || '') // 用户名
@@ -178,7 +180,10 @@ export default defineComponent({
           menuList.value = newMenus
           // 菜单展开，添加标签
           if (top) openKeys.value = [top]
-          if (key) tabStore.addTabs({ key, path, title })
+          if (key) {
+            addTabs({ key, path, title })
+            setSelectedKeys([route.path])
+          }
         }
       } catch(err) {
         console.error(err)

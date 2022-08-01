@@ -66,13 +66,13 @@ import { getSystemUserPage } from '@/servers/systems/user'
 import { searchList, createList, tableColumns } from './data'
 import { useLoading } from '@/hooks/useLoading'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
+import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicModal from '@/components/Modal/BasicModal.vue'
-import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 
 export default defineComponent({
   name: 'SystemUser',
