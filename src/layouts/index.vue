@@ -85,10 +85,8 @@ import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
-import { useWatermark } from '@/hooks/useWatermark'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
-import { WATERMARK_PREFIX } from '@/utils/config'
 import { Skeleton } from 'ant-design-vue'
 import { menus } from '@/menus'
 import { useRoute } from 'vue-router'
@@ -126,25 +124,9 @@ export default defineComponent({
       menuList,
     } = storeToRefs(menuStore)
 
-    // 水印
-    const { Watermark, RemoveWatermark } = useWatermark()
-    const watermarkInfo = (text?: string) => {
-      return {
-        content: text || `${WATERMARK_PREFIX}${ username.value ? `-${username.value}` : ''}`,
-        height: 300,
-        width: 350,
-        rotate: -20,
-        color: '#000',
-        fontSize: 30,
-        opacity: .07
-      }
-    } 
-    Watermark(watermarkInfo())
-
     onMounted(() => {
       handleIsPhone()
       startResize()
-      Watermark(watermarkInfo())
 
       // 如果用户id不存在则重新获取
       if (!userInfo.value?.id) {
@@ -154,11 +136,6 @@ export default defineComponent({
 
     onUnmounted(() => {
       stopResize()
-
-      // 关闭loading
-      if (document?.getElementById('first')) {
-        (document.getElementById('first') as HTMLElement).style.display = 'none'
-      }
     })
 
     /** 获取用户信息和权限 */
@@ -171,8 +148,6 @@ export default defineComponent({
           username.value = user.username
           setUserInfo(user)
           setPermissions(newPermissions)
-          RemoveWatermark()
-          Watermark(watermarkInfo(`${WATERMARK_PREFIX}-${user.username}`))
 
           // 菜单处理
           const newMenus = getMenus(menus, newPermissions)

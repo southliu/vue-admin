@@ -7,7 +7,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, onMounted } from 'vue'
 import { ConfigProvider } from 'ant-design-vue'
 import zhCN from 'ant-design-vue/es/locale/zh_CN'
 import dayjs from 'dayjs'
@@ -17,6 +17,15 @@ export default defineComponent({
   components: { ConfigProvider },
   setup() {
     dayjs.locale('zh-cn')
+
+    onMounted(() => {
+      // 关闭loading
+      if (document?.getElementById('first')) {
+        console.log('yes');
+        (document.getElementById('first') as HTMLElement).style.display = 'none'
+      }
+    })
+
     return { zhCN }
   }
 })

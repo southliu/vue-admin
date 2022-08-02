@@ -1,11 +1,11 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { login } from '@/servers/login'
-import { findTestWrapper } from '@/utils/testUtils'
+import { findTestWrapper } from '../utils/testUtils'
 import { useToken } from '@/hooks/useToken'
 import { useUserStore } from '@/stores/user'
 import { permissionsToArray } from '@/utils/permissions'
-import Login from './index.vue'
+import Login from '@/pages/login/index.vue'
 import pinia from '@/stores'
 
 // 登录页
