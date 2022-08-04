@@ -12,7 +12,7 @@ export const searchList: IFormList[] = [
   },
   {
     title: '名字',
-    key: 'name',
+    key: 'keyword',
     component: 'Input'
   }
 ]

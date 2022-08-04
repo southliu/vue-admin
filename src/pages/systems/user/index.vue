@@ -66,9 +66,11 @@
   </BasicModal>
 
   <PermissionDrawer
-    :visible="permissionVisible"
-    :treeData="permissionData"
+    :visible="permissionConfig.visible"
+    :treeData="permissionConfig.treeData"
+    :checkedKeys="permissionConfig.checkedKeys"
     @onClose="closePermission"
+    @onSubmit="permissionSubmit"
   />
 </template>
 
@@ -76,7 +78,8 @@
 import type { IFormData } from '#/form'
 import type { IBasicForm } from '@/components/Form/model'
 import type { ICreateData, ISearchData, ITableData, IPaginationData } from '#/global'
-import type { TreeProps } from 'ant-design-vue'
+import type { DataNode } from 'ant-design-vue/lib/tree'
+import type { Key } from 'ant-design-vue/lib/vc-tree/interface'
 import { message, Button } from 'ant-design-vue'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
@@ -87,15 +90,14 @@ import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
+import { getPermission, savePermission } from '@/servers/systems/menu'
 import {
   getSystemUserPage,
   getSystemUserById,
   createSystemUser,
   updateSystemUser,
   deleteSystemUser,
-  // savePermission
 } from '@/servers/systems/user'
-import { getPermission } from '@/servers/systems/menu'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
@@ -103,6 +105,13 @@ import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicModal from '@/components/Modal/BasicModal.vue'
 import PermissionDrawer from './components/PermissionDrawer.vue'
+
+interface IPermissionConfig {
+  id: string;
+  visible: boolean;
+  checkedKeys: Key[];
+  treeData: DataNode[];
+}
 
 export default defineComponent({
   name: 'SystemUser',
@@ -124,10 +133,7 @@ export default defineComponent({
     const { permissions } = storeToRefs(userStore)
     const { loading, startLoading, endLoading } = useLoading()
     const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
-    // 权限开关
-    const permissionVisible = ref(false)
-    // 权限列表
-    const permissionData: TreeProps['treeData'] = reactive([])
+
     // 权限前缀
     const permissionPrefix = '/authority/user'
 
@@ -137,6 +143,14 @@ export default defineComponent({
       create: checkPermission(`${permissionPrefix}/create`, permissions.value),
       update: checkPermission(`${permissionPrefix}/update`, permissions.value),
       delete: checkPermission(`${permissionPrefix}/delete`, permissions.value)
+    })
+
+    // 权限配置
+    const permissionConfig = reactive<IPermissionConfig>({
+      id: '',
+      visible: false,
+      checkedKeys: [],
+      treeData: []
     })
 
     // 初始化新增数据
@@ -296,9 +310,12 @@ export default defineComponent({
       try {
         startLoading()
         const params = { userId: id }
-        const data = await getPermission(params)
-        console.log('data:', data)
-        permissionVisible.value = true
+        const { data } = await getPermission(params)
+        const { data: { defaultCheckedKeys, treeData } } = data
+        permissionConfig.id = id
+        permissionConfig.treeData = treeData
+        permissionConfig.checkedKeys = Object.values(defaultCheckedKeys)
+        permissionConfig.visible = true
         endLoading()
       } catch(err) {
         endLoading()
@@ -308,7 +325,27 @@ export default defineComponent({
 
     /** 关闭权限 */
     const closePermission = () => {
-      permissionVisible.value = false
+      permissionConfig.visible = false
+    }
+
+    /**
+     * 权限提交
+     */
+    const permissionSubmit = async (checked: Key[]) => {
+      try {
+        startLoading()
+        const params = {
+          menuIds: checked,
+          userId: permissionConfig.id
+        }
+        const { data } = await savePermission(params)
+        message.success(data.message || '授权成功')
+        permissionConfig.visible = false
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.error(err)
+      }
     }
 
     return {
@@ -323,8 +360,7 @@ export default defineComponent({
       tableColumns,
       pagePermission,
       createList,
-      permissionVisible,
-      permissionData,
+      permissionConfig,
       handleSearch,
       onCreate,
       onUpdate,
@@ -334,7 +370,8 @@ export default defineComponent({
       handleDelete,
       handlePagination,
       openPermission,
-      closePermission
+      closePermission,
+      permissionSubmit
     }
   }
 })
