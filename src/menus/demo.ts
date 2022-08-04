@@ -10,13 +10,14 @@ export const DemoMenus: IMenus[] = [
       icon: 'fluent:box-20-regular'
     },
     component: () => import('@/layouts/index.vue'),
-    redirect: '/system/user',
+    redirect: '/demo/copy',
     children: [
       {
         name: 'DemoCopy',
         path: '/demo/copy',
         meta: {
           title: '剪切板',
+          rule: '/demo/copy',
           keepAlive: true
         },
         component: () => import('@/pages/demo/copy/index.vue')
@@ -26,6 +27,7 @@ export const DemoMenus: IMenus[] = [
         path: '/demo/wangEditor',
         meta: {
           title: '富文本',
+          rule: '/demo/user',
           keepAlive: true
         },
         component: () => import('@/pages/demo/wangEditor/index.vue')
@@ -35,6 +37,7 @@ export const DemoMenus: IMenus[] = [
         path: '/demo/virtualScroll',
         meta: {
           title: '虚拟滚动',
+          rule: '/demo/virtualScroll',
           keepAlive: true
         },
         component: () => import('@/pages/demo/virtualScroll/index.vue')
@@ -44,6 +47,7 @@ export const DemoMenus: IMenus[] = [
         path: '/demo/watermark',
         meta: {
           title: '水印组件',
+          rule: '/demo/watermark',
           keepAlive: true
         },
         component: () => import('@/pages/demo/watermark/index.vue')

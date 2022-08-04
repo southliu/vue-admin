@@ -160,12 +160,14 @@ export default defineComponent({
         if (data) {
           const { data: { user, permissions } } = data
           const newPermissions = permissionsToArray(permissions)
+          console.log('newPermissions:', newPermissions)
           username.value = user.username
           setUserInfo(user)
           setPermissions(newPermissions)
 
           // 菜单处理
           const newMenus = getMenus(menus, newPermissions)
+          console.log('newMenus:', newMenus)
           const { key, path, title, top } = getCurrentMenuByRoute(route.path, newMenus)
           menuList.value = newMenus
           // 菜单展开，添加标签

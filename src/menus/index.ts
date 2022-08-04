@@ -63,7 +63,7 @@ export const menus: IMenus[] = [
         path: '/dashboard',
         meta: {
           title: '数据总览',
-          rule: '/stat/data-trends',
+          rule: '/dashboard',
           keepAlive: true
         },
         component: () => import('@/pages/dashboard/index.vue')

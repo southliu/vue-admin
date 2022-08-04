@@ -12,7 +12,7 @@ beforeEach(() => {
 
 describe('菜单功能:', () => {
   test('获取菜单列表', () => {
-    expect(data.length).toBe(2)
+    expect(data.length).toBeGreaterThan(0)
   })
   
   test('获取菜单中第一个有效子菜单', () => {

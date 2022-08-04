@@ -24,7 +24,10 @@ const request = axios.create({
  */
 const handleError = (error: string, content?: string) => {
   console.log('错误信息:', error)
-  message.error({ content: content || error, key: 'error' })
+  message.error({
+    content: content || error || '服务器错误',
+    key: 'error'
+  })
 }
 
 /** 权限不足 */
@@ -67,22 +70,22 @@ request.interceptors.response.use(
     requestList.splice(index, 1)
 
     // 后端框架错误提醒
-    if (res.code === 0) {
-      handleError(res.message, '权限不足，请重新登录')
+    if (res?.code === 0) {
+      handleError(res?.message, '权限不足，请重新登录')
       handleNotPermission()
       return Promise.reject(response)
     }
 
     // 权限不足
     if (res?.code === 601) {
-      handleError(res.message)
+      handleError(res?.message)
       handleNotPermission()
       return Promise.reject(response)
     }
 
     // 错误处理
     if (res?.code !== 200) {
-      handleError(res.message)
+      handleError(res?.message)
       return Promise.reject(response)
     }
 

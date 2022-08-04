@@ -120,8 +120,8 @@ export default defineComponent({
     const isLock = ref(false)
 
     const formState = reactive<ILoginData>({
-      username: '',
-      password: '',
+      username: 'admin',
+      password: 'admin123456',
     })
 
     onMounted(() => {
@@ -158,9 +158,11 @@ export default defineComponent({
         if (top) openKeys.value = [top]
         if (key) tabStore.addTabs({ key, path, title })
         isLock.value = true
-        router.push(path)
+        console.log('path:', path)
+        router.push(path || '/')
         endLoading()
       } catch(err) {
+        console.log('登录失败:', err)
         isLock.value = false
         endLoading()
       }

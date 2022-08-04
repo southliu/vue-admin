@@ -7,5 +7,5 @@ import { request } from '@/utils/request'
  * @param data - 请求数据
  */
 export function login(data: ILoginData) {
-  return request.post<IServerResult<ILoginResult>>('/authority/user/login', data)
+  return request.post<IServerResult<ILoginResult>>('/login', data)
 }

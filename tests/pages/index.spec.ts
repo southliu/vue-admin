@@ -35,10 +35,10 @@ describe('login page', () => {
   it('enter username and password', () => {
     const username = findTestWrapper(wrapper, 'username')
     const password = findTestWrapper(wrapper, 'password')
-    username.setValue('testPassword')
-    password.setValue('testPassword123&&')
-    expect(wrapper.vm.formState.username).toBe('testPassword')
-    expect(wrapper.vm.formState.password).toBe('testPassword123&&')
+    username.setValue('admin')
+    password.setValue('admin123456')
+    expect(wrapper.vm.formState.username).toBe('admin')
+    expect(wrapper.vm.formState.password).toBe('admin123456')
   })
 
   // 接口测试
