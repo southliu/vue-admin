@@ -21,7 +21,6 @@ export default defineComponent({
     onMounted(() => {
       // 关闭loading
       if (document?.getElementById('first')) {
-        console.log('yes');
         (document.getElementById('first') as HTMLElement).style.display = 'none'
       }
     })

@@ -1,12 +1,11 @@
 <template>
-  <BasicContent>
+  <BasicContent v-if="pagePermission.page">
     <template #top>
       <BasicSearch
         :list="searchList"
         :data="searches.data"
         :loading="loading"
-        :isSearch="true"
-        :isCreate="true"
+        :isCreate="pagePermission.create"
         @onCreate="onCreate"
         @handleFinish="handleSearch"
       />
@@ -18,14 +17,23 @@
       :loading="loading"
     >
       <template v-slot:operate='row'>
+        <Button
+          class="mr-2"
+          :loading="loading"
+          @click="openPermission(row.record.id)"
+        >
+          权限
+        </Button>
         <UpdateBtn
+          v-if="pagePermission.update"
           class="mr-2"
           :loading="createLoading"
           @click="onUpdate(row.record)"
         />
         <DeleteBtn
+          v-if="pagePermission.delete"
           :loading="loading"
-          @click="handleDelete(row.record.age)"
+          @click="handleDelete(row.record.id)"
         />
       </template>
     </BasicTable>
@@ -43,36 +51,58 @@
 
   <BasicModal
     v-model:visible="creates.isVisible"
-    :title="creates.title"
     :loading="createLoading"
+    :title="creates.title"
     @handleFinish="createSubmit"
-    @handleCancel="onCreate"
+    @handleCancel="onCloseCreate"
   >
     <BasicForm
       ref="createFormRef"
       :list="createList"
+      :label-col="{ span: 6 }"
       :data="creates.data"
       @handleFinish="handleCreate"
     />
   </BasicModal>
+
+  <PermissionDrawer
+    :visible="permissionVisible"
+    :treeData="permissionData"
+    @onClose="closePermission"
+  />
 </template>
 
 <script lang="ts">
 import type { IFormData } from '#/form'
 import type { IBasicForm } from '@/components/Form/model'
 import type { ICreateData, ISearchData, ITableData, IPaginationData } from '#/global'
+import type { TreeProps } from 'ant-design-vue'
+import { message, Button } from 'ant-design-vue'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
-import { getSystemUserPage } from '@/servers/systems/user'
+import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
+import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './data'
 import { useLoading } from '@/hooks/useLoading'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
-import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
+import { checkPermission } from '@/utils/permissions'
+import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
+import {
+  getSystemUserPage,
+  getSystemUserById,
+  createSystemUser,
+  updateSystemUser,
+  deleteSystemUser,
+  // savePermission
+} from '@/servers/systems/user'
+import { getPermission } from '@/servers/systems/menu'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicModal from '@/components/Modal/BasicModal.vue'
+import PermissionDrawer from './components/PermissionDrawer.vue'
 
 export default defineComponent({
   name: 'SystemUser',
@@ -84,12 +114,36 @@ export default defineComponent({
     BasicForm,
     BasicModal,
     DeleteBtn,
-    UpdateBtn
+    UpdateBtn,
+    Button,
+    PermissionDrawer
   },
   setup() {
     const createFormRef = ref<IBasicForm>()
+    const userStore = useUserStore()
+    const { permissions } = storeToRefs(userStore)
     const { loading, startLoading, endLoading } = useLoading()
     const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
+    // 权限开关
+    const permissionVisible = ref(false)
+    // 权限列表
+    const permissionData: TreeProps['treeData'] = reactive([])
+    // 权限前缀
+    const permissionPrefix = '/authority/user'
+
+    // 权限
+    const pagePermission = reactive({
+      page: checkPermission(`${permissionPrefix}/index`, permissions.value),
+      create: checkPermission(`${permissionPrefix}/create`, permissions.value),
+      update: checkPermission(`${permissionPrefix}/update`, permissions.value),
+      delete: checkPermission(`${permissionPrefix}/delete`, permissions.value)
+    })
+
+    // 初始化新增数据
+    const initCreate = {
+      status: 1,
+      module: 'authority'
+    }
 
     // 搜索数据
     const searches = reactive<ISearchData>({
@@ -101,11 +155,9 @@ export default defineComponent({
       id: '',
       isVisible: false,
       title: '新增',
-      data: {
-        username: '',
-      }
+      data: initCreate
     })
-    
+
     // 表格数据
     const tables = reactive<ITableData>({
       total: 0,
@@ -126,18 +178,7 @@ export default defineComponent({
      * 获取表格数据
      */
     const getPage = async () => {
-      try {
-        startLoading()
-        const query = { ...pagination, ...searches.data }
-        const { data: { data } } = await getSystemUserPage(query)
-        const { items, total } = data
-        tables.data = items
-        tables.total = total
-        endLoading()
-      } catch(err) {
-        endLoading()
-        console.error(err)
-      }
+      handleSearch(searches.data)
     }
 
     /** 表格提交 */
@@ -150,10 +191,10 @@ export default defineComponent({
      * @param values - 表单返回数据
      */
     const handleSearch = async (values: IFormData) => {
+      searches.data = values
+      const query = { ...pagination, ...values }
       try {
         startLoading()
-        searches.data = values
-        const query = { ...pagination, ...values }
         const { data: { data } } = await getSystemUserPage(query)
         const { items, total } = data
         tables.data = items
@@ -168,37 +209,75 @@ export default defineComponent({
     /** 点击新增 */
     const onCreate = () => {
       creates.isVisible = !creates.isVisible
-      creates.title = '新增'
+      creates.title = ADD_TITLE
+      creates.id = ''
+      creates.data = initCreate
     }
 
     /**
      * 点击编辑
      * @param record - 当前行数据
      */
-    const onUpdate = (record: IFormData) => {
-      startCreateLoading()
+    const onUpdate = async (record: IFormData) => {
+      const { id, name } = record
       creates.isVisible = !creates.isVisible
-      creates.title = '编辑'
-      creates.data = record
-      endCreateLoading()
+      creates.id = id as string
+      creates.title = EDIT_TITLE(name as string)
+
+      try {
+        startCreateLoading()
+        const { data: { data } } = await getSystemUserById(id as string)
+        creates.data = data
+        endCreateLoading()
+      } catch(err) {
+        endCreateLoading()
+        console.error(err)
+      }
     }
 
     /**
      * 新增/编辑提交
      * @param values - 表单返回数据
      */
-    const handleCreate = (values: IFormData) => {
-      startCreateLoading()
-      console.log('handleCreate:', values)
-      endCreateLoading()
+    const handleCreate = async (values: IFormData) => {
+      try {
+        startCreateLoading()
+        const functions = () => creates.id ? updateSystemUser(creates.id, values) : createSystemUser(values)
+        const { data } = await functions()
+        if (data?.code === 200) {
+          getPage()
+          creates.isVisible = false
+          message.success(data?.message || '操作成功')
+        }
+        endCreateLoading()
+      } catch(err) {
+        endCreateLoading()
+        console.error(err)
+      }
+    }
+
+    /** 关闭新增/编辑 */
+    const onCloseCreate = () => {
+      creates.isVisible = false
     }
 
     /**
      * 删除
      * @param id
      */
-    const handleDelete = (id: string | number) => {
-      console.log('handleDelete:', id)
+    const handleDelete = async (id: string | number) => {
+      try {
+        startLoading()
+        const { data } = await deleteSystemUser(id as string)
+        if (data?.code === 200) {
+          message.success(data?.message || '删除成功')
+          getPage()
+        }
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.error(err)
+      }
     }
 
     /**
@@ -212,6 +291,26 @@ export default defineComponent({
       getPage()
     }
 
+    /** 开启权限 */
+    const openPermission = async (id: string) => {
+      try {
+        startLoading()
+        const params = { userId: id }
+        const data = await getPermission(params)
+        console.log('data:', data)
+        permissionVisible.value = true
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.error(err)
+      }
+    }
+
+    /** 关闭权限 */
+    const closePermission = () => {
+      permissionVisible.value = false
+    }
+
     return {
       loading,
       createLoading,
@@ -221,15 +320,21 @@ export default defineComponent({
       tables,
       pagination,
       searchList,
-      createList,
       tableColumns,
+      pagePermission,
+      createList,
+      permissionVisible,
+      permissionData,
+      handleSearch,
       onCreate,
       onUpdate,
       createSubmit,
-      handleSearch,
+      onCloseCreate,
       handleCreate,
       handleDelete,
-      handlePagination
+      handlePagination,
+      openPermission,
+      closePermission
     }
   }
 })

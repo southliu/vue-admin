@@ -1,5 +1,5 @@
 <template>
-  <BasicContent>
+  <BasicContent v-if="pagePermission.page">
     <template #top>
       <BasicSearch
         :list="searchList"
@@ -65,7 +65,7 @@ import type { IBasicForm } from '@/components/Form/model'
 import type { ICreateData, ISearchData, ITableData, IPaginationData } from '#/global'
 import { message } from 'ant-design-vue'
 import { defineComponent, onMounted, reactive, ref } from 'vue'
-import { getMenuPage, getMenuById, createMenu, updateMenu, deleteMenu } from '@/servers/systems/menu'
+import { getSystemMenuPage, getSystemMenuById, createSystemMenu, updateSystemMenu, deleteSystemMenu } from '@/servers/systems/menu'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './data'
@@ -129,7 +129,7 @@ export default defineComponent({
       title: '新增',
       data: initCreate
     })
-    
+
     // 表格数据
     const tables = reactive<ITableData>({
       total: 0,
@@ -167,7 +167,7 @@ export default defineComponent({
       const query = { ...pagination, ...values }
       try {
         startLoading()
-        const { data: { data } } = await getMenuPage(query)
+        const { data: { data } } = await getSystemMenuPage(query)
         const { items, total } = data
         tables.data = items
         tables.total = total
@@ -198,7 +198,7 @@ export default defineComponent({
 
       try {
         startCreateLoading()
-        const { data: { data } } = await getMenuById(id as string)
+        const { data: { data } } = await getSystemMenuById(id as string)
         creates.data = data
         endCreateLoading()
       } catch(err) {
@@ -214,7 +214,7 @@ export default defineComponent({
     const handleCreate = async (values: IFormData) => {
       try {
         startCreateLoading()
-        const functions = () => creates.id ? updateMenu(creates.id, values) : createMenu(values)
+        const functions = () => creates.id ? updateSystemMenu(creates.id, values) : createSystemMenu(values)
         const { data } = await functions()
         if (data?.code === 200) {
           getPage()
@@ -240,7 +240,7 @@ export default defineComponent({
     const handleDelete = async (id: string | number) => {
       try {
         startLoading()
-        const { data } = await deleteMenu(id as string)
+        const { data } = await deleteSystemMenu(id as string)
         if (data?.code === 200) {
           message.success(data?.message || '删除成功')
           getPage()
@@ -275,11 +275,11 @@ export default defineComponent({
       tableColumns,
       pagePermission,
       createList,
+      handleSearch,
       onCreate,
       onUpdate,
       createSubmit,
       onCloseCreate,
-      handleSearch,
       handleCreate,
       handleDelete,
       handlePagination

@@ -24,7 +24,7 @@
   </div>
   <Menu
     v-if="permissions.length > 0"
-    class="menu"
+    class="menu transition-all"
     :collapsed="collapsed"
     :class="{
       'menu-close': collapsed,
@@ -33,16 +33,25 @@
     }"
     @toggleCollapsed="toggleCollapsed"
   />
-  <Skeleton
+  <div
     v-else
-    active
-    class="menu h-100vh"
     :class="{
-      'menu-close': collapsed,
-      'menu-none': maximize || (isPhone && collapsed),
-      'z-1000': isPhone
+      'fixed top-0 bottom-0 left-0 right-0 z-1000': !collapsed
     }"
-  />
+    @click="toggleCollapsed"
+  >
+    <Skeleton
+      active
+      class="menu h-100vh transition-all"
+      :paragraph="{ rows: 10 }"
+      :class="{
+        'p-2': !collapsed,
+        'menu-close': collapsed,
+        'menu-none': maximize || (isPhone && collapsed),
+        'z-1000': isPhone
+      }"
+    />
+  </div>
   <div
     id="con"
     class="con transition-all overflow-auto"
@@ -68,6 +77,12 @@
         />
       </router-view>
     </div>
+    <Skeleton
+      v-else
+      active
+      class="h-full min-w-1024px p-5 transition-all"
+      :paragraph="{ rows: 12 }"
+    />
   </div>
 
   <!-- 修改密码 -->

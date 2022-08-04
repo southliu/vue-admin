@@ -1,5 +1,6 @@
 import type { IFormList } from "#/form"
 import type { VxeGridPropTypes } from "vxe-table"
+import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config"
 import { h } from "vue"
 
 // 搜索数据
@@ -21,21 +22,25 @@ export const createList: IFormList[] = [
   {
     title: '用户名',
     key: 'username',
+    rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
     title: '姓名',
     key: 'real_name',
+    rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
     title: '角色',
     key: 'roles_name',
+    rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
     title: '类型',
     key: 'type',
+    rules: SELECT_REQUIRED,
     component: 'Select',
     componentProps: {
       options: [
