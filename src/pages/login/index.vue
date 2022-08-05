@@ -158,7 +158,6 @@ export default defineComponent({
         if (top) openKeys.value = [top]
         if (key) tabStore.addTabs({ key, path, title })
         isLock.value = true
-        console.log('path:', path)
         router.push(path || '/')
         endLoading()
       } catch(err) {

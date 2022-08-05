@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia'
+import { router } from '@/router'
 
 export interface ITabs {
   title: string;
@@ -89,20 +90,22 @@ export const useTabStore = defineStore({
       let lastIndex = 0
       for (let i = 0; i < this.tabs.length; i++) {
         const element = this.tabs[i]
-        if (element.key === targetKey) {
+        if (element.path === targetKey) {
           lastIndex = i - 1
           break
         }
       }
-      // 过滤数据中当前key的数据
-      this.tabs = this.tabs.filter(item => item.key !== targetKey)
-      // 如果当前key是选中的key
+      // 过滤数据中当前路径的数据
+      this.tabs = this.tabs.filter(item => item.path !== targetKey)
+      // 如果当前是选中状态
       if (this.tabs.length && this.activeKey === targetKey) {
         if (lastIndex >= 0) {
           this.activeKey = this.tabs[lastIndex].path
         } else {
           this.activeKey = this.tabs[0].path
         }
+        // 跳转页面
+        router.push(this.activeKey)
       }
     },
 
@@ -111,8 +114,9 @@ export const useTabStore = defineStore({
      * @param targetKey - 标签唯一值
      */
     removeOther(targetKey: string) {
-      this.tabs = this.tabs.filter(item => item.key === targetKey)
+      this.tabs = this.tabs.filter(item => item.path === targetKey)
       this.activeKey = targetKey
+      router.push(this.activeKey)
     },
 
     /**
@@ -126,16 +130,13 @@ export const useTabStore = defineStore({
       for (let i = 0; i < this.tabs.length; i++) {
         const element = this.tabs[i]
         // 当前项之后的数据都保存
-        if (element.key === targetKey) {
-          isCurrent = true
-        }
-        if (isCurrent) {
-          tabs.push(element)
-        }
+        if (element.path === targetKey) isCurrent = true
+        if (isCurrent) tabs.push(element)
       }
 
       this.tabs = tabs
       this.activeKey = targetKey
+      router.push(this.activeKey)
     },
 
     /**
@@ -149,7 +150,7 @@ export const useTabStore = defineStore({
       // 获取下标
       for (let i = this.tabs.length - 1; i >= 0; i--) {
         const element = this.tabs[i]
-        if (element.key === targetKey) {
+        if (element.path === targetKey) {
           index = i
         }
       }
@@ -162,6 +163,7 @@ export const useTabStore = defineStore({
       
       this.tabs = tabs
       this.activeKey = targetKey
+      router.push(this.activeKey)
     }
   }
 })

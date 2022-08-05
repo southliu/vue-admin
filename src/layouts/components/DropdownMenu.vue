@@ -1,9 +1,9 @@
 <template>
   <Menu>
     <MenuItem
-      :key="TabEnums.REFRESH_PAGE"
+      :key="currentKey"
       :disabled="activeKey !== currentKey"
-      @click="handleDropdown(TabEnums.REFRESH_PAGE, pathName)"
+      @click="handleRefresh"
     >
       <RedoOutlined class="mr-5px transform rotate-270" />
       <span>重新加载</span>
@@ -11,7 +11,7 @@
     <MenuItem
       :key="TabEnums.CLOSE_CURRENT"
       :disabled="list.length < 2"
-      @click="handleDropdown(TabEnums.CLOSE_CURRENT, pathName)"
+      @click="handleDropdown(TabEnums.CLOSE_CURRENT, currentKey)"
     >
       <CloseOutlined class="mr-5px" />
       <span>关闭标签</span>
@@ -19,7 +19,7 @@
     <MenuItem
       :key="TabEnums.CLOSE_OTHER"
       :disabled="list.length < 2"
-      @click="handleDropdown(TabEnums.CLOSE_OTHER, pathName)"
+      @click="handleDropdown(TabEnums.CLOSE_OTHER, currentKey)"
     >
       <VerticalAlignMiddleOutlined class="mr-5px transform rotate-90" />
       <span>关闭其他</span>
@@ -27,7 +27,7 @@
     <MenuItem
       :key="TabEnums.CLOSE_LEFT"
       :disabled="index === 0"
-      @click="handleDropdown(TabEnums.CLOSE_LEFT, pathName)"
+      @click="handleDropdown(TabEnums.CLOSE_LEFT, currentKey)"
     >
       <VerticalAlignTopOutlined class="mr-5px transform rotate-270" />
       <span>关闭左侧</span>
@@ -35,7 +35,7 @@
     <MenuItem
       :key="TabEnums.CLOSE_RIGHT"
       :disabled="index === list.length - 1"
-      @click="handleDropdown(TabEnums.CLOSE_RIGHT, pathName)"
+      @click="handleDropdown(TabEnums.CLOSE_RIGHT, currentKey)"
     >
       <VerticalAlignTopOutlined class="mr-5px transform rotate-90" />
       <span>关闭右侧</span>
@@ -57,7 +57,7 @@ import {
 
 export default defineComponent({
   name: 'DropdownMenu',
-  emits: ['handleDropdown'],
+  emits: ['handleDropdown', 'handleRefresh'],
   components: {
     RedoOutlined,
     CloseOutlined,
@@ -88,14 +88,25 @@ export default defineComponent({
       required: true
     },
   },
-  setup(props, context) {
-    const handleDropdown = (type: TabEnums, pathName: string) => {
-      context.emit('handleDropdown', type, pathName)
+  setup(props, { emit }) {
+    /**
+     * 处理下拉事件
+     * @param type - 下拉类型
+     * @param key - 唯一值 
+     */
+    const handleDropdown = (type: TabEnums, key: string) => {
+      emit('handleDropdown', type, key)
+    }
+
+    /** 刷新当前页 */
+    const handleRefresh = () => {
+      emit('handleRefresh', props.pathName)
     }
     
     return {
       TabEnums,
-      handleDropdown
+      handleDropdown,
+      handleRefresh
     }
   }
 })

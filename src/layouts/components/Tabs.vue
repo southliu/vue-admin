@@ -39,12 +39,13 @@
             </div>
             <template #overlay>
               <DropdownMenu
-                :pathName="pathName"
                 :activeKey="activeKey"
                 :currentKey="item.path"
+                :pathName="pathName"
                 :index="index"
                 :list="tabs"
                 @handleDropdown="handleDropdown"
+                @handleRefresh="handleRefresh"
               />
             </template>
           </Dropdown>
@@ -62,7 +63,7 @@
           <Icon
             class="flex items-center justify-center text-lg cursor-pointer"
             :class="{ 'animate-spin': isRefresh }"
-            @click="handleDropdown(TabEnums.REFRESH_PAGE, pathName)"
+            @click="handleRefresh(pathName)"
             icon="ant-design:reload-outlined"
           />
         </Tooltip>
@@ -92,6 +93,7 @@
               :index="getTabIndex(activeKey)"
               :list="tabs"
               @handleDropdown="handleDropdown"
+              @handleRefresh="handleRefresh"
             />
           </template>
         </Dropdown>
@@ -132,7 +134,6 @@ import DropdownMenu from './DropdownMenu.vue'
 import Icon from '@/components/Icon/index.vue'
 
 export enum TabEnums {
-  REFRESH_PAGE, // 刷新当前页
   CLOSE_CURRENT, // 关闭当前
   CLOSE_OTHER, // 关闭其他
   CLOSE_LEFT, // 关闭左侧
@@ -163,7 +164,7 @@ export default defineComponent({
       defaultValue: false
     }
   },
-  setup(props, context) {
+  setup(props, { emit }) {
     const route = useRoute()
     const router = useRouter()
     const tabStore = useTabStore()
@@ -216,53 +217,59 @@ export default defineComponent({
     }
 
     /**
+     * 刷新当前页
+     */
+    const handleRefresh = (pathName: string) => {
+      // 关闭右键菜单显示
+      isDropdown.value = false
+      // 缓存上一个路径地址
+      addPrevPath(route.path)
+
+      // 当timeout没执行时刷新页面
+      if (!timeout.icon) {
+        isRefresh.value = true
+      
+        // 去除缓存路由中当前路由
+        cacheRoutes.value = cacheRoutes.value.filter(item => item !== pathName)
+
+        // 调转空白页
+        router.push('/empty')
+      }
+
+      /** 清除timeout */
+      const clearRefresh = () => {
+        clearTimeout(timeout.refresh!)
+        timeout.refresh = null
+      }
+      const clearIcon = () => {
+        clearTimeout(timeout.icon!)
+        timeout.icon = null
+      }
+
+      // 200毫秒调转回来
+      timeout.refresh = setTimeout(() => {
+        router.push(prevPath.value)
+        clearRefresh()
+        message.success({ content: '刷新成功', key: 'refresh' })
+      }, 200)
+      // icon 1秒后转回来
+      timeout.icon = setTimeout(() => {
+        isRefresh.value = false
+        clearIcon()
+      }, 1000)
+    }
+
+    /**
      * 点击右键功能
      * @param type - 右键下拉选中类型
      * @param key - 标签唯一值，可作为路由
+     * @param pathName - 文件名，keepalive使用
      */
     const handleDropdown = useDebounceFn((type: TabEnums, key: string) => {
+      // 关闭右键菜单显示
       isDropdown.value = false
 
       switch (type) {
-        // 刷新当前页
-        case TabEnums.REFRESH_PAGE:
-          // 缓存上一个路径地址
-          addPrevPath(route.path)
-
-          // 当timeout没执行时刷新页面
-          if (!timeout.icon) {
-            isRefresh.value = true
-          
-            // 去除缓存路由中当前路由
-            cacheRoutes.value = cacheRoutes.value.filter(item => item !== key)
-
-            // 调转空白页
-            router.push('/empty')
-          }
-
-          /** 清除timeout */
-          const clearRefresh = () => {
-            clearTimeout(timeout.refresh!)
-            timeout.refresh = null
-          }
-          const clearIcon = () => {
-            clearTimeout(timeout.icon!)
-            timeout.icon = null
-          }
-
-          // 200毫秒调转回来
-          timeout.refresh = setTimeout(() => {
-            router.push(prevPath.value)
-            clearRefresh()
-            message.success({ content: '刷新成功', key: 'refresh' })
-          }, 200)
-          // icon 1秒后转回来
-          timeout.icon = setTimeout(() => {
-            isRefresh.value = false
-            clearIcon()
-          }, 1000)
-          break
-
         // 关闭标签
         case TabEnums.CLOSE_CURRENT:
           removeCurrent(key)
@@ -290,7 +297,7 @@ export default defineComponent({
 
     /** 处理最大化 */
     const handleMaximize = () => {
-      context.emit('toggleMaximize')
+      emit('toggleMaximize')
     }
 
     /**
@@ -312,6 +319,7 @@ export default defineComponent({
       onChange,
       getTabIndex,
       handleRemove,
+      handleRefresh,
       handleDropdown,
       handleMaximize,
       handleDropdownChange
