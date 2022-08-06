@@ -32,4 +32,3 @@ export function getGames(data?: unknown): Promise<DefaultOptionType[]> {
     }).catch(() => reject([]))
   })
 }
-

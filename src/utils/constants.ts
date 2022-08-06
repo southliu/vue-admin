@@ -24,20 +24,11 @@ export const DATE_FORMAT = 'YYYY-MM-DD'
 export const TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss'
 
 /**
- * 来源
+ * 开启状态
  */
- export const SOURCE_TYPE: IConstant[] = [
-  { value: '43', label: '新SDK' },
-  { value: '67', label: '旧SDK' }
-]
-
-/**
- * 游戏包类型
- */
- export const GAME_PACKAGE_TYPE: IConstant[] = [
-  { value: 0, label: '自投' },
-  { value: 1, label: 'CPS' },
-  { value: 2, label: '联运' }
+ export const OPEN_CLOSE: IConstant[] = [
+  { label: '开启', value: 1 },
+  { label: '关闭', value: 0 }
 ]
 
 /**
@@ -56,12 +47,8 @@ export const TIME_FORMAT = 'YYYY-MM-DD hh:mm:ss'
   { value: 'platform', label: '运营系统' },
   { value: 'stat', label: '统计系统' },
   { value: 'ad', label: '投放系统' },
-  { value: 'jrtt', label: '投放系统/今日头条' },
-  { value: 'gdt', label: '投放系统/广点通' },
-  { value: 'ks', label: '投放系统/快手' },
-  { value: 'log', label: '日志系统' },
-  { value: 'cp', label: 'CP系统' },
-  { value: 'cs', label: '客服系统' }
+  { value: 'cs', label: '客服系统' },
+  { value: 'log', label: '日志系统' }
 ]
 
 /**

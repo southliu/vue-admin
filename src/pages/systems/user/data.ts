@@ -2,6 +2,7 @@ import type { IFormList } from "#/form"
 import type { VxeGridPropTypes } from "vxe-table"
 import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config"
 import { h } from "vue"
+import { OPEN_CLOSE } from "@/utils/constants"
 
 // 搜索数据
 export const searchList: IFormList[] = [
@@ -38,15 +39,12 @@ export const createList: IFormList[] = [
     component: 'Input'
   },
   {
-    title: '类型',
-    key: 'type',
+    title: '状态',
+    key: 'status',
     rules: SELECT_REQUIRED,
     component: 'Select',
     componentProps: {
-      options: [
-        { label: '123', value: '123' },
-        { label: '456', value: '456' },
-      ]
+      options: OPEN_CLOSE
     }
   }
 ]

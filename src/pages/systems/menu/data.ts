@@ -62,12 +62,6 @@ export const createList: (id: string) => IFormList[] = id => [
     component: 'Input'
   },
   {
-    title: '动作',
-    key: 'action',
-    rules: INPUT_REQUIRED,
-    component: 'Input'
-  },
-  {
     title: '同时创建菜单',
     key: 'actions',
     hidden: !!id,
@@ -99,10 +93,6 @@ export const tableColumns: VxeGridPropTypes.Columns = [
   {
     title: '控制器',
     field: 'controller'
-  },
-  {
-    title: '动作',
-    field: 'action'
   },
   {
     title: '创建时间',

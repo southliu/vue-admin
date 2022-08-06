@@ -1,6 +1,6 @@
 ## 简介
 
-使用了最新的`vue3`,`vite2`,`TypeScript`等主流技术开发，开箱即用的中后台前端解决方案。
+使用了`vue3`,`vite2`,`TypeScript`,`antv`等主流技术开发的开箱即用的中后台前端项目，可通过`south-cli`中的`south create vue-project`生成该项目，使用`south-cli`中的`south create-vue page-name`生成对应页面。
 
 ## 安装使用
 
@@ -44,6 +44,14 @@ pnpm build
 
 - 参考 [iconify官方地址](https://icon-sets.iconify.design/)
 - VS Code安装Iconify IntelliSense - 图标内联显示和自动补全
+
+## Git 提交示例
+### Git提交不规范会导致无法提交，`feat`关键字可以按照下面`Git 贡献提交规范`来替换。
+```
+git add .
+git commit -m "feat: 新增功能"
+git push
+```
 
 ## Git 贡献提交规范
 
@@ -127,13 +135,3 @@ pnpm build
         1. ApiSelect：点击下拉框自动获取下拉数据，在antv的Select参数基础上添加了api参数，根据api参数获取接口数据。
         2. ApiTreeSelect：点击下拉框自动获取下拉数据，在antv的TreeSelect参数基础上添加了api参数，根据api参数获取接口数据。
 
-## 打包Nginx
-### history模式刷新页面会404，需要在`nginx/conf/nginx.conf`配置：
-```
-server {
-  location / {
-    root   html;
-    index  index.html index.htm;        
-    try_files $uri $uri/ /index.html; #匹配不到任何静态资源，跳到同一个index.html
-  }
-```

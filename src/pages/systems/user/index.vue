@@ -50,7 +50,7 @@
   </BasicContent>
 
   <BasicModal
-    v-model:visible="creates.isVisible"
+    v-model:visible="creates.visible"
     :loading="createLoading"
     :title="creates.title"
     @handleFinish="createSubmit"
@@ -155,8 +155,7 @@ export default defineComponent({
 
     // 初始化新增数据
     const initCreate = {
-      status: 1,
-      module: 'authority'
+      status: 1
     }
 
     // 搜索数据
@@ -167,7 +166,7 @@ export default defineComponent({
     // 新增数据
     const creates = reactive<ICreateData>({
       id: '',
-      isVisible: false,
+      visible: false,
       title: '新增',
       data: initCreate
     })
@@ -222,7 +221,7 @@ export default defineComponent({
 
     /** 点击新增 */
     const onCreate = () => {
-      creates.isVisible = !creates.isVisible
+      creates.visible = !creates.visible
       creates.title = ADD_TITLE
       creates.id = ''
       creates.data = initCreate
@@ -234,7 +233,7 @@ export default defineComponent({
      */
     const onUpdate = async (record: IFormData) => {
       const { id, name } = record
-      creates.isVisible = !creates.isVisible
+      creates.visible = !creates.visible
       creates.id = id as string
       creates.title = EDIT_TITLE(name as string)
 
@@ -258,11 +257,12 @@ export default defineComponent({
         startCreateLoading()
         const functions = () => creates.id ? updateSystemUser(creates.id, values) : createSystemUser(values)
         const { data } = await functions()
-        if (data?.code === 200) {
-          getPage()
-          creates.isVisible = false
-          message.success(data?.message || '操作成功')
-        }
+        getPage()
+        creates.id = ''
+        creates.visible = false
+        creates.data = initCreate
+        createFormRef.value?.handleReset()
+        message.success(data?.message || '操作成功')
         endCreateLoading()
       } catch(err) {
         endCreateLoading()
@@ -272,7 +272,7 @@ export default defineComponent({
 
     /** 关闭新增/编辑 */
     const onCloseCreate = () => {
-      creates.isVisible = false
+      creates.visible = false
     }
 
     /**

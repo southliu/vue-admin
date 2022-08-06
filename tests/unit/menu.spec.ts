@@ -7,7 +7,7 @@ let data: ISidebar[] = []
 
 beforeEach(() => {
   // 获取菜单列表
-  data = getMenus(menus, ['/stat/data-trends', '/authority/menu'])
+  data = getMenus(menus, ['/dashboard', '/authority/menu'])
 })
 
 describe('菜单功能:', () => {
