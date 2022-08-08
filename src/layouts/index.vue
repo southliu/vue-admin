@@ -87,9 +87,10 @@
 
   <!-- 修改密码 -->
   <UpdatePassword
+    :loading="loading"
     :visible="isUpdatePassword"
     @handleCancel="onUpdatePassword"
-    @handleSubmit="onUpdatePassword"
+    @handleSubmit="handleUpdatePassword"
   />
 </template>
 
@@ -102,10 +103,12 @@ import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
-import { Skeleton } from 'ant-design-vue'
+import { message, Skeleton } from 'ant-design-vue'
 import { menus } from '@/menus'
 import { useRoute } from 'vue-router'
 import { getMenus, getCurrentMenuByRoute } from '@/utils/menus'
+import { useLoading } from '@/hooks/useLoading'
+import { updatePassword } from '@/servers/login'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
@@ -138,6 +141,7 @@ export default defineComponent({
       openKeys,
       menuList,
     } = storeToRefs(menuStore)
+    const { loading, startLoading, endLoading } = useLoading()
 
     onMounted(() => {
       handleIsPhone()
@@ -183,7 +187,24 @@ export default defineComponent({
 
     /** 点击修改密码 */
     const onUpdatePassword = () => {
-      isUpdatePassword.value = !isUpdatePassword.value
+        isUpdatePassword.value = !isUpdatePassword.value
+    }
+
+    /**
+     * 修改密码
+     * @param data - 密码参数
+     */
+    const handleUpdatePassword = async (params: unknown) => {
+      try {
+        startLoading()
+        const { data } = await updatePassword(params)
+        message.success(data.message || '修改成功')
+        isUpdatePassword.value = !isUpdatePassword.value
+        endLoading()
+      } catch(err) {
+        endLoading()
+        console.log(err)
+      }
     }
 
     /** 收缩菜单 */
@@ -219,6 +240,7 @@ export default defineComponent({
     }
 
     return {
+      loading,
       isPhone,
       isUpdatePassword,
       username,
@@ -226,9 +248,10 @@ export default defineComponent({
       collapsed,
       maximize,
       permissions,
-      onUpdatePassword,
+      toggleMaximize,
       toggleCollapsed,
-      toggleMaximize
+      onUpdatePassword,
+      handleUpdatePassword
     }
   }
 })

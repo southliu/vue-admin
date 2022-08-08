@@ -3,6 +3,7 @@
     :visible="visible"
     title="修改密码"
     :width="450"
+    :loading="loading"
     @handleCancel="handleCancel"
     @handleFinish="onFinish"
   >
@@ -60,9 +61,9 @@ import type { FormInstance } from 'ant-design-vue'
 import { defineComponent, reactive, ref } from 'vue'
 import { Form, FormItem, InputPassword, message } from 'ant-design-vue'
 import { PASSWORD_RULE } from '@/utils/config'
+import { useDebounceFn } from '@vueuse/core'
 import BasicModal from '../Modal/BasicModal.vue'
 import PasswordStrength from '../PasswordStrength/index.vue'
-
 
 interface IFormData {
   oldPassword: string,
@@ -75,6 +76,10 @@ export default defineComponent({
   emits: ['handleCancel', 'handleSubmit'],
   props: {
     visible: {
+      type: Boolean,
+      required: true
+    },
+    loading: {
       type: Boolean,
       required: true
     }
@@ -102,7 +107,7 @@ export default defineComponent({
     }
 
     /** 点击确认 */
-    const onFinish = () => {
+    const onFinish = useDebounceFn(() => {
       formRef.value
         ?.validateFields()
         .then(values => {
@@ -114,7 +119,7 @@ export default defineComponent({
           emit('handleSubmit', values)
           console.log('修改密码：', values)
         })
-    }
+    })
 
     return {
       formRef,

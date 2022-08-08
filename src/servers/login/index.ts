@@ -9,3 +9,10 @@ import { request } from '@/utils/request'
 export function login(data: ILoginData) {
   return request.post<IServerResult<ILoginResult>>('/login', data)
 }
+
+/**
+ * 修改密码
+ */
+export function updatePassword(data: unknown) {
+  return request.post<IServerResult>('/update-password', data)
+}
