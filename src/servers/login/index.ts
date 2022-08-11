@@ -12,6 +12,7 @@ export function login(data: ILoginData) {
 
 /**
  * 修改密码
+ * @param data - 请求数据
  */
 export function updatePassword(data: unknown) {
   return request.post<IServerResult>('/update-password', data)

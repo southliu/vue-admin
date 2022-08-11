@@ -1,8 +1,11 @@
 // 基础类型
-export type IBasicData = string | number | boolean | object
+export type IBasicData = string | number | boolean
 
 // 数组
-export type IArrayData = string[] | number[] | boolean[] | object[]
+export type IArrayData = string[] | number[] | boolean[]
+
+// 对象
+export type IObjectData = object | object[] | Record<string, IBasicData | IArrayData | IEmptyData>
 
 // 空值
 export type IEmptyData = null | undefined
@@ -11,4 +14,4 @@ export type IEmptyData = null | undefined
 export type ISymbolData = symbol | symbol[]
 
 // 全部数据类型
-export type IAllDataType = IBasicData | IArrayData | IEmptyData | ISymbolData
+export type IAllDataType = IBasicData | IArrayData | IEmptyData | IObjectData | ISymbolData

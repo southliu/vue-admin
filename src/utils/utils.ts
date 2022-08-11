@@ -16,7 +16,10 @@ type IEmptyData = Record<string, IAllDataType>
 export function filterEmptyValue(obj: IEmptyData): IEmptyData {
   const res: IEmptyData = {}
 
-  for (const key in obj) {
+  for (let key in obj) {
+    // 去除key中多余的空格
+    key = key.trim()
+
     // undefined过滤
     if (obj[key] === undefined) continue
 
@@ -41,7 +44,12 @@ export function filterEmptyValue(obj: IEmptyData): IEmptyData {
       Object.keys(obj[key] as object).length === 0
     ) continue
 
-    res[key] = obj[key]
+    // 去除字符串多余空格
+    if (obj[key]?.constructor === String) {
+      res[key] = (obj[key] as string).trim()
+    } else {
+      res[key] = obj[key]
+    }
   }
 
   return res
