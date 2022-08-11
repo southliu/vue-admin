@@ -13,7 +13,8 @@
     </template>
 
     <Spin :spinning="loading">
-      内容。。。
+      <Block />
+      <Line />
     </Spin>
   </BasicContent>
 </template>
@@ -29,8 +30,8 @@ import { DATE_FORMAT } from '@/utils/constants'
 import { searchList } from './data'
 import { Spin } from 'ant-design-vue'
 // import Pie from './components/Pie.vue'
-// import Line from './components/Line.vue'
-// import Descriptions from './components/Descriptions.vue'
+import Line from './components/Line.vue'
+import Block from './components/Block.vue'
 import dayjs from 'dayjs'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
@@ -40,23 +41,16 @@ export default defineComponent({
   components: {
     Spin,
     BasicSearch,
-    BasicContent
+    BasicContent,
+    Line,
+    Block
   },
   setup() {
     const { loading, startLoading, endLoading } = useLoading()
 
     // 数据参数
     const datum = ref<IDashboardResult>({
-      game_data: [],
-      rows: {
-        cost: {},
-        pay: {},
-        reg: {},
-      },
-      items: {
-        hash: [],
-        legend: {},
-      },
+      data: {}
     })
 
     // 搜索数据

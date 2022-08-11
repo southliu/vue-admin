@@ -4,8 +4,11 @@
 
 declare module 'vue' {
   export interface GlobalComponents {
+    ACard: typeof import('ant-design-vue/es')['Card']
+    ACol: typeof import('ant-design-vue/es')['Col']
     ApiSelect: typeof import('./src/components/Selects/ApiSelect.vue')['default']
     ApiTreeSelect: typeof import('./src/components/Selects/ApiTreeSelect.vue')['default']
+    ARow: typeof import('ant-design-vue/es')['Row']
     BasicComponents: typeof import('./src/components/Form/BasicComponents.vue')['default']
     BasicContent: typeof import('./src/components/Content/BasicContent.vue')['default']
     BasicForm: typeof import('./src/components/Form/BasicForm.vue')['default']
