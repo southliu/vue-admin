@@ -171,10 +171,8 @@ export default defineComponent({
         const { items, total } = data
         tables.data = items
         tables.total = total
+      } finally {
         endLoading()
-      } catch(err) {
-        endLoading()
-        console.error(err)
       }
     }
 
@@ -200,10 +198,8 @@ export default defineComponent({
         startCreateLoading()
         const { data: { data } } = await getSystemMenuById(id as string)
         creates.data = data
+      } finally {
         endCreateLoading()
-      } catch(err) {
-        endCreateLoading()
-        console.error(err)
       }
     }
 
@@ -222,10 +218,8 @@ export default defineComponent({
         creates.data = initCreate
         createFormRef.value?.handleReset()
         message.success(data?.message || '操作成功')
+      } finally {
         endCreateLoading()
-      } catch(err) {
-        endCreateLoading()
-        console.error(err)
       }
     }
 
@@ -246,10 +240,8 @@ export default defineComponent({
           message.success(data?.message || '删除成功')
           getPage()
         }
+      } finally {
         endLoading()
-      } catch(err) {
-        endLoading()
-        console.error(err)
       }
     }
 

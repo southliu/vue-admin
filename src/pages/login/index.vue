@@ -159,10 +159,10 @@ export default defineComponent({
         if (key) tabStore.addTabs({ key, path, title })
         isLock.value = true
         router.push(path || '/')
-        endLoading()
       } catch(err) {
         console.log('登录失败:', err)
         isLock.value = false
+      } finally {
         endLoading()
       }
     }

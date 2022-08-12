@@ -200,10 +200,8 @@ export default defineComponent({
         const { data } = await updatePassword(params)
         message.success(data.message || '修改成功')
         isUpdatePassword.value = !isUpdatePassword.value
+      } finally {
         endLoading()
-      } catch(err) {
-        endLoading()
-        console.log(err)
       }
     }
 

@@ -29,7 +29,6 @@ import { getDataTrends } from '@/servers/dashboard'
 import { DATE_FORMAT } from '@/utils/constants'
 import { searchList } from './data'
 import { Spin } from 'ant-design-vue'
-// import Pie from './components/Pie.vue'
 import Line from './components/Line.vue'
 import Block from './components/Block.vue'
 import dayjs from 'dayjs'
@@ -83,10 +82,8 @@ export default defineComponent({
         const query = { ...values }
         const { data: { data } } = await getDataTrends(query)
         datum.value = data
+      } finally {
         endLoading()
-      } catch(err) {
-        endLoading()
-        console.error(err)
       }
     }
 

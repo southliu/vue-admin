@@ -29,6 +29,7 @@ export function createVitePlugins() {
     vueJsx({
       // options are passed on to @vue/babel-plugin-jsx
     }),
+    // 压缩包
     viteCompression(),
     pluginExternal(),
     AutoImport({
