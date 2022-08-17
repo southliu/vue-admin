@@ -15,7 +15,10 @@ import {
   CheckboxGroup,
   RadioGroup,
   Switch,
-  DatePicker
+  DatePicker,
+  Rate,
+  Slider,
+  Upload
 } from 'ant-design-vue'
 import { createBusinessComp } from '@/components/Business'
 
@@ -33,6 +36,9 @@ componentMap.set('CheckboxGroup', CheckboxGroup)
 componentMap.set('RadioGroup', RadioGroup)
 componentMap.set('Switch', Switch)
 componentMap.set('DatePicker', DatePicker)
+componentMap.set('Rate', Rate)
+componentMap.set('Slider', Slider)
+componentMap.set('Upload', Upload)
 
 // 自定义组件注入
 componentMap.set('ApiSelect', ApiSelect)

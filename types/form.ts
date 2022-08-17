@@ -4,7 +4,10 @@ import type {
   TreeSelectProps,
   RadioProps,
   CheckboxGroupProps,
-  DatePickerProps
+  DatePickerProps,
+  UploadProps,
+  RateProps,
+  SliderProps
 } from "ant-design-vue"
 import type { IAllDataType } from './public'
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
@@ -37,6 +40,15 @@ type IRadioComponents = 'RadioGroup' | 'Switch'
 // 时间组件
 type ITimeComponents = 'DatePicker' | 'RangePicker'
 
+// 上传组件
+type IUploadComponents = 'Upload'
+
+// 星级组件
+type IRateComponents = 'Rate'
+
+// 星级组件
+type ISliderComponents = 'Slider'
+
 // 自定义组件
 type ICustomizeComponents = 'Customize'
 
@@ -53,6 +65,9 @@ export type IComponentType = IDefaultDataComponents |
                           ITimeComponents |
                           IRadioComponents |
                           ICustomizeComponents |
+                          IUploadComponents |
+                          IRateComponents |
+                          ISliderComponents |
                           IEditorComponents |
                           IPasswordStrength
 
@@ -77,6 +92,9 @@ export type IComponentProps = InputProps |
                               CheckboxGroupProps |
                               RadioProps |
                               DatePickerProps |
+                              UploadProps |
+                              RateProps |
+                              SliderProps |
                               IApiSelectProps |
                               IApiTreeSelectProps |
                               IWangEditorProps
