@@ -7,6 +7,7 @@
       :model="formState"
       :label-col="labelCol"
       :wrapper-col="wrapperCol"
+      :labelAlign="labelAlign"
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
@@ -19,9 +20,10 @@
         :class="{ '!hidden': item.hidden }"
       >
         <BasicComponents
-          :item="item"
           class="min-w-100px"
-          v-model:value="formState[item.key]"
+          :item="item"
+          :data="formState"
+          :setData="setFromState"
         />
       </FormItem>
 
@@ -41,7 +43,6 @@ import { defineComponent, ref, watch } from 'vue'
 import { Form, FormItem } from 'ant-design-vue'
 import { useDebounceFn } from '@vueuse/core'
 import { filterEmptyValue } from '@/utils/utils'
-import BasicComponents from './BasicComponents.vue'
 
 type IFinishFun = (values: IFormData) => void
 
@@ -50,7 +51,7 @@ export default defineComponent({
   emits: ['handleFinish'],
   props: {
     data: {
-      type: Object,
+      type: Object as PropType<Record<string, IAllDataType>>,
       required: true
     },
     list: {
@@ -76,12 +77,16 @@ export default defineComponent({
         return { span: 16 }
       }
     },
+    labelAlign: {
+      type: String as PropType<'left' | 'right'>,
+      required: false,
+      default: 'right'
+    },
     loading: {
       type: Boolean
-    }
+    },
   },
   components: {
-    BasicComponents,
     Form,
     FormItem
   },
@@ -117,6 +122,15 @@ export default defineComponent({
     }
 
     /**
+     * 修改formState值
+     * @param key - 键值
+     * @param value - 修改值
+     */
+    const setFromState = (key: string, value: IAllDataType) => {
+      formState.value[key] = value
+    }
+
+    /**
      * 提交处理
      * @param values - 表单数据
      */
@@ -136,6 +150,7 @@ export default defineComponent({
     return {
       formRef,
       formState,
+      setFromState,
       onFinish,
       onFinishFailed,
       handleSubmit,

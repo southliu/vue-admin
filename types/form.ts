@@ -47,7 +47,7 @@ type IEditorComponents = 'WangEditor'
 type IPasswordStrength = 'PasswordStrength'
 
 // 组件集合
-export type IComponents = IDefaultDataComponents |
+export type IComponentType = IDefaultDataComponents |
                           ISelectComponents |
                           ICheckboxComponents |
                           ITimeComponents |
@@ -56,7 +56,7 @@ export type IComponents = IDefaultDataComponents |
                           IEditorComponents |
                           IPasswordStrength
 
-type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
+export type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
 
 // api参数
 interface IApiParam {
@@ -90,11 +90,12 @@ export type IFormRule = RuleObject & {
 export type IFormList = {
   key: string; // 唯一标识
   title: string; // 标题
+  placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏
   rules?: IFormRule[]; // 规则
   labelCol?: number; // label宽度
   wrapperCol?: number; // 内容宽度
-  component: IComponents; // 组件
+  component: IComponentType; // 组件
   componentProps?: IComponentProps; // 组件参数
   render?: () => VNode; // 自定义渲染
 }

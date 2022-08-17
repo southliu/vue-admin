@@ -114,7 +114,7 @@ git push
         key: string; // 唯一标识
         title: string; // 标题
         rules?: IFormRule[]; // 规则
-        component: IComponents; // 组件名，参考(https://next.antdv.com/components/overview-cn)
+        component: IComponentType; // 组件名，参考(https://next.antdv.com/components/overview-cn)
         componentProps?: IComponentProps; // 组件参数，官方组件参数
       ```
       **componentProps内的方法都是on开头，如dropdownVisibleChange要改为onDropdownVisibleChange**

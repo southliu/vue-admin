@@ -21,9 +21,10 @@
         :style="{ display: 'inline-block' }"
       >
         <BasicComponents
-          :item="item"
           class="min-w-100px"
-          v-model:value="formState[item.key]"
+          :item="item"
+          :data="formState"
+          :setData="setFromState"
         />
       </FormItem>
 
@@ -67,12 +68,13 @@ import type { FormInstance } from 'ant-design-vue'
 import type { IFormData, IFormList } from '#/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
+import type { IAllDataType } from '#/public'
 import { defineComponent, watch, ref } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { useDebounceFn } from '@vueuse/core'
-import BasicComponents from '../Form/BasicComponents.vue'
 import { filterEmptyValue } from '@/utils/utils'
+import BasicComponents from '../Form/BasicComponents.vue'
 
 type IFinishFun = (values: IFormData) => void
 
@@ -138,6 +140,15 @@ export default defineComponent({
       formRef.value?.resetFields()
     }
 
+    /**
+     * 修改formState值
+     * @param key - 键值
+     * @param value - 修改值
+     */
+    const setFromState = (key: string, value: IAllDataType) => {
+      formState.value[key] = value
+    }
+
     /** 点击新增 */
     const onCreate = () => {
       context.emit('onCreate')
@@ -163,6 +174,7 @@ export default defineComponent({
     return {
       formRef,
       formState,
+      setFromState,
       onCreate,
       onFinish,
       onFinishFailed,
