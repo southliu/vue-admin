@@ -138,19 +138,19 @@ export default defineComponent({
         for (let i = 0; i < arr.length; i++) {
           if (i === 0) {
             zero = arr[i]
-            formState.value[zero] = {}
+            if (!formState.value[zero]) formState.value[zero] = {}
           }
           if (i === 1) {
             one = arr[i]
-            formState.value[zero][one] = {}
+            if (!formState.value[zero][one]) formState.value[zero][one] = {}
           }
           if (i === 2) {
             two = arr[i]
-            formState.value[zero][one][two] = {}
+            if (!formState.value[zero][one][two]) formState.value[zero][one][two] = {}
           }
           if (i === 3) {
             three = arr[i]
-            formState.value[zero][one][two][three] = {}
+            if (!formState.value[zero][one][two][three]) formState.value[zero][one][two][three] = {}
           }
         }
         
