@@ -81,7 +81,7 @@ git push
 
 - [ ] 主题换肤功能
 - [ ] i18n语言切换
-- [ ] 表单嵌套结构
+- [x] 表单嵌套结构
 - [ ] 包分析工具
 - [x] Mock数据
 - [x] cli生成增删改查
@@ -137,3 +137,8 @@ git push
         1. ApiSelect：点击下拉框自动获取下拉数据，在antv的Select参数基础上添加了api参数，根据api参数获取接口数据。
         2. ApiTreeSelect：点击下拉框自动获取下拉数据，在antv的TreeSelect参数基础上添加了api参数，根据api参数获取接口数据。
 
+## 表单嵌套结构:
+```
+  Form key带小数点时为嵌套结构，自动解析成嵌套结构。
+  如：user.name => formState.user.name
+```

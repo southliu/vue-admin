@@ -22,9 +22,6 @@ export default defineComponent({
     BasicContent,
     Copy,
     CopyBtn
-  },
-  setup() {
-    
-  },
+  }
 })
 </script>

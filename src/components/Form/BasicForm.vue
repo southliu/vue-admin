@@ -14,7 +14,7 @@
       <FormItem
         v-for="item in list"
         :key="item.key"
-        :name="item.key"
+        :name="handleFormName(item.key)"
         :label="item.title"
         :rules="!item.hidden ? item.rules : []"
         :class="{ '!hidden': item.hidden }"
@@ -93,7 +93,7 @@ export default defineComponent({
   setup(props, context) {
     const formRef = ref<FormInstance>()
     const data = JSON.parse(JSON.stringify(props.data))
-    const formState = ref<Record<string, IAllDataType>>(data)
+    const formState = ref(data)
 
     // 监听表单数据变化
     watch(() => props.data, value => {
@@ -122,12 +122,80 @@ export default defineComponent({
     }
 
     /**
+     * 处理嵌套数据
+     * @param key - 键值
+     * @param value - 修改值
+     */
+    const handleNested = (key: string, value: IAllDataType) => {
+      // 嵌套数据，最多支持四层结构
+      if (key.includes('.')) {
+        const arr = key.split('.')
+        let zero = '', one = '', two = '', three = ''
+
+        /**
+         * TODO：逻辑优化
+         */
+        for (let i = 0; i < arr.length; i++) {
+          if (i === 0) {
+            zero = arr[i]
+            formState.value[zero] = {}
+          }
+          if (i === 1) {
+            one = arr[i]
+            formState.value[zero][one] = {}
+          }
+          if (i === 2) {
+            two = arr[i]
+            formState.value[zero][one][two] = {}
+          }
+          if (i === 3) {
+            three = arr[i]
+            formState.value[zero][one][two][three] = {}
+          }
+        }
+        
+        // 根据数组长度赋值
+        switch(arr.length) {
+          case 2:
+            formState.value[zero][one] = value
+            break
+
+          case 3:
+            formState.value[zero][one][two] = value
+            break
+
+          case 4:
+            formState.value[zero][one][two][three] = value
+            break
+
+          default:
+            formState.value[zero] = value
+            break
+        }
+      }
+    }
+
+    /**
      * 修改formState值
      * @param key - 键值
      * @param value - 修改值
      */
     const setFromState = (key: string, value: IAllDataType) => {
-      formState.value[key] = value
+      if (key.includes('.')) {
+        handleNested(key, value)
+      } else {
+        formState.value[key] = value
+      }
+    }
+
+    /**
+     * 当表单名称中带有逗号，则分割逗号
+     * @param name - 表单名称
+     */
+    const handleFormName = (name: string) => {
+      let res: string | string[] = name
+      if (name.includes('.')) res = name.split('.')
+      return res
     }
 
     /**
@@ -151,6 +219,7 @@ export default defineComponent({
       formRef,
       formState,
       setFromState,
+      handleFormName,
       onFinish,
       onFinishFailed,
       handleSubmit,

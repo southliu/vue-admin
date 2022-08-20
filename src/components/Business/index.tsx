@@ -8,7 +8,6 @@ import PartnerSelect from './Selects/PartnerSelect.vue'
  */
 export type IBusinessComponentType = 'GameSelect' | 'PartnerSelect'
 
-
 /** 生成业务组件 */
 export function createBusinessComp() {
   addComponent('GameSelect', GameSelect)

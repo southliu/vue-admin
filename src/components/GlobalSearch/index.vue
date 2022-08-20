@@ -14,7 +14,6 @@
   />
 </template>
 
-
 <script lang="ts">
 /**
  * @description: 顶部全局搜索菜单组件

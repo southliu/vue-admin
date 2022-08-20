@@ -21,6 +21,12 @@ export const searchList: IFormList[] = [
 // 新增数据
 export const createList: IFormList[] = [
   {
+    title: '嵌套数据',
+    key: 'user.name.test',
+    rules: INPUT_REQUIRED,
+    component: 'Input'
+  },
+  {
     title: '用户名',
     key: 'username',
     rules: INPUT_REQUIRED,

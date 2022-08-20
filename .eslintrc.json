@@ -113,7 +113,7 @@
         // 禁止空格和 tab 的混合缩进
         "no-mixed-spaces-and-tabs": "warn",
         // 禁止出现多行空行
-        "no-multiple-empty-lines": "warn",
+        "no-multiple-empty-lines": ["warn", { "max": 1 }],
         // 禁止出现;
         "semi": ["warn", "never"],
         // 强制在块之前使用一致的空格
@@ -136,7 +136,7 @@
         "prefer-rest-params": "warn",
         "no-useless-escape": "off",
         "no-irregular-whitespace": "warn",
-        "no-prototype-builtins": "warn",
+        "no-prototype-builtins": "off",
         "no-fallthrough": "warn",
         "no-extra-boolean-cast": "warn",
         "no-case-declarations": "off",
