@@ -123,56 +123,22 @@ export default defineComponent({
 
     /**
      * 处理嵌套数据
-     * @param key - 键值
+     * @param arr - 键值数组
+     * @param obj - 表单数据对象
      * @param value - 修改值
      */
-    const handleNested = (key: string, value: IAllDataType) => {
-      // 嵌套数据，最多支持四层结构
-      if (key.includes('.')) {
-        const arr = key.split('.')
-        let zero = '', one = '', two = '', three = ''
-
-        /**
-         * TODO：逻辑优化
-         */
-        for (let i = 0; i < arr.length; i++) {
-          if (i === 0) {
-            zero = arr[i]
-            if (!formState.value[zero]) formState.value[zero] = {}
-          }
-          if (i === 1) {
-            one = arr[i]
-            if (!formState.value[zero][one]) formState.value[zero][one] = {}
-          }
-          if (i === 2) {
-            two = arr[i]
-            if (!formState.value[zero][one][two]) formState.value[zero][one][two] = {}
-          }
-          if (i === 3) {
-            three = arr[i]
-            if (!formState.value[zero][one][two][three]) formState.value[zero][one][two][three] = {}
-          }
-        }
-        
-        // 根据数组长度赋值
-        switch(arr.length) {
-          case 2:
-            formState.value[zero][one] = value
-            break
-
-          case 3:
-            formState.value[zero][one][two] = value
-            break
-
-          case 4:
-            formState.value[zero][one][two][three] = value
-            break
-
-          default:
-            formState.value[zero] = value
-            break
+    const deepNested = (arr: string[], obj: Record<string, IAllDataType>, value: IAllDataType) => {
+      const key = arr.shift()
+      if (!obj) obj = {}
+      if (key) {
+        if (!obj[key]) obj[key] = {}
+        if (arr.length) {
+          obj[key] = deepNested(arr, obj[key] as Record<string, IAllDataType>, value)
+        } else {
+          obj[key] = value
         }
       }
+      return obj
     }
 
     /**
@@ -182,7 +148,8 @@ export default defineComponent({
      */
     const setFromState = (key: string, value: IAllDataType) => {
       if (key.includes('.')) {
-        handleNested(key, value)
+        const arr = key.split('.')
+        deepNested(arr, formState.value, value)
       } else {
         formState.value[key] = value
       }

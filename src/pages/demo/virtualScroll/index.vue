@@ -20,12 +20,13 @@
 </template>
 
 <script lang="ts">
+import type { IAllDataType } from '#/public'
 import { defineComponent, reactive, nextTick, onMounted } from 'vue'
 import { List } from 'vxe-table'
 import { Button, message } from 'ant-design-vue'
 
 interface ItemVO {
-  [key: string]: any;
+  [key: string]: IAllDataType;
 }
 
 export default defineComponent({
