@@ -114,9 +114,7 @@ git push
 | title | 是 | 表单标题 |
 | rules | 否 | 表单规则，[参考模板](https://ant.design/components/form-cn/#components-form-demo-basic) |
 | component | 是 | 组件名，参考Antv名称，如Input |
-| componentProps | 否 | 组件属性，参考对应文档API |
-
-**componentProps内的方法都是on开头，如dropdownVisibleChange要改为onDropdownVisibleChange**
+| componentProps | 否 | 组件属性，参考对应文档API，方法都是**on开头**，如dropdownVisibleChange要改为onDropdownVisibleChange |
 
 ### 表格(BasicTable):
 | 属性名 | 是否必填 | 属性说明 |
@@ -141,9 +139,9 @@ git push
 | 属性名 | 是否必填 | 属性说明 |
 | --- | --- | --- |
 | value | 否 | 下拉框绑定值 |
-| componentProps | 否 | 下拉框值，[ApiSelect属性](https://www.antdv.com/components/select-cn)，[ApiSelect、ApiTreeSelect属性](https://www.antdv.com/components/tree-select-cn) |
+| componentProps | 否 | 下拉框值，[ApiSelect属性](https://www.antdv.com/components/select-cn)，[ApiTreeSelect属性](https://www.antdv.com/components/tree-select-cn) |
 | api | 是 | API接口 |
 | params | 否 | 接口参数 |
 | onDropdownVisibleChange | 否 | 展开下拉菜单的回调 |
 ### 自定义组件
-#### 业务组件存放在`src/components/Business`目录下，每次新增组件想要在index.tsx文件中引入。
+#### 业务组件存放在`src/components/Business`目录下，每次新增组件想要在src/components/Business/index.tsx文件中引入。
