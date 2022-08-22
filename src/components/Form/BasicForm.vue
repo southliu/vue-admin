@@ -93,7 +93,7 @@ export default defineComponent({
   setup(props, context) {
     const formRef = ref<FormInstance>()
     const data = JSON.parse(JSON.stringify(props.data))
-    const formState = ref(data)
+    const formState = ref<Record<string, IAllDataType>>(data)
 
     // 监听表单数据变化
     watch(() => props.data, value => {

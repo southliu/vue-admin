@@ -36,7 +36,7 @@ export default defineComponent({
   props: {
     total: {
       type: Number,
-      required: false
+      required: true
     },
     page: {
       type: Number,
