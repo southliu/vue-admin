@@ -4,6 +4,7 @@ import ApiSelect from '@/components/Selects/ApiSelect.vue'
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue'
 import WangEditor from '@/components/WangEditor/index.vue'
 import PasswordStrength from '@/components/PasswordStrength/index.vue'
+import { createBusinessComp } from '@/components/Business'
 import {
   Input,
   InputNumber,
@@ -20,7 +21,6 @@ import {
   Slider,
   Upload
 } from 'ant-design-vue'
-import { createBusinessComp } from '@/components/Business'
 
 const componentMap = new Map<IComponentType, Component>()
 

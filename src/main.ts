@@ -10,9 +10,6 @@ import 'uno.css'
 import 'nprogress/nprogress.css'
 import '@/assets/css/scrollbar.less'
 
-// iconify
-import '@purge-icons/generated'
-
 // vxe-table
 import { Column, Table, Grid } from 'vxe-table'
 import 'vxe-table/es/style.min.css'

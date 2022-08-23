@@ -42,12 +42,11 @@ export function createVitePlugins() {
         AntDesignVueResolver()
       ]
     }),
+    // 包分析
+    configVisualizerConfig(),
+    // css按需加载
+    configStyleImportPlugin()
   ]
-  
-  vitePlugins.push(configVisualizerConfig)
-
-  // css按需加载
-  vitePlugins.push(configStyleImportPlugin())
 
   return vitePlugins
 }

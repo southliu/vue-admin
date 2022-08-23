@@ -17,7 +17,7 @@
       showQuickJumper
       size="small"
       :disabled="loading"
-      :showTotal="() => showTotal(total || 0)"
+      :showTotal="() => showTotal(total)"
       :defaultCurrent="page"
       :defaultPageSize="pageSize"
       :total="total"
@@ -36,7 +36,8 @@ export default defineComponent({
   props: {
     total: {
       type: Number,
-      required: true
+      required: false,
+      default: 0
     },
     page: {
       type: Number,
@@ -63,7 +64,7 @@ export default defineComponent({
      * @param total - 总数
      */
     const showTotal = (total: number): string => {
-      return `共 ${total} 条数据`
+      return `共 ${total || 0} 条数据`
     }
 
     /**
