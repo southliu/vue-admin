@@ -128,7 +128,7 @@ export default defineComponent({
      * @param value - 修改值
      */
     const deepNested = (arr: string[], obj: Record<string, IAllDataType>, value: IAllDataType) => {
-      const key = arr.shift()
+      const key = arr.shift()?.trim()
       if (!obj) obj = {}
       if (key) {
         if (!obj[key]) obj[key] = {}
@@ -151,7 +151,7 @@ export default defineComponent({
         const arr = key.split('.')
         deepNested(arr, formState.value, value)
       } else {
-        formState.value[key] = value
+        formState.value[key?.trim()] = value
       }
     }
 
@@ -160,8 +160,16 @@ export default defineComponent({
      * @param name - 表单名称
      */
     const handleFormName = (name: string) => {
-      let res: string | string[] = name
-      if (name.includes('.')) res = name.split('.')
+      let res: string | string[] = ''
+      if (name.includes('.')) {
+        const arr = name.split('.')
+        for (let i = 0; i < arr.length; i++) {
+          arr[i] = arr[i]?.trim()
+        }
+        res = arr
+      } else {
+        res = name?.trim()
+      }
       return res
     }
 
