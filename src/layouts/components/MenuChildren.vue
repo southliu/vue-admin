@@ -39,29 +39,20 @@
   </SubMenu>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
+<script lang="ts" setup>
+import { defineProps, PropType } from 'vue'
 import { MenuItem, SubMenu } from 'ant-design-vue'
 import type { ISidebar } from '@/stores/menu'
 import Icon from '@/components/Icon/index.vue'
 
-// 递归菜单用
-export default defineComponent({
-  name: 'MenuChildren',
-  props: {
-    list: {
-      type: Array as PropType<ISidebar[]>,
-      required: true
-    },
-    handleClick: {
-      type: Function as PropType<(key: string, path: string, title: string) => void>,
-      required: true
-    }
+defineProps({
+  list: {
+    type: Array as PropType<ISidebar[]>,
+    required: true
   },
-  components: {
-    MenuItem,
-    SubMenu,
-    Icon
+  handleClick: {
+    type: Function as PropType<(key: string, path: string, title: string) => void>,
+    required: true
   }
 })
 </script>

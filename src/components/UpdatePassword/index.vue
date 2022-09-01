@@ -53,12 +53,12 @@
   </BasicModal>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 /**
  * @description: 修改密码组件
  */
 import type { FormInstance } from 'ant-design-vue'
-import { defineComponent, reactive, ref } from 'vue'
+import { defineProps, reactive, ref } from 'vue'
 import { Form, FormItem, InputPassword, message } from 'ant-design-vue'
 import { PASSWORD_RULE } from '@/utils/config'
 import { useDebounceFn } from '@vueuse/core'
@@ -71,63 +71,45 @@ interface IFormData {
   confirmPassword: string
 }
 
-export default defineComponent({
-  name: 'UpdatePassword',
-  emits: ['handleCancel', 'handleSubmit'],
-  props: {
-    visible: {
-      type: Boolean,
-      required: true
-    },
-    loading: {
-      type: Boolean,
-      required: true
-    }
-  },
-  components: {
-    BasicModal,
-    InputPassword,
-    Form,
-    FormItem,
-    PasswordStrength
-  },
-  setup(props, { emit }) {
-    const formRef = ref<FormInstance>()
+const emit = defineEmits(['handleCancel', 'handleSubmit'])
 
-    // 表单数据
-    const formState = reactive<IFormData>({
-      oldPassword: '',
-      newPassword: '',
-      confirmPassword: ''
+defineProps({
+  visible: {
+    type: Boolean,
+    required: true
+  },
+  loading: {
+    type: Boolean,
+    required: true
+  }
+})
+
+const formRef = ref<FormInstance>()
+
+// 表单数据
+const formState = reactive<IFormData>({
+  oldPassword: '',
+  newPassword: '',
+  confirmPassword: ''
+})
+
+/** 关闭弹窗 */
+const handleCancel = () => {
+  emit('handleCancel')
+}
+
+/** 点击确认 */
+const onFinish = useDebounceFn(() => {
+  formRef.value
+    ?.validateFields()
+    .then(values => {
+      // 密码不一致不通过
+      if (values.newPassword !== values.confirmPassword) {
+        return message.warning({ content: '重复密码不一致', key: 'password' })
+      }
+
+      emit('handleSubmit', values)
+      console.log('修改密码：', values)
     })
-
-    /** 关闭弹窗 */
-    const handleCancel = () => {
-      emit('handleCancel')
-    }
-
-    /** 点击确认 */
-    const onFinish = useDebounceFn(() => {
-      formRef.value
-        ?.validateFields()
-        .then(values => {
-          // 密码不一致不通过
-          if (values.newPassword !== values.confirmPassword) {
-            return message.warning({ content: '重复密码不一致', key: 'password' })
-          }
-
-          emit('handleSubmit', values)
-          console.log('修改密码：', values)
-        })
-    })
-
-    return {
-      formRef,
-      formState,
-      PASSWORD_RULE,
-      onFinish,
-      handleCancel
-    }
-  },
 })
 </script>

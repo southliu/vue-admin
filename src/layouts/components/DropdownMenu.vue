@@ -43,9 +43,9 @@
   </Menu>
 </template>
 
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import { TabEnums } from './Tabs.vue'
+<script lang="ts" setup>
+import { defineProps, defineEmits, PropType } from 'vue'
+import { TabEnums } from '../model'
 import type { ITabs } from '@/stores/tabs'
 import { Menu, MenuItem } from 'ant-design-vue'
 import {
@@ -55,59 +55,42 @@ import {
   VerticalAlignMiddleOutlined
 } from '@ant-design/icons-vue'
 
-export default defineComponent({
-  name: 'DropdownMenu',
-  emits: ['handleDropdown', 'handleRefresh'],
-  components: {
-    RedoOutlined,
-    CloseOutlined,
-    VerticalAlignTopOutlined,
-    VerticalAlignMiddleOutlined,
-    Menu,
-    MenuItem
-  },
-  props: {
-    currentKey: {
-      type: String,
-      required: true
-    },
-    activeKey: {
-      type: String,
-      required: true
-    },
-    pathName: {
-      type: String,
-      required: true
-    },
-    index: {
-      type: Number,
-      required: true
-    },
-    list: {
-      type: Array as PropType<ITabs[]>,
-      required: true
-    },
-  },
-  setup(props, { emit }) {
-    /**
-     * 处理下拉事件
-     * @param type - 下拉类型
-     * @param key - 唯一值 
-     */
-    const handleDropdown = (type: TabEnums, key: string) => {
-      emit('handleDropdown', type, key)
-    }
+const emit = defineEmits(['handleDropdown', 'handleRefresh'])
 
-    /** 刷新当前页 */
-    const handleRefresh = () => {
-      emit('handleRefresh', props.pathName)
-    }
-    
-    return {
-      TabEnums,
-      handleDropdown,
-      handleRefresh
-    }
+const props = defineProps({
+  currentKey: {
+    type: String,
+    required: true
+  },
+  activeKey: {
+    type: String,
+    required: true
+  },
+  pathName: {
+    type: String,
+    required: true
+  },
+  index: {
+    type: Number,
+    required: true
+  },
+  list: {
+    type: Array as PropType<ITabs[]>,
+    required: true
   }
 })
+
+/**
+ * 处理下拉事件
+ * @param type - 下拉类型
+ * @param key - 唯一值 
+ */
+const handleDropdown = (type: TabEnums, key: string) => {
+  emit('handleDropdown', type, key)
+}
+
+/** 刷新当前页 */
+const handleRefresh = () => {
+  emit('handleRefresh', props.pathName)
+}
 </script>

@@ -5,14 +5,6 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { Spin } from 'ant-design-vue'
-
-export default defineComponent({
-  name: 'BasicLoading',
-  components: {
-    Spin
-  }
-})
 </script>

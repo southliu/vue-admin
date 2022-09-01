@@ -8,29 +8,13 @@
   </Tooltip>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 /**
  * @description: 全屏组件
  */
-import { defineComponent } from 'vue'
 import { useFullscreen } from '@vueuse/core'
 import { FullscreenOutlined, FullscreenExitOutlined } from '@ant-design/icons-vue'
 import { Tooltip } from 'ant-design-vue'
 
-export default defineComponent({
-  name: 'FullscreenBtn',
-  components: {
-    FullscreenOutlined,
-    FullscreenExitOutlined,
-    Tooltip
-  },
-  setup() {
-    const { isFullscreen, toggle } = useFullscreen()
-
-    return {
-      isFullscreen,
-      toggle
-    }
-  }
-})
+const { isFullscreen, toggle } = useFullscreen()
 </script>

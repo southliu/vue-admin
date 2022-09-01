@@ -1,11 +1,13 @@
 {
-  "i18n-ally.localesPaths": [],
   "editor.tabSize": 2,
   "eslint.validate": ["typescript"],
+  // 关闭vetur报错
+  "vetur.validation.template": false,
+  "vetur.validation.script": false,
+  "vetur.validation.style": false,
   // 需要在vscode中下载code spell checker插件
   "cSpell.words": [
     "vite",
-    "vben",
     "windi",
     "windicss",
     "antv",

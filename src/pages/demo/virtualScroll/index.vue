@@ -19,9 +19,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { IAllDataType } from '#/public'
-import { defineComponent, reactive, nextTick, onMounted } from 'vue'
+import { reactive, nextTick, onMounted } from 'vue'
 import { List } from 'vxe-table'
 import { Button, message } from 'ant-design-vue'
 
@@ -29,55 +29,41 @@ interface ItemVO {
   [key: string]: IAllDataType;
 }
 
-export default defineComponent({
-  name: 'DemoVirtualScroll',
-  components: {
-    List,
-    Button
-  },
-  setup() {
-    const mockList: ItemVO[] = []
-    const demo = reactive({
-      loading: false,
-      list: [] as ItemVO[]
-    })
+const mockList: ItemVO[] = []
+const demo = reactive({
+  loading: false,
+  list: [] as ItemVO[]
+})
 
-    // 模拟后台
-    const getList = (size: number): Promise<ItemVO[]> => {
-      return new Promise(resolve => {
-        setTimeout(() => {
-          if (size > mockList.length) {
-            for (let index = mockList.length; index < size; index++) {
-              mockList.push({
-                id: index,
-                label: `row_${index}`
-              })
-            }
-          }
-          resolve(mockList.slice(0, size))
-        }, 100)
-      })
-    }
+// 模拟后台
+const getList = (size: number): Promise<ItemVO[]> => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      if (size > mockList.length) {
+        for (let index = mockList.length; index < size; index++) {
+          mockList.push({
+            id: index,
+            label: `row_${index}`
+          })
+        }
+      }
+      resolve(mockList.slice(0, size))
+    }, 100)
+  })
+}
 
-    const loadData = async (size: number) => {
-      demo.loading = true
-      demo.list = await getList(size)
-      demo.loading = false
-      const startTime = Date.now()
-      await nextTick()
-      await message.info({ content: `渲染 ${size} 行，用时 ${Date.now() - startTime}毫秒`, key: 'info' })
-    }
+const loadData = async (size: number) => {
+  demo.loading = true
+  demo.list = await getList(size)
+  demo.loading = false
+  const startTime = Date.now()
+  await nextTick()
+  await message.info({ content: `渲染 ${size} 行，用时 ${Date.now() - startTime}毫秒`, key: 'info' })
+}
 
-    // 初始化
-    onMounted(async () => {
-      demo.list = await getList(200)
-    })
-    
-    return {
-      demo,
-      loadData
-    }
-  }
+// 初始化
+onMounted(async () => {
+  demo.list = await getList(200)
 })
 </script>
 

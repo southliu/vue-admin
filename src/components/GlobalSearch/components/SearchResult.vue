@@ -44,47 +44,36 @@
   </template>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { IGlobalSearchResult } from '../model'
-import { defineComponent, PropType } from 'vue'
+import { defineProps, defineEmits, PropType } from 'vue'
 import Icon from '@/components/Icon/index.vue'
 
-export default defineComponent({
-  name: 'SearchResult',
-  emits: ['handleClick', 'handleMouse'],
-  props: {
-    list: {
-      type: Array as PropType<IGlobalSearchResult[]>,
-      required: true
-    },
-    active: {
-      type: String,
-      required: true
-    }
-  },
-  components: {
-    Icon
-  },
-  setup(props, context) {
-    /**
-     * 处理鼠标经过
-     * @param item - 当前值
-     */
-    const handleMouse = (item: IGlobalSearchResult) => {
-      context.emit('handleMouse', item)
-    }
+const emit = defineEmits(['handleClick', 'handleMouse'])
 
-    /**
-     * 鼠标点击
-     */
-    const handleClick = () => {
-      context.emit('handleClick')
-    }
-
-    return {
-      handleMouse,
-      handleClick
-    }
+defineProps({
+  list: {
+    type: Array as PropType<IGlobalSearchResult[]>,
+    required: true
+  },
+  active: {
+    type: String,
+    required: true
   }
 })
+
+/**
+ * 处理鼠标经过
+ * @param item - 当前值
+ */
+const handleMouse = (item: IGlobalSearchResult) => {
+  emit('handleMouse', item)
+}
+
+/**
+ * 鼠标点击
+ */
+const handleClick = () => {
+  emit('handleClick')
+}
 </script>

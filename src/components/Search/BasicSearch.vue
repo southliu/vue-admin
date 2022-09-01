@@ -59,7 +59,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 /**
  * @description: 搜索组件
  */
@@ -69,7 +69,7 @@ import type { IFormData, IFormList } from '#/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
 import type { IAllDataType } from '#/public'
-import { defineComponent, watch, ref } from 'vue'
+import { defineProps, defineEmits, defineExpose, watch, ref } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
 import { useDebounceFn } from '@vueuse/core'
@@ -78,110 +78,93 @@ import BasicComponents from '../Form/BasicComponents.vue'
 
 type IFinishFun = (values: IFormData) => void
 
-export default defineComponent({
-  name: 'BasicSearch',
-  emits: ['handleFinish', 'onCreate'],
-  props: {
-    data: {
-      type: Object,
-      required: true
-    },
-    list: {
-      type: Array as PropType<IFormList[]>,
-      required: true
-    },
-    wrapperCol: {
-      type: Object as PropType<Partial<ColProps>>,
-      required: false,
-    },
-    loading: {
-      type: Boolean
-    },
-    isSearch: {
-      type: Boolean,
-      default: true
-    },
-    isCreate: {
-      type: Boolean
-    }
+const emit = defineEmits(['handleFinish', 'onCreate'])
+
+const props = defineProps({
+  data: {
+    type: Object,
+    required: true
   },
-  components: {
-    SearchOutlined,
-    PlusOutlined,
-    BasicComponents,
-    Form,
-    FormItem,
-    Button
+  list: {
+    type: Array as PropType<IFormList[]>,
+    required: true
   },
-  setup(props, context) {
-    const formRef = ref<FormInstance>()
-    const formState = ref(props.data)
-
-    // 监听表单数据变化
-    watch(() => props.data, value => {
-      formState.value = value
-    })
-
-    /** 外部调内部提交方法 */
-    const handleSubmit = useDebounceFn(() => {
-      formRef.value
-        ?.validateFields()
-        .then(values => {
-          const params = filterEmptyValue(values)
-          context.emit('handleFinish', params)
-        })
-        .catch(info => {
-          console.log('错误信息:', info)
-        })
-    })
-
-    /** 外部调内部重置方法 */
-    const handleReset = () => {
-      formRef.value?.resetFields()
-    }
-
-    /**
-     * 修改formState值
-     * @param key - 键值
-     * @param value - 修改值
-     */
-    const setFromState = (key: string, value: IAllDataType) => {
-      formState.value[key] = value
-    }
-
-    /** 点击新增 */
-    const onCreate = () => {
-      context.emit('onCreate')
-    }
-
-    /**
-     * 提交处理
-     * @param values - 表单数据
-     */
-    const onFinish: IFinishFun = useDebounceFn(values => {
-      const params = filterEmptyValue(values)
-      context.emit('handleFinish', params)
-    })
-
-    /**
-     * 错误处理
-     * @param errorInfo - 错误信息
-     */
-    const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
-      console.log('错误信息:', errorInfo)
-    }
-
-    return {
-      formRef,
-      formState,
-      setFromState,
-      onCreate,
-      onFinish,
-      onFinishFailed,
-      handleReset,
-      handleSubmit,
-    }
+  wrapperCol: {
+    type: Object as PropType<Partial<ColProps>>,
+    required: false,
+  },
+  loading: {
+    type: Boolean
+  },
+  isSearch: {
+    type: Boolean,
+    default: true
+  },
+  isCreate: {
+    type: Boolean
   }
+})
+
+const formRef = ref<FormInstance>()
+const formState = ref(props.data)
+
+// 监听表单数据变化
+watch(() => props.data, value => {
+  formState.value = value
+})
+
+/** 外部调内部提交方法 */
+const handleSubmit = useDebounceFn(() => {
+  formRef.value
+    ?.validateFields()
+    .then(values => {
+      const params = filterEmptyValue(values)
+      emit('handleFinish', params)
+    })
+    .catch(info => {
+      console.log('错误信息:', info)
+    })
+})
+
+/** 外部调内部重置方法 */
+const handleReset = () => {
+  formRef.value?.resetFields()
+}
+
+/**
+ * 修改formState值
+ * @param key - 键值
+ * @param value - 修改值
+ */
+const setFromState = (key: string, value: IAllDataType) => {
+  formState.value[key] = value
+}
+
+/** 点击新增 */
+const onCreate = () => {
+  emit('onCreate')
+}
+
+/**
+ * 提交处理
+ * @param values - 表单数据
+ */
+const onFinish: IFinishFun = useDebounceFn(values => {
+  const params = filterEmptyValue(values)
+  emit('handleFinish', params)
+})
+
+/**
+ * 错误处理
+ * @param errorInfo - 错误信息
+ */
+const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
+  console.log('错误信息:', errorInfo)
+}
+
+defineExpose({
+  handleSubmit,
+  handleReset
 })
 </script>
 

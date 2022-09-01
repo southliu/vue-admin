@@ -115,14 +115,15 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { Key } from 'ant-design-vue/lib/_util/type'
-import { defineComponent, reactive, ref } from 'vue'
+import { defineProps, defineEmits, defineExpose, reactive, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useTabStore } from '@/stores/tabs'
 import { CloseOutlined } from '@ant-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
+import { TabEnums } from '../model'
 import {
   Tabs,
   TabPane,
@@ -133,198 +134,166 @@ import {
 import DropdownMenu from './DropdownMenu.vue'
 import Icon from '@/components/Icon/index.vue'
 
-export enum TabEnums {
-  CLOSE_CURRENT, // 关闭当前
-  CLOSE_OTHER, // 关闭其他
-  CLOSE_LEFT, // 关闭左侧
-  CLOSE_RIGHT // 关闭右侧
-}
-
 interface ITimeout {
   icon: null | NodeJS.Timeout;
   refresh: null | NodeJS.Timeout;
 }
 
-export default defineComponent({
-  name: 'TabsLayout',
-  emits: ['toggleMaximize'],
-  components: {
-    CloseOutlined,
-    Icon,
-    Tabs,
-    TabPane,
-    Dropdown,
-    Tooltip,
-    DropdownMenu
-  },
-  props: {
-    maximize: {
-      type: Boolean,
-      required: false,
-      defaultValue: false
-    }
-  },
-  setup(props, { emit }) {
-    const route = useRoute()
-    const router = useRouter()
-    const tabStore = useTabStore()
-    const isRefresh = ref(false) // 是否刷新
-    const isDropdown = ref(false) // 是否显示下拉菜单
-    const timeout = reactive<ITimeout>({
-      icon: null,
-      refresh: null
-    })
-    const {
-      tabs,
-      prevPath,
-      pathName,
-      activeKey,
-      cacheRoutes
-    } = storeToRefs(tabStore)
-    const {
-      addPrevPath,
-      removeCurrent,
-      removeOther,
-      removeLeft,
-      removeRight
-    } = tabStore
+const emit = defineEmits(['toggleMaximize'])
 
-    /**
-     * 是否是选中
-     * @param key - 唯一值
-     */
-    const isActive = (key: string) => key === activeKey.value
-
-    /**
-     * 点击标签
-     * @param targetKey - 当前选中唯一值
-     */
-    const onChange = (targetKey: Key) => {
-      router.push(targetKey as string)
-    }
-
-    /**
-     * 移除当前标签页
-     * @param targetKey - 当前选中唯一值
-     */
-    const handleRemove = (targetKey: string) => {
-      removeCurrent(targetKey)
-    }
-
-    /** 获取tabs下标 */
-    const getTabIndex = (key: string): number => {
-      return tabs.value.findIndex(item => item.path === key)
-    }
-
-    /**
-     * 刷新当前页
-     */
-    const handleRefresh = (pathName: string) => {
-      // 关闭右键菜单显示
-      isDropdown.value = false
-      // 缓存上一个路径地址
-      addPrevPath(route.path)
-
-      // 当timeout没执行时刷新页面
-      if (!timeout.icon) {
-        isRefresh.value = true
-      
-        // 去除缓存路由中当前路由
-        cacheRoutes.value = cacheRoutes.value.filter(item => item !== pathName)
-
-        // 调转空白页
-        router.push('/empty')
-      }
-
-      /** 清除timeout */
-      const clearRefresh = () => {
-        clearTimeout(timeout.refresh!)
-        timeout.refresh = null
-      }
-      const clearIcon = () => {
-        clearTimeout(timeout.icon!)
-        timeout.icon = null
-      }
-
-      // 200毫秒调转回来
-      timeout.refresh = setTimeout(() => {
-        router.push(prevPath.value)
-        clearRefresh()
-        message.success({ content: '刷新成功', key: 'refresh' })
-      }, 200)
-      // icon 1秒后转回来
-      timeout.icon = setTimeout(() => {
-        isRefresh.value = false
-        clearIcon()
-      }, 1000)
-    }
-
-    /**
-     * 点击右键功能
-     * @param type - 右键下拉选中类型
-     * @param key - 标签唯一值，可作为路由
-     * @param pathName - 文件名，keepalive使用
-     */
-    const handleDropdown = useDebounceFn((type: TabEnums, key: string) => {
-      // 关闭右键菜单显示
-      isDropdown.value = false
-
-      switch (type) {
-        // 关闭标签
-        case TabEnums.CLOSE_CURRENT:
-          removeCurrent(key)
-          break
-
-        // 关闭其他
-        case TabEnums.CLOSE_OTHER:
-          removeOther(key)
-          break
-
-        // 关闭左侧
-        case TabEnums.CLOSE_LEFT:
-          removeLeft(key)
-          break
-
-        // 关闭右侧
-        case TabEnums.CLOSE_RIGHT:
-          removeRight(key)
-          break
-
-        default:
-          break
-      }
-    })
-
-    /** 处理最大化 */
-    const handleMaximize = () => {
-      emit('toggleMaximize')
-    }
-
-    /**
-     * 监听菜单变化
-     * @param visible - 是否显示
-     */
-    const handleDropdownChange = (visible: boolean) => {
-      isDropdown.value = visible
-    }
-
-    return {
-      isRefresh,
-      isDropdown,
-      tabs,
-      pathName,
-      activeKey,
-      TabEnums,
-      isActive,
-      onChange,
-      getTabIndex,
-      handleRemove,
-      handleRefresh,
-      handleDropdown,
-      handleMaximize,
-      handleDropdownChange
-    }
+defineProps({
+  maximize: {
+    type: Boolean,
+    required: false,
+    defaultValue: false
   }
+})
+
+const route = useRoute()
+const router = useRouter()
+const tabStore = useTabStore()
+const isRefresh = ref(false) // 是否刷新
+const isDropdown = ref(false) // 是否显示下拉菜单
+const timeout = reactive<ITimeout>({
+  icon: null,
+  refresh: null
+})
+const {
+  tabs,
+  prevPath,
+  pathName,
+  activeKey,
+  cacheRoutes
+} = storeToRefs(tabStore)
+const {
+  addPrevPath,
+  removeCurrent,
+  removeOther,
+  removeLeft,
+  removeRight
+} = tabStore
+
+/**
+ * 是否是选中
+ * @param key - 唯一值
+ */
+const isActive = (key: string) => key === activeKey.value
+
+/**
+ * 点击标签
+ * @param targetKey - 当前选中唯一值
+ */
+const onChange = (targetKey: Key) => {
+  router.push(targetKey as string)
+}
+
+/**
+ * 移除当前标签页
+ * @param targetKey - 当前选中唯一值
+ */
+const handleRemove = (targetKey: string) => {
+  removeCurrent(targetKey)
+}
+
+/** 获取tabs下标 */
+const getTabIndex = (key: string): number => {
+  return tabs.value.findIndex(item => item.path === key)
+}
+
+/**
+ * 刷新当前页
+ */
+const handleRefresh = (pathName: string) => {
+  // 关闭右键菜单显示
+  isDropdown.value = false
+  // 缓存上一个路径地址
+  addPrevPath(route.path)
+
+  // 当timeout没执行时刷新页面
+  if (!timeout.icon) {
+    isRefresh.value = true
+  
+    // 去除缓存路由中当前路由
+    cacheRoutes.value = cacheRoutes.value.filter(item => item !== pathName)
+
+    // 调转空白页
+    router.push('/empty')
+  }
+
+  /** 清除timeout */
+  const clearRefresh = () => {
+    clearTimeout(timeout.refresh!)
+    timeout.refresh = null
+  }
+  const clearIcon = () => {
+    clearTimeout(timeout.icon!)
+    timeout.icon = null
+  }
+
+  // 200毫秒调转回来
+  timeout.refresh = setTimeout(() => {
+    router.push(prevPath.value)
+    clearRefresh()
+    message.success({ content: '刷新成功', key: 'refresh' })
+  }, 200)
+  // icon 1秒后转回来
+  timeout.icon = setTimeout(() => {
+    isRefresh.value = false
+    clearIcon()
+  }, 1000)
+}
+
+/**
+ * 点击右键功能
+ * @param type - 右键下拉选中类型
+ * @param key - 标签唯一值，可作为路由
+ * @param pathName - 文件名，keepalive使用
+ */
+const handleDropdown = useDebounceFn((type: TabEnums, key: string) => {
+  // 关闭右键菜单显示
+  isDropdown.value = false
+
+  switch (type) {
+    // 关闭标签
+    case TabEnums.CLOSE_CURRENT:
+      removeCurrent(key)
+      break
+
+    // 关闭其他
+    case TabEnums.CLOSE_OTHER:
+      removeOther(key)
+      break
+
+    // 关闭左侧
+    case TabEnums.CLOSE_LEFT:
+      removeLeft(key)
+      break
+
+    // 关闭右侧
+    case TabEnums.CLOSE_RIGHT:
+      removeRight(key)
+      break
+
+    default:
+      break
+  }
+})
+
+/** 处理最大化 */
+const handleMaximize = () => {
+  emit('toggleMaximize')
+}
+
+/**
+ * 监听菜单变化
+ * @param visible - 是否显示
+ */
+const handleDropdownChange = (visible: boolean) => {
+  isDropdown.value = visible
+}
+
+defineExpose({
+  TabEnums
 })
 </script>
 

@@ -26,62 +26,51 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { defineProps, defineEmits } from 'vue'
 import { Pagination } from 'ant-design-vue'
 
-export default defineComponent({
-  name: 'BasicPagination',
-  emits: ['handleChange'],
-  props: {
-    total: {
-      type: Number,
-      required: false,
-      default: 0
-    },
-    page: {
-      type: Number,
-      required: true,
-      default: 1
-    },
-    pageSize: {
-      type: Number,
-      required: true,
-      default: 20
-    },
-    loading: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
-  },
-  components: {
-    Pagination 
-  },
-  setup(props, context) {
-    /**
-     * 显示总数
-     * @param total - 总数
-     */
-    const showTotal = (total: number): string => {
-      return `共 ${total || 0} 条数据`
-    }
+const emit = defineEmits(['handleChange'])
 
-    /**
-     * 页数改变
-     * @param page - 当前页
-     * @param pageSize - 页总数
-     */
-    const onChange = (page: number, pageSize: number) => {
-      context.emit('handleChange', page, pageSize)
-    }
-
-    return {
-      showTotal,
-      onChange
-    }
+defineProps({
+  total: {
+    type: Number,
+    required: false,
+    default: 0
+  },
+  page: {
+    type: Number,
+    required: true,
+    default: 1
+  },
+  pageSize: {
+    type: Number,
+    required: true,
+    default: 20
+  },
+  loading: {
+    type: Boolean,
+    required: false,
+    default: false
   }
 })
+
+/**
+ * 显示总数
+ * @param total - 总数
+ */
+const showTotal = (total: number): string => {
+  return `共 ${total || 0} 条数据`
+}
+
+/**
+ * 页数改变
+ * @param page - 当前页
+ * @param pageSize - 页总数
+ */
+const onChange = (page: number, pageSize: number) => {
+  emit('handleChange', page, pageSize)
+}
 </script>
 
 <style lang="less">

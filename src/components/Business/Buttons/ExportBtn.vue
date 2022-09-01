@@ -10,25 +10,14 @@
  </Button>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { defineEmits } from 'vue'
 import { Button } from 'ant-design-vue'
 
-export default defineComponent({
-  name: 'ExportBtn',
-  emits: ['click'],
-  components: {
-    Button
-  },
-  setup(props, { emit }) {
-    // 处理点击事件
-    const handleClick = () => {
-      emit('click')
-    }
+const emit = defineEmits(['click'])
 
-    return {
-      handleClick
-    }
-  }
-})
+// 处理点击事件
+const handleClick = () => {
+  emit('click')
+}
 </script>

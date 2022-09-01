@@ -16,16 +16,8 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import Icon from '@/components/Icon/index.vue'
-
-export default defineComponent({
-  name: 'SearchFooter',
-  components: {
-    Icon
-  }
-})
 </script>
 
 <style lang="less" scoped>

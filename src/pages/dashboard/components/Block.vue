@@ -19,28 +19,13 @@
   </Row>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import { Card, Row, Col } from 'ant-design-vue'
 
-export default defineComponent({
-  name: 'DashboardBlock',
-  components: {
-    Card,
-    Row,
-    Col
-  },
-  setup() {
-    const data = [
-      { title: '访问数', num: 2000, all: 15000 },
-      { title: '充值数', num: 2000, all: 15000 },
-      { title: '注册数', num: 2000, all: 15000 },
-      { title: '成交数', num: 2000, all: 15000 },
-    ]
-
-    return {
-      data
-    }
-  }
-})
+const data = [
+  { title: '访问数', num: 2000, all: 15000 },
+  { title: '充值数', num: 2000, all: 15000 },
+  { title: '注册数', num: 2000, all: 15000 },
+  { title: '成交数', num: 2000, all: 15000 },
+]
 </script>

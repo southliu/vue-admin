@@ -12,9 +12,8 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { IMenuItem } from '@/stores/menu'
-import { defineComponent } from 'vue'
 import { Button } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useMenuStore } from '@/stores/menu'
@@ -22,38 +21,28 @@ import { useTabStore } from '@/stores/tabs'
 import { storeToRefs } from 'pinia'
 import { getFirstMenu } from '@/utils/menus'
 
-export default defineComponent({
-  name: 'BadRequired',
-  components: { Button },
-  setup() {
-    const router = useRouter()
-    const menuStore = useMenuStore()
-    const tabStore = useTabStore()
-    const { setFirstMenu } = menuStore
-    const { openKeys, menuList, firstMenu } = storeToRefs(menuStore)
+const router = useRouter()
+const menuStore = useMenuStore()
+const tabStore = useTabStore()
+const { setFirstMenu } = menuStore
+const { openKeys, menuList, firstMenu } = storeToRefs(menuStore)
 
-  // 跳转首页
-  const goIndex = () => {
-    let obj: IMenuItem = { key: '', path: '', top: '', topTitle: '', title: '' }
-    if (firstMenu.value?.key) {
-      obj = firstMenu.value
-    } else {
-      obj = getFirstMenu(menuList.value)
-      setFirstMenu(obj)
-    }
-    // 跳转第一个有效菜单
-    const { key, path, title, top } = obj
-    // 菜单展开，添加标签
-    if (top) openKeys.value = [top]
-    if (key) tabStore.addTabs({ key, path, title })
-    router.push(path)
-  }
-   
-   return {
-     goIndex
-   }
-  }
-})
+// 跳转首页
+const goIndex = () => {
+let obj: IMenuItem = { key: '', path: '', top: '', topTitle: '', title: '' }
+if (firstMenu.value?.key) {
+  obj = firstMenu.value
+} else {
+  obj = getFirstMenu(menuList.value)
+  setFirstMenu(obj)
+}
+// 跳转第一个有效菜单
+const { key, path, title, top } = obj
+// 菜单展开，添加标签
+if (top) openKeys.value = [top]
+if (key) tabStore.addTabs({ key, path, title })
+router.push(path)
+}
 </script>
 
 <style lang="less" scoped>

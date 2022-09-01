@@ -43,9 +43,9 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { Key } from 'ant-design-vue/lib/_util/type'
-import { defineComponent } from 'vue'
+import { defineProps, defineEmits } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useRouter } from 'vue-router'
@@ -54,68 +54,50 @@ import { storeToRefs } from 'pinia'
 import MenuChildren from './MenuChildren.vue'
 import Logo from '@/assets/images/logo.png'
 
-export default defineComponent({
-  name: 'MenuLayout',
-  emits: ['toggleCollapsed'],
-  props: {
-    collapsed: {
-      type: Boolean,
-      required: true
-    }
-  },
-  components: {
-    Menu,
-    MenuChildren
-  },
-  setup(props,context) {
-    const router = useRouter()
-    const tabStore = useTabStore()
-    const menuStore = useMenuStore()
-    const {
-      isPhone,
-      openKeys,
-      selectedKeys,
-      menuList,
-    } = storeToRefs(menuStore)
+const emit = defineEmits(['toggleCollapsed'])
 
-    /**
-     * 菜单展开事件
-     * @param keys - 展开下标
-     */
-    const openChange = (keys: Key[]) => {
-      openKeys.value = [keys[keys.length - 1] as string || '']
-    }
-
-    /**
-     * 点击菜单
-     * @param key - 唯一值
-     * @param title - 标题
-     */
-    const handleClick = (key: string, path: string, title: string) => {
-      router.push(path)
-      tabStore.addTabs({ title, path, key })
-      
-      // 手机端点击隐藏菜单
-      if (isPhone.value) context.emit('toggleCollapsed')
-    }
-
-    /** 隐藏菜单 */
-    const hiddenMenu = () => {
-      context.emit('toggleCollapsed')
-    }
-
-    return {
-      isPhone,
-      Logo,
-      menuList,
-      selectedKeys,
-      openKeys,
-      openChange,
-      hiddenMenu,
-      handleClick,
-    }
+defineProps({
+  collapsed: {
+    type: Boolean,
+    required: true
   }
 })
+
+const router = useRouter()
+const tabStore = useTabStore()
+const menuStore = useMenuStore()
+const {
+  isPhone,
+  openKeys,
+  selectedKeys,
+  menuList,
+} = storeToRefs(menuStore)
+
+/**
+ * 菜单展开事件
+ * @param keys - 展开下标
+ */
+const openChange = (keys: Key[]) => {
+  openKeys.value = [keys[keys.length - 1] as string || '']
+}
+
+/**
+ * 点击菜单
+ * @param key - 唯一值
+ * @param title - 标题
+ */
+const handleClick = (key: string, path: string, title: string) => {
+  router.push(path)
+  tabStore.addTabs({ title, path, key })
+  
+  // 手机端点击隐藏菜单
+  if (isPhone.value) emit('toggleCollapsed')
+}
+
+/** 隐藏菜单 */
+const hiddenMenu = () => {
+  emit('toggleCollapsed')
+}
 </script>
 
 <style lang="less" scoped>

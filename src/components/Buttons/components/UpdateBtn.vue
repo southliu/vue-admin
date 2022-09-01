@@ -8,32 +8,22 @@
   </Button>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { defineProps, defineEmits } from 'vue'
 import { Button } from 'ant-design-vue'
 
-export default defineComponent({
-  name: 'UpdateBtn',
-  emits: ['click'],
-  components: {
-    Button
-  },
-  props: {
-    loading: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
-  },
-  setup(props, context) {
-    /** 点击编辑 */
-    const onClick = () => {
-      context.emit('click')
-    }
+const emit = defineEmits(['click'])
 
-    return {
-      onClick
-    }
-  },
+defineProps({
+  loading: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
 })
+
+/** 点击编辑 */
+const onClick = () => {
+  emit('click')
+}
 </script>

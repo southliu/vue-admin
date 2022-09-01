@@ -13,23 +13,15 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
+import { defineProps } from 'vue'
 
-export default defineComponent({
-  name: 'StrengthBar',
-  props: {
-    strength: {
-      type: Number,
-      required: true
-    }
-  },
-  setup() {
-    const arr = new Array(5).fill(0).map((item, index) => index + 1)
-
-    return {
-      arr
-    }
+defineProps({
+  strength: {
+    type: Number,
+    required: true
   }
 })
+
+const arr = new Array(5).fill(0).map((item, index) => index + 1)
 </script>

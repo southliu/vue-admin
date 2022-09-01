@@ -72,10 +72,10 @@
   <PageLoading v-else />
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import type { FormProps } from 'ant-design-vue'
 import type { ILoginData } from './model'
-import { defineComponent, onMounted, reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { login } from '@/servers/login'
 import { PASSWORD_RULE } from '@/utils/config'
@@ -100,92 +100,67 @@ import {
 import Logo from '@/assets/images/logo.png'
 import PageLoading from '@/components/Loading/PageLoading.vue'
 
-export default defineComponent({
-  name: 'LoginPage',
-  components: {
-    UserOutlined,
-    LockOutlined,
-    Form,
-    FormItem,
-    Button,
-    Input,
-    InputPassword,
-    PageLoading
-  },
-  setup() {
-    const router = useRouter()
-    const { loading, startLoading, endLoading } = useLoading()
-    const { setToken } = useToken()
-    const { RemoveWatermark } = useWatermark()
-    const isLock = ref(false)
+const router = useRouter()
+const { loading, startLoading, endLoading } = useLoading()
+const { setToken } = useToken()
+const { RemoveWatermark } = useWatermark()
+const isLock = ref(false)
 
-    const formState = reactive<ILoginData>({
-      username: 'admin',
-      password: 'admin123456',
-    })
-
-    onMounted(() => {
-      // 清除水印
-      RemoveWatermark()
-    })
-
-    /**
-     * 处理登录
-     * @param values - 表单数据
-     */
-    const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
-      try {
-        startLoading()
-        const menuStore = useMenuStore()
-        const tabStore = useTabStore()
-        const { openKeys, menuList } = storeToRefs(menuStore)
-        const { setUserInfo, setPermissions } = useUserStore()
-        const { data } = await login(values)
-        const { data: { token, user, permissions } } = data
-        const newPermissions = permissionsToArray(permissions)
-        setToken(token)
-        setUserInfo(user)
-        setPermissions(newPermissions)
-        
-        // 菜单处理
-        const newMenus = getMenus(menus, newPermissions)
-        menuList.value = newMenus
-        // 如果菜单为空，跳转空白页
-        if (newMenus.length === 0) router.push('/empty')
-        // 跳转第一个有效菜单
-        const { key, path, title, top } = getFirstMenu(newMenus)
-        // 菜单展开，添加标签
-        if (top) openKeys.value = [top]
-        if (key) tabStore.addTabs({ key, path, title })
-        isLock.value = true
-        router.push(path || '/')
-      } catch(err) {
-        console.log('登录失败:', err)
-        isLock.value = false
-      } finally {
-        endLoading()
-      }
-    }
-
-    /**
-     * 处理失败
-     * @param errors - 错误信息
-     */
-    const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
-      console.log('错误信息:', errors)
-    }
-
-    return {
-      isLock,
-      loading,
-      formState,
-      PASSWORD_RULE,
-      Logo,
-      handleFinish,
-      handleFinishFailed,
-    }
-  }
+const formState = reactive<ILoginData>({
+  username: 'admin',
+  password: 'admin123456',
 })
+
+onMounted(() => {
+  // 清除水印
+  RemoveWatermark()
+})
+
+/**
+ * 处理登录
+ * @param values - 表单数据
+ */
+const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
+  try {
+    startLoading()
+    const menuStore = useMenuStore()
+    const tabStore = useTabStore()
+    const { openKeys, menuList } = storeToRefs(menuStore)
+    const { setUserInfo, setPermissions } = useUserStore()
+    const { data } = await login(values)
+    const { data: { token, user, permissions } } = data
+    const newPermissions = permissionsToArray(permissions)
+    setToken(token)
+    setUserInfo(user)
+    setPermissions(newPermissions)
+    
+    // 菜单处理
+    const newMenus = getMenus(menus, newPermissions)
+    menuList.value = newMenus
+    // 如果菜单为空，跳转空白页
+    if (newMenus.length === 0) router.push('/empty')
+    // 跳转第一个有效菜单
+    const { key, path, title, top } = getFirstMenu(newMenus)
+    // 菜单展开，添加标签
+    if (top) openKeys.value = [top]
+    if (key) tabStore.addTabs({ key, path, title })
+    isLock.value = true
+    router.push(path || '/')
+  } catch(err) {
+    console.log('登录失败:', err)
+    isLock.value = false
+  } finally {
+    endLoading()
+  }
+}
+
+/**
+ * 处理失败
+ * @param errors - 错误信息
+ */
+const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
+  console.log('错误信息:', errors)
+}
 </script>
 
 <style lang="less" scoped>

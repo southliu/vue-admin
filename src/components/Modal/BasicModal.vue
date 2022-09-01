@@ -62,87 +62,70 @@
   </Modal>
 </template>
 
-<script lang="ts">
-import { defineComponent, nextTick, PropType, ref, watch } from 'vue'
+<script lang="ts" setup>
+import { defineProps, defineEmits, nextTick, PropType, ref, watch } from 'vue'
 import { Modal, Tooltip, Button, Spin } from 'ant-design-vue'
 import { useModalDragMove } from './hooks/useModalDrag'
 import { useDebounceFn } from '@vueuse/core'
 import Icon from '../Icon/index.vue'
 
-export default defineComponent({
-  name: 'BasicModal',
-  emits: ['handleCancel', 'handleFinish'],
-  props: {
-    visible: {
-      type: Boolean,
-      required: true
-    },
-    width: {
-      type: [String, Number],
-      default: 520
-    },
-    layout: {
-      type: String as PropType<'horizontal'|'vertical'|'inline'>,
-      required: false,
-      default: 'horizontal'
-    },
-    title: {
-      type: String,
-      required: true
-    },
-    // 权限控制
-    isPermission: {
-      type: Boolean,
-      default: true
-    },
-    loading: {
-      type: Boolean,
-      required: false,
-      default: false
-    }
+const emit = defineEmits(['handleCancel', 'handleFinish'])
+
+const props = defineProps({
+  visible: {
+    type: Boolean,
+    required: true
   },
-  components: {
-    Icon,
-    Modal,
-    Tooltip,
-    Button,
-    Spin
+  width: {
+    type: [String, Number],
+    default: 520
   },
-  setup(props, context) {
-    // 是否最大化
-    const isFullscreen = ref(false)
+  layout: {
+    type: String as PropType<'horizontal'|'vertical'|'inline'>,
+    required: false,
+    default: 'horizontal'
+  },
+  title: {
+    type: String,
+    required: true
+  },
+  // 权限控制
+  isPermission: {
+    type: Boolean,
+    default: true
+  },
+  loading: {
+    type: Boolean,
+    required: false,
+    default: false
+  }
+})
 
-    /** 点击关闭 */
-    const onCancel = () => {
-      context.emit('handleCancel')
-    }
+// 是否最大化
+const isFullscreen = ref(false)
 
-    /** 点击确认 */
-    const onFinish = useDebounceFn(() => {
-      context.emit('handleFinish')
-    }, 500)
+/** 点击关闭 */
+const onCancel = () => {
+  emit('handleCancel')
+}
 
-    /** 最大化 */
-    const onFullScreen = () => {
-      isFullscreen.value = !isFullscreen.value
-    }
+/** 点击确认 */
+const onFinish = useDebounceFn(() => {
+  emit('handleFinish')
+}, 500)
 
-    // 监听显示开启拖拽
-    watch(() => props.visible, async (value) => {
-      if (value) {
-        await nextTick()
-        useModalDragMove()
-      } else {
-        isFullscreen.value = false
-      }
-    })
+/** 最大化 */
+const onFullScreen = () => {
+  isFullscreen.value = !isFullscreen.value
+}
 
-    return {
-      isFullscreen,
-      onCancel,
-      onFinish,
-      onFullScreen
-    }
+// 监听显示开启拖拽
+watch(() => props.visible, async (value) => {
+  if (value) {
+    await nextTick()
+    useModalDragMove()
+  } else {
+    isFullscreen.value = false
   }
 })
 </script>

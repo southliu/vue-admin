@@ -9,37 +9,25 @@
   </BasicContent>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="ts" setup>
 import BasicContent from '@/components/Content/BasicContent.vue'
 import { useWatermark } from '@/hooks/useWatermark'
 import { Button } from 'ant-design-vue'
 
-export default defineComponent({
-  name: 'DemoWatermark',
-  components: {
-    BasicContent,
-    Button
-  },
-  setup() {
-    const { Watermark, RemoveWatermark } = useWatermark()
+const { Watermark, RemoveWatermark } = useWatermark()
 
-    const openWatermark = () => {
-      Watermark({
-        content: '这是水印',
-        height: 300,
-        width: 350,
-        rotate: -20,
-        color: '#000',
-        fontSize: 30,
-        opacity: .07
-      })
-    }
-    const hidWatermark = () => {
-      RemoveWatermark()
-    }
-
-    return { openWatermark, hidWatermark }
-  },
-})
+const openWatermark = () => {
+  Watermark({
+    content: '这是水印',
+    height: 300,
+    width: 350,
+    rotate: -20,
+    color: '#000',
+    fontSize: 30,
+    opacity: .07
+  })
+}
+const hidWatermark = () => {
+  RemoveWatermark()
+}
 </script>

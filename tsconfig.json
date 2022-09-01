@@ -9,7 +9,10 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "noEmit": true, // 不生成输出文件
+    "removeComments": true, // 删除编译后的所有的注释
     "noUnusedLocals": true, // 有未使用的变量时，抛出错误
+    "skipLibCheck": true, // 跳过库检查
     "lib": ["esnext", "dom"],
     "baseUrl": ".",
     "paths": {
@@ -17,24 +20,10 @@
       "#/*": ["types/*"]
     }
   },
-  "include": [
-    "tests/**/*.ts",
-    "src/**/*.ts",
-    "src/**/*.spec.ts",
-    "src/**/*.test.ts",
-    "src/**/*.d.ts",
-    "src/**/*.tsx",
-    "src/**/*.vue",
-    "types/**/*.d.ts",
-    "types/**/*.ts",
-    "build/**/*.ts",
-    "build/**/*.d.ts",
-    "mock/**/*.ts",
-    "vite.config.ts"
-  ],
   "exclude": [
     "node_modules",
     "dist",
+    "tests",
     "**/*.js"
   ]
 }
