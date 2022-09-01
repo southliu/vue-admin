@@ -3,7 +3,6 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configVisualizerConfig } from './visualizer'
 import { configStyleImportPlugin } from './styleImport'
-import { pluginExternal } from './external'
 import vue from '@vitejs/plugin-vue'
 import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -31,7 +30,6 @@ export function createVitePlugins() {
     }),
     // 压缩包
     viteCompression(),
-    pluginExternal(),
     AutoImport({
       resolvers: [
         AntDesignVueResolver()

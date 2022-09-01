@@ -7,7 +7,7 @@
   >
     <Input
       ref="inputRef"
-      v-model:value="value"
+      v-model:value="inputValue"
       placeholder="请输入关键词搜索"
       :allow-clear="true"
       @pressEnter="handleEnter"
@@ -61,7 +61,7 @@ const tabStore = useTabStore()
 const menuStore = useMenuStore()
 const { menuList, openKeys } = storeToRefs(menuStore)
 const inputRef = ref()
-const value = ref('')
+const inputValue = ref('')
 const resultList = ref<IGlobalSearchResult[]>([])
 const active = ref<IGlobalSearchResult>({
   title: '',
@@ -138,7 +138,7 @@ const handleSearch = (value: string) => {
 }
 
 // 监听变化
-watch(value, useDebounceFn(value => {
+watch(() => inputValue.value, useDebounceFn((value: string) => {
   const list = handleSearch(value)
   if (list?.length > 0) {
     resultList.value = list

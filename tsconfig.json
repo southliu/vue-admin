@@ -1,29 +1,29 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "baseUrl": "./",
+    "target": "ESNext",
     "useDefineForClassFields": true,
-    "module": "esnext",
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
     "sourceMap": true,
     "resolveJsonModule": true,
+    "isolatedModules": true,
     "esModuleInterop": true,
-    "noEmit": true, // 不生成输出文件
-    "removeComments": true, // 删除编译后的所有的注释
-    "noUnusedLocals": true, // 有未使用的变量时，抛出错误
-    "skipLibCheck": true, // 跳过库检查
-    "lib": ["esnext", "dom"],
-    "baseUrl": ".",
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["src/*"],
       "#/*": ["types/*"]
     }
   },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "tests",
-    "**/*.js"
-  ]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "build/**/*.ts",
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
 }
