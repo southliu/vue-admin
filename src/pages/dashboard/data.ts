@@ -4,8 +4,8 @@ import { DATE_FORMAT } from "@/utils/constants"
 // 搜索数据
 export const searchList: IFormList[] = [
   {
-    title: '日期',
-    key: 'pay_date',
+    label: '日期',
+    name: 'pay_date',
     component: 'DatePicker',
     componentProps: {
       allowClear: false,
@@ -13,26 +13,26 @@ export const searchList: IFormList[] = [
     }
   },
   {
-    title: '游戏ID',
-    key: 'game_ids',
+    label: '游戏ID',
+    name: 'game_ids',
     wrapperCol: 250,
     component: 'GameSelect',
   },
   {
-    title: '合作公司',
-    key: 'partners',
+    label: '合作公司',
+    name: 'partners',
     wrapperCol: 300,
     component: 'PartnerSelect'
   },
   {
-    title: '全服充值',
-    key: 'all_pay',
+    label: '全服充值',
+    name: 'all_pay',
     wrapperCol: 15,
     component: 'Checkbox'
   },
   {
-    title: '注册',
-    key: 'register',
+    label: '注册',
+    name: 'register',
     wrapperCol: 15,
     component: 'Checkbox'
   }

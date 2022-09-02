@@ -59,7 +59,7 @@
     <BasicForm
       ref="createFormRef"
       :list="createList"
-      :label-col="{ span: 6 }"
+      :labelCol="{ span: 6 }"
       :data="creates.data"
       @handleFinish="handleCreate"
     />
@@ -140,7 +140,8 @@ const permissionConfig = reactive<IPermissionConfig>({
 
 // 初始化新增数据
 const initCreate = {
-  status: 1
+  status: 1,
+  user: { name: { test: '1234' } }
 }
 
 // 搜索数据

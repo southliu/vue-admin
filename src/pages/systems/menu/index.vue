@@ -52,7 +52,7 @@
     <BasicForm
       ref="createFormRef"
       :list="createList(creates.id)"
-      :label-col="{ span: 6 }"
+      :labelCol="{ span: 6 }"
       :data="creates.data"
       @handleFinish="handleCreate"
     />

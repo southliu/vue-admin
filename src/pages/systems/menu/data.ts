@@ -6,16 +6,16 @@ import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from "@/utils/constants"
 // 搜索数据
 export const searchList: IFormList[] = [
   {
-    title: '状态',
-    key: 'status',
+    label: '状态',
+    name: 'status',
     component: 'Select',
     componentProps: {
       options: MENU_STATUS
     }
   },
   {
-    title: '模块',
-    key: 'module',
+    label: '模块',
+    name: 'module',
     wrapperCol: 170,
     component: 'Select',
     componentProps: {
@@ -23,8 +23,8 @@ export const searchList: IFormList[] = [
     }
   },
   {
-    title: '控制器',
-    key: 'controller',
+    label: '控制器',
+    name: 'controller',
     component: 'Input'
   }
 ]
@@ -32,14 +32,14 @@ export const searchList: IFormList[] = [
 // 新增数据
 export const createList: (id: string) => IFormList[] = id => [
   {
-    title: '名称',
-    key: 'name',
+    label: '名称',
+    name: 'name',
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
-    title: '状态',
-    key: 'status',
+    label: '状态',
+    name: 'status',
     rules: SELECT_REQUIRED,
     component: 'Select',
     componentProps: {
@@ -47,8 +47,8 @@ export const createList: (id: string) => IFormList[] = id => [
     }
   },
   {
-    title: '模块',
-    key: 'module',
+    label: '模块',
+    name: 'module',
     rules: SELECT_REQUIRED,
     component: 'Select',
     componentProps: {
@@ -56,14 +56,14 @@ export const createList: (id: string) => IFormList[] = id => [
     }
   },
   {
-    title: '控制器',
-    key: 'controller',
+    label: '控制器',
+    name: 'controller',
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
-    title: '同时创建菜单',
-    key: 'actions',
+    label: '同时创建菜单',
+    name: 'actions',
     hidden: !!id,
     component: 'CheckboxGroup',
     componentProps: {

@@ -12,11 +12,11 @@
     >
       <FormItem
         v-for="item in list"
-        :key="item.key"
-        :name="item.key"
-        :label="item.title"
+        :key="item.name"
+        :name="item.name"
+        :label="item.label"
         :rules="item.rules"
-        :label-col="{ style: { width: `${ item.labelCol }px` } }"
+        :labelCol="{ style: { width: `${ item.labelCol }px` } }"
         :wrapper-col="{ style: { width: `${ item.wrapperCol }px` } }"
         :style="{ display: 'inline-block' }"
       >

@@ -12,7 +12,7 @@
       :model="formState"
       name="horizontal_login"
       autocomplete="on"
-      :label-col="{ span: 5 }"
+      :labelCol="{ span: 5 }"
       :wrapper-col="{ span: 19 }"
     >
       <FormItem

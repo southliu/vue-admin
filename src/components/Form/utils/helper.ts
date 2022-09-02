@@ -33,41 +33,41 @@ export function getComponentProps(
     // 富文本
     case 'WangEditor':
       return {
-        modelValue: data[item.key] as string,
-        height: (data[item.key] as IWangEditorProps)?.height || 300,
-        'onUpdate:modelValue': (value: string) => setData(item.key, value)
+        modelValue: data[item.name] as string,
+        height: (data[item.name] as IWangEditorProps)?.height || 300,
+        'onUpdate:modelValue': (value: string) => setData(item.name, value)
       }
 
     // 复选框
     case 'Checkbox':
       return {
-        checked: !!data[item.key],
+        checked: !!data[item.name],
         innerHTML: data?.name || '',
         'onChange': (value: CheckboxChangeEvent) => {
-          setData(item.key, value.target.checked)
+          setData(item.name, value.target.checked)
         },
         'onUpdate:value': (value: CheckboxChangeEvent) => {
-          setData(item.key, value)
+          setData(item.name, value)
         }
       }
 
     // 时间
     case 'DatePicker': {
-      const dateValue = data[item.key] ? dayjs(data[item.key] as string) : undefined
+      const dateValue = data[item.name] ? dayjs(data[item.name] as string) : undefined
       return {
         defaultValue: dateValue,
         value: dateValue,
         'onUpdate:value': (value: Dayjs | string) => {
           const format = (data?.format || DATE_FORMAT) as string
-          setData(item.key, (value as Dayjs).format(format))
+          setData(item.name, (value as Dayjs).format(format))
         }
       }
     }
 
     // 时间区间
     case 'RangePicker': {
-      const rangeValue: [Dayjs, Dayjs] | undefined = (data[item.key] as [string, string])?.length > 1 && (data[item.key] as [string, string])?.[0] ?
-                [dayjs((data[item.key] as [string, string])[0]), dayjs((data[item.key] as [string, string])[1])] : undefined
+      const rangeValue: [Dayjs, Dayjs] | undefined = (data[item.name] as [string, string])?.length > 1 && (data[item.name] as [string, string])?.[0] ?
+                [dayjs((data[item.name] as [string, string])[0]), dayjs((data[item.name] as [string, string])[1])] : undefined
       return {
         defaultValue: rangeValue,
         value: rangeValue,
@@ -77,16 +77,16 @@ export function getComponentProps(
             (value as [Dayjs, Dayjs])[0].format(format),
             (value as [Dayjs, Dayjs])[1].format(format)
           ]
-          setData(item.key, newValue)
+          setData(item.name, newValue)
         }
       }
     }
 
     default:
       return {
-        value: data[item.key],
+        value: data[item.name],
         'onUpdate:value': (value: IAllDataType) => {
-          setData(item.key, value)
+          setData(item.name, value)
         }
       }
   }

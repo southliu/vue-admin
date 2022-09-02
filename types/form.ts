@@ -106,8 +106,8 @@ export type IFormRule = RuleObject & {
 
 // 表单数据
 export type IFormList = {
-  key: string; // 唯一标识
-  title: string; // 标题
+  name: string; // 表单域字段
+  label: string; // 标签
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏
   rules?: IFormRule[]; // 规则

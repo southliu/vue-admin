@@ -7,13 +7,13 @@ import { OPEN_CLOSE } from "@/utils/constants"
 // 搜索数据
 export const searchList: IFormList[] = [
   {
-    title: '年龄',
-    key: 'age',
+    label: '年龄',
+    name: 'age',
     component: 'InputNumber'
   },
   {
-    title: '名字',
-    key: 'keyword',
+    label: '名字',
+    name: 'keyword',
     component: 'Input'
   }
 ]
@@ -21,32 +21,32 @@ export const searchList: IFormList[] = [
 // 新增数据
 export const createList: IFormList[] = [
   {
-    title: '嵌套数据',
-    key: 'user.name.test',
+    label: '嵌套数据',
+    name: 'user.name.test',
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
-    title: '用户名',
-    key: 'username',
+    label: '用户名',
+    name: 'username',
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
-    title: '姓名',
-    key: 'real_name',
+    label: '姓名',
+    name: 'real_name',
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
-    title: '角色',
-    key: 'roles_name',
+    label: '角色',
+    name: 'roles_name',
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
   {
-    title: '状态',
-    key: 'status',
+    label: '状态',
+    name: 'status',
     rules: SELECT_REQUIRED,
     component: 'Select',
     componentProps: {

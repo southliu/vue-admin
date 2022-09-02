@@ -5,7 +5,7 @@
       scrollToFirstError
       :layout="layout"
       :model="formState"
-      :label-col="labelCol"
+      :labelCol="labelCol"
       :wrapper-col="wrapperCol"
       :labelAlign="labelAlign"
       @finish="onFinish"
@@ -13,9 +13,9 @@
     >
       <FormItem
         v-for="item in list"
-        :key="item.key"
-        :name="handleFormName(item.key)"
-        :label="item.title"
+        :key="item.name"
+        :name="handleFormName(item.name)"
+        :label="item.label"
         :rules="!item.hidden ? item.rules : []"
         :class="{ '!hidden': item.hidden }"
       >
