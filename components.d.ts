@@ -7,6 +7,7 @@ declare module 'vue' {
     ApiSelect: typeof import('./src/components/Selects/ApiSelect.vue')['default']
     ApiTreeSelect: typeof import('./src/components/Selects/ApiTreeSelect.vue')['default']
     BasicComponents: typeof import('./src/components/Form/BasicComponents.vue')['default']
+    'BasicComponents copy': typeof import('./src/components/Form/BasicComponents copy.vue')['default']
     BasicContent: typeof import('./src/components/Content/BasicContent.vue')['default']
     BasicForm: typeof import('./src/components/Form/BasicForm.vue')['default']
     BasicLoading: typeof import('./src/components/Loading/BasicLoading.vue')['default']

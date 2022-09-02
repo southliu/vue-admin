@@ -106,7 +106,7 @@ export type IFormRule = RuleObject & {
 
 // 表单数据
 export type IFormList = {
-  name: string; // 表单域字段
+  name: string | string[]; // 表单域字段
   label: string; // 标签
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏

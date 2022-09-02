@@ -109,8 +109,8 @@ git push
 ### 表单(BasicForm):
 | 属性名 | 必填 | 属性说明 |
 | --- | --- | --- |
-| key | 是 | 表单名称，如果存在逗号，则视为嵌套格式，如user.id => formState.user.id |
-| title | 是 | 表单标题 |
+| name | 是 | 表单域字段，如果是嵌套格式，则为数组 |
+| label | 是 | 表单标签 |
 | rules | 否 | 表单规则，[参考模板](https://ant.design/components/form-cn/#components-form-demo-basic) |
 | component | 是 | 组件名，参考Antv名称，如Input |
 | componentProps | 否 | 组件属性，参考对应文档API，方法都是**on开头**，如dropdownVisibleChange要改为onDropdownVisibleChange |

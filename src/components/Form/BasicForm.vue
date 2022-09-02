@@ -13,8 +13,8 @@
     >
       <FormItem
         v-for="item in list"
-        :key="item.name"
-        :name="handleFormName(item.name)"
+        :key="`${item.name}`"
+        :name="item.name"
         :label="item.label"
         :rules="!item.hidden ? item.rules : []"
         :class="{ '!hidden': item.hidden }"
@@ -22,7 +22,7 @@
         <BasicComponents
           class="min-w-100px"
           :item="item"
-          :data="formState"
+          v-model:data="formState"
           :setData="setFromState"
         />
       </FormItem>
@@ -87,8 +87,7 @@ const props = defineProps({
 })
 
 const formRef = ref<FormInstance>()
-const data = JSON.parse(JSON.stringify(props.data))
-const formState = ref<Record<string, IAllDataType>>(data)
+const formState = ref<Record<string, IAllDataType>>(props.data)
 
 // 监听表单数据变化
 watch(() => props.data, value => {
@@ -141,31 +140,13 @@ const deepNested = (arr: string[], obj: Record<string, IAllDataType>, value: IAl
  * @param key - 键值
  * @param value - 修改值
  */
-const setFromState = (key: string, value: IAllDataType) => {
-  if (key.includes('.')) {
-    const arr = key.split('.')
+const setFromState = (key: string | string[], value: IAllDataType) => {
+  if (Array.isArray(key)) {
+    const arr = JSON.parse(JSON.stringify(key))
     deepNested(arr, formState.value, value)
   } else {
     formState.value[key?.trim()] = value
   }
-}
-
-/**
- * 当表单名称中带有逗号，则分割逗号
- * @param name - 表单名称
- */
-const handleFormName = (name: string) => {
-  let res: string | string[] = ''
-  if (name.includes('.')) {
-    const arr = name.split('.')
-    for (let i = 0; i < arr.length; i++) {
-      arr[i] = arr[i]?.trim()
-    }
-    res = arr
-  } else {
-    res = name?.trim()
-  }
-  return res
 }
 
 /**

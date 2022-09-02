@@ -12,7 +12,7 @@
     >
       <FormItem
         v-for="item in list"
-        :key="item.name"
+        :key="`${item.name}`"
         :name="item.name"
         :label="item.label"
         :rules="item.rules"
@@ -132,12 +132,37 @@ const handleReset = () => {
 }
 
 /**
+ * 处理嵌套数据
+ * @param arr - 键值数组
+ * @param obj - 表单数据对象
+ * @param value - 修改值
+ */
+const deepNested = (arr: string[], obj: Record<string, IAllDataType>, value: IAllDataType) => {
+  const key = arr.shift()?.trim()
+  if (!obj) obj = {}
+  if (key) {
+    if (!obj[key]) obj[key] = {}
+    if (arr.length) {
+      obj[key] = deepNested(arr, obj[key] as Record<string, IAllDataType>, value)
+    } else {
+      obj[key] = value
+    }
+  }
+  return obj
+}
+
+/**
  * 修改formState值
  * @param key - 键值
  * @param value - 修改值
  */
-const setFromState = (key: string, value: IAllDataType) => {
-  formState.value[key] = value
+const setFromState = (key: string | string[], value: IAllDataType) => {
+  if (Array.isArray(key)) {
+    const arr = JSON.parse(JSON.stringify(key))
+    deepNested(arr, formState.value, value)
+  } else {
+    formState.value[key?.trim()] = value
+  }
 }
 
 /** 点击新增 */

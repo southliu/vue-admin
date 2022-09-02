@@ -22,7 +22,7 @@ export const searchList: IFormList[] = [
 export const createList: IFormList[] = [
   {
     label: '嵌套数据',
-    name: 'user.name.test',
+    name: ['user', 'name', 'test'],
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
