@@ -23,7 +23,7 @@ export const menus: IMenus[] = [
     component: () => import('@/layouts/index.vue'),
     children: [
       {
-        name: 'empty',
+        name: 'EmptyPage',
         path: '/empty',
         meta: { title: '重定向' },
         component: () => import('@/pages/errors/empty.vue')
@@ -66,7 +66,7 @@ export const menus: IMenus[] = [
           rule: '/dashboard',
           keepAlive: true
         },
-        component: () => import('@/pages/dashboard/index.vue')
+        component: () => import('@/pages/dashboard/DashboardPage.vue')
       }
     ]
   },

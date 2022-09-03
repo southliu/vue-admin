@@ -20,7 +20,7 @@ export const SystemMenus: IMenus[] = [
           rule: '/authority/user',
           keepAlive: true
         },
-        component: () => import('@/pages/systems/user/index.vue')
+        component: () => import('@/pages/systems/user/SystemUser.vue')
       },
       // {
       //   name: 'SystemRole',
@@ -39,7 +39,7 @@ export const SystemMenus: IMenus[] = [
           rule: '/authority/menu',
           keepAlive: true
         },
-        component: () => import('@/pages/systems/menu/index.vue')
+        component: () => import('@/pages/systems/menu/SystemMenu.vue')
       }
     ]
   },

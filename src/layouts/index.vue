@@ -118,7 +118,7 @@ const route = useRoute()
 const tabStore = useTabStore()
 const menuStore = useMenuStore()
 const userStore = useUserStore()
-const { addTabs, setPathName } = tabStore
+const { addTabs, setPathName, addCacheRoutes } = tabStore
 const { setSelectedKeys } = menuStore
 const { setUserInfo, setPermissions } = userStore
 const { userInfo, permissions } = storeToRefs(userStore)
@@ -168,6 +168,7 @@ const getUserInfo = async () => {
         addTabs({ key, path, title })
         setSelectedKeys([route.path])
         setPathName(key)
+        addCacheRoutes(key)
       }
     }
   } catch(err) {

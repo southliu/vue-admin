@@ -14,7 +14,7 @@
       <Form
         :model="formState"
         name="horizontal_login"
-        autocomplete="on"
+        autoComplete="on"
         @finish="handleFinish"
         @finishFailed="handleFinishFailed"
       >
@@ -24,10 +24,9 @@
         >
           <Input
             v-model:value="formState.username"
-            :allow-clear="true"
+            :allowClear="true"
             placeholder="用户名"
-            data-test="username"
-            auto-complete="username"
+            autoComplete="username"
           >
             <template #prefix>
               <UserOutlined class="site-form-item-icon" />
@@ -44,9 +43,9 @@
         >
           <InputPassword
             v-model:value="formState.password"
-            :allow-clear="true"
-            data-test="password"
-            auto-complete="current-password"
+            :allowClear="true"
+            placeholder="密码"
+            autoComplete="current-password"
           >
            <template #prefix>
               <LockOutlined class="site-form-item-icon" />
@@ -57,7 +56,7 @@
         <FormItem>
           <Button
             type="primary"
-            html-type="submit"
+            htmlType="submit"
             class="w-full mt-5px rounded-5px tracking-2px"
             :loading="loading && !isLock"
             :disabled="formState.username === '' || formState.password.length < 6 || isLock"
@@ -159,7 +158,7 @@ const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
  * @param errors - 错误信息
  */
 const handleFinishFailed: FormProps['onFinishFailed'] = errors => {
-  console.log('错误信息:', errors)
+  console.error('错误信息:', errors)
 }
 </script>
 

@@ -14,7 +14,7 @@ import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { RuleObject } from 'ant-design-vue/lib/form'
 import type { IBusinessComponentType } from '@/components/Business'
 import type { VNode } from "vue"
-import { IWangEditorProps } from '@/components/WangEditor/model'
+import type { IWangEditorProps } from '@/components/WangEditor/model'
 
 // 数据类型
 export type IFormData = Record<string, IAllDataType>
@@ -46,7 +46,7 @@ type IUploadComponents = 'Upload'
 // 星级组件
 type IRateComponents = 'Rate'
 
-// 星级组件
+// 滑动输入条组件
 type ISliderComponents = 'Slider'
 
 // 自定义组件
