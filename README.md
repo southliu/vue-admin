@@ -13,7 +13,7 @@ git clone https://github.com/Southliu/vue-vite-admin.git
 - 选择目录
 
 ```bash
-cd vue-vite-admin
+cd vue-admin
 ```
 
 - 安装全局依赖依赖，存在则不用安装

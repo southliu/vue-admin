@@ -4,42 +4,33 @@ import type { IMenus } from '../router/model'
 export const SystemMenus: IMenus[] = [
   {
     name: 'System',
-    path: '/system',
+    path: '/systems',
     meta: {
       title: '系统管理',
       icon: 'ion:settings-outline'
     },
-    component: () => import('@/layouts/index.vue'),
-    redirect: '/system/user',
+    component: () => import('@/layouts/default.vue'),
+    redirect: '/systems/user',
     children: [
       {
         name: 'SystemUser',
-        path: '/system/user',
+        path: '/systems/user',
         meta: {
           title: '用户管理',
           rule: '/authority/user',
           keepAlive: true
         },
-        component: () => import('@/pages/systems/user/SystemUser.vue')
+        component: () => import('@/pages/systems/user/index.vue')
       },
-      // {
-      //   name: 'SystemRole',
-      //   path: '/system/role',
-      //   meta: {
-      //     title: '角色管理',
-      //     keepAlive: true
-      //   },
-      //   component: () => import('@/pages/systems/role/index.vue')
-      // },
       {
         name: 'SystemMenu',
-        path: '/system/menu',
+        path: '/systems/menu',
         meta: {
           title: '菜单管理',
           rule: '/authority/menu',
           keepAlive: true
         },
-        component: () => import('@/pages/systems/menu/SystemMenu.vue')
+        component: () => import('@/pages/systems/menu/index.vue')
       }
     ]
   },

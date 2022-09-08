@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
   const root = process.cwd()
   const env = loadEnv(mode, root)
   const viteEnv = handleEnv(env)
-  const { VITE_SERVER_PORT } = viteEnv
+  const { VITE_SERVER_PORT, VITE_PROXY } = viteEnv
 
   return {
     plugins: createVitePlugins(),
@@ -25,7 +25,7 @@ export default defineConfig(({ mode }) => {
       port: VITE_SERVER_PORT,
       open: true,
       // 跨域处理
-      proxy: createProxy(viteEnv.VITE_PROXY)
+      proxy: createProxy(VITE_PROXY)
     },
     test: {
       environment: 'jsdom',

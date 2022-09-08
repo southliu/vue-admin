@@ -59,7 +59,7 @@ import {
   FormOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons-vue'
-import Fullscreen from '@/components/FullScreen/index.vue'
+import Fullscreen from '@/components/Fullscreen/index.vue'
 import GlobalSearch from '@/components/GlobalSearch/index.vue'
 import Avatar from '@/assets/images/avatar.png'
 

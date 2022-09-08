@@ -1,6 +1,6 @@
 <script lang="ts">
 import { defineComponent, ref, h, watch } from 'vue'
-import { renderHTML } from "@iconify/iconify"
+import { renderHTML } from '@iconify/iconify'
 import Icon from '@ant-design/icons-vue'
 
 /**

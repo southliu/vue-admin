@@ -1,5 +1,5 @@
 /**
- * 样式按需加载
+ * @description 样式按需加载
  */
 import { createStyleImportPlugin } from 'vite-plugin-style-import'
 

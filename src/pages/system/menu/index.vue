@@ -17,13 +17,6 @@
       :loading="loading"
     >
       <template v-slot:operate='row'>
-        <Button
-          class="mr-2"
-          :loading="loading"
-          @click="openPermission(row.record.id)"
-        >
-          权限
-        </Button>
         <UpdateBtn
           v-if="pagePermission.update"
           class="mr-2"
@@ -58,30 +51,29 @@
   >
     <BasicForm
       ref="createFormRef"
-      :list="createList"
+      :list="createList(creates.id)"
       :labelCol="{ span: 6 }"
       :data="creates.data"
       @handleFinish="handleCreate"
     />
   </BasicModal>
-
-  <PermissionDrawer
-    :visible="permissionConfig.visible"
-    :treeData="permissionConfig.treeData"
-    :checkedKeys="permissionConfig.checkedKeys"
-    @onClose="closePermission"
-    @onSubmit="permissionSubmit"
-  />
 </template>
+
+<script lang="ts">
+import { defineComponent } from 'vue'
+
+export default defineComponent({
+  name: 'SystemMenu'
+})
+</script>
 
 <script lang="ts" setup>
 import type { IFormData } from '#/form'
 import type { IBasicForm } from '@/components/Form/model'
 import type { ICreateData, ISearchData, ITableData, IPaginationData } from '#/global'
-import type { DataNode } from 'ant-design-vue/lib/tree'
-import type { Key } from 'ant-design-vue/lib/vc-tree/interface'
-import { message, Button } from 'ant-design-vue'
+import { message } from 'ant-design-vue'
 import { onMounted, reactive, ref } from 'vue'
+import { getSystemMenuPage, getSystemMenuById, createSystemMenu, updateSystemMenu, deleteSystemMenu } from '@/servers/systems/menu'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './data'
@@ -90,28 +82,12 @@ import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { getPermission, savePermission } from '@/servers/systems/menu'
-import {
-  getSystemUserPage,
-  getSystemUserById,
-  createSystemUser,
-  updateSystemUser,
-  deleteSystemUser,
-} from '@/servers/systems/user'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicModal from '@/components/Modal/BasicModal.vue'
-import PermissionDrawer from './components/PermissionDrawer.vue'
-
-interface IPermissionConfig {
-  id: string;
-  visible: boolean;
-  checkedKeys: Key[];
-  treeData: DataNode[];
-}
 
 const createFormRef = ref<IBasicForm>()
 const userStore = useUserStore()
@@ -120,7 +96,7 @@ const { loading, startLoading, endLoading } = useLoading()
 const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
 
 // 权限前缀
-const permissionPrefix = '/authority/user'
+const permissionPrefix = '/authority/menu'
 
 // 权限
 const pagePermission = reactive({
@@ -130,18 +106,10 @@ const pagePermission = reactive({
   delete: checkPermission(`${permissionPrefix}/delete`, permissions.value)
 })
 
-// 权限配置
-const permissionConfig = reactive<IPermissionConfig>({
-  id: '',
-  visible: false,
-  checkedKeys: [],
-  treeData: []
-})
-
 // 初始化新增数据
 const initCreate = {
   status: 1,
-  user: { name: { test: '1234' } }
+  module: 'authority'
 }
 
 // 搜索数据
@@ -194,7 +162,7 @@ const handleSearch = async (values: IFormData) => {
   const query = { ...pagination, ...values }
   try {
     startLoading()
-    const { data: { data } } = await getSystemUserPage(query)
+    const { data: { data } } = await getSystemMenuPage(query)
     const { items, total } = data
     tables.data = items
     tables.total = total
@@ -223,7 +191,7 @@ const onUpdate = async (record: IFormData) => {
 
   try {
     startCreateLoading()
-    const { data: { data } } = await getSystemUserById(id as string)
+    const { data: { data } } = await getSystemMenuById(id as string)
     creates.data = data
   } finally {
     endCreateLoading()
@@ -237,7 +205,7 @@ const onUpdate = async (record: IFormData) => {
 const handleCreate = async (values: IFormData) => {
   try {
     startCreateLoading()
-    const functions = () => creates.id ? updateSystemUser(creates.id, values) : createSystemUser(values)
+    const functions = () => creates.id ? updateSystemMenu(creates.id, values) : createSystemMenu(values)
     const { data } = await functions()
     getPage()
     creates.id = ''
@@ -262,7 +230,7 @@ const onCloseCreate = () => {
 const handleDelete = async (id: string | number) => {
   try {
     startLoading()
-    const { data } = await deleteSystemUser(id as string)
+    const { data } = await deleteSystemMenu(id as string)
     if (data?.code === 200) {
       message.success(data?.message || '删除成功')
       getPage()
@@ -281,44 +249,5 @@ const handlePagination = (page: number, pageSize: number) => {
   pagination.page = page
   pagination.pageSize = pageSize
   getPage()
-}
-
-/** 开启权限 */
-const openPermission = async (id: string) => {
-  try {
-    startLoading()
-    const params = { userId: id }
-    const { data } = await getPermission(params)
-    const { data: { defaultCheckedKeys, treeData } } = data
-    permissionConfig.id = id
-    permissionConfig.treeData = treeData
-    permissionConfig.checkedKeys = Object.values(defaultCheckedKeys)
-    permissionConfig.visible = true
-  } finally {
-    endLoading()
-  }
-}
-
-/** 关闭权限 */
-const closePermission = () => {
-  permissionConfig.visible = false
-}
-
-/**
- * 权限提交
- */
-const permissionSubmit = async (checked: Key[]) => {
-  try {
-    startLoading()
-    const params = {
-      menuIds: checked,
-      userId: permissionConfig.id
-    }
-    const { data } = await savePermission(params)
-    message.success(data.message || '授权成功')
-    permissionConfig.visible = false
-  } finally {
-    endLoading()
-  }
 }
 </script>

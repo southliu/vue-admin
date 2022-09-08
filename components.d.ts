@@ -20,7 +20,7 @@ declare module 'vue' {
     DeleteBtn: typeof import('./src/components/Buttons/components/DeleteBtn.vue')['default']
     Echarts: typeof import('./src/components/Echarts/index.vue')['default']
     ExportBtn: typeof import('./src/components/Business/Buttons/ExportBtn.vue')['default']
-    FullScreen: typeof import('./src/components/FullScreen/index.vue')['default']
+    Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
     GameSelect: typeof import('./src/components/Business/Selects/GameSelect.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']
     Icon: typeof import('./src/components/Icon/index.vue')['default']

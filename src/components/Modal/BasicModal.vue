@@ -13,7 +13,7 @@
           <Tooltip
             class="p-10px font-16px text-#00000073 hover:text-#404040"
             placement="bottom"
-            @click="onFullScreen"
+            @click="onFullscreen"
           >
             <template #title>
               <span>{{ isFullscreen ? '退出最大化' : '最大化' }}</span>
@@ -115,7 +115,7 @@ const onFinish = useDebounceFn(() => {
 }, 500)
 
 /** 最大化 */
-const onFullScreen = () => {
+const onFullscreen = () => {
   isFullscreen.value = !isFullscreen.value
 }
 

@@ -20,7 +20,7 @@ export const menus: IMenus[] = [
     path: '/404',
     redirect: '/404',
     meta: { hidden: true },
-    component: () => import('@/layouts/index.vue'),
+    component: () => import('@/layouts/default.vue'),
     children: [
       {
         name: 'EmptyPage',
@@ -56,7 +56,7 @@ export const menus: IMenus[] = [
       title: '仪表盘',
       icon: 'la:tachometer-alt'
     },
-    component: () => import('@/layouts/index.vue'),
+    component: () => import('@/layouts/default.vue'),
     children: [
       {
         name: 'DashboardPage',
@@ -66,7 +66,7 @@ export const menus: IMenus[] = [
           rule: '/dashboard',
           keepAlive: true
         },
-        component: () => import('@/pages/dashboard/DashboardPage.vue')
+        component: () => import('@/pages/dashboard/index.vue')
       }
     ]
   },

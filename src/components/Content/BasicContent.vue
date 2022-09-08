@@ -1,5 +1,5 @@
 <template>
-  <div class="h-full bg px-2 py-3 box-border ">
+  <div class="h-full bg px-2 py-3 box-border">
     <div id="container" class="h-full bg-white relative overflow-auto">
       <div id="top">
         <slot name="top"></slot>

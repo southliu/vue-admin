@@ -9,7 +9,7 @@ export const DemoMenus: IMenus[] = [
       title: '组件',
       icon: 'fluent:box-20-regular'
     },
-    component: () => import('@/layouts/index.vue'),
+    component: () => import('@/layouts/default.vue'),
     redirect: '/demo/copy',
     children: [
       {

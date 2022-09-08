@@ -3,6 +3,7 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configStyleImportPlugin } from './styleImport'
 import { visualizer } from 'rollup-plugin-visualizer'
+import { configPageImportPlugin } from './pages'
 import vue from '@vitejs/plugin-vue'
 import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -25,9 +26,7 @@ export function createVitePlugins() {
         presetIcons()
       ],
     }),
-    vueJsx({
-      // options are passed on to @vue/babel-plugin-jsx
-    }),
+    vueJsx({}),
     // 压缩包
     viteCompression(),
     AutoImport({
@@ -46,7 +45,9 @@ export function createVitePlugins() {
       brotliSize: true,
     }),
     // css按需加载
-    configStyleImportPlugin()
+    configStyleImportPlugin(),
+    // 自动生成路由
+    configPageImportPlugin()
   ]
 
   return vitePlugins
