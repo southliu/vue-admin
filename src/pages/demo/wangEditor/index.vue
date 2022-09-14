@@ -9,9 +9,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import { useTitle } from '@/hooks/useTitle'
 import WangEditor from '@/components/WangEditor/index.vue'
 
-useTitle('编辑器')
 const editorValue = ref('')
 </script>

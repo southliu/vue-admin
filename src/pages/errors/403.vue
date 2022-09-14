@@ -20,9 +20,7 @@ import { useMenuStore } from '@/stores/menu'
 import { useTabStore } from '@/stores/tabs'
 import { storeToRefs } from 'pinia'
 import { getFirstMenu } from '@/menus/utils/helper'
-import { useTitle } from '@/hooks/useTitle'
 
-useTitle('403')
 const router = useRouter()
 const menuStore = useMenuStore()
 const tabStore = useTabStore()

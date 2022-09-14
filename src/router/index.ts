@@ -2,14 +2,11 @@ import {
   createRouter,
   createWebHashHistory,
 } from 'vue-router'
-import { setupLayouts } from 'virtual:generated-layouts'
-import generatedRoutes from 'virtual:generated-pages'
-
-const routes = setupLayouts(generatedRoutes)
+import { menus } from '../menus'
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes,
+  routes: menus,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 

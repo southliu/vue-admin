@@ -25,7 +25,7 @@
   <Menu
     v-if="permissions.length > 0"
     class="menu transition-all"
-    :collapsed="isCollapsed"
+    :isCollapsed="isCollapsed"
     :class="{
       'menu-close': isCollapsed,
       'menu-none': isMaximize || (isPhone && isCollapsed),

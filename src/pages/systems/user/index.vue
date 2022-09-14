@@ -98,7 +98,6 @@ import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { useTitle } from '@/hooks/useTitle'
 import { getPermission, savePermission } from '@/servers/systems/menu'
 import {
   getSystemUserPage,
@@ -122,7 +121,6 @@ interface IPermissionConfig {
   treeData: DataNode[];
 }
 
-useTitle('用户管理')
 const createFormRef = ref<IBasicForm>()
 const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)

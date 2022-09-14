@@ -89,7 +89,6 @@ import { useWatermark } from '@/hooks/useWatermark'
 import { permissionsToArray } from '@/utils/permissions'
 import { menus } from '@/menus'
 import { getMenus, getFirstMenu } from '@/menus/utils/helper'
-import { useTitle } from '@/hooks/useTitle'
 import {
   Form,
   FormItem,
@@ -100,7 +99,6 @@ import {
 import Logo from '@/assets/images/logo.png'
 import PageLoading from '@/components/Loading/PageLoading.vue'
 
-useTitle('登录')
 const router = useRouter()
 const { isLoading, startLoading, endLoading } = useLoading()
 const { setToken } = useToken()

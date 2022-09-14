@@ -3,7 +3,6 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configStyleImportPlugin } from './styleImport'
 import { visualizer } from 'rollup-plugin-visualizer'
-import { configPageImportPlugin } from './pages'
 import vue from '@vitejs/plugin-vue'
 import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -47,7 +46,7 @@ export function createVitePlugins() {
     // css按需加载
     configStyleImportPlugin(),
     // 自动生成路由
-    configPageImportPlugin()
+    // configPageImportPlugin()
   ]
 
   return vitePlugins
