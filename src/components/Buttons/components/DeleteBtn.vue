@@ -2,7 +2,7 @@
   <Button
     type="primary"
     danger
-    :loading="loading"
+    :loading="isLoading"
     @click="onClick"
   >
     删除
@@ -17,7 +17,7 @@ import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 const emit = defineEmits(['click'])
 
 defineProps({
-  loading: {
+  isLoading: {
     type: Boolean,
     required: false,
     default: false

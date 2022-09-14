@@ -4,7 +4,7 @@
   >
     <div class="header-left">
       <div class="text-lg cursor-pointer" @click="toggleCollapsed">
-        <MenuUnfoldOutlined v-if="collapsed" />
+        <MenuUnfoldOutlined v-if="isCollapsed" />
         <MenuFoldOutlined v-else />
       </div>
     </div>
@@ -72,7 +72,7 @@ enum Dropdowns {
 const emit = defineEmits(['toggleCollapsed', 'onUpdatePassword'])
 
 defineProps({
-  collapsed: {
+  isCollapsed: {
     type: Boolean,
     required: true
   },

@@ -16,7 +16,7 @@
       showSizeChanger
       showQuickJumper
       size="small"
-      :disabled="loading"
+      :disabled="isLoading"
       :showTotal="() => showTotal(total)"
       :defaultCurrent="page"
       :defaultPageSize="pageSize"
@@ -48,7 +48,7 @@ defineProps({
     required: true,
     default: 20
   },
-  loading: {
+  isLoading: {
     type: Boolean,
     required: false,
     default: false

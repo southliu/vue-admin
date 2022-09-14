@@ -1,8 +1,6 @@
-import type { IMenus } from '../router/model'
+import type { IMenus } from './model'
 import { DemoMenus } from './demo'
 import { SystemMenus } from './system'
-
-// 如果Layout是以import Layout from '@/layouts/index.vue'形式引入,打包会报错
 
 // 菜单
 export const menus: IMenus[] = [

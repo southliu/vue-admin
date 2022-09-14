@@ -1,6 +1,6 @@
 <template>
   <Drawer
-    :visible="visible"
+    :visible="isVisible"
     :title="title || '权限配置'"
     placement="right"
     @close="onClose"
@@ -31,7 +31,7 @@ export default defineComponent({
     title: {
       type: String
     },
-    visible: {
+    isVisible: {
       type: Boolean,
       required: true
     },

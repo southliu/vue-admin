@@ -19,14 +19,10 @@ export function useModalDragMove() {
 
   // 单个拖拽逻辑
   const dragItem = (wrap: Element) => {
-    if (!wrap) {
-return
-}
+    if (!wrap) return
     const dragDom = wrap.querySelector('.ant-modal') as IElement
     const dragHeaderElm = wrap.querySelector('.ant-modal-header') as IElement
-    if (!dragHeaderElm || !dragDom) {
-return
-}
+    if (!dragHeaderElm || !dragDom) return
 
     // 头部鼠标样式改为move
     dragHeaderElm.style.cursor = 'move'

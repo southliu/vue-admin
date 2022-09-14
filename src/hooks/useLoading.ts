@@ -5,22 +5,22 @@ import { ref } from "vue"
  * @param initValue - 初始化状态
  */
 export function useLoading(initValue = false) {
-  const loading = ref(Boolean(initValue))
+  const isLoading = ref(Boolean(initValue))
 
   const startLoading = () => {
-    loading.value = true
+    isLoading.value = true
   }
 
   const endLoading = () => {
-    loading.value = false
+    isLoading.value = false
   }
 
   const toggleLoading = () => {
-    loading.value = !loading.value
+    isLoading.value = !isLoading.value
   }
 
   return {
-    loading,
+    isLoading,
     startLoading,
     endLoading,
     toggleLoading

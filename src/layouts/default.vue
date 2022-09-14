@@ -2,22 +2,22 @@
   <div
     class="header flex flex-col box-border overflow-hidden"
     :class="{
-      'header-close-menu': collapsed,
-      'header-none': maximize,
+      'header-close-menu': isCollapsed,
+      'header-none': isMaximize,
       'header-phone z-999': isPhone
     }"
   >
     <Header
       class="header-driver box-border"
-      :class="{ 'none': maximize }"
+      :class="{ 'none': isMaximize }"
       :username="username"
-      :collapsed="collapsed"
+      :isCollapsed="isCollapsed"
       @toggleCollapsed="toggleCollapsed"
       @onUpdatePassword="onUpdatePassword"
     />
     <div class="px-2px">
       <Tabs
-        :maximize="maximize"
+        :isMaximize="isMaximize"
         @toggleMaximize="toggleMaximize"
       />
     </div>
@@ -25,10 +25,10 @@
   <Menu
     v-if="permissions.length > 0"
     class="menu transition-all"
-    :collapsed="collapsed"
+    :collapsed="isCollapsed"
     :class="{
-      'menu-close': collapsed,
-      'menu-none': maximize || (isPhone && collapsed),
+      'menu-close': isCollapsed,
+      'menu-none': isMaximize || (isPhone && isCollapsed),
       'z-1000': isPhone
     }"
     @toggleCollapsed="toggleCollapsed"
@@ -36,7 +36,7 @@
   <div
     v-else
     :class="{
-      'fixed top-0 bottom-0 left-0 right-0 z-1000': !collapsed
+      'fixed top-0 bottom-0 left-0 right-0 z-1000': !isCollapsed
     }"
     @click="toggleCollapsed"
   >
@@ -45,9 +45,9 @@
       class="menu h-100vh transition-all"
       :paragraph="{ rows: 10 }"
       :class="{
-        'p-2': !collapsed,
-        'menu-close': collapsed,
-        'menu-none': maximize || (isPhone && collapsed),
+        'p-2': !isCollapsed,
+        'menu-close': isCollapsed,
+        'menu-none': isMaximize || (isPhone && isCollapsed),
         'z-1000': isPhone
       }"
     />
@@ -56,10 +56,10 @@
     id="con"
     class="con transition-all overflow-auto"
     :class="{ 
-      'con-close-menu': collapsed, 
-      'con-maximize': maximize,
+      'con-close-menu': isCollapsed, 
+      'con-isMaximize': isMaximize,
       'con-phone': isPhone,
-      'z-1': isPhone && !collapsed
+      'z-1': isPhone && !isCollapsed
     }"
   >
     <div v-if="permissions.length > 0" class="h-full min-w-1024px">
@@ -87,8 +87,8 @@
 
   <!-- 修改密码 -->
   <UpdatePassword
-    :loading="loading"
-    :visible="isUpdatePassword"
+    :isLoading="isLoading"
+    :isVisible="isUpdatePassword"
     @handleCancel="onUpdatePassword"
     @handleSubmit="handleUpdatePassword"
   />
@@ -106,7 +106,7 @@ import { permissionsToArray } from '@/utils/permissions'
 import { message, Skeleton } from 'ant-design-vue'
 import { menus } from '@/menus'
 import { useRoute } from 'vue-router'
-import { getMenus, getCurrentMenuByRoute } from '@/utils/menus'
+import { getMenus, getCurrentMenuByRoute } from '@/menus/utils/helper'
 import { useLoading } from '@/hooks/useLoading'
 import { updatePassword } from '@/servers/login'
 import Header from './components/Header.vue'
@@ -123,15 +123,15 @@ const { setSelectedKeys } = menuStore
 const { setUserInfo, setPermissions } = userStore
 const { userInfo, permissions } = storeToRefs(userStore)
 const username = ref(userInfo.value?.username || '') // 用户名
-const collapsed = ref(false) // 是否收起菜单
-const maximize = ref(false) // 是否窗口最大化
+const isCollapsed = ref(false) // 是否收起菜单
+const isMaximize = ref(false) // 是否窗口最大化
 const isUpdatePassword = ref(false) // 是否显示修改密码
 const {
   isPhone,
   openKeys,
   menuList,
 } = storeToRefs(menuStore)
-const { loading, startLoading, endLoading } = useLoading()
+const { isLoading, startLoading, endLoading } = useLoading()
 
 onMounted(() => {
   handleIsPhone()
@@ -198,19 +198,19 @@ const handleUpdatePassword = async (params: unknown) => {
 
 /** 收缩菜单 */
 const toggleCollapsed = () => {
-  collapsed.value = !collapsed.value
+  isCollapsed.value = !isCollapsed.value
 }
 
 /** 窗口最大化 */
 const toggleMaximize = () => {
-  maximize.value = !maximize.value
+  isMaximize.value = !isMaximize.value
 }
 
 /** 判断是否是手机端 */
 const handleIsPhone = useDebounceFn(() => {
   const isPhone = window.innerWidth <= 768
   // 手机首次进来收缩菜单
-  if (isPhone) collapsed.value = true
+  if (isPhone) isCollapsed.value = true
   menuStore.setPhone(isPhone)
 }, 500)
 
@@ -273,7 +273,7 @@ const stopResize = () => {
   left: @layout_left_close;
 }
 
-.con-maximize {
+.con-isMaximize {
   left: 0 !important;
   top: calc(@layout_top / 2);
 }

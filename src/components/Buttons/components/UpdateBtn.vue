@@ -1,7 +1,7 @@
 <template>
   <Button
     type="primary"
-    :loading="loading"
+    :loading="isLoading"
     @click="onClick"
   >
     编辑
@@ -15,7 +15,7 @@ import { Button } from 'ant-design-vue'
 const emit = defineEmits(['click'])
 
 defineProps({
-  loading: {
+  isLoading: {
     type: Boolean,
     required: false,
     default: false

@@ -8,8 +8,8 @@
   </Tooltip>
 
   <SearchModal
-    v-if="visible"
-    :visible="visible"
+    v-if="isVisible"
+    :isVisible="isVisible"
     @toggle="toggle"
   />
 </template>
@@ -23,10 +23,10 @@ import { SearchOutlined } from '@ant-design/icons-vue'
 import { Tooltip } from 'ant-design-vue'
 import SearchModal from './components/SearchModal.vue'
 
-const visible = ref(false)
+const isVisible = ref(false)
 
 /** 切换搜索框显示状态 */
 const toggle = () => {
-  visible.value = !visible.value
+  isVisible.value = !isVisible.value
 }
 </script>

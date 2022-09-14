@@ -1,8 +1,8 @@
-import type { IGlobalSearchResult } from './../components/GlobalSearch/model'
-import type { IMenus } from '@/router/model'
+import type { IGlobalSearchResult } from '../../components/GlobalSearch/model'
+import type { IMenus } from '@/menus/model'
 import type { IMenuItem, ISidebar } from '@/stores/menu'
 import type { RouteRecordRaw } from 'vue-router'
-import { checkPermission } from './permissions'
+import { checkPermission } from '../../utils/permissions'
 
 /**
  * 获取菜单数据，只获取最底层菜单数据

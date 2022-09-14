@@ -1,9 +1,9 @@
 <template>
   <BasicModal
-    :visible="visible"
+    :isVisible="isVisible"
     title="修改密码"
     :width="450"
-    :loading="loading"
+    :isLoading="isLoading"
     @handleCancel="handleCancel"
     @handleFinish="onFinish"
   >
@@ -74,11 +74,11 @@ interface IFormData {
 const emit = defineEmits(['handleCancel', 'handleSubmit'])
 
 defineProps({
-  visible: {
+  isVisible: {
     type: Boolean,
     required: true
   },
-  loading: {
+  isLoading: {
     type: Boolean,
     required: true
   }

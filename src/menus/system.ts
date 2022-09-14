@@ -1,4 +1,4 @@
-import type { IMenus } from '../router/model'
+import type { IMenus } from './model'
 
 // 系统管理
 export const SystemMenus: IMenus[] = [

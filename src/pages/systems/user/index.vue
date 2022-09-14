@@ -4,7 +4,7 @@
       <BasicSearch
         :list="searchList"
         :data="searches.data"
-        :loading="loading"
+        :isLoading="isLoading"
         :isCreate="pagePermission.create"
         @onCreate="onCreate"
         @handleFinish="handleSearch"
@@ -14,12 +14,12 @@
     <BasicTable
       :data="tables"
       :columns="tableColumns"
-      :loading="loading"
+      :isLoading="isLoading"
     >
       <template v-slot:operate='row'>
         <Button
           class="mr-2"
-          :loading="loading"
+          :isLoading="isLoading"
           @click="openPermission(row.record.id)"
         >
           权限
@@ -27,12 +27,12 @@
         <UpdateBtn
           v-if="pagePermission.update"
           class="mr-2"
-          :loading="createLoading"
+          :isLoading="isCreateLoading"
           @click="onUpdate(row.record)"
         />
         <DeleteBtn
           v-if="pagePermission.delete"
-          :loading="loading"
+          :isLoading="isLoading"
           @click="handleDelete(row.record.id)"
         />
       </template>
@@ -43,15 +43,15 @@
         :page="pagination.page"
         :pageSize="pagination.pageSize"
         :total="tables.total"
-        :loading="loading"
+        :isLoading="isLoading"
         @handleChange="handlePagination"
       />
     </template>
   </BasicContent>
 
   <BasicModal
-    v-model:visible="creates.visible"
-    :loading="createLoading"
+    v-model:isVisible="creates.isVisible"
+    :isLoading="isCreateLoading"
     :title="creates.title"
     @handleFinish="createSubmit"
     @handleCancel="onCloseCreate"
@@ -66,7 +66,7 @@
   </BasicModal>
 
   <PermissionDrawer
-    :visible="permissionConfig.visible"
+    :isVisible="permissionConfig.isVisible"
     :treeData="permissionConfig.treeData"
     :checkedKeys="permissionConfig.checkedKeys"
     @onClose="closePermission"
@@ -98,6 +98,7 @@ import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
+import { useTitle } from '@/hooks/useTitle'
 import { getPermission, savePermission } from '@/servers/systems/menu'
 import {
   getSystemUserPage,
@@ -116,16 +117,17 @@ import PermissionDrawer from './components/PermissionDrawer.vue'
 
 interface IPermissionConfig {
   id: string;
-  visible: boolean;
+  isVisible: boolean;
   checkedKeys: Key[];
   treeData: DataNode[];
 }
 
+useTitle('用户管理')
 const createFormRef = ref<IBasicForm>()
 const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)
-const { loading, startLoading, endLoading } = useLoading()
-const { createLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
+const { isLoading, startLoading, endLoading } = useLoading()
+const { isCreateLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
 
 // 权限前缀
 const permissionPrefix = '/authority/user'
@@ -141,7 +143,7 @@ const pagePermission = reactive({
 // 权限配置
 const permissionConfig = reactive<IPermissionConfig>({
   id: '',
-  visible: false,
+  isVisible: false,
   checkedKeys: [],
   treeData: []
 })
@@ -160,7 +162,7 @@ const searches = reactive<ISearchData>({
 // 新增数据
 const creates = reactive<ICreateData>({
   id: '',
-  visible: false,
+  isVisible: false,
   title: '新增',
   data: initCreate
 })
@@ -213,7 +215,7 @@ const handleSearch = async (values: IFormData) => {
 
 /** 点击新增 */
 const onCreate = () => {
-  creates.visible = !creates.visible
+  creates.isVisible = !creates.isVisible
   creates.title = ADD_TITLE
   creates.id = ''
   creates.data = initCreate
@@ -225,7 +227,7 @@ const onCreate = () => {
  */
 const onUpdate = async (record: IFormData) => {
   const { id, name } = record
-  creates.visible = !creates.visible
+  creates.isVisible = !creates.isVisible
   creates.id = id as string
   creates.title = EDIT_TITLE(name as string)
 
@@ -249,7 +251,7 @@ const handleCreate = async (values: IFormData) => {
     const { data } = await functions()
     getPage()
     creates.id = ''
-    creates.visible = false
+    creates.isVisible = false
     creates.data = initCreate
     createFormRef.value?.handleReset()
     message.success(data?.message || '操作成功')
@@ -260,7 +262,7 @@ const handleCreate = async (values: IFormData) => {
 
 /** 关闭新增/编辑 */
 const onCloseCreate = () => {
-  creates.visible = false
+  creates.isVisible = false
 }
 
 /**
@@ -301,7 +303,7 @@ const openPermission = async (id: string) => {
     permissionConfig.id = id
     permissionConfig.treeData = treeData
     permissionConfig.checkedKeys = Object.values(defaultCheckedKeys)
-    permissionConfig.visible = true
+    permissionConfig.isVisible = true
   } finally {
     endLoading()
   }
@@ -309,7 +311,7 @@ const openPermission = async (id: string) => {
 
 /** 关闭权限 */
 const closePermission = () => {
-  permissionConfig.visible = false
+  permissionConfig.isVisible = false
 }
 
 /**
@@ -324,7 +326,7 @@ const permissionSubmit = async (checked: Key[]) => {
     }
     const { data } = await savePermission(params)
     message.success(data.message || '授权成功')
-    permissionConfig.visible = false
+    permissionConfig.isVisible = false
   } finally {
     endLoading()
   }

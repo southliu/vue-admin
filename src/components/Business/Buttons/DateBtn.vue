@@ -3,7 +3,7 @@
     <Button
       v-for="item in list"
       :key="item.value"
-      :loading="loading"
+      :loading="isLoading"
       class="mr-10px"
       @click="handleClick(item.value)"
     >
@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 /**
  * @description: 时间选择组件
- * @param loading - 加载
+ * @param isLoading - 加载
  * @param date - 时间字符串
  * @param format - 时间格式化
  * @result string[]
@@ -51,7 +51,7 @@ const props = defineProps({
     type: String,
     required: true
   },
-  loading: {
+  isLoading: {
     type: Boolean,
     required: false,
     default: false

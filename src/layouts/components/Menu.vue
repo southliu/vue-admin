@@ -2,7 +2,7 @@
   <div class="py-1 box-border transition-all overflow-hidden">
     <div
       class="flex content-center px-5 py-2 cursor-pointer"
-      :class="{ 'justify-center': collapsed }"
+      :class="{ 'justify-center': isCollapsed }"
     >
       <img
         class="object-contain"
@@ -13,7 +13,7 @@
       />
       <span
         class="text-white ml-3 text-xl font-bold truncate"
-        :class="{ 'hidden': collapsed }"
+        :class="{ 'hidden': isCollapsed }"
       >
         后台系统
       </span>
@@ -25,7 +25,7 @@
         class="h-full z-1000"
         mode="inline"
         theme="dark"
-        :inlineCollapsed="collapsed"
+        :inlineCollapsed="isCollapsed"
         @openChange="openChange"
       >
         <MenuChildren
@@ -36,7 +36,7 @@
     </div>
 
     <div
-      v-if="isPhone && !collapsed"
+      v-if="isPhone && !isCollapsed"
       class="cover fixed right-0 top-0 bottom-0 h-full bg-gray-500 bg-opacity-10 z-2"
       @click="hiddenMenu"
     />
@@ -57,7 +57,7 @@ import Logo from '@/assets/images/logo.png'
 const emit = defineEmits(['toggleCollapsed'])
 
 defineProps({
-  collapsed: {
+  isCollapsed: {
     type: Boolean,
     required: true
   }

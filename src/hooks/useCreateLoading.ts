@@ -5,22 +5,22 @@ import { ref } from "vue"
  * @param initValue - 初始化状态
  */
 export function useCreateLoading(initValue = false) {
-  const createLoading = ref(Boolean(initValue))
+  const isCreateLoading = ref(Boolean(initValue))
 
   const startCreateLoading = () => {
-    createLoading.value = true
+    isCreateLoading.value = true
   }
 
   const endCreateLoading = () => {
-    createLoading.value = false
+    isCreateLoading.value = false
   }
 
   const toggleCreateLoading = () => {
-    createLoading.value = !createLoading.value
+    isCreateLoading.value = !isCreateLoading.value
   }
 
   return {
-    createLoading,
+    isCreateLoading,
     startCreateLoading,
     endCreateLoading,
     toggleCreateLoading

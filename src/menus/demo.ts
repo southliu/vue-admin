@@ -1,4 +1,4 @@
-import type { IMenus } from '../router/model'
+import type { IMenus } from './model'
 
 // 组件菜单
 export const DemoMenus: IMenus[] = [

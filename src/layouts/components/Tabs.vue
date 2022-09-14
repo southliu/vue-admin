@@ -101,13 +101,13 @@
       <div class="right-item w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center">
         <Tooltip placement="bottom">
           <template #title>
-            <span>{{ maximize ? '退出最大化' : '最大化' }}</span>
+            <span>{{ isMaximize ? '退出最大化' : '最大化' }}</span>
           </template>
 
           <Icon
             class="flex items-center justify-center text-lg cursor-pointer"
             @click="handleMaximize()"
-            :icon="maximize ? 'ant-design:compress-outlined' : 'ant-design:expand-outlined'"
+            :icon="isMaximize ? 'ant-design:compress-outlined' : 'ant-design:expand-outlined'"
           />
         </Tooltip>
       </div>
@@ -142,7 +142,7 @@ interface ITimeout {
 const emit = defineEmits(['toggleMaximize'])
 
 defineProps({
-  maximize: {
+  isMaximize: {
     type: Boolean,
     required: false,
     defaultValue: false
@@ -217,7 +217,7 @@ const handleRefresh = (pathName: string) => {
     cacheRoutes.value = cacheRoutes.value.filter(item => item !== pathName)
 
     // 调转空白页
-    router.push('/empty')
+    router.push('/errors/empty')
   }
 
   /** 清除timeout */
@@ -286,10 +286,10 @@ const handleMaximize = () => {
 
 /**
  * 监听菜单变化
- * @param visible - 是否显示
+ * @param isVisible - 是否显示
  */
-const handleDropdownChange = (visible: boolean) => {
-  isDropdown.value = visible
+const handleDropdownChange = (isVisible: boolean) => {
+  isDropdown.value = isVisible
 }
 
 defineExpose({

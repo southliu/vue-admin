@@ -42,7 +42,7 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const options = ref<TreeSelectProps['treeData']>([])
-    const loading = ref(false)
+    const isLoading = ref(false)
 
     onMounted(() => {
       // 首次有值获取API接口
@@ -54,11 +54,11 @@ export default defineComponent({
     /** 获取接口数据 */
     const getApiData = async () => {
       try {
-        loading.value = true
+        isLoading.value = true
         const data = await props?.api?.(props?.params)
         options.value = data
       } finally {
-        loading.value = false
+        isLoading.value = false
       }
     }
 
@@ -72,7 +72,7 @@ export default defineComponent({
         value: props.value as SelectValue,
         ...props?.componentProps,
         treeData: options.value,
-        notFoundContent: loading.value && h(BasicLoading),
+        notFoundContent: isLoading.value && h(BasicLoading),
         onDropdownVisibleChange: async (open: boolean) => {
           if (props?.onDropdownVisibleChange) {
             props.onDropdownVisibleChange?.(open)

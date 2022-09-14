@@ -1,7 +1,7 @@
 import type { ISidebar } from '@/stores/menu'
 import { describe, test, expect, beforeEach } from 'vitest'
 import { menus } from '@/menus'
-import { getMenus, getFirstMenu, getCurrentMenuByName } from '@/utils/menus'
+import { getMenus, getFirstMenu, getCurrentMenuByName } from '@/menus/utils/helper'
 
 let data: ISidebar[] = []
 

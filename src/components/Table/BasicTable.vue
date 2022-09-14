@@ -3,7 +3,7 @@
     <Grid
       v-bind="gridOptions"
       :height="tableHeight"
-      :loading="loading"
+      :loading="isLoading"
       :data="data.data"
       :columns="handleColumns(columns)"
     >
@@ -49,7 +49,7 @@ const props = defineProps({
     type: Object as PropType<VxeGridProps>,
     required: false,
   },
-  loading: {
+  isLoading: {
     type: Boolean,
     required: false,
     default: false

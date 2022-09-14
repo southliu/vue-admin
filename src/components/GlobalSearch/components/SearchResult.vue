@@ -8,8 +8,8 @@
   </div>
 
   <template v-else>
-    <ul class="mt-5">
-      <li
+    <div class="mt-5">
+      <div
         v-for="item in list"
         :key="item.key"
         class="
@@ -39,8 +39,8 @@
           </span>
         </div>
         <Icon class="icon text-20px p-2px mr-5px" icon="ant-design:enter-outlined" />
-      </li>
-    </ul>
+      </div>
+    </div>
   </template>
 </template>
 

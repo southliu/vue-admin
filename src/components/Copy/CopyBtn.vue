@@ -1,7 +1,7 @@
 <template>
   <Button
     type="primary"
-    :loading="loading"
+    :loading="isLoading"
     @click="onClick"
   >
     <template #icon>
@@ -21,7 +21,7 @@ const props = defineProps({
   text: {
     type: String
   },
-  loading: {
+  isLoading: {
     type: Boolean,
     required: false,
     default: false

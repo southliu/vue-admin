@@ -81,7 +81,7 @@ const props = defineProps({
     required: false,
     default: 'right'
   },
-  loading: {
+  isLoading: {
     type: Boolean
   },
 })

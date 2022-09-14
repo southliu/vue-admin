@@ -32,7 +32,7 @@
         <Button
           type="primary"
           html-type="submit"
-          :loading="loading"
+          :loading="isLoading"
         >
           <template #icon>
             <SearchOutlined />
@@ -93,7 +93,7 @@ const props = defineProps({
     type: Object as PropType<Partial<ColProps>>,
     required: false,
   },
-  loading: {
+  isLoading: {
     type: Boolean
   },
   isSearch: {

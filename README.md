@@ -125,7 +125,7 @@ git push
 | data | 是 | 表格数据 |
 | columns | 是 | 列数据 |
 | options | 否 | 表格API，[参考API](https://vxetable.cn/#/grid/api)
-| loading | 否 | 加载动画 |
+| isLoading | 否 | 加载动画 |
 | offsetHeight | 否 | 高度偏移差，当表格高度过高出现滚动条的时候使用 |
 | isResize | 否 | 是否开启监听窗口变化而更改高度 |
 
@@ -135,7 +135,7 @@ git push
 | total | 否 | 数据总数 |
 | page | 是 | 当前页数 |
 | pageSize | 是 | 每页条数 |
-| loading | 否 | 加载动画 |
+| isLoading | 否 | 加载动画 |
 
 ### API下拉框(ApiSelect、ApiTreeSelect):
 | 属性名 | 必填 | 属性说明 |

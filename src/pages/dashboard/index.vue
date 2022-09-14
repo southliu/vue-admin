@@ -5,14 +5,14 @@
         :labelCol="70"
         :list="searchList"
         :data="searches.data"
-        :loading="loading"
+        :isLoading="isLoading"
         :isSearch="true"
         :isCreate="false"
         @handleFinish="handleSearch"
       />
     </template>
 
-    <Spin :spinning="loading">
+    <Spin :spinning="isLoading">
       <Block />
       <Line />
     </Spin>
@@ -43,7 +43,7 @@ import dayjs from 'dayjs'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
 
-const { loading, startLoading, endLoading } = useLoading()
+const { isLoading, startLoading, endLoading } = useLoading()
 
 // 数据参数
 const datum = ref<IDashboardResult>({

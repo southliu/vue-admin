@@ -1,15 +1,15 @@
 <template>
   <Modal
-    :visible="visible"
+    :visible="isVisible"
     :width="isFullscreen ? '100%' : width"
     :layout="layout"
     :mask-closable="false"
-    :loading="loading"
-    :wrap-class-name="isFullscreen ? 'full-modal' : ''"
+    :loading="isLoading"
+    :wrapClassName="isFullscreen ? 'full-modal' : ''"
   >
     <template #closeIcon>
       <div class="mt-7px">
-        <div class="h-full flex items-center justify-center :hover:text-white">
+        <div class="h-full flex items-center justify-center :hover:text-white text-#000">
           <Tooltip
             class="p-10px font-16px text-#00000073 hover:text-#404040"
             placement="bottom"
@@ -44,7 +44,7 @@
       </span>
     </template>
 
-    <Spin :spinning="loading">
+    <Spin :spinning="isLoading">
       <slot></slot>
     </Spin>
 
@@ -53,7 +53,7 @@
       <Button
         v-if="isPermission"
         type="primary"
-        :loading="loading"
+        :loading="isLoading"
         @click="onFinish"
       >
         确认
@@ -72,7 +72,7 @@ import Icon from '../Icon/index.vue'
 const emit = defineEmits(['handleCancel', 'handleFinish'])
 
 const props = defineProps({
-  visible: {
+  isVisible: {
     type: Boolean,
     required: true
   },
@@ -94,7 +94,7 @@ const props = defineProps({
     type: Boolean,
     default: true
   },
-  loading: {
+  isLoading: {
     type: Boolean,
     required: false,
     default: false
@@ -120,7 +120,7 @@ const onFullscreen = () => {
 }
 
 // 监听显示开启拖拽
-watch(() => props.visible, async (value) => {
+watch(() => props.isVisible, async (value) => {
   if (value) {
     await nextTick()
     useModalDragMove()

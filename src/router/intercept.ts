@@ -2,13 +2,12 @@ import type { Router } from "vue-router"
 import type { IMenuItem } from '@/stores/menu'
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { useToken } from '@/hooks/useToken'
-import { TITLE_SUFFIX } from '@/utils/config'
 import { message } from "ant-design-vue"
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { getFirstMenu } from '@/utils/menus'
+import { getFirstMenu } from '@/menus/utils/helper'
 import { checkPermission } from "@/utils/permissions"
 import NProgress from 'nprogress'
 import pinia from '../stores'
@@ -22,7 +21,6 @@ NProgress.configure({ showSpinner: false })
 export function routerIntercept(router: Router) {
     // 路由拦截
   router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-    document.title = (to.meta?.title ? `${to.meta.title} - ` : '') + TITLE_SUFFIX
     const { getToken } = useToken()
     const token = getToken()
     NProgress.start()

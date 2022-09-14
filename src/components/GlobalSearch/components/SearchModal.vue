@@ -1,7 +1,7 @@
 <template>
   <Modal
     class="rounded-100px"
-    :visible="visible"
+    :visible="isVisible"
     :closable="false"
     @cancel="toggle"
   >
@@ -9,7 +9,7 @@
       ref="inputRef"
       v-model:value="inputValue"
       placeholder="请输入关键词搜索"
-      :allow-clear="true"
+      :allowClear="true"
       @pressEnter="handleEnter"
     >
       <template #prefix>
@@ -40,7 +40,7 @@ import { Modal, Input } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
-import { getCurrentMenuByName, getCurrentMenuByRoute } from '@/utils/menus'
+import { getCurrentMenuByName, getCurrentMenuByRoute } from '@/menus/utils/helper'
 import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import { storeToRefs } from 'pinia'
 import SearchResult from './SearchResult.vue'
@@ -50,7 +50,7 @@ import Icon from '@/components/Icon/index.vue'
 const emit = defineEmits(['toggle'])
 
 const props = defineProps({
-  visible: {
+  isVisible: {
     type: Boolean,
     required: true
   }
@@ -99,7 +99,7 @@ const handleEnter = () => {
 /** 处理鼠标上键 */
 const handleUp = () => {
   // 如果列表值为空直接退出
-  if (!props.visible) return
+  if (!props.isVisible) return
   const value = resultList.value
   const index = active.value.index as number - 1
   if (!value[index]) return
@@ -110,7 +110,7 @@ const handleUp = () => {
 /** 处理鼠标下键 */
 const handleKeydown = () => {
   // 如果列表值为空直接退出
-  if (!props.visible) return
+  if (!props.isVisible) return
   const value = resultList.value
   const index = active.value.index as number + 1
   if (!value[index]) return
