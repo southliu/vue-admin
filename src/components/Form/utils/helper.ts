@@ -33,7 +33,7 @@ const getDeepNested = (arr: string[], obj: Record<string, IAllDataType>) => {
     }
     return ''
   } catch(e) {
-    console.error('嵌套数据解析异常:', e)
+    console.warn('嵌套数据解析异常:', e)
   }
 }
 

@@ -6,7 +6,7 @@
       scrollToFirstError
       layout="inline"
       :model="formState"
-      :wrapper-col="{...wrapperCol}"
+      :wrapperCol="{...wrapperCol}"
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
@@ -17,7 +17,7 @@
         :label="item.label"
         :rules="item.rules"
         :labelCol="{ style: { width: `${ item.labelCol }px` } }"
-        :wrapper-col="{ style: { width: `${ item.wrapperCol }px` } }"
+        :wrapperCol="{ style: { width: `${ item.wrapperCol }px` } }"
         :style="{ display: 'inline-block' }"
       >
         <BasicComponents
@@ -31,7 +31,7 @@
       <FormItem v-if="isSearch">
         <Button
           type="primary"
-          html-type="submit"
+          htmlType="submit"
           :loading="isLoading"
         >
           <template #icon>

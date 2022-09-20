@@ -27,7 +27,7 @@ const tabStore = useTabStore()
 const { setFirstMenu } = menuStore
 const { openKeys, menuList, firstMenu } = storeToRefs(menuStore)
 
-// 跳转首页
+/** 跳转首页 */
 const goIndex = () => {
   let obj: IMenuItem = { key: '', path: '', top: '', topTitle: '', title: '' }
   if (firstMenu.value?.key) {

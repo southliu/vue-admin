@@ -147,9 +147,7 @@ onMounted(() => {
   getPage()
 })
 
-/**
- * 获取表格数据
- */
+/** 获取表格数据 */
 const getPage = async () => {
   handleSearch(searches.data)
 }
