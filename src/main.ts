@@ -6,7 +6,7 @@ import { routerIntercept } from './router/intercept'
 import Element from './App.vue'
 
 // 样式
-import 'uno.css'
+import 'virtual:uno.css'
 import 'nprogress/nprogress.css'
 import '@/assets/css/scrollbar.less'
 

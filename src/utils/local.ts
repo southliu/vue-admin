@@ -1,6 +1,10 @@
 import { message } from 'ant-design-vue'
 import { encryption, decryption } from './crypto'
 
+/**
+ * @description: localStorage封装
+ */
+
 // 默认缓存期限为1天
 const DEFAULT_CACHE_TIME = 60 * 60 * 24 * 1
 

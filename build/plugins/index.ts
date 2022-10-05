@@ -4,7 +4,6 @@ import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configStyleImportPlugin } from './styleImport'
 import { visualizer } from 'rollup-plugin-visualizer'
 import vue from '@vitejs/plugin-vue'
-import windiCSS from 'vite-plugin-windicss'
 import AutoImport from 'unplugin-auto-import/vite'
 import PurgeIcons from 'vite-plugin-purge-icons'
 import Components from 'unplugin-vue-components/vite'
@@ -16,7 +15,6 @@ export function createVitePlugins() {
   // 插件参数
   const vitePlugins: (Plugin | Plugin[])[] = [
     vue(),
-    windiCSS(),
     PurgeIcons({}),
     Unocss({
       presets: [

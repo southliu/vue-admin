@@ -155,6 +155,7 @@ export function getFirstMenu(menus: ISidebar[]): IMenuItem {
   }
   return res
 }
+
 /**
  * 路由是否缓存
  * @param route
