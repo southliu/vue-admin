@@ -23,5 +23,5 @@ defineProps({
   }
 })
 
-const arr = new Array(5).fill(0).map((item, index) => index + 1)
+const arr = new Array(5).fill(0).map((_, index) => index + 1)
 </script>
