@@ -9,7 +9,6 @@ export const SystemMenus: IMenus[] = [
       title: '系统管理',
       icon: 'ion:settings-outline'
     },
-    component: () => import('@/layouts/default.vue'),
     redirect: '/systems/user',
     children: [
       {
@@ -20,7 +19,6 @@ export const SystemMenus: IMenus[] = [
           rule: '/authority/user',
           keepAlive: true
         },
-        component: () => import('@/pages/systems/user/index.vue')
       },
       {
         name: 'SystemMenu',
@@ -30,7 +28,6 @@ export const SystemMenus: IMenus[] = [
           rule: '/authority/menu',
           keepAlive: true
         },
-        component: () => import('@/pages/systems/menu/index.vue')
       }
     ]
   },

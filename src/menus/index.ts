@@ -11,20 +11,17 @@ export const menus: IMenus[] = [
       title: '登录',
       hidden: true
     },
-    component: () => import('@/pages/login/index.vue')
   },
   {
     name: 'ErrorPages',
     path: '/404',
     redirect: '/404',
     meta: { hidden: true },
-    component: () => import('@/layouts/default.vue'),
     children: [
       {
         name: 'EmptyPage',
         path: '/empty',
         meta: { title: '重定向' },
-        component: () => import('@/pages/errors/empty.vue')
       },
       {
         name: 'NotFound',
@@ -33,7 +30,6 @@ export const menus: IMenus[] = [
           title: '404 Not Found',
           hidden: true
         },
-        component: () => import('@/pages/errors/404.vue')
       },
       {
         name: 'BadRequired',
@@ -42,7 +38,6 @@ export const menus: IMenus[] = [
           title: '403 Bad Required',
           hidden: true
         },
-        component: () => import('@/pages/errors/403.vue')
       }
     ]
   },
@@ -54,7 +49,6 @@ export const menus: IMenus[] = [
       title: '仪表盘',
       icon: 'la:tachometer-alt'
     },
-    component: () => import('@/layouts/default.vue'),
     children: [
       {
         name: 'DashboardPage',
@@ -64,7 +58,6 @@ export const menus: IMenus[] = [
           rule: '/dashboard',
           keepAlive: true
         },
-        component: () => import('@/pages/dashboard/index.vue')
       }
     ]
   },

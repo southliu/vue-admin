@@ -12,6 +12,6 @@ interface IMeta {
 }
 
 // 更改children值
-interface IChildren { children?: IMenus[] }
-
-export type IMenus = RouteRecordRaw & IMeta & IChildren
+type IRoute = Omit<RouteRecordRaw, 'component' | 'children'>
+interface IChildren { children?: IRoute[] }
+export type IMenus = IRoute & IMeta & IChildren

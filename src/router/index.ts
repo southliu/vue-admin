@@ -2,11 +2,11 @@ import {
   createRouter,
   createWebHashHistory,
 } from 'vue-router'
-import { menus } from '../menus'
+import routes from '~pages'
 
 const router = createRouter({
   history: createWebHashHistory(),
-  routes: menus,
+  routes,
   scrollBehavior: () => ({ left: 0, top: 0 }),
 })
 

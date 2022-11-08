@@ -9,7 +9,6 @@ export const DemoMenus: IMenus[] = [
       title: '组件',
       icon: 'fluent:box-20-regular'
     },
-    component: () => import('@/layouts/default.vue'),
     redirect: '/demo/copy',
     children: [
       {
@@ -20,7 +19,6 @@ export const DemoMenus: IMenus[] = [
           rule: '/demo/copy',
           keepAlive: true
         },
-        component: () => import('@/pages/demo/copy/index.vue')
       },
       {
         name: 'DemoWangEditor',
@@ -30,7 +28,6 @@ export const DemoMenus: IMenus[] = [
           rule: '/demo/user',
           keepAlive: true
         },
-        component: () => import('@/pages/demo/wangEditor/index.vue')
       },
       {
         name: 'DemoVirtualScroll',
@@ -40,7 +37,6 @@ export const DemoMenus: IMenus[] = [
           rule: '/demo/virtualScroll',
           keepAlive: true
         },
-        component: () => import('@/pages/demo/virtualScroll/index.vue')
       },
       {
         name: 'DemoWatermark',
@@ -50,7 +46,6 @@ export const DemoMenus: IMenus[] = [
           rule: '/demo/watermark',
           keepAlive: true
         },
-        component: () => import('@/pages/demo/watermark/index.vue')
       },
     ]
   }
