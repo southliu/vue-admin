@@ -2,7 +2,7 @@ import { createApp } from 'vue'
 import type { App } from 'vue'
 import pinia from './stores'
 import { router } from './router'
-import { routerIntercept } from './router/intercept'
+import { routerIntercept } from './router/utils/intercept'
 import Element from './App.vue'
 
 // 样式

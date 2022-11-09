@@ -4,25 +4,25 @@ import type { IMenus } from './model'
 export const SystemMenus: IMenus[] = [
   {
     name: 'System',
-    path: '/systems',
+    path: '/system',
     meta: {
       title: '系统管理',
       icon: 'ion:settings-outline'
     },
-    redirect: '/systems/user',
+    redirect: '/system/user',
     children: [
       {
         name: 'SystemUser',
-        path: '/systems/user',
+        path: '/system/user',
         meta: {
           title: '用户管理',
           rule: '/authority/user',
-          keepAlive: true
+          keepAlive: true 
         },
       },
       {
         name: 'SystemMenu',
-        path: '/systems/menu',
+        path: '/system/menu',
         meta: {
           title: '菜单管理',
           rule: '/authority/menu',

@@ -11,7 +11,7 @@ import { storeToRefs } from 'pinia'
 import { getFirstMenu } from '@/menus/utils/helper'
 import { checkPermission } from "@/utils/permissions"
 import NProgress from 'nprogress'
-import pinia from '../stores'
+import pinia from '../../stores'
 
 NProgress.configure({ showSpinner: false })
 
