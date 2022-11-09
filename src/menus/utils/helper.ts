@@ -1,181 +1,291 @@
-import type { IGlobalSearchResult } from '../../components/GlobalSearch/model'
-import type { IMenus } from '@/menus/model'
-import type { IMenuItem, ISidebar } from '@/stores/menu'
-import type { RouteRecordRaw } from 'vue-router'
-import { checkPermission } from '../../utils/permissions'
+import type { ISideMenu } from '#/public'
 
 /**
- * 获取菜单数据，只获取最底层菜单数据
- * @param menus - 菜单数据
- * @param result - 返回结果数据
- * @param permissions - 权限
- * @param topValue - 头部值
+ * 根据路由获取展开菜单数组
+ * @param router - 路由
  */
-export function getMenus(
-  menus: IMenus[],
+export function getOpenMenuByRouter(router: string): string[] {
+  const arr = splitPath(router), result: string[] = []
+
+  // 取第一个单词大写为新展开菜单key
+  if (arr.length > 0) result.push(arr[0])
+
+  // 当路由处于多级目录时
+  if (arr.length > 2) {
+    let str = '/' + arr[0]
+    for (let i = 1; i < arr.length - 1; i++) {
+      str += '/' + arr[i]
+      result.push(str)
+    }
+  }
+
+  return result
+}
+
+/**
+ * 匹配路径内的字段
+ * @param path - 路径
+ * @param arr - 路径经过数组
+ */
+function matchPath(path: string, arr: IMenuPath[]): string[] {
+  const result: string[] = []
+
+  // 分割路径
+  const pathArr = splitPath(path)
+  let left = 0
+  const right = pathArr.length
+
+  for (let i = 0; i < arr.length; i++) {
+    const { path } = arr[i]
+    if (path?.[left] === pathArr[left]) {
+      result.push(arr[i].label)
+      left++
+    }
+    if (left === right) return result
+  }
+
+  return result
+}
+
+/**
+ * 分割路径且去除首个字符串
+ * @param path - 路径
+ */
+export function splitPath(path: string): string[] {
+  // 路径为空或非字符串格式则返回空数组
+  if (!path || typeof path !== 'string') return []
+  // 分割路径
+  const result = path?.split('/') || []
+  // 去除第一个空字符串
+  if (result?.[0] === '') result.shift()
+  return result
+}
+
+/**
+ * 搜索相应菜单值
+ * @param menus - 菜单
+ * @param permissions - 权限列表
+ * @param value - 匹配值
+ * @param currentPath - 当前路径
+ * @param result - 返回值
+ */
+
+interface IMenuPath {
+  label: string;
+  path: string[];
+}
+interface ISearchMenuProps {
+  menus: ISideMenu[] | undefined,
   permissions: string[],
-  result: ISidebar[] = [],
-  topValue: string | undefined = undefined,
-  topTitle: string | undefined = undefined
-): ISidebar[] {
-  for (let i = 0; i < menus.length; i++) {
-    const item = menus[i],
-          top = topValue || item.name as string,
-          title = topTitle || item?.meta?.title || '' as string
-
-    // 隐藏菜单跳过循环
-    if (hasHidden(item)) continue
-
-    // 空子路由跳出循环
-    if (item?.children && item.children?.length === 0) continue
-
-    // 没有子路由进行权限判断
-    if (!item?.children && !checkPermission(item.meta?.rule || '', permissions)) continue
-
-    // 当前有子路由继续遍历
-    let children = undefined
-    if (hasChildren(item)) {
-      children = getMenus(item.children as IMenus[], permissions, [], top, topTitle)
-    }
-
-    // 有子路由切子数据为空跳过循环
-    if (children && children?.length === 0) continue
-
-    // 当有缓存则添加数据
-    result.push({
-      key: item.name as string,
-      path: item.path,
-      top,
-      topTitle: title,
-      rule: item?.meta?.rule || '',
-      title: item?.meta?.title || '',
-      icon: item?.meta?.icon,
-      children
-    })
-  }
-  return result
+  value: string,
+  currentPath?: IMenuPath[],
+  result?: ISideMenu[]
 }
 
-/**
- * 获取缓存路由中的路由名，只获取最底层菜单数据
- * @param menus - 菜单数据
- * @param result - 返回结果数据
- */
-export function getCacheRoutes(menus: RouteRecordRaw[], result: string[] = []): string[] {
+export function searchMenuValue(data: ISearchMenuProps): ISideMenu[] {
+  const { menus, permissions, value } = data
+  let { currentPath, result } = data
+  if (!menus?.length || !value) return []
+  if (!currentPath) currentPath = []
+  if (!result) result = []
+
   for (let i = 0; i < menus.length; i++) {
-    const item = menus[i]
+    // 如果存在子数组则递归
+    if (hasChildren(menus[i])) {
+      currentPath.push({
+        label: menus[i].label,
+        path: splitPath(menus[i].key)
+      })
 
-    // 当前有子路由继续遍历
-    if (hasChildren(item)) {
-      getCacheRoutes(item.children as RouteRecordRaw[], result)
+      // 递归子数组，返回结果
+      const childrenData = {
+        menus: menus[i].children,
+        permissions,
+        value,
+        currentPath,
+        result
+      }
+      const childResult = searchMenuValue(childrenData)
+
+      // 当子数组返回值有值时则合并数组
+      if (childResult.length) {
+        result.concat(childResult)
+      } else {
+        currentPath.pop()
+      }
+    } else if (
+      menus[i]?.label?.includes(value) &&
+      hasPermission(menus[i], permissions)
+    ) {
+      currentPath.push({
+        label: menus[i].label,
+        path: splitPath(menus[i].key)
+      })
+      const nav = matchPath(menus[i].key, currentPath)
+
+      // 匹配到value值时添加到result中
+      const { label, key } = menus[i]
+      result.push({ label, key, nav })
     }
-
-    // 当有缓存则添加数据
-    keepAlive(item) && result.push(item.name as string)
   }
 
   return result
 }
 
 /**
- * 根据路由地址获取当前菜单值
- * @param route - 路由地址
- * @param menus - 菜单数据
+ * 根据key获取菜单当前值
+ * @param menus - 菜单
+ * @param permissions - 权限列表
+ * @param key - 路由值
+ * @param fatherNav - 父级面包屑
+ * @param result - 返回值
  */
-export function getCurrentMenuByRoute(route: string, menus: ISidebar[]): IMenuItem {
-  let res: IMenuItem = {
+interface IGetMenuByKeyResult {
+  label: string;
+  key: string;
+  nav: string[];
+}
+interface IGetMenuByKeyProps {
+  menus: ISideMenu[] | undefined,
+  permissions: string[],
+  key: string,
+  fatherNav?: string[],
+  result?: IGetMenuByKeyResult
+}
+
+export function getMenuByKey(data: IGetMenuByKeyProps): IGetMenuByKeyResult | undefined {
+  const { menus, permissions, key } = data
+  let { fatherNav, result } = data
+  if (!menus?.length) return result
+  if (!fatherNav) fatherNav = []
+  if (!result?.key) result = {
     key: '',
-    path: '',
-    top: '',
-    topTitle: '',
-    title: ''
+    label: '',
+    nav: []
   }
+
   for (let i = 0; i < menus.length; i++) {
-    const element = menus[i]
-    if (element.path === route) {
-      res = element
-    }
-    if (res.key) return res
-  
-    // 如果存在子路由则遍历子路由
-    if (element.children && element.children?.length > 0) {
-      res = getCurrentMenuByRoute(route, element.children)
+    if (!key || (result as IGetMenuByKeyResult).key) return result
+
+    // 过滤子数据中值
+    if (hasChildren(menus[i])) {
+      fatherNav.push(menus[i].label)
+
+      // 递归子数组，返回结果
+      const childProps = {
+        menus: menus[i].children,
+        permissions,
+        key,
+        fatherNav,
+        result
+      }
+      const childResult = getMenuByKey(childProps)
+
+      // 当子数组返回值
+      if (childResult?.key) {
+        result = childResult
+      } else {
+        // 下次递归前删除面包屑前一步错误路径
+        fatherNav.pop()
+      }
+    } else if (
+      menus[i]?.key === key &&
+      hasPermission(menus[i], permissions)
+    ) {
+      fatherNav.push(menus[i].label)
+      const { label, key } = menus[i]
+      if (key) result = { label, key, nav: fatherNav }
     }
   }
-  return res
+
+  return result
 }
 
 /**
- * 根据名称获取当前菜单值
- * @param name - 名称
- * @param menus - 菜单数据
+ * 过滤权限菜单
+ * @param menus - 菜单
+ * @param permissions - 权限列表
  */
-export function getCurrentMenuByName(
-  name: string,
-  menus: ISidebar[],
-  res: IGlobalSearchResult[] = []
-): IGlobalSearchResult[] {
+export function filterMenus(
+  menus: ISideMenu[],
+  permissions: string[]
+): ISideMenu[] {
+  const result: ISideMenu[] = []
+
   for (let i = 0; i < menus.length; i++) {
-    const element = menus[i]
-    if (!element.children && element.title.includes(name)) {
-      const { title, key, path, topTitle } = element
-      const params = { title, key, path, topTitle, index: res.length }
-      res.push(params)
+    // 处理子数组
+    if (hasChildren(menus[i])) {
+      const result = filterMenus(
+        menus[i].children as ISideMenu[],
+        permissions
+      )
+
+      // 有子权限数据则保留
+      menus[i].children = result?.length ? result : undefined
     }
-    // 如果存在子路由则遍历子路由
-    if (element.children && element.children?.length > 0) {
-      getCurrentMenuByName(name, element.children, res)
-    }
+
+    // 有权限或有子数据累加
+    if (
+      hasPermission(menus[i], permissions) ||
+      hasChildren(menus[i])
+    ) result.push(menus[i])
   }
-  return res
+
+  return result
 }
 
 /**
- * 获取菜单中第一个路由地址
- * @param menus - 菜单数据
+ * 获取第一个有效权限路由
+ * @param menus - 菜单
+ * @param permissions - 权限
  */
-export function getFirstMenu(menus: ISidebar[]): IMenuItem {
-  let res: IMenuItem = {
-    key: '',
-    path: '',
-    top: '',
-    topTitle: '',
-    title: ''
-  }
+export function getFirstMenu(
+ menus: ISideMenu[],
+ permissions: string[],
+ result = ''
+): string {
+  // 有结构时直接返回
+  if (result) return result
+
   for (let i = 0; i < menus.length; i++) {
-    const element = menus[i]
-    if (res.key) return res
-    // 如果存在子路由则遍历子路由
-    if (element.children && element.children?.length > 0) {
-      res = getFirstMenu(element.children)
-    } else {
-      res = element
-      return res
+    // 处理子数组
+    if (hasChildren(menus[i]) && !result) {
+      const childResult = getFirstMenu(
+        menus[i].children as ISideMenu[],
+        permissions,
+        result
+      )
+
+      // 有结果则赋值
+      if (childResult) {
+        result = childResult
+        return result
+      }
     }
+
+    // 有权限且没有有子数据
+    if (
+      hasPermission(menus[i], permissions) &&
+      !hasChildren(menus[i])
+    ) result = menus[i].key
   }
-  return res
+
+  return result
 }
 
 /**
- * 路由是否缓存
- * @param route
+ * 路由是否权限
+ * @param route - 路由
+ * @param permissions - 权限
  */
-function keepAlive(route: RouteRecordRaw): boolean {
-  return Boolean(route?.meta?.keepAlive)
+function hasPermission(route: ISideMenu, permissions: string[]): boolean {
+  return permissions?.includes(route?.rule || '')
 }
 
 /**
  * 是否有子路由
- * @param route
+ * @param route - 路由
  */
-function hasChildren(route: RouteRecordRaw): boolean {
+function hasChildren(route: ISideMenu): boolean {
   return Boolean(route.children?.length)
-}
-
-/**
- * 是否隐藏菜单列表
- * @param route
- */
-function hasHidden(route: RouteRecordRaw): boolean {
-  return Boolean(route?.meta?.hidden)
 }

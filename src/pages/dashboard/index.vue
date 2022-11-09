@@ -29,7 +29,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import type { IDashboardResult } from './model'
-import type { ISearchData } from '#/global'
+import type { ISearchData } from '#/public'
 import { onMounted, reactive, ref } from 'vue'
 import { useLoading } from '@/hooks/useLoading'
 import { IFormData } from '#/form'

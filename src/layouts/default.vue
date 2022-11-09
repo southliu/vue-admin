@@ -104,9 +104,6 @@ import { useDebounceFn } from '@vueuse/core'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { message, Skeleton } from 'ant-design-vue'
-import { menus } from '@/menus'
-import { useRoute } from 'vue-router'
-import { getMenus, getCurrentMenuByRoute } from '@/menus/utils/helper'
 import { useLoading } from '@/hooks/useLoading'
 import { updatePassword } from '@/servers/login'
 import Header from './components/Header.vue'
@@ -114,23 +111,16 @@ import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
 import UpdatePassword from '@/components/UpdatePassword/index.vue'
 
-const route = useRoute()
 const tabStore = useTabStore()
 const menuStore = useMenuStore()
 const userStore = useUserStore()
-const { addTabs, setPathName, addCacheRoutes } = tabStore
-const { setSelectedKeys } = menuStore
 const { setUserInfo, setPermissions } = userStore
 const { userInfo, permissions } = storeToRefs(userStore)
 const username = ref(userInfo.value?.username || '') // 用户名
 const isCollapsed = ref(false) // 是否收起菜单
 const isMaximize = ref(false) // 是否窗口最大化
 const isUpdatePassword = ref(false) // 是否显示修改密码
-const {
-  isPhone,
-  openKeys,
-  menuList,
-} = storeToRefs(menuStore)
+const { isPhone } = storeToRefs(menuStore)
 const { isLoading, startLoading, endLoading } = useLoading()
 
 onMounted(() => {
@@ -157,19 +147,6 @@ const getUserInfo = async () => {
       username.value = user.username
       setUserInfo(user)
       setPermissions(newPermissions)
-
-      // 菜单处理
-      const newMenus = getMenus(menus, newPermissions)
-      const { key, path, title, top } = getCurrentMenuByRoute(route.path, newMenus)
-      menuList.value = newMenus
-      // 菜单展开，添加标签
-      if (top) openKeys.value = [top]
-      if (key) {
-        addTabs({ key, path, title })
-        setSelectedKeys([route.path])
-        setPathName(key)
-        addCacheRoutes(key)
-      }
     }
   } catch(err) {
     console.error(err)

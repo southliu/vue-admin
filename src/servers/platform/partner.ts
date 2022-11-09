@@ -1,5 +1,5 @@
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
-import type { IServerResult } from '#/global'
+import type { IServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {

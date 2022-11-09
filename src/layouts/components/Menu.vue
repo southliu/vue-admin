@@ -10,6 +10,7 @@
         :height="30"
         :src="Logo"
         alt="LOGO"
+        @click="onClickLogo"
       />
       <span
         class="text-white ml-3 text-xl font-bold truncate"
@@ -45,12 +46,22 @@
 
 <script lang="ts" setup>
 import type { Key } from 'ant-design-vue/lib/_util/type'
-import { defineProps, defineEmits } from 'vue'
+import type { ISideMenu } from '#/public'
+import { defineProps, defineEmits, watch, ref, onMounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
-import { useRouter } from 'vue-router'
+import { useUserStore } from '@/stores/user'
+import { useRoute, useRouter } from 'vue-router'
 import { Menu } from 'ant-design-vue'
 import { storeToRefs } from 'pinia'
+import { defaultMenus } from '@/menus'
+import {
+  filterMenus,
+  getFirstMenu,
+  getMenuByKey,
+  getOpenMenuByRouter,
+  splitPath
+} from '@/menus/utils/helper'
 import MenuChildren from './MenuChildren.vue'
 import Logo from '@/assets/images/logo.png'
 
@@ -63,32 +74,118 @@ defineProps({
   }
 })
 
+const menus = ref<ISideMenu[]>([])
+const route = useRoute()
 const router = useRouter()
 const tabStore = useTabStore()
 const menuStore = useMenuStore()
+const userStore = useUserStore()
+const { permissions } = storeToRefs(userStore)
 const {
   isPhone,
   openKeys,
   selectedKeys,
-  menuList,
+  menuList
 } = storeToRefs(menuStore)
+const { setMenus, setOpenKey } = menuStore
+const {
+  setActiveKey,
+  addCacheRoutes,
+  addTabs,
+  setNav
+} = tabStore
+
+onMounted(() => {
+  if (permissions.value.length > 0) {
+    const newMenus = filterMenus(defaultMenus, permissions.value)
+    setMenus(newMenus || [])
+  }
+})
+
+// 监听路径
+watch(() => route.path, value => {
+  const newOpenKey = getOpenMenuByRouter(value)
+  setOpenKey(newOpenKey)
+})
+
+/** 点击logo */
+const onClickLogo = () => {
+  const firstMenu = getFirstMenu(defaultMenus, permissions.value)
+  router.push(firstMenu)
+  const menuByKeyProps = {
+    menus: defaultMenus,
+    permissions: permissions.value,
+    key: firstMenu
+  }
+  const newItems = getMenuByKey(menuByKeyProps)
+  if (newItems) {
+    setActiveKey(newItems.key)
+    addCacheRoutes(newItems.key)
+    setNav([])
+    addTabs(newItems)
+  }
+}
+
+/**
+ * 对比当前展开目录是否是同一层级
+ * @param arr - 当前展开目录
+ * @param lastArr - 最后展开的目录
+ */
+const diffOpenMenu = (arr: string[], lastArr: string[]) => {
+  let result = true
+
+  for (let j = 0; j < arr.length; j++) {
+    if (arr[j] !== lastArr[j]) {
+      result = false
+      break
+    }
+  }
+
+  return result
+}
 
 /**
  * 菜单展开事件
- * @param keys - 展开下标
+ * @param openKey - 展开下标
  */
-const openChange = (keys: Key[]) => {
-  openKeys.value = [keys[keys.length - 1] as string || '']
+const openChange = (openKey: Key[]) => {
+  const newOpenKey: string[] = []
+  let last = '' // 最后一个目录结构
+
+  // 当目录有展开值
+  if (openKey.length > 0) {
+    last = openKey[openKey.length - 1].toString()
+    const lastArr: string[] = splitPath(last)
+    newOpenKey.push(last)
+
+    // 对比当前展开目录是否是同一层级
+    for (let i = openKey.length - 2; i >= 0; i--) {
+      const arr = splitPath(openKey[i].toString())
+      const hasOpenKey = diffOpenMenu(arr, lastArr)
+      if (hasOpenKey) newOpenKey.unshift(openKey[i].toString())
+    }
+  }
+
+  setOpenKey(newOpenKey)
 }
 
 /**
  * 点击菜单
  * @param key - 唯一值
- * @param title - 标题
  */
-const handleClick = (key: string, path: string, title: string) => {
-  router.push(path)
-  tabStore.addTabs({ title, path, key })
+const handleClick = (key: string) => {
+  router.push(key)
+  const menuByKeyProps = {
+    menus: menus.value,
+    permissions: permissions.value,
+    key
+  }
+  const newTab = getMenuByKey(menuByKeyProps)
+  if (newTab) {
+    setActiveKey(newTab.key)
+    setNav(newTab.nav)
+    addTabs(newTab)
+  }
   
   // 手机端点击隐藏菜单
   if (isPhone.value) emit('toggleCollapsed')

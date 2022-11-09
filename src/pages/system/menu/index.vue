@@ -70,7 +70,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import type { IFormData } from '#/form'
 import type { IBasicForm } from '@/components/Form/model'
-import type { ICreateData, ISearchData, ITableData, IPaginationData } from '#/global'
+import type { ICreateData, ISearchData, ITableData, IPaginationData } from '#/public'
 import { message } from 'ant-design-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'

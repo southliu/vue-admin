@@ -1,4 +1,4 @@
-import type { IPageServerResult, IPaginationData } from '#/global'
+import type { IPageServerResult, IPaginationData } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {

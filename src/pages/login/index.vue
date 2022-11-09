@@ -80,15 +80,12 @@ import { login } from '@/servers/login'
 import { PASSWORD_RULE } from '@/utils/config'
 import { useLoading } from '@/hooks/useLoading'
 import { useToken } from '@/hooks/useToken'
-import { useMenuStore } from '@/stores/menu'
-import { useTabStore } from '@/stores/tabs'
 import { useUserStore } from '@/stores/user'
-import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router'
 import { useWatermark } from '@/hooks/useWatermark'
 import { permissionsToArray } from '@/utils/permissions'
-import { menus } from '@/menus'
-import { getMenus, getFirstMenu } from '@/menus/utils/helper'
+import { defaultMenus } from '@/menus'
+import { getFirstMenu } from '@/menus/utils/helper'
 import {
   Form,
   FormItem,
@@ -100,6 +97,8 @@ import Logo from '@/assets/images/logo.png'
 import PageLoading from '@/components/Loading/PageLoading.vue'
 
 const router = useRouter()
+const userStore = useUserStore()
+const { setUserInfo, setPermissions } = userStore
 const { isLoading, startLoading, endLoading } = useLoading()
 const { setToken } = useToken()
 const { RemoveWatermark } = useWatermark()
@@ -122,32 +121,14 @@ onMounted(() => {
 const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
   try {
     startLoading()
-    const menuStore = useMenuStore()
-    const tabStore = useTabStore()
-    const { openKeys, menuList } = storeToRefs(menuStore)
-    const { setUserInfo, setPermissions } = useUserStore()
     const { data } = await login(values)
     const { data: { token, user, permissions } } = data
     const newPermissions = permissionsToArray(permissions)
+    const firstMenu = getFirstMenu(defaultMenus, newPermissions)
     setToken(token)
     setUserInfo(user)
     setPermissions(newPermissions)
-    
-    // 菜单处理
-    const newMenus = getMenus(menus, newPermissions)
-    menuList.value = newMenus
-    // 如果菜单为空，跳转空白页
-    if (newMenus.length === 0) router.push('/empty')
-    // 跳转第一个有效菜单
-    const { key, path, title, top } = getFirstMenu(newMenus)
-    // 菜单展开，添加标签
-    if (top) openKeys.value = [top]
-    if (key) tabStore.addTabs({ key, path, title })
-    isLock.value = true
-    router.push(path || '/')
-  } catch(err) {
-    console.log('登录失败:', err)
-    isLock.value = false
+    router.push(firstMenu)
   } finally {
     endLoading()
   }

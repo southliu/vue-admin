@@ -1,34 +1,22 @@
-import type { IMenus } from './model'
+import type { ISideMenu } from '#/public'
 
 // 系统管理
-export const SystemMenus: IMenus[] = [
+export const SystemMenus: ISideMenu[] = [
   {
-    name: 'System',
-    path: '/system',
-    meta: {
-      title: '系统管理',
-      icon: 'ion:settings-outline'
-    },
-    redirect: '/system/user',
+    label: '系统管理',
+    key: 'system',
+    icon: 'ion:settings-outline',
     children: [
       {
-        name: 'SystemUser',
-        path: '/system/user',
-        meta: {
-          title: '用户管理',
-          rule: '/authority/user',
-          keepAlive: true 
-        },
+        label: '用户管理',
+        key: '/system/user',
+        rule: '/authority/user'
       },
       {
-        name: 'SystemMenu',
-        path: '/system/menu',
-        meta: {
-          title: '菜单管理',
-          rule: '/authority/menu',
-          keepAlive: true
-        },
-      }
+        label: '菜单管理',
+        key: '/system/menu',
+        rule: '/authority/menu'
+      },
     ]
-  },
+  }
 ]

@@ -1,5 +1,4 @@
 import type { Router } from "vue-router"
-import type { IMenuItem } from '@/stores/menu'
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { useToken } from '@/hooks/useToken'
 import { TITLE_SUFFIX } from '@/utils/config'
@@ -12,6 +11,7 @@ import { getFirstMenu } from '@/menus/utils/helper'
 import { checkPermission } from "@/utils/permissions"
 import NProgress from 'nprogress'
 import pinia from '../../stores'
+import { defaultMenus } from "@/menus"
 
 NProgress.configure({ showSpinner: false })
 
@@ -30,17 +30,14 @@ export function routerIntercept(router: Router) {
     const userStore = useUserStore(pinia)
     const menuStore = useMenuStore(pinia)
     const tabStore = useTabStore(pinia)
-    const { setSelectedKeys, setFirstMenu } = menuStore
-    const { setActiveKey, setPathName, addCacheRoutes, addTabs } = tabStore
+    const { setSelectedKeys } = menuStore
+    const { setActiveKey, addCacheRoutes } = tabStore
     const { permissions } = storeToRefs(userStore)
-    const { openKeys, menuList, firstMenu } = storeToRefs(menuStore)
 
     // 设置激活标签栏
     setActiveKey(to.path)
     // 设置菜单选择的key
     setSelectedKeys([to.path])
-    // 设置路径名
-    setPathName(to.name as string)
 
     // 缓存keepAlive
     if (to.meta?.keepAlive && to.name) {
@@ -52,20 +49,9 @@ export function routerIntercept(router: Router) {
       message.error({ content: '用户授权过期，请重新登录', key: 'not_token' })
       next({ path: `/login?redirect=${to.path}` })
     } else if (token && to.path === '/login') {
-      // 有token且在登录页返回首页
-      // 跳转第一个有效菜单
-      let obj: IMenuItem = { key: '', path: '', top: '', topTitle: '', title: '' }
-      if (firstMenu.value?.key) {
-        obj = firstMenu.value
-      } else {
-        obj = getFirstMenu(menuList.value)
-        setFirstMenu(obj)
-      }
-      const { key, path, title, top } = obj
-      // 菜单展开，添加标签
-      if (top) openKeys.value = [top]
-      if (key) addTabs({ key, path, title })
-      next(path)
+      // 有token且在登录页跳转第一个有效菜单
+      const firstMenu = getFirstMenu(defaultMenus, permissions.value)
+      next(firstMenu)
     } else if (to?.meta?.rule && permissions.value?.length > 0) {
       // 判断是否有权限
       const isRule = checkPermission((to.meta.rule) as string, permissions.value)

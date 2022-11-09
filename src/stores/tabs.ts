@@ -1,22 +1,20 @@
+import type { TabPaneProps } from 'ant-design-vue'
 import { defineStore } from 'pinia'
-import { router } from '@/router'
 
-export interface ITabs {
-  title: string;
+interface ITabs extends Omit<TabPaneProps, 'tab'> {
   key: string;
-  path: string;
-  closable?: boolean
+  label: string;
 }
 
 interface ITabsState {
   // 当前选中的标签
   activeKey: string;
-  // 路由名称
-  pathName: string;
   // 上一个路径
   prevPath: string;
   // 标签栏数据
   tabs: ITabs[];
+  // 导航数据
+  nav: string[];
   // 缓存的路由名称
   cacheRoutes: string[];
 }
@@ -25,9 +23,9 @@ export const useTabStore = defineStore({
   id: 'tabs',
   state: () => ({
     activeKey: '',
-    pathName: '',
     prevPath: '',
     tabs: [],
+    nav: [],
     cacheRoutes: []
   } as ITabsState),
   actions: {
@@ -50,6 +48,14 @@ export const useTabStore = defineStore({
     },
 
     /**
+     * 设置导航
+     * @param nav - 导航数据
+     */
+    setNav(nav: string[]) {
+      this.nav = nav
+    },
+
+    /**
      * 设置选中的标签
      * @param targetKey - 当前选中唯一值
      */
@@ -58,112 +64,84 @@ export const useTabStore = defineStore({
     },
 
     /**
-     * 设置路由名称
-     * @param name - 路由名称
-     */
-    setPathName(name: string) {
-      this.pathName = name
-    },
-
-    /**
      * 添加标签页
      * @param tab - 标签数据
      */
     addTabs(tab: ITabs) {
-      this.activeKey = tab.path
-      // 查询是否有重复的标签页
-      for (let i = 0; i < this.tabs.length; i++) {
-        const element = this.tabs[i]
-        if (element.key === tab.key) {
-          return
-        }
-      }
-      this.tabs.push(tab)
+      // 判断是否存在相同的路由，不存在则累加
+      const has = this.tabs.find(item => item.key === tab.key)
+      if (!has) this.tabs.push(tab)
+
+      // 如果只剩一个则无法关闭
+      this.tabs[0].closable = this.tabs?.length > 1
     },
 
     /**
      * 移除当前标签页
      * @param targetKey - 标签唯一值
      */
-    removeCurrent(targetKey: string) {
-      // 获取当前key的最后一位位置
-      let lastIndex = 0
-      for (let i = 0; i < this.tabs.length; i++) {
-        const element = this.tabs[i]
-        if (element.path === targetKey) {
-          lastIndex = i - 1
-          break
-        }
-      }
-      // 过滤数据中当前路径的数据
-      this.tabs = this.tabs.filter(item => item.path !== targetKey)
-      // 如果当前是选中状态
-      if (this.tabs.length && this.activeKey === targetKey) {
-        if (lastIndex >= 0) {
-          this.activeKey = this.tabs[lastIndex].path
+    closeTabs(targetKey: string) {
+      // 发现下标并从数组中删除
+      const index = this.tabs.findIndex(item => item.key === targetKey)
+      if (index >= 0) this.tabs.splice(index, 1)
+
+      // 如果当前下标是当前选中的标签，则跳转至上一个/下一个有效值
+      if (targetKey === this.activeKey) {
+        let target = ''
+        if (index === 0) {
+          target = this.tabs[index].key
         } else {
-          this.activeKey = this.tabs[0].path
+          target = this.tabs[index - 1].key
         }
-        // 跳转页面
-        router.push(this.activeKey)
+        this.activeKey = target
       }
+
+      // 如果只剩一个则无法关闭
+      this.tabs[0].closable = this.tabs?.length > 1
     },
 
     /**
      * 移除其他标签页
      * @param targetKey - 标签唯一值
      */
-    removeOther(targetKey: string) {
-      this.tabs = this.tabs.filter(item => item.path === targetKey)
-      this.activeKey = targetKey
-      router.push(this.activeKey)
+    closeOther(targetKey: string) {
+      // 发现下标并从数组中删除
+      const tab = this.tabs.find(item => item.key === targetKey)
+      if (tab) {
+        this.tabs = [tab]
+        this.activeKey = tab.key
+      }
+
+      // 如果只剩一个则无法关闭
+      this.tabs[0].closable = false
     },
 
     /**
      * 关闭左侧
      * @param targetKey - 标签唯一值
      */
-    removeLeft(targetKey: string) {
-      let isCurrent = false
-      const tabs: ITabs[] = []
+    closeLeft(targetKey: string) {
+      // 发现下标并从数组中删除
+      const index = this.tabs.findIndex(item => item.key === targetKey)
+      if (index >= 0) this.tabs.splice(0, index)
+      this.activeKey = this.tabs[0].key
 
-      for (let i = 0; i < this.tabs.length; i++) {
-        const element = this.tabs[i]
-        // 当前项之后的数据都保存
-        if (element.path === targetKey) isCurrent = true
-        if (isCurrent) tabs.push(element)
-      }
-
-      this.tabs = tabs
-      this.activeKey = targetKey
-      router.push(this.activeKey)
+      // 如果只剩一个则无法关闭
+      this.tabs[0].closable = this.tabs?.length > 1
     },
 
     /**
      * 关闭右侧
      * @param targetKey - 标签唯一值
      */
-    removeRight(targetKey: string) {
-      let index = 0
-      const tabs: ITabs[] = []
+    closeRight(targetKey: string) {
+      // 发现下标并从数组中删除
+      const index = this.tabs.findIndex(item => item.key === targetKey)
+      if (index >= 0) this.tabs.splice(index + 1, this.tabs.length - index - 1)
+      this.activeKey = this.tabs[this.tabs.length - 1].key
 
-      // 获取下标
-      for (let i = this.tabs.length - 1; i >= 0; i--) {
-        const element = this.tabs[i]
-        if (element.path === targetKey) {
-          index = i
-        }
-      }
-
-      // 重构数据
-      for (let i = 0; i <= index; i++) {
-        const element = this.tabs[i]
-        tabs.push(element)
-      }
-      
-      this.tabs = tabs
-      this.activeKey = targetKey
-      router.push(this.activeKey)
+      // 如果只剩一个则无法关闭
+      this.tabs[0].closable = this.tabs?.length > 1
     }
   }
 })

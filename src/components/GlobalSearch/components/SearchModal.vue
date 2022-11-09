@@ -10,7 +10,7 @@
       v-model:value="inputValue"
       placeholder="请输入关键词搜索"
       :allowClear="true"
-      @pressEnter="handleEnter"
+      @pressEnter="onPressEnter"
     >
       <template #prefix>
         <Icon
@@ -22,9 +22,9 @@
 
     <SearchResult
       :list="resultList"
-      :active="active.key"
-      @handleClick="handleEnter"
-      @handleMouse="changeActive"
+      :active="active"
+      @handleClick="onPressEnter"
+      @handleMouse="onChange"
     />
 
     <template #footer>
@@ -35,41 +35,44 @@
 
 <script lang="ts" setup>
 import type { IGlobalSearchResult } from '../model'
-import { defineProps, defineEmits, onMounted, ref, watch } from 'vue'
+import type { ISideMenu } from '#/public'
+import { defineEmits, onMounted, ref } from 'vue'
 import { Modal, Input } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
-import { getCurrentMenuByName, getCurrentMenuByRoute } from '@/menus/utils/helper'
 import { useDebounceFn, onKeyStroke } from '@vueuse/core'
+import { defaultMenus } from '@/menus'
+import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
+import {
+  getMenuByKey,
+  getOpenMenuByRouter,
+  searchMenuValue
+} from '@/menus/utils/helper'
 import SearchResult from './SearchResult.vue'
 import SearchFooter from './SearchFooter.vue'
 import Icon from '@/components/Icon/index.vue'
 
 const emit = defineEmits(['toggle'])
 
-const props = defineProps({
-  isVisible: {
-    type: Boolean,
-    required: true
-  }
-})
-
 const router = useRouter()
 const tabStore = useTabStore()
+const userStore = useUserStore()
 const menuStore = useMenuStore()
-const { menuList, openKeys } = storeToRefs(menuStore)
+const { permissions } = storeToRefs(userStore)
 const inputRef = ref()
 const inputValue = ref('')
 const resultList = ref<IGlobalSearchResult[]>([])
-const active = ref<IGlobalSearchResult>({
-  title: '',
-  key: '',
-  path: '',
-  topTitle: '',
-  index: 0
-})
+const isVisible = ref(false)
+const active = ref('')
+const list = ref<ISideMenu[]>([])
+const { setOpenKey } = menuStore
+const {
+  setActiveKey,
+  addCacheRoutes,
+  addTabs
+} = tabStore
 
 // 初始化聚焦input框
 onMounted(() => {
@@ -81,74 +84,90 @@ const toggle = () => {
   emit('toggle')
 }
 
-/** 处理回车事件 */
-const handleEnter = () => {
-  if (active.value.key) {
-    const { title, key, path } = active.value
-    router.push(path)
-    tabStore.addTabs({ title, key, path })
-    toggle()
+/** 关闭模态框 */
+const onClose = () => {
+  isVisible.value = false
+}
 
-    // 菜单展开，添加标签
-    const { top } = getCurrentMenuByRoute(path, menuList.value)
-    if (top) openKeys.value = [top]
-    if (key) tabStore.addTabs({ key, path, title })
+/** 处理回车事件 */
+const onPressEnter = () => {
+  if (active.value) {
+    router.push(active.value)
+    // 添加标签
+    const menuByKeyProps = {
+      menus: defaultMenus,
+      permissions: permissions.value,
+      key: active.value
+    }
+    const newTab = getMenuByKey(menuByKeyProps)
+    if (newTab) {
+      addTabs(newTab)
+      setActiveKey(active.value)
+      addCacheRoutes(active.value)
+      // 处理菜单展开
+      const openKey = getOpenMenuByRouter(active.value)
+      setOpenKey(openKey)
+      // 关闭
+      onClose()
+    }
   }
 }
 
 /** 处理鼠标上键 */
-const handleUp = () => {
-  // 如果列表值为空直接退出
-  if (!props.isVisible) return
-  const value = resultList.value
-  const index = active.value.index as number - 1
-  if (!value[index]) return
-  const { key, title, topTitle, path } = value[index]
-  active.value = { key, path, title, topTitle, index }
+const onArrowUp = () => {
+  // 列表为空则退出
+  if (!list.value.length) return null
+  const index = list.value.findIndex(item => item.key === active.value)
+  // 最上层则不操作
+  if (index === 0) return null
+  const newActive = list.value[index - 1].key
+  active.value = newActive
 }
 
 /** 处理鼠标下键 */
-const handleKeydown = () => {
-  // 如果列表值为空直接退出
-  if (!props.isVisible) return
-  const value = resultList.value
-  const index = active.value.index as number + 1
-  if (!value[index]) return
-  const { key, title, topTitle, path } = value[index]
-  active.value = { key, path, title, topTitle, index }
+const onArrowDown = () => {
+  // 列表为空则退出
+  if (!list.value.length) return null
+  const len = list.value.length - 1
+  const index = list.value.findIndex(item => item.key === active.value)
+  // 最下层则不操作
+  if (index === len) return null
+  const newActive = list.value[index + 1].key
+  active.value = newActive
 }
+
+/**
+ * 防抖处理搜索结果
+ * @param value - 搜索值
+ */
+const debounceSearch = useDebounceFn((value: string) => {
+  const searchProps = {
+    menus: defaultMenus,
+    permissions: permissions.value,
+    value
+  }
+  const searchValue = searchMenuValue(searchProps)
+  if (searchValue?.length) {
+    active.value = (searchValue as ISideMenu[])?.[0]?.key || ''
+    list.value = searchValue as ISideMenu[]
+  } else {
+    active.value = ''
+    list.value = []
+  }
+}, 200)
 
 /**
  * 更改active值
- * @param item - active值
+ * @param value - active值
  */
-const changeActive = (item: IGlobalSearchResult) => {
-  const { key, title, topTitle, path, index } = item
-  active.value = { index, key, title, topTitle, path }
+const onChange = (value: string) => {
+  inputValue.value = value
+  debounceSearch(value)
 }
-
-/**
- * 处理搜索
- * @param value - 搜索值
- */
-const handleSearch = (value: string) => {
-  if (!value) return []
-  const result = getCurrentMenuByName(value, menuList.value)
-  return result
-}
-
-// 监听变化
-watch(() => inputValue.value, useDebounceFn((value: string) => {
-  const list = handleSearch(value)
-  if (list?.length > 0) {
-    resultList.value = list
-    active.value = list[0]
-  }
-}))
 
 // 键盘事件
 onKeyStroke('Escape', toggle)
-onKeyStroke('Enter', handleEnter)
-onKeyStroke('ArrowUp', handleUp)
-onKeyStroke('ArrowDown', handleKeydown)
+onKeyStroke('Enter', onPressEnter)
+onKeyStroke('ArrowUp', onArrowUp)
+onKeyStroke('ArrowDown', onArrowDown)
 </script>

@@ -2,7 +2,7 @@
   <SubMenu
     v-for="item in list"
     :key="item.key"
-    :data-title="item.title"
+    :data-title="item.label"
   >
     <template #icon>
       <Icon
@@ -14,7 +14,7 @@
     </template>
 
     <template #title>
-      {{ item.title }}
+      {{ item.label }}
     </template>
 
     <template
@@ -23,14 +23,14 @@
     >
       <MenuItem
         v-if="!child?.children?.length"
-        :key="child.path"
-        @click="handleClick(child.key, child.path, child.title)"
+        :key="child.key"
+        @click="handleClick(child.key)"
       >
-        {{ child.title }}
+        {{ child.label }}
       </MenuItem>
 
       <MenuChildren
-        v-if="!!child?.children?.length"
+        v-else
         :list="[child]"
         :handleClick="handleClick"
       />
@@ -42,16 +42,16 @@
 <script lang="ts" setup>
 import { defineProps, PropType } from 'vue'
 import { MenuItem, SubMenu } from 'ant-design-vue'
-import type { ISidebar } from '@/stores/menu'
+import type { ISideMenu } from '#/public'
 import Icon from '@/components/Icon/index.vue'
 
 defineProps({
   list: {
-    type: Array as PropType<ISidebar[]>,
+    type: Array as PropType<ISideMenu[]>,
     required: true
   },
   handleClick: {
-    type: Function as PropType<(key: string, path: string, title: string) => void>,
+    type: Function as PropType<(key: string) => void>,
     required: true
   }
 })

@@ -1,52 +1,48 @@
-import type { IMenus } from './model'
+import type { ISideMenu } from '#/public'
 
 // 组件菜单
-export const DemoMenus: IMenus[] = [
-  {
-    name: 'Demo',
-    path: '/demo',
-    meta: {
-      title: '组件',
-      icon: 'fluent:box-20-regular'
+export const DemoMenus: ISideMenu[] = [{
+  label: '组件',
+  key: 'demo',
+  icon: 'fluent:box-20-regular',
+  children: [
+    {
+      label: '剪切板',
+      key: '/demo/copy',
+      rule: '/demo/copy',
     },
-    redirect: '/demo/copy',
-    children: [
-      {
-        name: 'DemoCopy',
-        path: '/demo/copy',
-        meta: {
-          title: '剪切板',
-          rule: '/demo/copy',
-          keepAlive: true
-        },
-      },
-      {
-        name: 'DemoWangEditor',
-        path: '/demo/wangEditor',
-        meta: {
-          title: '富文本',
-          rule: '/demo/user',
-          keepAlive: true
-        },
-      },
-      {
-        name: 'DemoVirtualScroll',
-        path: '/demo/virtualScroll',
-        meta: {
-          title: '虚拟滚动',
-          rule: '/demo/virtualScroll',
-          keepAlive: true
-        },
-      },
-      {
-        name: 'DemoWatermark',
-        path: '/demo/watermark',
-        meta: {
-          title: '水印组件',
-          rule: '/demo/watermark',
-          keepAlive: true
-        },
-      },
-    ]
-  }
+    {
+      label: '水印',
+      key: '/demo/watermark',
+      rule: '/demo/watermark',
+    },
+    {
+      label: '虚拟滚动',
+      key: '/demo/virtualScroll',
+      rule: '/demo/virtualScroll',
+    },
+    {
+      label: '富文本',
+      key: '/demo/editor',
+      rule: '/demo/editor',
+    },
+    {
+      label: '层级1',
+      key: '/demo/level1',
+      children: [
+        {
+          label: '层级2',
+          key: '/demo/level1/level2',
+          children: [
+            {
+              label: '层级3',
+              key: '/demo/level1/level2/level3',
+              rule: '/demo/watermark',
+            }
+          ]
+        }
+      ]
+    },
+  ]
+}
 ]

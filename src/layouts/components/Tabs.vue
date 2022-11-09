@@ -41,7 +41,6 @@
               <DropdownMenu
                 :activeKey="activeKey"
                 :currentKey="item.path"
-                :pathName="pathName"
                 :index="index"
                 :list="tabs"
                 @handleDropdown="handleDropdown"
@@ -63,7 +62,7 @@
           <Icon
             class="flex items-center justify-center text-lg cursor-pointer"
             :class="{ 'animate-spin': isRefresh }"
-            @click="handleRefresh(pathName)"
+            @click="handleRefresh()"
             icon="ant-design:reload-outlined"
           />
         </Tooltip>
@@ -89,7 +88,6 @@
             <DropdownMenu
               :currentKey="activeKey"
               :activeKey="activeKey"
-              :pathName="pathName"
               :index="getTabIndex(activeKey)"
               :list="tabs"
               @handleDropdown="handleDropdown"
@@ -161,16 +159,15 @@ const timeout = reactive<ITimeout>({
 const {
   tabs,
   prevPath,
-  pathName,
   activeKey,
   cacheRoutes
 } = storeToRefs(tabStore)
 const {
   addPrevPath,
-  removeCurrent,
-  removeOther,
-  removeLeft,
-  removeRight
+  closeTabs,
+  closeOther,
+  closeLeft,
+  closeRight
 } = tabStore
 
 /**
@@ -192,7 +189,7 @@ const onChange = (targetKey: Key) => {
  * @param targetKey - 当前选中唯一值
  */
 const handleRemove = (targetKey: string) => {
-  removeCurrent(targetKey)
+  closeTabs(targetKey)
 }
 
 /** 获取tabs下标 */
@@ -247,7 +244,6 @@ const handleRefresh = (pathName: string) => {
  * 点击右键功能
  * @param type - 右键下拉选中类型
  * @param key - 标签唯一值，可作为路由
- * @param pathName - 文件名，keepalive使用
  */
 const handleDropdown = useDebounceFn((type: TabEnums, key: string) => {
   // 关闭右键菜单显示
@@ -256,22 +252,22 @@ const handleDropdown = useDebounceFn((type: TabEnums, key: string) => {
   switch (type) {
     // 关闭标签
     case TabEnums.CLOSE_CURRENT:
-      removeCurrent(key)
+      closeTabs(key)
       break
 
     // 关闭其他
     case TabEnums.CLOSE_OTHER:
-      removeOther(key)
+      closeOther(key)
       break
 
     // 关闭左侧
     case TabEnums.CLOSE_LEFT:
-      removeLeft(key)
+      closeLeft(key)
       break
 
     // 关闭右侧
     case TabEnums.CLOSE_RIGHT:
-      removeRight(key)
+      closeRight(key)
       break
 
     default:
