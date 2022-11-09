@@ -29,13 +29,17 @@
           'text-white': active === item.key
         }"
         @click="handleClick()"
-        @mouseenter="handleMouse(item)"
+        @mouseenter="handleMouse(item.key)"
      >
         <div class="flex items-center">
           <Icon class="text-lg mr-1" icon="gg:menu-boxed" />
-          <span>
-            {{ item.topTitle ? `${item.topTitle} > ` : '' }}
-            {{ item.title }}
+          <span v-if="item.nav?.length">
+            <span v-for="(nav, index) in item.nav" :key="index">
+              {{ nav }}{{ index !== item.nav.length - 1 ? " > " : "" }}
+            </span>
+          </span>
+          <span v-else>
+            {{ item.label }}
           </span>
         </div>
         <Icon class="icon text-20px p-2px mr-5px" icon="ant-design:enter-outlined" />
@@ -45,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { IGlobalSearchResult } from '../model'
+import type { ISideMenu } from '#/public'
 import { defineProps, defineEmits, PropType } from 'vue'
 import Icon from '@/components/Icon/index.vue'
 
@@ -53,7 +57,7 @@ const emit = defineEmits(['handleClick', 'handleMouse'])
 
 defineProps({
   list: {
-    type: Array as PropType<IGlobalSearchResult[]>,
+    type: Array as PropType<ISideMenu[]>,
     required: true
   },
   active: {
@@ -66,7 +70,7 @@ defineProps({
  * 处理鼠标经过
  * @param item - 当前值
  */
-const handleMouse = (item: IGlobalSearchResult) => {
+const handleMouse = (item: string) => {
   emit('handleMouse', item)
 }
 

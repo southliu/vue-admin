@@ -21,10 +21,10 @@
     </Input>
 
     <SearchResult
-      :list="resultList"
+      :list="list"
       :active="active"
       @handleClick="onPressEnter"
-      @handleMouse="onChange"
+      @handleMouse="onChangeActive"
     />
 
     <template #footer>
@@ -34,9 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { IGlobalSearchResult } from '../model'
 import type { ISideMenu } from '#/public'
-import { defineEmits, onMounted, ref } from 'vue'
 import { Modal, Input } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tabs'
@@ -45,6 +43,13 @@ import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import { defaultMenus } from '@/menus'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
+import {
+  defineProps,
+  defineEmits,
+  onMounted,
+  ref,
+watch
+} from 'vue'
 import {
   getMenuByKey,
   getOpenMenuByRouter,
@@ -56,6 +61,13 @@ import Icon from '@/components/Icon/index.vue'
 
 const emit = defineEmits(['toggle'])
 
+defineProps({
+  isVisible: {
+    type: Boolean,
+    required: true
+  }
+})
+
 const router = useRouter()
 const tabStore = useTabStore()
 const userStore = useUserStore()
@@ -63,8 +75,6 @@ const menuStore = useMenuStore()
 const { permissions } = storeToRefs(userStore)
 const inputRef = ref()
 const inputValue = ref('')
-const resultList = ref<IGlobalSearchResult[]>([])
-const isVisible = ref(false)
 const active = ref('')
 const list = ref<ISideMenu[]>([])
 const { setOpenKey } = menuStore
@@ -86,7 +96,7 @@ const toggle = () => {
 
 /** 关闭模态框 */
 const onClose = () => {
-  isVisible.value = false
+  emit('toggle')
 }
 
 /** 处理回车事件 */
@@ -100,7 +110,7 @@ const onPressEnter = () => {
       key: active.value
     }
     const newTab = getMenuByKey(menuByKeyProps)
-    if (newTab) {
+    if (newTab?.key) {
       addTabs(newTab)
       setActiveKey(active.value)
       addCacheRoutes(active.value)
@@ -137,10 +147,15 @@ const onArrowDown = () => {
 }
 
 /**
- * 防抖处理搜索结果
- * @param value - 搜索值
+ * 更改active值
+ * @param value - 输入值
  */
-const debounceSearch = useDebounceFn((value: string) => {
+const onChangeActive = (value: string) => {
+  active.value = value
+}
+
+// 监听变化
+watch(() => inputValue.value, useDebounceFn((value: string) => {
   const searchProps = {
     menus: defaultMenus,
     permissions: permissions.value,
@@ -154,16 +169,7 @@ const debounceSearch = useDebounceFn((value: string) => {
     active.value = ''
     list.value = []
   }
-}, 200)
-
-/**
- * 更改active值
- * @param value - active值
- */
-const onChange = (value: string) => {
-  inputValue.value = value
-  debounceSearch(value)
-}
+}, 200))
 
 // 键盘事件
 onKeyStroke('Escape', toggle)
