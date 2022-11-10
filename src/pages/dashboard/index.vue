@@ -31,7 +31,6 @@ export default defineComponent({
 import type { IDashboardResult } from './model'
 import type { ISearchData } from '#/public'
 import { onMounted, reactive, ref } from 'vue'
-import { useLoading } from '@/hooks/useLoading'
 import { useTitle } from '@/hooks/useTitle'
 import { IFormData } from '#/form'
 import { getDataTrends } from '@/servers/dashboard'
@@ -46,7 +45,7 @@ import BasicContent from '@/components/Content/BasicContent.vue'
 
 useTitle('数据展览')
 
-const { isLoading, startLoading, endLoading } = useLoading()
+const isLoading = ref(false)
 
 // 数据参数
 const datum = ref<IDashboardResult>({
@@ -78,13 +77,13 @@ const handleSearch = async (values: IFormData) => {
     if (values.register) values.register = register ? 1 : 0
 
     // 日期转化
-    startLoading()
+    isLoading.value = true
     searches.data = values
     const query = { ...values }
     const { data: { data } } = await getDataTrends(query)
     datum.value = data
   } finally {
-    endLoading()
+    isLoading.value = false
   }
 }
 </script>

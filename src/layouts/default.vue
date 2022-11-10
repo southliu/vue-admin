@@ -101,7 +101,6 @@ import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { message, Skeleton } from 'ant-design-vue'
 import { useRoute } from 'vue-router'
-import { useLoading } from '@/hooks/useLoading'
 import { updatePassword } from '@/servers/login'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
@@ -117,10 +116,10 @@ const { setUserInfo, setPermissions } = userStore
 const { userInfo, permissions } = storeToRefs(userStore)
 const { cacheRoutes } = storeToRefs(tabStore)
 const { isPhone } = storeToRefs(menuStore)
-const { isLoading, startLoading, endLoading } = useLoading()
 const { addCacheRoutes } = tabStore
 
 const username = ref(userInfo.value?.username || '') // 用户名
+const isLoading = ref(false)
 const isCollapsed = ref(false) // 是否收起菜单
 const isMaximize = ref(false) // 是否窗口最大化
 const isUpdatePassword = ref(false) // 是否显示修改密码
@@ -170,12 +169,12 @@ const onUpdatePassword = () => {
  */
 const handleUpdatePassword = async (params: unknown) => {
   try {
-    startLoading()
+    isLoading.value = true
     const { data } = await updatePassword(params)
     message.success(data.message || '修改成功')
     isUpdatePassword.value = !isUpdatePassword.value
   } finally {
-    endLoading()
+    isLoading.value = false
   }
 }
 

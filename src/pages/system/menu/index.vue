@@ -76,9 +76,7 @@ import { onMounted, reactive, ref } from 'vue'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './model'
-import { useLoading } from '@/hooks/useLoading'
 import { useTitle } from '@/hooks/useTitle'
-import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
@@ -97,11 +95,11 @@ import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicModal from '@/components/Modal/BasicModal.vue'
 
 useTitle('菜单管理')
-const createFormRef = ref<IBasicForm>()
 const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)
-const { isLoading, startLoading, endLoading } = useLoading()
-const { isCreateLoading, startCreateLoading, endCreateLoading } = useCreateLoading()
+const isLoading = ref(false)
+const isCreateLoading = ref(false)
+const createFormRef = ref<IBasicForm>()
 
 // 权限前缀
 const permissionPrefix = '/authority/menu'
@@ -167,13 +165,13 @@ const handleSearch = async (values: IFormData) => {
   searches.data = values
   const query = { ...pagination, ...values }
   try {
-    startLoading()
+    isLoading.value = true
     const { data: { data } } = await getSystemMenuPage(query)
     const { items, total } = data
     tables.data = items
     tables.total = total
   } finally {
-    endLoading()
+    isLoading.value = false
   }
 }
 
@@ -196,11 +194,11 @@ const onUpdate = async (record: IFormData) => {
   creates.title = EDIT_TITLE(name as string)
 
   try {
-    startCreateLoading()
+    isCreateLoading.value = true
     const { data: { data } } = await getSystemMenuById(id as string)
     creates.data = data
   } finally {
-    endCreateLoading()
+    isCreateLoading.value = false
   }
 }
 
@@ -210,7 +208,7 @@ const onUpdate = async (record: IFormData) => {
  */
 const handleCreate = async (values: IFormData) => {
   try {
-    startCreateLoading()
+    isCreateLoading.value = true
     const functions = () => creates.id ? updateSystemMenu(creates.id, values) : createSystemMenu(values)
     const { data } = await functions()
     getPage()
@@ -220,7 +218,7 @@ const handleCreate = async (values: IFormData) => {
     createFormRef.value?.handleReset()
     message.success(data?.message || '操作成功')
   } finally {
-    endCreateLoading()
+    isCreateLoading.value = false
   }
 }
 
@@ -235,14 +233,14 @@ const onCloseCreate = () => {
  */
 const handleDelete = async (id: string | number) => {
   try {
-    startLoading()
+    isLoading.value = true
     const { data } = await deleteSystemMenu(id as string)
     if (data?.code === 200) {
       message.success(data?.message || '删除成功')
       getPage()
     }
   } finally {
-    endLoading()
+    isLoading.value = false
   }
 }
 

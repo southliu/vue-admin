@@ -78,7 +78,6 @@ import { onMounted, reactive, ref } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { login } from '@/servers/login'
 import { PASSWORD_RULE } from '@/utils/config'
-import { useLoading } from '@/hooks/useLoading'
 import { useToken } from '@/hooks/useToken'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
@@ -101,9 +100,9 @@ useTitle('登录')
 const router = useRouter()
 const userStore = useUserStore()
 const { setUserInfo, setPermissions } = userStore
-const { isLoading, startLoading, endLoading } = useLoading()
 const { setToken } = useToken()
 const { RemoveWatermark } = useWatermark()
+const isLoading = ref(false)
 const isLock = ref(false)
 
 const formState = reactive<ILoginData>({
@@ -122,7 +121,7 @@ onMounted(() => {
  */
 const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
   try {
-    startLoading()
+    isLoading.value = true
     const { data } = await login(values)
     const { data: { token, user, permissions } } = data
     const newPermissions = permissionsToArray(permissions)
@@ -132,7 +131,7 @@ const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
     setPermissions(newPermissions)
     router.push(firstMenu)
   } finally {
-    endLoading()
+    isLoading.value = false
   }
 }
 
