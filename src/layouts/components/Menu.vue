@@ -87,7 +87,11 @@ const {
   selectedKeys,
   menuList
 } = storeToRefs(menuStore)
-const { setMenus, setOpenKey } = menuStore
+const {
+  setMenus,
+  setOpenKey,
+  setSelectedKeys
+} = menuStore
 const {
   setActiveKey,
   addCacheRoutes,
@@ -97,15 +101,24 @@ const {
 
 onMounted(() => {
   if (permissions.value.length > 0) {
+    // 创建菜单
     const newMenus = filterMenus(defaultMenus, permissions.value)
     setMenus(newMenus || [])
+  
+    // 展开菜单
+    const newOpenKey = getOpenMenuByRouter(route.path)
+    setOpenKey(newOpenKey)
+    setActiveKey(route.path)
+    setSelectedKeys([route.path])
   }
 })
 
 // 监听路径
 watch(() => route.path, value => {
   const newOpenKey = getOpenMenuByRouter(value)
+  setActiveKey(value)
   setOpenKey(newOpenKey)
+  setSelectedKeys([value])
 })
 
 /** 点击logo */

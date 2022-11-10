@@ -1,7 +1,7 @@
 import type { TabPaneProps } from 'ant-design-vue'
 import { defineStore } from 'pinia'
 
-interface ITabs extends Omit<TabPaneProps, 'tab'> {
+export interface ITabs extends Omit<TabPaneProps, 'tab'> {
   key: string;
   label: string;
 }

@@ -44,9 +44,9 @@
 </template>
 
 <script lang="ts" setup>
+import type { ITabs } from '@/stores/tabs'
 import { defineProps, defineEmits, PropType } from 'vue'
 import { TabEnums } from '../model'
-import type { ITabs } from '@/stores/tabs'
 import { Menu, MenuItem } from 'ant-design-vue'
 import {
   RedoOutlined,
@@ -57,7 +57,7 @@ import {
 
 const emit = defineEmits(['handleDropdown', 'handleRefresh'])
 
-const props = defineProps({
+defineProps({
   currentKey: {
     type: String,
     required: true
@@ -87,6 +87,6 @@ const handleDropdown = (type: TabEnums, key: string) => {
 
 /** 刷新当前页 */
 const handleRefresh = () => {
-  emit('handleRefresh', props.pathName)
+  emit('handleRefresh')
 }
 </script>

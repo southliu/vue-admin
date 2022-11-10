@@ -23,7 +23,7 @@ export const DemoMenus: ISideMenu[] = [{
     },
     {
       label: '富文本',
-      key: '/demo/editor',
+      key: '/demo/wangEditor',
       rule: '/demo/editor',
     },
     {
