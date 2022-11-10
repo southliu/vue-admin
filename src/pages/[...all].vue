@@ -25,11 +25,7 @@ const router = useRouter()
 const tabStore = useTabStore()
 const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)
-const {
-  setActiveKey,
-  addTabs,
-  setNav
-} = tabStore
+const { setActiveKey, addTabs } = tabStore
 
 /** 跳转首页 */
 const goIndex = () => {
@@ -43,7 +39,6 @@ const goIndex = () => {
   const newItems = getMenuByKey(menuByKeyProps)
   if (newItems) {
     setActiveKey(newItems.key)
-    setNav([])
     addTabs(newItems)
   }
 }

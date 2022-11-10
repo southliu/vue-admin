@@ -3,6 +3,7 @@
     <div
       class="flex content-center px-5 py-2 cursor-pointer"
       :class="{ 'justify-center': isCollapsed }"
+      @click="onClickLogo"
     >
       <img
         class="object-contain"
@@ -10,7 +11,6 @@
         :height="30"
         :src="Logo"
         alt="LOGO"
-        @click="onClickLogo"
       />
       <span
         class="text-white ml-3 text-xl font-bold truncate"
@@ -46,8 +46,7 @@
 
 <script lang="ts" setup>
 import type { Key } from 'ant-design-vue/lib/_util/type'
-import type { ISideMenu } from '#/public'
-import { watch, ref, onMounted } from 'vue'
+import { watch, onMounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
@@ -74,7 +73,6 @@ defineProps({
   }
 })
 
-const menus = ref<ISideMenu[]>([])
 const route = useRoute()
 const router = useRouter()
 const tabStore = useTabStore()
@@ -92,11 +90,7 @@ const {
   setOpenKey,
   setSelectedKeys
 } = menuStore
-const {
-  setActiveKey,
-  addTabs,
-  setNav
-} = tabStore
+const { setActiveKey, addTabs } = tabStore
 
 onMounted(() => {
   if (permissions.value.length > 0) {
@@ -120,21 +114,28 @@ watch(() => route.path, value => {
   setSelectedKeys([value])
 })
 
-/** 点击logo */
-const onClickLogo = () => {
-  const firstMenu = getFirstMenu(defaultMenus, permissions.value)
-  router.push(firstMenu)
+/**
+ * 处理跳转
+ * @param path - 路径
+ */
+const goPath = (path: string) => {
+  router.push(path)
   const menuByKeyProps = {
     menus: defaultMenus,
     permissions: permissions.value,
-    key: firstMenu
+    key: path
   }
   const newItems = getMenuByKey(menuByKeyProps)
   if (newItems) {
     setActiveKey(newItems.key)
-    setNav([])
     addTabs(newItems)
   }
+}
+
+/** 点击logo */
+const onClickLogo = () => {
+  const firstMenu = getFirstMenu(defaultMenus, permissions.value)
+  goPath(firstMenu)
 }
 
 /**
@@ -185,18 +186,7 @@ const openChange = (openKey: Key[]) => {
  * @param key - 唯一值
  */
 const handleClick = (key: string) => {
-  router.push(key)
-  const menuByKeyProps = {
-    menus: menus.value,
-    permissions: permissions.value,
-    key
-  }
-  const newTab = getMenuByKey(menuByKeyProps)
-  if (newTab) {
-    setActiveKey(newTab.key)
-    setNav(newTab.nav)
-    addTabs(newTab)
-  }
+  goPath(key)
   
   // 手机端点击隐藏菜单
   if (isPhone.value) emit('toggleCollapsed')
