@@ -3,7 +3,7 @@
     <MenuItem
       :key="currentKey"
       :disabled="activeKey !== currentKey"
-      @click="handleRefresh"
+      @click="handleRefresh()"
     >
       <RedoOutlined class="mr-5px transform rotate-270" />
       <span>重新加载</span>

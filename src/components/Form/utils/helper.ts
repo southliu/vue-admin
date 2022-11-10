@@ -96,7 +96,7 @@ export function getComponentProps(
     // 时间区间
     case 'RangePicker': {
       const rangeValue: [Dayjs, Dayjs] | undefined = (compData as [string, string])?.length > 1 && (compData as [string, string])?.[0] ?
-                [dayjs((compData as [string, string])[0]), dayjs((compData as [string, string])[1])] : undefined
+        [dayjs((compData as [string, string])[0]), dayjs((compData as [string, string])[1])] : undefined
       return {
         defaultValue: rangeValue,
         value: rangeValue,

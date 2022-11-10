@@ -62,7 +62,7 @@
           <Icon
             class="flex items-center justify-center text-lg cursor-pointer"
             :class="{ 'animate-spin': isRefresh }"
-            @click="handleRefresh"
+            @click="handleRefresh()"
             icon="ant-design:reload-outlined"
           />
         </Tooltip>
@@ -132,8 +132,10 @@ import {
 import DropdownMenu from './DropdownMenu.vue'
 import Icon from '@/components/Icon/index.vue'
 import { useUserStore } from '@/stores/user'
+import { useMenuStore } from '@/stores/menu'
 import { defaultMenus } from '@/menus'
-import { getMenuByKey } from '@/menus/utils/helper'
+import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
+import { routeToKeepalive } from '@/router/utils/helper'
 
 interface ITimeout {
   icon: null | NodeJS.Timeout;
@@ -153,6 +155,7 @@ defineProps({
 const route = useRoute()
 const router = useRouter()
 const tabStore = useTabStore()
+const menuStore = useMenuStore()
 const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)
 const {
@@ -161,6 +164,7 @@ const {
   activeKey,
   cacheRoutes
 } = storeToRefs(tabStore)
+const { setOpenKey } = menuStore
 const {
   setActiveKey,
   addTabs,
@@ -186,6 +190,18 @@ watch(() => route.path, value => {
 // 监听权限变化添加标签
 watch(() => permissions.value, value => {
   handleAddTab()
+})
+
+// 监听选中标签
+watch(activeKey, value => {
+  // 当选中贴标签不等于当前路由则跳转
+  if (value !== route.path) {
+    router.push(value)
+
+    // 处理菜单展开
+    const openKey = getOpenMenuByRouter(value)
+    setOpenKey(openKey)
+  }
 })
 
 /**
@@ -250,7 +266,8 @@ const handleRefresh = (key = activeKey.value) => {
     isRefresh.value = true
   
     // 去除缓存路由中当前路由
-    cacheRoutes.value = cacheRoutes.value.filter(item => item !== key)
+    const cacheRoute = routeToKeepalive(key)
+    cacheRoutes.value = cacheRoutes.value.filter(item => item !== cacheRoute)
 
     // 调转空白页
     router.push('/loading')

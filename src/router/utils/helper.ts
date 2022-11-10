@@ -6,6 +6,8 @@ import type { RouteRecordRaw } from "vue-router"
  * @param route - 路由
  */
 export function routeToKeepalive(route: string): string {
+  if (typeof route !== "string") return ''
+
   let result = ''
   const arr = route.split('/') // 分割路由
 
@@ -15,25 +17,6 @@ export function routeToKeepalive(route: string): string {
 
   return result
 }
-
-/**
- * 转换name为keepalive形式
- */
-
-/**
- * 处理
- * @param routes - 路由
- */
-// function nameTokeepalive(routes: RouteRecordRaw[]): RouteRecordRaw[] {
-//   for (let i = 0; i < routes.length; i++) {
-//     if (routes[i].path !== '/' && routes[i].path !== '/login') {
-//       routes[i].name = 
-//     }
-    
-//   }
-
-//   return routes
-// }
 
 /**
  * 路由添加layout
