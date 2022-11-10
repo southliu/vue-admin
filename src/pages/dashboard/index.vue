@@ -32,6 +32,7 @@ import type { IDashboardResult } from './model'
 import type { ISearchData } from '#/public'
 import { onMounted, reactive, ref } from 'vue'
 import { useLoading } from '@/hooks/useLoading'
+import { useTitle } from '@/hooks/useTitle'
 import { IFormData } from '#/form'
 import { getDataTrends } from '@/servers/dashboard'
 import { DATE_FORMAT } from '@/utils/constants'
@@ -42,6 +43,8 @@ import Block from './components/Block.vue'
 import dayjs from 'dayjs'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
+
+useTitle('数据展览')
 
 const { isLoading, startLoading, endLoading } = useLoading()
 

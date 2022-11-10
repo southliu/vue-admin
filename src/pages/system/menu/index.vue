@@ -77,6 +77,7 @@ import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './model'
 import { useLoading } from '@/hooks/useLoading'
+import { useTitle } from '@/hooks/useTitle'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
@@ -95,6 +96,7 @@ import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicModal from '@/components/Modal/BasicModal.vue'
 
+useTitle('菜单管理')
 const createFormRef = ref<IBasicForm>()
 const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)

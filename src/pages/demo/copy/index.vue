@@ -11,7 +11,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useTitle } from '@/hooks/useTitle'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import Copy from '@/components/Copy/index.vue'
 import CopyBtn from '@/components/Copy/CopyBtn.vue'
+
+useTitle('剪切板')
 </script>

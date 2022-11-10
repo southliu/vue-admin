@@ -262,7 +262,7 @@ const handleRefresh = (key = activeKey.value) => {
     cacheRoutes.value = cacheRoutes.value.filter(item => item !== key)
 
     // 调转空白页
-    router.push('/errors/empty')
+    router.push('/loading')
   }
 
   /** 清除timeout */

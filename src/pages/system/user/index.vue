@@ -95,6 +95,7 @@ import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import { searchList, createList, tableColumns } from './model'
 import { useLoading } from '@/hooks/useLoading'
 import { useCreateLoading } from '@/hooks/useCreateLoading'
+import { useTitle } from '@/hooks/useTitle'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
@@ -121,6 +122,7 @@ interface IPermissionConfig {
   treeData: DataNode[];
 }
 
+useTitle('用户管理')
 const createFormRef = ref<IBasicForm>()
 const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)

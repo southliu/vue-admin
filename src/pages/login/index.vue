@@ -83,6 +83,7 @@ import { useToken } from '@/hooks/useToken'
 import { useUserStore } from '@/stores/user'
 import { useRouter } from 'vue-router'
 import { useWatermark } from '@/hooks/useWatermark'
+import { useTitle } from '@/hooks/useTitle'
 import { permissionsToArray } from '@/utils/permissions'
 import { defaultMenus } from '@/menus'
 import { getFirstMenu } from '@/menus/utils/helper'
@@ -96,6 +97,7 @@ import {
 import Logo from '@/assets/images/logo.png'
 import PageLoading from '@/components/Loading/PageLoading.vue'
 
+useTitle('登录')
 const router = useRouter()
 const userStore = useUserStore()
 const { setUserInfo, setPermissions } = userStore
