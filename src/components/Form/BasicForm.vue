@@ -105,7 +105,7 @@ const handleSubmit = useDebounceFn(() => {
       emit('handleFinish', params)
     })
     .catch(info => {
-      console.log('错误信息:', info)
+      console.error('错误信息:', info)
     })
 })
 
@@ -163,7 +163,7 @@ const onFinish: IFinishFun = useDebounceFn(values => {
  * @param errorInfo - 错误信息
  */
 const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
-  console.log('错误信息:', errorInfo)
+  console.error('错误信息:', errorInfo)
 }
 
 defineExpose({

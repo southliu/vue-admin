@@ -39,6 +39,11 @@ export const useTabStore = defineStore({
       }
     },
 
+    /** 清空缓存路由 */
+    clearCacheRoutes() {
+      this.cacheRoutes = []
+    },
+
     /**
      * 添加上一个路径地址
      * @param path - 路径
@@ -142,6 +147,11 @@ export const useTabStore = defineStore({
 
       // 如果只剩一个则无法关闭
       this.tabs[0].closable = this.tabs?.length > 1
+    },
+
+    /** 关闭全部 */
+    closeAllTab() {
+      this.tabs = []
     }
   }
 })

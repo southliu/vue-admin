@@ -95,6 +95,7 @@ const tabStore = useTabStore()
 const userStore = useUserStore()
 const { removeToken } = useToken()
 const { clearInfo } = userStore
+const { closeAllTab, clearCacheRoutes } = tabStore
 const { nav } = storeToRefs(tabStore)
 
 /** 收缩菜单 */
@@ -111,6 +112,8 @@ const handleLogout = () => {
     onOk() {
       clearInfo()
       removeToken()
+      closeAllTab()
+      clearCacheRoutes()
       router.push('/login')
     }
   })

@@ -109,7 +109,6 @@ const onFinish = useDebounceFn(() => {
       }
 
       emit('handleSubmit', values)
-      console.log('修改密码：', values)
     })
 })
 </script>

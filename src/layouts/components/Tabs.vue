@@ -121,7 +121,7 @@ import { CloseOutlined } from '@ant-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
 import { TabEnums } from '../model'
-import { reactive, ref, watch } from 'vue'
+import { onMounted, reactive, ref, watch } from 'vue'
 import {
   Tabs,
   TabPane,
@@ -180,6 +180,13 @@ const isDropdown = ref(false) // 是否显示下拉菜单
 const timeout = reactive<ITimeout>({
   icon: null,
   refresh: null
+})
+
+// 首次进入添加标签
+onMounted(() => {
+  if (permissions.value?.length) {
+    handleAddTab()
+  }
 })
 
 // 监听路由变化添加标签
