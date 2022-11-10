@@ -24,7 +24,7 @@
  */
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 import type { IDomEditor, IEditorConfig } from '@wangeditor/editor'
-import { defineProps, onBeforeUnmount, ref, shallowRef, watch } from 'vue'
+import { onBeforeUnmount, ref, shallowRef, watch } from 'vue'
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
 import { FILE_API } from '@/utils/config'
 

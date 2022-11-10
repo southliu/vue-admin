@@ -26,7 +26,6 @@
  * @param format - 时间格式化
  * @result string[]
  */
-import { defineProps, defineEmits } from 'vue'
 import { Button } from 'ant-design-vue'
 import { DATE_FORMAT } from '@/utils/constants'
 import Icon from '@/components/Icon/index.vue'

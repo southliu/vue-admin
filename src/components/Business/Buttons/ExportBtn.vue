@@ -11,7 +11,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineEmits } from 'vue'
 import { Button } from 'ant-design-vue'
 
 const emit = defineEmits(['click'])

@@ -43,13 +43,7 @@ import { useDebounceFn, onKeyStroke } from '@vueuse/core'
 import { defaultMenus } from '@/menus'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import {
-  defineProps,
-  defineEmits,
-  onMounted,
-  ref,
-watch
-} from 'vue'
+import { onMounted, ref, watch } from 'vue'
 import {
   getMenuByKey,
   getOpenMenuByRouter,

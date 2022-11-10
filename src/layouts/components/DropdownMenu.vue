@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
 import type { ITabs } from '@/stores/tabs'
-import { defineProps, defineEmits, PropType } from 'vue'
+import { PropType } from 'vue'
 import { TabEnums } from '../model'
 import { Menu, MenuItem } from 'ant-design-vue'
 import {

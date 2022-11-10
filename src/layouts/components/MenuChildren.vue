@@ -40,7 +40,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, PropType } from 'vue'
+import type { PropType } from 'vue'
 import { MenuItem, SubMenu } from 'ant-design-vue'
 import type { ISideMenu } from '#/public'
 import Icon from '@/components/Icon/index.vue'

@@ -39,7 +39,7 @@ import type { IFormData, IFormList } from '#/form'
 import type { IAllDataType } from "#/public"
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
-import { defineProps, defineEmits, defineExpose, ref, watch } from 'vue'
+import { ref, watch } from 'vue'
 import { Form, FormItem } from 'ant-design-vue'
 import { useDebounceFn } from '@vueuse/core'
 import { filterEmptyValue } from '@/utils/helper'

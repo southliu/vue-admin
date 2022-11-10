@@ -3,9 +3,9 @@
 </template>
 
 <script lang="ts" setup>
-  import { PropType, watch } from 'vue'
+  import type { PropType } from 'vue'
   import type { ECBasicOption } from 'echarts/types/dist/shared'
-  import { defineProps, onMounted, ref } from 'vue'
+  import { onMounted, watch, ref } from 'vue'
   import echarts from './lib/echarts'
 
   const props = defineProps({

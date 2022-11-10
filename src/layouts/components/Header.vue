@@ -2,14 +2,19 @@
   <header
     class="flex items-center justify-between px-6 py-6px box-border transition-all"
   >
-    <div class="header-left">
+    <div class="flex items-center">
       <div class="text-lg cursor-pointer" @click="toggleCollapsed">
         <MenuUnfoldOutlined v-if="isCollapsed" />
         <MenuFoldOutlined v-else />
       </div>
+
+      <Nav
+        className="ml-15px"
+        :list="nav"
+      />
     </div>
 
-    <div class="header-right flex items-center">
+    <div class="flex items-center">
       <GlobalSearch />
       <Fullscreen />
       <Dropdown class="min-w-50px">
@@ -41,10 +46,12 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, createVNode } from 'vue'
+import { createVNode } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToken } from '@/hooks/useToken'
+import { useTabStore } from '@/stores/tabs'
 import { useUserStore } from '@/stores/user'
+import { storeToRefs } from 'pinia'
 import { Modal } from 'ant-design-vue'
 import {
   Menu,
@@ -62,6 +69,7 @@ import {
 import Fullscreen from '@/components/Fullscreen/index.vue'
 import GlobalSearch from '@/components/GlobalSearch/index.vue'
 import Avatar from '@/assets/images/avatar.png'
+import Nav from './Nav.vue'
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -83,9 +91,11 @@ defineProps({
 })
 
 const router = useRouter()
+const tabStore = useTabStore()
 const userStore = useUserStore()
 const { removeToken } = useToken()
 const { clearInfo } = userStore
+const { nav } = storeToRefs(tabStore)
 
 /** 收缩菜单 */
 const toggleCollapsed = () => {

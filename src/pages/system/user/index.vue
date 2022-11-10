@@ -97,14 +97,14 @@ import { useTitle } from '@/hooks/useTitle'
 import { checkPermission } from '@/utils/permissions'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { getPermission, savePermission } from '@/servers/systems/menu'
+import { getPermission, savePermission } from '@/servers/system/menu'
 import {
   getSystemUserPage,
   getSystemUserById,
   createSystemUser,
   updateSystemUser,
   deleteSystemUser,
-} from '@/servers/systems/user'
+} from '@/servers/system/user'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'

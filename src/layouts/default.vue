@@ -91,13 +91,13 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted, defineExpose } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { useDebounceFn } from '@vueuse/core'
-import { getPermissions } from '@/servers/permissions'
+import { getPermissions } from '@/servers/permission'
 import { permissionsToArray } from '@/utils/permissions'
 import { message, Skeleton } from 'ant-design-vue'
 import { useRoute } from 'vue-router'

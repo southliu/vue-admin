@@ -86,7 +86,7 @@ import {
   createSystemMenu,
   updateSystemMenu,
   deleteSystemMenu
-} from '@/servers/systems/menu'
+} from '@/servers/system/menu'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import BasicTable from '@/components/Table/BasicTable.vue'
 import BasicPagination from '@/components/Pagination/BasicPagination.vue'

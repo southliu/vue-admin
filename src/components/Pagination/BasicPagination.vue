@@ -27,7 +27,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits } from 'vue'
 import { Pagination } from 'ant-design-vue'
 
 const emit = defineEmits(['handleChange'])

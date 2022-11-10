@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, createVNode } from 'vue'
+import { createVNode } from 'vue'
 import { Button, Modal } from 'ant-design-vue'
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
 

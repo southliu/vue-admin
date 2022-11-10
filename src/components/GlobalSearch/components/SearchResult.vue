@@ -50,7 +50,7 @@
 
 <script lang="ts" setup>
 import type { ISideMenu } from '#/public'
-import { defineProps, defineEmits, PropType } from 'vue'
+import { PropType } from 'vue'
 import Icon from '@/components/Icon/index.vue'
 
 const emit = defineEmits(['handleClick', 'handleMouse'])

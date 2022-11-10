@@ -47,7 +47,7 @@
 <script lang="ts" setup>
 import type { Key } from 'ant-design-vue/lib/_util/type'
 import type { ISideMenu } from '#/public'
-import { defineProps, defineEmits, watch, ref, onMounted } from 'vue'
+import { watch, ref, onMounted } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'

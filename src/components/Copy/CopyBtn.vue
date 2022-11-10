@@ -12,7 +12,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
 import { Button } from 'ant-design-vue'
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
 import Icon from '@/components/Icon/index.vue'

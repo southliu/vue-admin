@@ -63,7 +63,7 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, defineEmits, nextTick, PropType, ref, watch } from 'vue'
+import { nextTick, PropType, ref, watch } from 'vue'
 import { Modal, Tooltip, Button, Spin } from 'ant-design-vue'
 import { useModalDragMove } from './hooks/useModalDrag'
 import { useDebounceFn } from '@vueuse/core'

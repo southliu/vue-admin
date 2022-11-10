@@ -58,7 +58,7 @@
  * @description: 修改密码组件
  */
 import type { FormInstance } from 'ant-design-vue'
-import { defineProps, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { Form, FormItem, InputPassword, message } from 'ant-design-vue'
 import { PASSWORD_RULE } from '@/utils/config'
 import { useDebounceFn } from '@vueuse/core'

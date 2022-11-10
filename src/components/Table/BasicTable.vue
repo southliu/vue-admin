@@ -19,7 +19,6 @@ import type { PropType } from 'vue'
 import type { ITableData } from '#/public'
 import type { VxeGridProps, VxeGridPropTypes } from 'vxe-table'
 import {
-  defineProps,
   h,
   ref,
   reactive,

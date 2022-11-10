@@ -121,14 +121,7 @@ import { CloseOutlined } from '@ant-design/icons-vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useDebounceFn } from '@vueuse/core'
 import { TabEnums } from '../model'
-import {
-  defineProps,
-  defineEmits,
-  defineExpose,
-  reactive,
-  ref,
-  watch
-} from 'vue'
+import { reactive, ref, watch } from 'vue'
 import {
   Tabs,
   TabPane,

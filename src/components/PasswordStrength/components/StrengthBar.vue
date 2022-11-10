@@ -14,8 +14,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from 'vue'
-
 defineProps({
   strength: {
     type: Number,
