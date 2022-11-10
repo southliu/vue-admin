@@ -5,10 +5,9 @@ import { message } from "ant-design-vue"
 import { useTabStore } from '@/stores/tabs'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
-import { getFirstMenu } from '@/menus/utils/helper'
-import { checkPermission } from "@/utils/permissions"
-import { defaultMenus } from "@/menus"
 import { routeToKeepalive } from "./helper"
+import { getFirstMenu } from '@/menus/utils/helper'
+import { defaultMenus } from "@/menus"
 import NProgress from 'nprogress'
 import pinia from '../../stores'
 
@@ -30,12 +29,9 @@ export function routerIntercept(router: Router) {
     const { addCacheRoutes } = tabStore
     const { permissions } = storeToRefs(userStore)
 
-    // 缓存keepAlive
-    if (to.name) {
-      // 转为keepalive形式
-      const cacheRoute = routeToKeepalive(to.path)
-      addCacheRoutes(cacheRoute)
-    }
+    // 转为keepalive形式
+    const cacheRoute = routeToKeepalive(to.path)
+    addCacheRoutes(cacheRoute)
 
     // 无token返回登录页
     if (!token && to.path !== '/login') {
@@ -45,15 +41,16 @@ export function routerIntercept(router: Router) {
       // 有token且在登录页跳转第一个有效菜单
       const firstMenu = getFirstMenu(defaultMenus, permissions.value)
       next(firstMenu)
-    } else if (to?.meta?.rule && permissions.value?.length > 0) {
-      // 判断是否有权限
-      const isRule = checkPermission((to.meta.rule) as string, permissions.value)
-      if (isRule) {
-        next()
-      } else {
-        // 没权限跳转403
-        next('/403')
-      }
+    // }
+    //  else if (to?.meta?.rule && permissions.value?.length > 0) {
+    //   // 判断是否有权限
+    //   const isRule = checkPermission((to.meta.rule) as string, permissions.value)
+    //   if (isRule) {
+    //     next()
+    //   } else {
+    //     // 没权限跳转403
+    //     next('/403')
+    //   }
     } else next()
   })
 

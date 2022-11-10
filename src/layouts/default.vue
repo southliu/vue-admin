@@ -62,19 +62,15 @@
       'z-1': isPhone && !isCollapsed
     }"
   >
+
     <div v-if="permissions.length > 0" class="h-full min-w-1024px">
       <router-view v-slot="{ Component }">
         <keep-alive :include="cacheRoutes">
           <component
-            v-if="$route.meta.keepAlive"
             :is="Component"
             :key="$route.name"
           />
         </keep-alive>
-        <component
-          :is="Component"
-          v-if="!$route.meta.keepAlive"
-        />
       </router-view>
     </div>
     <Skeleton
@@ -104,29 +100,38 @@ import { useDebounceFn } from '@vueuse/core'
 import { getPermissions } from '@/servers/permissions'
 import { permissionsToArray } from '@/utils/permissions'
 import { message, Skeleton } from 'ant-design-vue'
+import { useRoute } from 'vue-router'
 import { useLoading } from '@/hooks/useLoading'
 import { updatePassword } from '@/servers/login'
 import Header from './components/Header.vue'
 import Menu from './components/Menu.vue'
 import Tabs from './components/Tabs.vue'
 import UpdatePassword from '@/components/UpdatePassword/index.vue'
+import { routeToKeepalive } from '@/router/utils/helper'
 
+const route = useRoute()
 const tabStore = useTabStore()
 const menuStore = useMenuStore()
 const userStore = useUserStore()
 const { setUserInfo, setPermissions } = userStore
 const { userInfo, permissions } = storeToRefs(userStore)
+const { cacheRoutes } = storeToRefs(tabStore)
+const { isPhone } = storeToRefs(menuStore)
+const { isLoading, startLoading, endLoading } = useLoading()
+const { addCacheRoutes } = tabStore
+
 const username = ref(userInfo.value?.username || '') // 用户名
 const isCollapsed = ref(false) // 是否收起菜单
 const isMaximize = ref(false) // 是否窗口最大化
 const isUpdatePassword = ref(false) // 是否显示修改密码
-const { cacheRoutes } = storeToRefs(tabStore)
-const { isPhone } = storeToRefs(menuStore)
-const { isLoading, startLoading, endLoading } = useLoading()
 
 onMounted(() => {
   handleIsPhone()
   startResize()
+
+  // 转为keepalive形式
+  const cacheRoute = routeToKeepalive(route.path)
+  addCacheRoutes(cacheRoute) // 添加keepalive缓存
 
   // 如果用户id不存在则重新获取
   if (!userInfo.value?.id) {

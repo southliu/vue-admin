@@ -18,8 +18,6 @@ const newRoutes: RouteRecordRaw[] = [
   }
 ]
 
-console.log('newRoutes:', newRoutes)
-
 const router = createRouter({
   history: createWebHashHistory(),
   routes: newRoutes,

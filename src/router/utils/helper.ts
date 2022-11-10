@@ -17,6 +17,25 @@ export function routeToKeepalive(route: string): string {
 }
 
 /**
+ * 转换name为keepalive形式
+ */
+
+/**
+ * 处理
+ * @param routes - 路由
+ */
+// function nameTokeepalive(routes: RouteRecordRaw[]): RouteRecordRaw[] {
+//   for (let i = 0; i < routes.length; i++) {
+//     if (routes[i].path !== '/' && routes[i].path !== '/login') {
+//       routes[i].name = 
+//     }
+    
+//   }
+
+//   return routes
+// }
+
+/**
  * 路由添加layout
  * @param routes - 路由数据
  */
