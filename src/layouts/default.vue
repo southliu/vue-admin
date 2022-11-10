@@ -64,7 +64,7 @@
   >
     <div v-if="permissions.length > 0" class="h-full min-w-1024px">
       <router-view v-slot="{ Component }">
-        <keep-alive :include="tabStore.cacheRoutes">
+        <keep-alive :include="cacheRoutes">
           <component
             v-if="$route.meta.keepAlive"
             :is="Component"
@@ -95,7 +95,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, defineExpose } from 'vue'
 import { useTabStore } from '@/stores/tabs'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
@@ -120,6 +120,7 @@ const username = ref(userInfo.value?.username || '') // 用户名
 const isCollapsed = ref(false) // 是否收起菜单
 const isMaximize = ref(false) // 是否窗口最大化
 const isUpdatePassword = ref(false) // 是否显示修改密码
+const { cacheRoutes } = storeToRefs(tabStore)
 const { isPhone } = storeToRefs(menuStore)
 const { isLoading, startLoading, endLoading } = useLoading()
 
@@ -204,6 +205,10 @@ const startResize = () => {
 const stopResize = () => {
   window.removeEventListener('resize', handleSize)
 }
+
+defineExpose({
+  cacheRoutes
+})
 </script>
 
 <style lang="less" scoped>

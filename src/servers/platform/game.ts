@@ -1,7 +1,7 @@
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { IServerResult } from '#/public'
 import { request } from '@/utils/request'
-import { recursiveData } from '@/utils/utils'
+import { recursiveData } from '@/utils/helper'
 
 enum API {
   URL = '/platform/game',

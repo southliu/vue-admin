@@ -42,15 +42,6 @@ export default defineConfig(({ mode }) => {
       sourcemap: false,
       minify: false,
       brotliSize: false,
-      rollupOptions: {
-        output: {
-          manualChunks(id: string) {
-            // if (id.includes('node_modules')) {
-            //   return id.toString().split('node_modules/')[1].split('/')[0].toString()
-            // }
-          }
-        }
-      },
       terserOptions: {
         compress: {
           keep_infinity: true,

@@ -1,17 +1,16 @@
 import type { Router } from "vue-router"
 import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router'
 import { useToken } from '@/hooks/useToken'
-import { TITLE_SUFFIX } from '@/utils/config'
 import { message } from "ant-design-vue"
 import { useTabStore } from '@/stores/tabs'
-import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { getFirstMenu } from '@/menus/utils/helper'
 import { checkPermission } from "@/utils/permissions"
+import { defaultMenus } from "@/menus"
+import { routeToKeepalive } from "./helper"
 import NProgress from 'nprogress'
 import pinia from '../../stores'
-import { defaultMenus } from "@/menus"
 
 NProgress.configure({ showSpinner: false })
 
@@ -22,26 +21,20 @@ NProgress.configure({ showSpinner: false })
 export function routerIntercept(router: Router) {
     // 路由拦截
   router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
-    document.title = (to.meta?.title ? `${to.meta.title} - ` : '') + TITLE_SUFFIX
     const { getToken } = useToken()
     const token = getToken()
     NProgress.start()
 
     const userStore = useUserStore(pinia)
-    const menuStore = useMenuStore(pinia)
     const tabStore = useTabStore(pinia)
-    const { setSelectedKeys } = menuStore
-    const { setActiveKey, addCacheRoutes } = tabStore
+    const { addCacheRoutes } = tabStore
     const { permissions } = storeToRefs(userStore)
 
-    // 设置激活标签栏
-    setActiveKey(to.path)
-    // 设置菜单选择的key
-    setSelectedKeys([to.path])
-
     // 缓存keepAlive
-    if (to.meta?.keepAlive && to.name) {
-      addCacheRoutes(to.name as string)
+    if (to.name) {
+      // 转为keepalive形式
+      const cacheRoute = routeToKeepalive(to.path)
+      addCacheRoutes(cacheRoute)
     }
 
     // 无token返回登录页

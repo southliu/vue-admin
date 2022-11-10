@@ -170,7 +170,6 @@ const {
 } = storeToRefs(tabStore)
 const {
   setActiveKey,
-  addCacheRoutes,
   addTabs,
   setNav,
   addPrevPath,
@@ -211,7 +210,6 @@ const handleAddTab = (path = route.path) => {
     const newItems = getMenuByKey(menuByKeyProps)
     if (newItems?.key) {
       setActiveKey(newItems.key)
-      addCacheRoutes(newItems.key)
       setNav(newItems.nav)
       addTabs(newItems)
     }

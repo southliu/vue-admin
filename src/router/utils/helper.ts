@@ -1,4 +1,20 @@
+import { firstCapitalize } from "@/utils/helper"
 import type { RouteRecordRaw } from "vue-router"
+
+/**
+ * 路由转为Keepalive
+ * @param route - 路由
+ */
+export function routeToKeepalive(route: string): string {
+  let result = ''
+  const arr = route.split('/') // 分割路由
+
+  for (let i = 0; i < arr.length; i++) {
+    result += firstCapitalize(arr[i])
+  }
+
+  return result
+}
 
 /**
  * 路由添加layout

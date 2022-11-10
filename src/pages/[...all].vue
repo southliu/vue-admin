@@ -27,7 +27,6 @@ const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)
 const {
   setActiveKey,
-  addCacheRoutes,
   addTabs,
   setNav
 } = tabStore
@@ -44,7 +43,6 @@ const goIndex = () => {
   const newItems = getMenuByKey(menuByKeyProps)
   if (newItems) {
     setActiveKey(newItems.key)
-    addCacheRoutes(newItems.key)
     setNav([])
     addTabs(newItems)
   }

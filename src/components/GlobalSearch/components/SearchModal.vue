@@ -78,11 +78,7 @@ const inputValue = ref('')
 const active = ref('')
 const list = ref<ISideMenu[]>([])
 const { setOpenKey } = menuStore
-const {
-  setActiveKey,
-  addCacheRoutes,
-  addTabs
-} = tabStore
+const { setActiveKey, addTabs } = tabStore
 
 // 初始化聚焦input框
 onMounted(() => {
@@ -113,7 +109,6 @@ const onPressEnter = () => {
     if (newTab?.key) {
       addTabs(newTab)
       setActiveKey(active.value)
-      addCacheRoutes(active.value)
       // 处理菜单展开
       const openKey = getOpenMenuByRouter(active.value)
       setOpenKey(openKey)

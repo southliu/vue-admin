@@ -29,7 +29,6 @@ export interface ISideMenu {
   children?: ISideMenu[];
 }
 
-
 // 搜索数据
 export interface ISearchData {
   data: IFormData;
