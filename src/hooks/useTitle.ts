@@ -1,5 +1,5 @@
 import { TITLE_SUFFIX } from '@/utils/config'
-import { ref, watch } from 'vue'
+import { ref, watch, onActivated } from 'vue'
 
 /**
  * 设置标题
@@ -18,6 +18,11 @@ export function useTitle(newTitle: string) {
     },
     { immediate: true }
   )
+
+  // keepalive切换标题
+  onActivated(() => {
+    document.title = title.value
+  })
 
   return title
 }

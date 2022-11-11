@@ -1,5 +1,8 @@
 <template>
-  <div class="flex items-center">
+  <div
+    v-if="!isPhone"
+    class="flex items-center"
+  >
     <span
       v-for="(item, index) in list"
       :key="index"
@@ -7,7 +10,9 @@
     >
       <span
         class="#000000d9 text-14px"
-        :class="{ '!text-#00000073': index < list.length - 1 }"
+        :class="{
+          '!text-#00000073': index < list.length - 1
+        }"
       >
         {{ item }}
       </span>
@@ -23,6 +28,11 @@
 
 <script lang="ts" setup>
 import type { PropType } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useMenuStore } from '@/stores/menu'
+
+const menuStore = useMenuStore()
+const { isPhone } = storeToRefs(menuStore)
 
 defineProps({
   list: {
