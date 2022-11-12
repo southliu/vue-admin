@@ -13,8 +13,14 @@
     </template>
 
     <Spin :spinning="isLoading">
-      <Block />
-      <Line />
+      <div className='pb-10px'>
+        <Block />
+      </div>
+
+      <div className='flex justify-between'>
+        <Line />
+        <Bar />
+      </div>
     </Spin>
   </BasicContent>
 </template>
@@ -39,6 +45,7 @@ import { searchList } from './model'
 import { Spin } from 'ant-design-vue'
 import Line from './components/Line.vue'
 import Block from './components/Block.vue'
+import Bar from './components/Bar.vue'
 import dayjs from 'dayjs'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
