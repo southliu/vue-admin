@@ -17,12 +17,12 @@
       >
         <div className='text-20px font-bold'>{{ item.title }}</div>
         <div className='flex items-center justify-between text-35px mb-15px'>
-          <span className='font-bold'>{{ item.num }}</span>
+          <Count className='font-bold' :start="0" :end="item.num" />
           <Icon :icon="item.icon" />
         </div>
         <div className="flex align-center justify-between">
           <span>总数：</span>
-          <span>{{ item.all }}</span>
+          <Count :start="0" :end="item.all" />
         </div>
       </div>
     </Col>
@@ -31,6 +31,7 @@
 
 <script lang="ts" setup>
 import { Row, Col } from 'ant-design-vue'
+import Count from '@/components/Count/index.vue'
 import Icon from '@/components/Icon/index.vue'
 
 const data = [

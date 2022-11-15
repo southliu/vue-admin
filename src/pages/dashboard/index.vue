@@ -50,7 +50,7 @@ import dayjs from 'dayjs'
 import BasicSearch from '@/components/Search/BasicSearch.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
 
-useTitle('数据展览')
+useTitle('数据总览')
 
 const isLoading = ref(false)
 
