@@ -55,7 +55,7 @@ export const useMenuStore = defineStore({
      * 设置展开值
      * @param arr - 展开值
      */
-     setOpenKey(arr: string[]) {
+     setOpenKeys(arr: string[]) {
       this.openKeys = arr
     },
     /**

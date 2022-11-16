@@ -132,9 +132,8 @@ import {
 import DropdownMenu from './DropdownMenu.vue'
 import Icon from '@/components/Icon/index.vue'
 import { useUserStore } from '@/stores/user'
-import { useMenuStore } from '@/stores/menu'
 import { defaultMenus } from '@/menus'
-import { getMenuByKey, getOpenMenuByRouter } from '@/menus/utils/helper'
+import { getMenuByKey } from '@/menus/utils/helper'
 import { routeToKeepalive } from '@/router/utils/helper'
 
 interface ITimeout {
@@ -155,7 +154,6 @@ defineProps({
 const route = useRoute()
 const router = useRouter()
 const tabStore = useTabStore()
-const menuStore = useMenuStore()
 const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)
 const {
@@ -164,7 +162,6 @@ const {
   activeKey,
   cacheRoutes
 } = storeToRefs(tabStore)
-const { setOpenKey } = menuStore
 const {
   setActiveKey,
   addTabs,
@@ -204,10 +201,6 @@ watch(activeKey, value => {
   // 当选中贴标签不等于当前路由则跳转
   if (value !== route.path) {
     router.push(value)
-
-    // 处理菜单展开
-    const openKey = getOpenMenuByRouter(value)
-    setOpenKey(openKey)
   }
 })
 
