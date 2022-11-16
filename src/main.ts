@@ -9,6 +9,7 @@ import Element from './App.vue'
 import 'virtual:uno.css'
 import 'nprogress/nprogress.css'
 import '@/assets/css/scrollbar.less'
+import '@/assets/css/theme-color.less'
 
 // vxe-table
 import { Column, Table, Grid } from 'vxe-table'

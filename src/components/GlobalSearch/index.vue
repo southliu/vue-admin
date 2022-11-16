@@ -1,8 +1,9 @@
 <template>
   <Tooltip>
     <template #title>搜索</template>
-    <SearchOutlined
+    <Icon
       class="text-lg mr-3"
+      icon="uil-search"
       @click="toggle"
     />
   </Tooltip>
@@ -19,9 +20,9 @@
  * @description: 顶部全局搜索菜单组件
  */
 import { ref } from 'vue'
-import { SearchOutlined } from '@ant-design/icons-vue'
 import { Tooltip } from 'ant-design-vue'
 import SearchModal from './components/SearchModal.vue'
+import Icon from '@/components/Icon/index.vue'
 
 const isVisible = ref(false)
 

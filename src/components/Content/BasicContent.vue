@@ -1,6 +1,6 @@
 <template>
-  <div class="h-full bg px-2 py-3 box-border">
-    <div id="container" class="h-full bg-white relative overflow-auto">
+  <div class="h-full px-2 py-3 box-border">
+    <div id="container" class="h-full relative overflow-auto">
       <div id="top">
         <slot name="top"></slot>
       </div>
@@ -15,11 +15,3 @@
     </div>
   </div>
 </template>
-
-<style lang="less" scoped>
-@import '@/assets/css/default.less';
-
-.bg {
-  background-color: @bg;
-}
-</style>

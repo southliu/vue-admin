@@ -17,6 +17,7 @@
     <div class="flex items-center">
       <GlobalSearch />
       <Fullscreen />
+      <Theme />
       <Dropdown class="min-w-50px">
         <div class="ant-dropdown-link flex items-center cursor-pointer" @click.prevent>
           <img
@@ -68,6 +69,7 @@ import {
 } from '@ant-design/icons-vue'
 import Fullscreen from '@/components/Fullscreen/index.vue'
 import GlobalSearch from '@/components/GlobalSearch/index.vue'
+import Theme from '@/components/Theme/index.vue'
 import Avatar from '@/assets/images/avatar.png'
 import Nav from './Nav.vue'
 

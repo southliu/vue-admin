@@ -221,14 +221,14 @@ defineExpose({
 .header {
   position: fixed;
   top: 0;
-  left: @layout_left;
+  left: @layoutLeft;
   right: 0;
-  height: @layout_top;
+  height: @layoutTop;
   border-bottom: 1px solid #eee;
 }
 
 .header-close-menu {
-  left: @layout_left_close !important;
+  left: @layoutLeftClose !important;
 }
 
 .header-driver {
@@ -240,32 +240,32 @@ defineExpose({
   top: 0;
   bottom: 0;
   background-color: #000;
-  width: @layout_left;
+  width: @layoutLeft;
 }
 
 .menu-close {
-  width: @layout_left_close !important;
+  width: @layoutLeftClose !important;
 }
 
 .con {
   position: fixed;
-  left: @layout_left;
-  top: @layout_top;
+  left: @layoutLeft;
+  top: @layoutTop;
   right: 0;
   bottom: 0;
 }
 
 .con-close-menu {
-  left: @layout_left_close;
+  left: @layoutLeftClose;
 }
 
 .con-isMaximize {
   left: 0 !important;
-  top: calc(@layout_top / 2);
+  top: calc(@layoutTop / 2);
 }
 .header-none {
   left: 0 !important;
-  height: calc(@layout_top / 2)
+  height: calc(@layoutTop / 2)
 }
 
 .none {

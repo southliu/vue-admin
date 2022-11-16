@@ -1,6 +1,5 @@
 <template>
   <Button
-    type="primary"
     :loading="isLoading"
     @click="onClick"
   >

@@ -1,0 +1,35 @@
+@import "./default.less";
+
+/**
+ * 修改主题
+ * @param color - 字体颜色
+ * @param bgColor - 背景颜色
+ */
+.changeTheme(@color: @primaryColor, @bgColor: @primaryBg, @svgColor: @svgColor) {
+  color: @color !important;
+  background: @bgColor !important;
+
+  h1, h2, h3, h4, h5, h6, .change svg {
+    color: @color !important;
+  }
+
+  #searches, #container, #pagination {
+    color: @color !important;
+    background: @bgColor !important;
+  }
+
+  // antd
+  .ant-tabs, .ant-pagination {
+    color: @color !important;
+  }
+
+  #searches .ant-form-item-label > label {
+    color: @color !important;
+  }
+
+  // xve-table
+  .body--wrapper, .vxe-body--row {
+    color: @color !important;
+    background: @bgColor !important;
+  }
+}

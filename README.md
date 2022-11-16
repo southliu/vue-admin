@@ -2,6 +2,9 @@
 
 使用了`vue3`,`vite`,`TypeScript`,`antv`等主流技术开发的开箱即用的中后台前端项目，可通过`south-cli`中的`south create vue-project`生成该项目，使用`south-cli`中的`south create-vue page-name`生成对应页面。
 
+## 项目演示
+[演示地址](https://southliu.github.io/)
+
 ## 安装使用
 
 - 获取项目代码
@@ -79,7 +82,7 @@ git push
 
 ## 计划
 
-- [ ] 主题换肤功能
+- [x] 主题换肤功能
 - [ ] i18n语言切换
 - [x] 表单嵌套结构
 - [x] 包分析工具

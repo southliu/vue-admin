@@ -11,7 +11,7 @@
       <span
         class="#000000d9 text-14px"
         :class="{
-          '!text-#00000073': index < list.length - 1
+          'opacity-60': index < list.length - 1
         }"
       >
         {{ item }}

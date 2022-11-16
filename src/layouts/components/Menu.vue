@@ -190,6 +190,6 @@ const hiddenMenu = () => {
 }
 
 .cover {
-  left: @layout_left;
+  left: @layoutLeft;
 }
 </style>

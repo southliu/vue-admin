@@ -1,12 +1,11 @@
 <template>
   <div
+    id="pagination"
     class="
-      pagination
       w-full
       flex
       items-center
       justify-end
-      bg-white
       px-5
       min-h-40px
       z-999
