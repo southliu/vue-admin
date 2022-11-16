@@ -8,8 +8,12 @@
 .changeTheme(@color: @primaryColor, @bgColor: @primaryBg, @svgColor: @svgColor) {
   color: @color !important;
   background: @bgColor !important;
+    
+  .change svg {
+    color: @svgColor !important;
+  }
 
-  h1, h2, h3, h4, h5, h6, .change svg {
+  h1, h2, h3, h4, h5, h6 {
     color: @color !important;
   }
 

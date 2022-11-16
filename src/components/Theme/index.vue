@@ -1,7 +1,7 @@
 <template>
   <Tooltip>
     <template #title>主题模式</template>
-    <div class="text-lg mr-4">
+    <div class="flex items-center justify-center text-lg mr-4 cursor-pointer">
       <Icon
         v-if="theme === 'light'"
         icon="mdi-white-balance-sunny"
@@ -17,15 +17,27 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Tooltip } from 'ant-design-vue'
 import Icon from '@/components/Icon/index.vue'
 
 type IType = 'dark' | 'light'
 
-const theme = ref<IType>('light')
+const key = 'theme'
+const themeCache = (localStorage.getItem(key) || 'light') as IType
+const theme = ref<IType>(themeCache)
+
+onMounted(() => {
+  if (!themeCache) {
+    localStorage.setItem(key, 'light')
+  }
+  if (themeCache === 'dark') {
+    document.body.className = 'theme-dark'
+  }
+})
 
 const onChange = (type: IType) => {
+  localStorage.setItem(key, type)
   theme.value = type
 
   switch (type) {
