@@ -21,7 +21,7 @@
     </div>
     <div class="menu-height overflow-y-auto">
       <Menu
-        v-model:openKeys="openKeys"
+        v-model:openKeys="currentOpenKeys"
         v-model:selectedKeys="selectedKeys"
         class="h-full z-1000"
         mode="inline"
@@ -46,7 +46,7 @@
 
 <script lang="ts" setup>
 import type { Key } from 'ant-design-vue/lib/_util/type'
-import { watch, onMounted } from 'vue'
+import { watch, onMounted, ref } from 'vue'
 import { useMenuStore } from '@/stores/menu'
 import { useUserStore } from '@/stores/user'
 import { useRoute, useRouter } from 'vue-router'
@@ -64,7 +64,7 @@ import Logo from '@/assets/images/logo.png'
 
 const emit = defineEmits(['toggleCollapsed'])
 
-defineProps({
+const props = defineProps({
   isCollapsed: {
     type: Boolean,
     required: true
@@ -88,6 +88,9 @@ const {
   setSelectedKeys
 } = menuStore
 
+// 当前展开项，收缩模式不展开
+const currentOpenKeys = ref(openKeys.value)
+
 onMounted(() => {
   if (permissions.value.length > 0) {
     // 创建菜单
@@ -106,6 +109,15 @@ watch(() => route.path, value => {
   const newOpenKey = getOpenMenuByRouter(value)
   setOpenKeys(newOpenKey)
   setSelectedKeys([value])
+})
+
+// 监听展开
+watch(() => openKeys, openKeys => {
+  if (props.isCollapsed || isPhone.value) {
+    currentOpenKeys.value = []
+  } else {
+    currentOpenKeys.value = openKeys.value
+  }
 })
 
 /**
