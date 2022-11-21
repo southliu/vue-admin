@@ -2,7 +2,7 @@ import type { IPageServerResult, IPaginationData } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
-  URL = '/authority/menu',
+  URL = '/authority/menus',
 }
 
 /**
