@@ -263,6 +263,7 @@ defineExpose({
   left: 0 !important;
   top: calc(@layoutTop / 2);
 }
+
 .header-none {
   left: 0 !important;
   height: calc(@layoutTop / 2)

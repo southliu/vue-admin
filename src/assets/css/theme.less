@@ -1,4 +1,4 @@
-@import "./default.less";
+@import url("./default.less");
 
 /**
  * 修改主题
@@ -8,22 +8,30 @@
 .changeTheme(@color: @primaryColor, @bgColor: @primaryBg, @svgColor: @svgColor) {
   color: @color !important;
   background: @bgColor !important;
-    
+
   .change svg {
     color: @svgColor !important;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: @color !important;
   }
 
-  #searches, #container, #pagination {
+  #searches,
+  #container,
+  #pagination {
     color: @color !important;
     background: @bgColor !important;
   }
 
   // antd
-  .ant-tabs, .ant-pagination {
+  .ant-tabs,
+  .ant-pagination {
     color: @color !important;
   }
 
@@ -32,7 +40,8 @@
   }
 
   // xve-table
-  .body--wrapper, .vxe-body--row {
+  .body--wrapper,
+  .vxe-body--row {
     color: @color !important;
     background: @bgColor !important;
   }
