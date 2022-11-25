@@ -1,6 +1,7 @@
 {
   "editor.tabSize": 2,
   "eslint.validate": ["typescript"],
+  "stylelint.validate": ["vue"],
   // 关闭vetur报错
   "vetur.validation.template": false,
   "vetur.validation.script": false,
