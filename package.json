@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "type": "module",
+  "homepage": "https://github.com/southliu/vue-admin",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && cross-env NODE_ENV=production vite build",
@@ -20,7 +21,7 @@
     "@vueuse/core": "^7.7.0",
     "@wangeditor/editor": "^5.1.1",
     "@wangeditor/editor-for-vue": "^5.1.11",
-    "ant-design-vue": "3.2.10",
+    "ant-design-vue": "3.2.15",
     "axios": "0.27.2",
     "crypto-js": "^4.1.1",
     "dayjs": "1.11.3",
