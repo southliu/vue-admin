@@ -74,6 +74,7 @@
 <script lang="ts" setup>
 import type { FormProps } from 'ant-design-vue'
 import type { ILoginData } from './model'
+import { message } from 'ant-design-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
 import { login } from '@/servers/login'
@@ -124,6 +125,11 @@ const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
     isLoading.value = true
     const { data } = await login(values)
     const { data: { token, user, permissions } } = data
+
+    if (!permissions?.length || !token) {
+      return message.error({ content: '用户暂无权限登录', key: 'permissions' })
+    }
+
     const newPermissions = permissionsToArray(permissions)
     const firstMenu = getFirstMenu(defaultMenus, newPermissions)
     setToken(token)

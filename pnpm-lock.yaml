@@ -20,7 +20,7 @@ specifiers:
   '@vueuse/core': ^7.7.0
   '@wangeditor/editor': ^5.1.1
   '@wangeditor/editor-for-vue': ^5.1.11
-  ant-design-vue: 3.2.10
+  ant-design-vue: 3.2.15
   axios: 0.27.2
   cross-env: ^7.0.3
   crypto-js: ^4.1.1
@@ -71,7 +71,7 @@ dependencies:
   '@vueuse/core': 7.7.1_vue@3.2.38
   '@wangeditor/editor': 5.1.15
   '@wangeditor/editor-for-vue': 5.1.12_jgpudypperxb44z2klejzz4so4
-  ant-design-vue: 3.2.10_vue@3.2.38
+  ant-design-vue: 3.2.15_vue@3.2.38
   axios: 0.27.2
   crypto-js: 4.1.1
   dayjs: 1.11.3
@@ -1884,8 +1884,8 @@ packages:
       color-convert: 2.0.1
     dev: true
 
-  /ant-design-vue/3.2.10_vue@3.2.38:
-    resolution: {integrity: sha512-aqa0kjJzVQ74MfVw5w7rTOdJQL2JN9V/O6Ro+VQQMq/tY7q91JiomhI9TRKAK3tFdBDXJpUoBCVOsosbbxMzRw==}
+  /ant-design-vue/3.2.15_vue@3.2.38:
+    resolution: {integrity: sha512-sJfE7LWimSdAPe4dzNyQBrmVMnOTNQTkG9oOyr+7W8qIYrX8sYWyC68Nn1uum4KBJUSZUa/BU6dohvTG0urBhA==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       vue: '>=3.2.0'
