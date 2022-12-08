@@ -26,6 +26,7 @@ export default defineComponent({
     const Comp = componentMap.get(props.item.component) as ReturnType<typeof defineComponent>
     // 占位符
     const placeholder = props.item.placeholder || createPlaceholder(props.item.component)
+
     // 渲染组件
     return () => h(Comp, {
       className: 'min-w-70px',

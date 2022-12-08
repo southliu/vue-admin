@@ -32,6 +32,7 @@ declare module 'vue' {
     SearchModal: typeof import('./src/components/GlobalSearch/components/SearchModal.vue')['default']
     SearchResult: typeof import('./src/components/GlobalSearch/components/SearchResult.vue')['default']
     StrengthBar: typeof import('./src/components/PasswordStrength/components/StrengthBar.vue')['default']
+    SumbitBottom: typeof import('./src/components/Bottom/SumbitBottom.vue')['default']
     Theme: typeof import('./src/components/Theme/index.vue')['default']
     UpdateBtn: typeof import('./src/components/Buttons/components/UpdateBtn.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']

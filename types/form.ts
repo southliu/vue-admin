@@ -53,7 +53,7 @@ type ISliderComponents = 'Slider'
 type ICustomizeComponents = 'Customize'
 
 // 富文本编辑器
-type IEditorComponents = 'WangEditor'
+type IEditorComponents = 'Editor'
 
 // 密码强度组件
 type IPasswordStrength = 'PasswordStrength'
@@ -115,5 +115,5 @@ export type IFormList = {
   wrapperCol?: number; // 内容宽度
   component: IComponentType; // 组件
   componentProps?: IComponentProps; // 组件参数
-  render?: () => VNode; // 自定义渲染
+  render?: VNode; // 自定义渲染
 }
