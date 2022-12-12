@@ -10,4 +10,11 @@
 
 <script lang="ts" setup>
 import Image from '@/assets/images/welcome.png'
+import { useToken } from '@/hooks/useToken'
+import { useRouter } from 'vue-router'
+
+const { getToken } = useToken()
+const router = useRouter()
+const token = getToken()
+if (!token) router.push('/login')
 </script>
