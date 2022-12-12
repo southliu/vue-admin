@@ -11,14 +11,14 @@
     <Tree
       checkable
       :checkedKeys="treeCheckedKeys"
-      :tree-data="treeData"
+      :treeData="treeData"
       @check="handleCheck"
     />
   </Drawer>
 </template>
 
 <script lang="ts">
-import type { DataNode } from 'ant-design-vue/lib/tree'
+import type { DataNode, TreeProps } from 'ant-design-vue/lib/tree'
 import type { Key } from 'ant-design-vue/lib/vc-tree/interface'
 import type { PropType } from 'vue'
 import { defineComponent, ref, watch } from 'vue'
@@ -71,7 +71,7 @@ export default defineComponent({
      * 处理勾选
      * @param checked - 勾选值
      */
-    const handleCheck = (checked: Key[] | { checked: Key[]; halfChecked: Key[];}) => {
+    const handleCheck: TreeProps['onCheck'] = checked => {
       treeCheckedKeys.value = checked as Key[]
     }
 

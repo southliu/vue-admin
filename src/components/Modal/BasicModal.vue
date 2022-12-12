@@ -19,8 +19,14 @@
               <span>{{ isFullscreen ? '退出最大化' : '最大化' }}</span>
             </template>
             <Icon
+              v-show="!isFullscreen"
               class="text-lg"
-              :icon="!isFullscreen ? 'ant-design:fullscreen-outlined' : 'ant-design:fullscreen-exit-outlined'"
+              icon="ant-design:fullscreen-outlined"
+            />
+            <Icon
+              v-show="isFullscreen"
+              class="text-lg"
+              icon="ant-design:fullscreen-exit-outlined"
             />
           </Tooltip>
 

@@ -43,7 +43,7 @@ componentMap.set('Upload', Upload)
 // 自定义组件注入
 componentMap.set('ApiSelect', ApiSelect)
 componentMap.set('ApiTreeSelect', ApiTreeSelect)
-componentMap.set('WangEditor', WangEditor)
+componentMap.set('Editor', WangEditor)
 componentMap.set('PasswordStrength', PasswordStrength)
 
 // 业务组件注入

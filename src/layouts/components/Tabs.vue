@@ -62,8 +62,8 @@
           <Icon
             class="flex items-center justify-center change text-lg cursor-pointer"
             :class="{ 'animate-spin': isRefresh }"
-            @click="handleRefresh()"
             icon="ant-design:reload-outlined"
+            @click="handleRefresh()"
           />
         </Tooltip>
       </div>
@@ -103,9 +103,16 @@
           </template>
 
           <Icon
-            class="flex items-center justify-center change text-lg cursor-pointer"
+            v-show="isMaximize"
+            class="w-full h-full flex items-center justify-center change text-lg cursor-pointer"
+            icon="ant-design:compress-outlined"
             @click="handleMaximize()"
-            :icon="isMaximize ? 'ant-design:compress-outlined' : 'ant-design:expand-outlined'"
+          />
+          <Icon
+            v-show="!isMaximize"
+            class="w-full h-full flex items-center justify-center change text-lg cursor-pointer"
+            icon="ant-design:expand-outlined"
+            @click="handleMaximize()"
           />
         </Tooltip>
       </div>

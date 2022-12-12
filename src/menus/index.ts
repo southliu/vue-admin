@@ -1,4 +1,5 @@
 import type { ISideMenu } from '#/public'
+import { ContentMenus } from './content'
 import { DemoMenus } from './demo'
 import { SystemMenus } from './system'
 
@@ -17,5 +18,6 @@ export const defaultMenus: ISideMenu[] = [
     ]
   },
   ...DemoMenus,
-  ...SystemMenus
+  ...SystemMenus,
+  ...ContentMenus
 ]

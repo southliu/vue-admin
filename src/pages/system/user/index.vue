@@ -18,6 +18,7 @@
     >
       <template v-slot:operate='row'>
         <Button
+          v-if="pagePermission.permission"
           class="mr-2"
           :isLoading="isLoading"
           @click="openPermission(row.record.id)"
@@ -135,7 +136,8 @@ const pagePermission = reactive({
   page: checkPermission(`${permissionPrefix}/index`, permissions.value),
   create: checkPermission(`${permissionPrefix}/create`, permissions.value),
   update: checkPermission(`${permissionPrefix}/update`, permissions.value),
-  delete: checkPermission(`${permissionPrefix}/delete`, permissions.value)
+  delete: checkPermission(`${permissionPrefix}/delete`, permissions.value),
+  permission: checkPermission(`${permissionPrefix}/authority`, permissions.value)
 })
 
 // 权限配置
@@ -267,7 +269,7 @@ const onCloseCreate = () => {
  */
 const handleDelete = async (id: string | number) => {
   try {
-    isLoading.value 
+    isLoading.value = true
     const { data } = await deleteSystemUser(id as string)
     if (data?.code === 200) {
       message.success(data?.message || '删除成功')
@@ -292,7 +294,7 @@ const handlePagination = (page: number, pageSize: number) => {
 /** 开启权限 */
 const openPermission = async (id: string) => {
   try {
-    isLoading.value 
+    isLoading.value = true
     const params = { userId: id }
     const { data } = await getPermission(params)
     const { data: { defaultCheckedKeys, treeData } } = data
@@ -315,7 +317,7 @@ const closePermission = () => {
  */
 const permissionSubmit = async (checked: Key[]) => {
   try {
-    isLoading.value 
+    isLoading.value = true
     const params = {
       menuIds: checked,
       userId: permissionConfig.id

@@ -7,12 +7,12 @@
     "moduleResolution": "Node",
     "strict": true,
     "jsx": "preserve",
-    "sourceMap": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
+    "noEmit": true,
     "noUnusedLocals": true, // 有未使用的变量时，抛出错误
     "paths": {
       "@/*": ["src/*"],

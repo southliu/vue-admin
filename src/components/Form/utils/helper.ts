@@ -60,7 +60,7 @@ export function getComponentProps(
 
   switch (item.component) {
     // 富文本
-    case 'WangEditor':
+    case 'Editor':
       return {
         modelValue: compData as string,
         height: (compData as IWangEditorProps)?.height || 300,
