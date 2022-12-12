@@ -39,6 +39,15 @@ export const useTabStore = defineStore({
       }
     },
 
+    /** 
+     * 删除缓存路由
+     * @param key - 路由值
+     */
+    removeCacheRoutes(key: string) {
+      const index = this.cacheRoutes.findIndex(item => item === key)
+      if (index >= 0) this.cacheRoutes.splice(index, 1)
+    },
+
     /** 清空缓存路由 */
     clearCacheRoutes() {
       this.cacheRoutes = []
@@ -78,7 +87,7 @@ export const useTabStore = defineStore({
       if (!has) this.tabs.push(tab)
 
       // 如果只剩一个则无法关闭
-      this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
     },
 
     /**
@@ -102,7 +111,27 @@ export const useTabStore = defineStore({
       }
 
       // 如果只剩一个则无法关闭
-      this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
+    },
+
+    /**
+     * 关闭标签并跳转新的页面
+     * @param targetKey - 关闭的key
+     * @param nextPath - 跳转下一个路径
+     */
+    closeTabGoNext(targetKey: string, nextPath: string) {
+      // 发现下标并从数组中删除
+      const index = this.tabs.findIndex(item => item.key === targetKey)
+      if (index >= 0) this.tabs.splice(index, 1)
+
+      // 如果当前下标是当前选中的标签，则跳转至上一个/下一个有效值
+      if (targetKey === this.activeKey) {
+        this.activeKey = nextPath
+        // this.isLock = true
+      }
+
+      // 如果只剩一个则无法关闭
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
     },
 
     /**
@@ -118,7 +147,7 @@ export const useTabStore = defineStore({
       }
 
       // 如果只剩一个则无法关闭
-      this.tabs[0].closable = false
+      if (this.tabs?.length) this.tabs[0].closable = false
     },
 
     /**
@@ -132,7 +161,7 @@ export const useTabStore = defineStore({
       this.activeKey = this.tabs[0].key
 
       // 如果只剩一个则无法关闭
-      this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
     },
 
     /**
@@ -146,7 +175,7 @@ export const useTabStore = defineStore({
       this.activeKey = this.tabs[this.tabs.length - 1].key
 
       // 如果只剩一个则无法关闭
-      this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
     },
 
     /** 关闭全部 */

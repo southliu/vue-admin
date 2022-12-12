@@ -47,7 +47,7 @@
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'article'
+  name: 'ContentArticle'
 })
 </script>
 
@@ -57,10 +57,11 @@ import type { ISearchData, ITableData, IPaginationData } from '#/public'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useTitle } from '@/hooks/useTitle'
-import { onMounted, reactive, ref } from 'vue'
+import { onActivated, onMounted, reactive, ref } from 'vue'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
 import { searchList, tableColumns } from './model'
 import { checkPermission } from '@/utils/permissions'
+import { usePublicStore } from '@/stores/public'
 import { useUserStore } from '@/stores/user'
 import { storeToRefs } from 'pinia'
 import { getArticlePage, deleteArticle } from '@/servers/content/article'
@@ -72,7 +73,10 @@ import BasicSearch from '@/components/Search/BasicSearch.vue'
 useTitle('文章管理')
 const router = useRouter()
 const userStore = useUserStore()
+const publicStore = usePublicStore()
+const { setRefreshPage } = publicStore
 const { permissions } = storeToRefs(userStore)
+const { isRefreshPage } = storeToRefs(publicStore)
 const isLoading = ref(false)
 const isCreateLoading = ref(false)
 
@@ -105,7 +109,16 @@ const pagination = reactive<IPaginationData>({
 })
 
 onMounted(() => {
-  getPage()
+  if (!isRefreshPage.value) {
+    getPage()
+  }
+})
+
+onActivated(() => {
+  if (isRefreshPage.value) {
+    getPage()
+    setRefreshPage(false)
+  }
 })
 
 /** 获取表格数据 */
