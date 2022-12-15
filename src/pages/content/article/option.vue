@@ -12,7 +12,7 @@
 
     <SumbitBottom
       :isLoading="isLoading"
-      :goBack="goBack"
+      :goBack="() => goBack()"
       :handleSubmit="handleSubmit"
     />
   </BasicContent>
@@ -27,14 +27,15 @@ import { useRoute, useRouter } from 'vue-router'
 import { storeToRefs } from 'pinia'
 import { createList } from './model'
 import { useTabStore } from '@/stores/tabs'
+import { usePublicStore } from '@/stores/public'
 import { useTitle } from '@/hooks/useTitle'
 import { useUserStore } from '@/stores/user'
 import { message, Spin } from 'ant-design-vue'
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
 import {
-  getArticleById,
-  createArticle,
-  updateArticle
+ getArticleById,
+ createArticle,
+ updateArticle
 } from '@/servers/content/article'
 import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
@@ -43,9 +44,15 @@ import SumbitBottom from '@/components/Bottom/SumbitBottom.vue'
 const router = useRouter()
 const tabStore = useTabStore()
 const userStore = useUserStore()
+const { setRefreshPage } = usePublicStore()
 const { query, fullPath } = useRoute()
-const { setActiveKey, addTabs, setNav } = tabStore
 const { permissions } = storeToRefs(userStore)
+const {
+  setActiveKey,
+  addTabs,
+  setNav,
+  closeTabGoNext
+} = tabStore
 const createFormRef = ref<IBasicForm>()
 const isLoading = ref(false)
 const createData = ref<IFormData>({})
@@ -124,14 +131,10 @@ const handleSubmit = () => {
 }
 
 /** 返回主页 */
-const goBack = () => {
+const goBack = (isRefresh?: boolean) => {
+  if (isRefresh) setRefreshPage(true)
   router.push(fatherPath)
-}
-
-/**  提交成功，跳转回主页 */
-const sumbitFinish = () => {
-  // refresh(fatherPath)
-  goBack()
+  closeTabGoNext(fullPath, fatherPath)
 }
 
 /**
@@ -146,7 +149,7 @@ const handleFinish = async (values: IFormData) => {
     message.success(data?.message || '操作成功')
     createFormRef.value?.handleReset()
     createData.value = initCreate
-    sumbitFinish()
+    goBack(true)
   } finally {
     isLoading.value = false
   }

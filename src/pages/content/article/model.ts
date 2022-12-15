@@ -51,12 +51,12 @@ export const createList: IFormList[] = [
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
-  {
-    label: '嵌套数据',
-    name: ['user', 'name', 'test'],
-    rules: INPUT_REQUIRED,
-    component: 'Input'
-  },
+  // {
+  //   label: '嵌套数据',
+  //   name: ['user', 'name', 'test'],
+  //   rules: INPUT_REQUIRED,
+  //   component: 'Input'
+  // },
   {
     label: '标题',
     name: 'title',
