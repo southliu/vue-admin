@@ -150,6 +150,7 @@ const getUserInfo = async () => {
       const { data: { user, permissions } } = data
       const newPermissions = permissionsToArray(permissions)
       username.value = user.username
+
       setUserInfo(user)
       setPermissions(newPermissions)
     }
