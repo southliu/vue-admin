@@ -9,7 +9,9 @@
           :src="Logo"
           alt="LOGO"
         />
-        <span class="text-xl font-bold tracking-2px">系统登录</span>
+        <span class="text-xl font-bold tracking-2px color-#000">
+          系统登录
+        </span>
       </div>
       <Form
         :model="formState"

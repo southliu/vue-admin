@@ -59,9 +59,9 @@ const createData = ref<IFormData>({})
 
 const title = '文章管理'
 const id = query?.id as string || ''
-const creatTitle = `${ADD_TITLE}${title}`
+const createTitle = `${ADD_TITLE}${title}`
 const updateTitle = `${EDIT_TITLE(id, title)}`
-useTitle(id ? updateTitle : creatTitle)
+useTitle(id ? updateTitle : createTitle)
 
 // 初始化新增数据
 const initCreate = {
@@ -107,7 +107,7 @@ const handleCreate = () => {
   // 当值为空时匹配路由
   if (path === '/') return
 
-  const title = id ? updateTitle : creatTitle
+  const title = id ? updateTitle : createTitle
   const newTab = {
     label: title,
     key: fullPath,
