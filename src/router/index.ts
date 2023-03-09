@@ -9,11 +9,11 @@ const layouts = layoutRoutes(routes)
 const newRoutes: RouteRecordRaw[] = [
   {
     path: "/login",
-    component: () => import('@/pages/login/index.vue')
+    component: () => import('../pages/login/index.vue')
   },
   {
     path: "/",
-    component: () => import('@/layouts/default.vue'),
+    component: () => import('../layouts/default.vue'),
     children: layouts
   }
 ]

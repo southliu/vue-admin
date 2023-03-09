@@ -154,7 +154,7 @@ const onCreate = () => {
   * @param record - 当前行数据
   */
 const onUpdate = async (record: IFormData) => {
-    const { id } = record
+  const { id } = record
   router.push(`/content/article/option?type=update&id=${id as string}`)
 }
 
