@@ -1,8 +1,7 @@
 <template>
-  <div :id="id" class="vxe_table">
+  <div :id="id" class="vxe_table" :style="{ height: tableHeight + 'px' }">
     <Grid
       v-bind="gridOptions"
-      :height="tableHeight"
       :loading="isLoading"
       :data="data.data"
       :columns="handleColumns(columns)"

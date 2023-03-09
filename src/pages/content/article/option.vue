@@ -10,7 +10,7 @@
       />
     </Spin>
 
-    <SumbitBottom
+    <SubmitBottom
       :isLoading="isLoading"
       :goBack="() => goBack()"
       :handleSubmit="handleSubmit"
@@ -39,7 +39,7 @@ import {
 } from '@/servers/content/article'
 import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
-import SumbitBottom from '@/components/Bottom/SumbitBottom.vue'
+import SubmitBottom from '@/components/Bottom/SubmitBottom.vue'
 
 const router = useRouter()
 const tabStore = useTabStore()
