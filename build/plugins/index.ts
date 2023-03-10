@@ -3,6 +3,8 @@ import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers'
 import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configStyleImportPlugin } from './styleImport'
 import { configPageImportPlugin } from './pages'
+import { timePlugin } from './time'
+import { imgMinPlugin } from './imgMin'
 import { visualizer } from 'rollup-plugin-visualizer'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -28,9 +30,12 @@ export function createVitePlugins() {
     // 压缩包
     viteCompression(),
     AutoImport({
-      resolvers: [
-        AntDesignVueResolver()
-      ]
+      imports: [
+        'vue',
+        'vue-router',
+        '@vueuse/core',
+      ],
+      dts: 'src/auto-imports.d.ts'
     }),
     Components({
       resolvers: [
@@ -42,6 +47,10 @@ export function createVitePlugins() {
       gzipSize: true,
       brotliSize: true,
     }),
+    // 打包时间
+    timePlugin(),
+    // 图片压缩
+    imgMinPlugin(),
     // css按需加载
     configStyleImportPlugin(),
     // 自动生成路由

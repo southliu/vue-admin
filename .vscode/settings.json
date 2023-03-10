@@ -49,5 +49,7 @@
     "demi",
     "intlify",
     "stylelint",
+    "Optpng",
+    "Pngquant"
   ]
 }

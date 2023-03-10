@@ -3,7 +3,7 @@
     <Tabs
       v-model:activeKey="activeKey"
       hide-add
-      class="h-34px py-0"
+      class="w-full h-34px py-0"
       :tabBarStyle="{
         height: '34px',
         marginTop: '3px'
