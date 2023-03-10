@@ -47,6 +47,7 @@
     "entypo",
     "scaley",
     "demi",
-    "intlify"
+    "intlify",
+    "stylelint",
   ]
 }

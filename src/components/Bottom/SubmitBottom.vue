@@ -1,6 +1,6 @@
 <template>
   <div class='
-    bg
+    bg-white
     fixed
     flex
     justify-end

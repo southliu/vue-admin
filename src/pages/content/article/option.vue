@@ -41,6 +41,16 @@ import BasicForm from '@/components/Form/BasicForm.vue'
 import BasicContent from '@/components/Content/BasicContent.vue'
 import SubmitBottom from '@/components/Bottom/SubmitBottom.vue'
 
+// 初始化新增数据
+const initCreate = {
+  content: '<h4>初始化内容</h4>',
+  user: {
+    name: {
+      test: ''
+    }
+  }
+}
+
 const router = useRouter()
 const tabStore = useTabStore()
 const userStore = useUserStore()
@@ -55,18 +65,13 @@ const {
 } = tabStore
 const createFormRef = ref<IBasicForm>()
 const isLoading = ref(false)
-const createData = ref<IFormData>({})
+const createData = ref<IFormData>(initCreate)
 
 const title = '文章管理'
 const id = query?.id as string || ''
 const createTitle = `${ADD_TITLE}${title}`
 const updateTitle = `${EDIT_TITLE(id, title)}`
 useTitle(id ? updateTitle : createTitle)
-
-// 初始化新增数据
-const initCreate = {
-  content: '<h4>初始化内容</h4>'
-}
 
 // 父路径
 const fatherPath = '/content/article'

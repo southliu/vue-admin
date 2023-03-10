@@ -1,6 +1,7 @@
 import type { IFormList } from "#/form"
 import type { VxeGridPropTypes } from "vxe-table"
 import { INPUT_REQUIRED } from "@/utils/config"
+import CustomizeInput from "./components/CustomizeInput.vue"
 
 // 搜索数据
 export const searchList: IFormList[] = [
@@ -51,25 +52,19 @@ export const createList: IFormList[] = [
     rules: INPUT_REQUIRED,
     component: 'Input'
   },
-  // {
-  //   label: '嵌套数据',
-  //   name: ['user', 'name', 'test'],
-  //   rules: INPUT_REQUIRED,
-  //   component: 'Input'
-  // },
+  {
+    label: '嵌套数据',
+    name: ['user', 'name', 'test'],
+    rules: INPUT_REQUIRED,
+    component: 'Input'
+  },
   {
     label: '标题',
     name: 'title',
     rules: INPUT_REQUIRED,
-    component: 'Input'
+    component: 'customize',
+    render: CustomizeInput
   },
-  // {
-  //   label: '标题',
-  //   name: 'title',
-  //   rules: INPUT_REQUIRED,
-  //   component: 'customize',
-  //   render: CustomizeInput
-  // },
   {
     label: '内容',
     name: 'content',

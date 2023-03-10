@@ -43,6 +43,7 @@ import { ref, watch } from 'vue'
 import { Form, FormItem } from 'ant-design-vue'
 import { useDebounceFn } from '@vueuse/core'
 import { filterEmptyValue } from '@/utils/helper'
+import BasicComponents from './BasicComponents.vue'
 
 type IFinishFun = (values: IFormData) => void
 

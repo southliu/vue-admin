@@ -10,6 +10,7 @@ import dayjs from 'dayjs'
 
 /**
  * 生成占位符
+ * @param component - 组件名
  */
 export function createPlaceholder(component: IComponentType): string {
   if (component.includes('Select') || component.includes('Picker')) {

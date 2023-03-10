@@ -5,6 +5,7 @@ import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 import { componentMap } from './utils/componentMap'
 import { createPlaceholder, getComponentProps } from './utils/helper'
+
 export default defineComponent({
   name: 'BasicComponents',
   props: {
@@ -22,8 +23,15 @@ export default defineComponent({
     }
   },
   setup(props) {
+    let Comp: ReturnType<typeof defineComponent>
+
     // 组件
-    const Comp = componentMap.get(props.item.component) as ReturnType<typeof defineComponent>
+    if (props.item.component === 'customize') {
+      Comp = props.item.render
+    } else {
+      Comp = componentMap.get(props.item.component)
+    }
+
     // 占位符
     const placeholder = props.item.placeholder || createPlaceholder(props.item.component)
 
