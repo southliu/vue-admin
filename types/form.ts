@@ -13,7 +13,6 @@ import type { IAllDataType } from './public'
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { RuleObject } from 'ant-design-vue/lib/form'
 import type { IBusinessComponentType } from '@/components/Business'
-import type { VNode } from "vue"
 import type { IWangEditorProps } from '@/components/WangEditor/model'
 
 // 数据类型
@@ -115,5 +114,5 @@ export type IFormList = {
   wrapperCol?: number; // 内容宽度
   component: IComponentType; // 组件
   componentProps?: IComponentProps; // 组件参数
-  render?: VNode; // 自定义渲染
+  render?: any; // 自定义渲染
 }
