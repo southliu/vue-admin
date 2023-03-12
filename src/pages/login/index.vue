@@ -97,6 +97,7 @@ import {
   InputPassword
 } from 'ant-design-vue'
 import Logo from '@/assets/images/logo.png'
+import NProgress from 'nprogress'
 import PageLoading from '@/components/Loading/PageLoading.vue'
 
 useTitle('登录')
@@ -114,6 +115,7 @@ const formState = reactive<ILoginData>({
 })
 
 onMounted(() => {
+  NProgress.done()
   // 清除水印
   RemoveWatermark()
 })
