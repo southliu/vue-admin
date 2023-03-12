@@ -15,6 +15,7 @@
     </div>
 
     <div class="flex items-center">
+      <DataScreen />
       <GlobalSearch />
       <Fullscreen />
       <Theme />
@@ -67,6 +68,7 @@ import {
   FormOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons-vue'
+import DataScreen from '@/components/DataScreen/index.vue'
 import Fullscreen from '@/components/Fullscreen/index.vue'
 import GlobalSearch from '@/components/GlobalSearch/index.vue'
 import Theme from '@/components/Theme/index.vue'
