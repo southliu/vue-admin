@@ -7,7 +7,7 @@ import type { IApi, IApiTreeSelectProps } from '#/form'
 import type { TreeSelectProps } from 'ant-design-vue'
 import type { SelectValue } from 'ant-design-vue/lib/select'
 import type { IAllDataType } from '#/public'
-import { defineComponent, onMounted, ref, h } from 'vue'
+import { defineComponent, onMounted, watch, ref, h } from 'vue'
 import { TreeSelect } from 'ant-design-vue'
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
 import BasicLoading from '../Loading/BasicLoading.vue'
@@ -42,11 +42,21 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const options = ref<TreeSelectProps['treeData']>([])
+    const selectValue = ref(props.value)
     const isLoading = ref(false)
 
     onMounted(() => {
       // 首次有值获取API接口
       if (props.value && options.value?.length === 0) {
+        getApiData()
+      }
+    })
+
+    watch(() => props.value, value => {
+      selectValue.value = value
+
+      // 首次有值获取API接口
+      if (value && options.value?.length === 0) {
         getApiData()
       }
     })
