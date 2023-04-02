@@ -14,8 +14,12 @@ import { IAllDataType } from '#/public'
 export default defineComponent({
   name: 'ApiSelect',
   props: {
+    modelValue: {
+      type: [String, Number, Array] as PropType<SelectValue>,
+      required: false
+    },
     value: {
-      type: [String, Array] as PropType<SelectValue>,
+      type: [String, Number, Array] as PropType<SelectValue>,
       required: false
     },
     componentProps: {
@@ -41,17 +45,26 @@ export default defineComponent({
   },
   setup(props, { emit }) {
     const options = ref<DefaultOptionType[]>([])
-    const selectValue = ref(props.value)
+    const selectValue = ref(props.value || props.modelValue)
     const isLoading = ref(false)
 
     onMounted(() => {
       // 首次有值获取API接口
-      if (props.value && options.value.length === 0) {
+      if ((props.value || props.modelValue) && options.value.length === 0) {
         getApiData()
       }
     })
 
     watch(() => props.value, value => {
+      selectValue.value = value
+
+      // 首次有值获取API接口
+      if (value && options.value?.length === 0) {
+        getApiData()
+      }
+    })
+
+    watch(() => props.modelValue, value => {
       selectValue.value = value
 
       // 首次有值获取API接口
@@ -90,6 +103,9 @@ export default defineComponent({
         },
         'onUpdate:value': (value: IAllDataType) => {
           emit('update:value', value)
+        },
+        'onUpdate:modelValue': (value: IAllDataType) => {
+          emit('update:modelValue', value)
         }
       }
     )
