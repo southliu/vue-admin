@@ -4,8 +4,8 @@ import { presetUno, presetAttributify, presetIcons } from 'unocss'
 import { configStyleImportPlugin } from './styleImport'
 import { configPageImportPlugin } from './pages'
 import { timePlugin } from './time'
-import { imgMinPlugin } from './imgMin'
 import { visualizer } from 'rollup-plugin-visualizer'
+import imagemin from 'unplugin-imagemin/vite'
 import vue from '@vitejs/plugin-vue'
 import AutoImport from 'unplugin-auto-import/vite'
 import PurgeIcons from 'vite-plugin-purge-icons'
@@ -50,7 +50,7 @@ export function createVitePlugins() {
     // 打包时间
     timePlugin(),
     // 图片压缩
-    imgMinPlugin(),
+    imagemin(),
     // css按需加载
     configStyleImportPlugin(),
     // 自动生成路由
