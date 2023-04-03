@@ -50,7 +50,6 @@
     "intlify",
     "stylelint",
     "Optpng",
-    "Pngquant",
-    "unplugin"
+    "Pngquant"
   ]
 }
