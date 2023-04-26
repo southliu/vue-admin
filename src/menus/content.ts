@@ -1,7 +1,7 @@
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 
 // 组件菜单
-export const ContentMenus: ISideMenu[] = [
+export const ContentMenus: SideMenu[] = [
   {
     label: '内容管理',
     key: 'content',

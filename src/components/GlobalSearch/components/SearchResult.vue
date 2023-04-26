@@ -49,7 +49,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import { PropType } from 'vue'
 import Icon from '@/components/Icon/index.vue'
 
@@ -57,7 +57,7 @@ const emit = defineEmits(['handleClick', 'handleMouse'])
 
 defineProps({
   list: {
-    type: Array as PropType<ISideMenu[]>,
+    type: Array as PropType<SideMenu[]>,
     required: true
   },
   active: {

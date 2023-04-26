@@ -1,13 +1,13 @@
-import type { IFormList } from "#/form"
+import type { FormList } from "#/form"
 import { DATE_FORMAT } from "@/utils/constants"
 
 // 接口返回数据
-export interface IDashboardResult {
+export interface DashboardResult {
   data: unknown;
 }
 
 // 搜索数据
-export const searchList: IFormList[] = [
+export const searchList: FormList[] = [
   {
     label: '日期',
     name: 'pay_date',

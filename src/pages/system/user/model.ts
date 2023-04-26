@@ -1,11 +1,11 @@
-import type { IFormList } from "#/form"
+import type { FormList } from "#/form"
 import type { VxeGridPropTypes } from "vxe-table"
 import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config"
 import { h } from "vue"
 import { OPEN_CLOSE } from "@/utils/constants"
 
 // 搜索数据
-export const searchList: IFormList[] = [
+export const searchList: FormList[] = [
   {
     label: '年龄',
     name: 'age',
@@ -19,7 +19,7 @@ export const searchList: IFormList[] = [
 ]
 
 // 新增数据
-export const createList: IFormList[] = [
+export const createList: FormList[] = [
   {
     label: '嵌套数据',
     name: ['user', 'name', 'test'],

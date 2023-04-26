@@ -34,11 +34,11 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import type { IDashboardResult } from './model'
-import type { ISearchData } from '#/public'
+import type { DashboardResult } from './model'
+import type { SearchData } from '#/public'
 import { onMounted, reactive, ref } from 'vue'
 import { useTitle } from '@/hooks/useTitle'
-import { IFormData } from '#/form'
+import { FormData } from '#/form'
 import { getDataTrends } from '@/servers/dashboard'
 import { DATE_FORMAT } from '@/utils/constants'
 import { searchList } from './model'
@@ -55,12 +55,12 @@ useTitle('数据总览')
 const isLoading = ref(false)
 
 // 数据参数
-const datum = ref<IDashboardResult>({
+const datum = ref<DashboardResult>({
   data: {}
 })
 
 // 搜索数据
-const searches = reactive<ISearchData>({
+const searches = reactive<SearchData>({
   data: {
     pay_date: dayjs().format(DATE_FORMAT),
     all_pay: true,
@@ -76,7 +76,7 @@ onMounted(() => {
  * 搜索提交
  * @param values - 表单返回数据
  */
-const handleSearch = async (values: IFormData) => {
+const handleSearch = async (values: FormData) => {
   try {
     // 单选框数据处理- true：1 false：0
     const { all_pay, register } = values

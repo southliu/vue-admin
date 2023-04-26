@@ -75,7 +75,7 @@
 
 <script lang="ts" setup>
 import type { FormProps } from 'ant-design-vue'
-import type { ILoginData } from './model'
+import type { LoginData } from './model'
 import { message } from 'ant-design-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue'
@@ -109,7 +109,7 @@ const { RemoveWatermark } = useWatermark()
 const isLoading = ref(false)
 const isLock = ref(false)
 
-const formState = reactive<ILoginData>({
+const formState = reactive<LoginData>({
   username: 'admin',
   password: 'admin123456',
 })
@@ -124,7 +124,7 @@ onMounted(() => {
  * 处理登录
  * @param values - 表单数据
  */
-const handleFinish: FormProps['onFinish'] = async (values: ILoginData) => {
+const handleFinish: FormProps['onFinish'] = async (values: LoginData) => {
   try {
     isLoading.value = true
     const { data } = await login(values)

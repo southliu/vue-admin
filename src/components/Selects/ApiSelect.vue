@@ -4,12 +4,12 @@
  */
 import type { PropType } from 'vue'
 import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select'
-import type { IApi, IApiSelectProps } from '#/form'
+import type { ApiFun, ApiSelectProps } from '#/form'
 import { defineComponent, onMounted, watch, ref, h } from 'vue'
 import { Select } from 'ant-design-vue'
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
 import BasicLoading from '../Loading/BasicLoading.vue'
-import { IAllDataType } from '#/public'
+import { AllDataType } from '#/public'
 
 export default defineComponent({
   name: 'ApiSelect',
@@ -23,11 +23,11 @@ export default defineComponent({
       required: false
     },
     componentProps: {
-      type: Object as PropType<IApiSelectProps>,
+      type: Object as PropType<ApiSelectProps>,
       required: false
     },
     api: {
-      type: Function as PropType<IApi>,
+      type: Function as PropType<ApiFun>,
       required: true
     },
     params: {
@@ -101,10 +101,10 @@ export default defineComponent({
             getApiData()
           }
         },
-        'onUpdate:value': (value: IAllDataType) => {
+        'onUpdate:value': (value: AllDataType) => {
           emit('update:value', value)
         },
-        'onUpdate:modelValue': (value: IAllDataType) => {
+        'onUpdate:modelValue': (value: AllDataType) => {
           emit('update:modelValue', value)
         }
       }

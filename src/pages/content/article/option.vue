@@ -19,8 +19,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { IFormData } from '#/form'
-import type { IBasicForm } from '@/components/Form/model'
+import type { FormData } from '#/form'
+import type { BasicFormProps } from '@/components/Form/model'
 import { onMounted, reactive, ref } from 'vue'
 import { checkPermission } from '@/utils/permissions'
 import { useRoute, useRouter } from 'vue-router'
@@ -63,9 +63,9 @@ const {
   setNav,
   closeTabGoNext
 } = tabStore
-const createFormRef = ref<IBasicForm>()
+const createFormRef = ref<BasicFormProps>()
 const isLoading = ref(false)
-const createData = ref<IFormData>(initCreate)
+const createData = ref<FormData>(initCreate)
 
 const title = '文章管理'
 const id = query?.id as string || ''
@@ -146,7 +146,7 @@ const goBack = (isRefresh?: boolean) => {
  * 新增/编辑提交
  * @param values - 表单返回数据
  */
-const handleFinish = async (values: IFormData) => {
+const handleFinish = async (values: FormData) => {
   try {
     isLoading.value = true
     const functions = () => id ? updateArticle(id, values) : createArticle(values)

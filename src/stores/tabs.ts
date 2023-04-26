@@ -1,18 +1,18 @@
 import type { TabPaneProps } from 'ant-design-vue'
 import { defineStore } from 'pinia'
 
-export interface ITabs extends Omit<TabPaneProps, 'tab'> {
+export interface TabsData extends Omit<TabPaneProps, 'tab'> {
   key: string;
   label: string;
 }
 
-interface ITabsState {
+interface TabsState {
   // 当前选中的标签
   activeKey: string;
   // 上一个路径
   prevPath: string;
   // 标签栏数据
-  tabs: ITabs[];
+  tabs: TabsData[];
   // 导航数据
   nav: string[];
   // 缓存的路由名称
@@ -27,7 +27,7 @@ export const useTabStore = defineStore({
     tabs: [],
     nav: [],
     cacheRoutes: []
-  } as ITabsState),
+  } as TabsState),
   actions: {
     /** 
      * 添加缓存路由
@@ -81,7 +81,7 @@ export const useTabStore = defineStore({
      * 添加标签页
      * @param tab - 标签数据
      */
-    addTabs(tab: ITabs) {
+    addTabs(tab: TabsData) {
       // 判断是否存在相同的路由，不存在则累加
       const has = this.tabs.find(item => item.key === tab.key)
       if (!has) this.tabs.push(tab)

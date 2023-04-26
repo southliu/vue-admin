@@ -1,7 +1,7 @@
 import { useTimeout } from "@vueuse/core"
 import { watchEffect } from "vue"
 
-interface IElement extends Element {
+interface ElementProps extends Element {
   offsetLeft: number;
   offsetTop: number;
   offsetWidth: number;
@@ -20,8 +20,8 @@ export function useModalDragMove() {
   // 单个拖拽逻辑
   const dragItem = (wrap: Element) => {
     if (!wrap) return
-    const dragDom = wrap.querySelector('.ant-modal') as IElement
-    const dragHeaderElm = wrap.querySelector('.ant-modal-header') as IElement
+    const dragDom = wrap.querySelector('.ant-modal') as ElementProps
+    const dragHeaderElm = wrap.querySelector('.ant-modal-header') as ElementProps
     if (!dragHeaderElm || !dragDom) return
 
     // 头部鼠标样式改为move

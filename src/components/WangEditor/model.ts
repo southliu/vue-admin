@@ -1,4 +1,4 @@
 // 富文本参数
-export interface IWangEditorProps {
+export interface WangEditorProps {
   height?: number;
 }

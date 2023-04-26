@@ -1,7 +1,7 @@
-type IEnvConfigs = Record<string, string>
+type EnvConfigs = Record<string, string>
 
 // env数据
-interface IViteEnv {
+interface ViteEnv {
   VITE_SERVER_PORT: number;
   VITE_PROXY: [string, string][];
 }
@@ -10,7 +10,7 @@ interface IViteEnv {
  * 处理转化env
  * @param envConfigs 
  */
-export function handleEnv(envConfigs: IEnvConfigs): IViteEnv {
+export function handleEnv(envConfigs: EnvConfigs): ViteEnv {
   const {
     VITE_SERVER_PORT,
     VITE_PROXY
@@ -18,7 +18,7 @@ export function handleEnv(envConfigs: IEnvConfigs): IViteEnv {
 
   const proxy: [string, string][] = VITE_PROXY ? JSON.parse(VITE_PROXY.replace(/'/g, '"')) : []
 
-  const res: IViteEnv = {
+  const res: ViteEnv = {
     VITE_SERVER_PORT: Number(VITE_SERVER_PORT) || 8080,
     VITE_PROXY: proxy
   }

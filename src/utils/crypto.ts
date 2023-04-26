@@ -1,4 +1,4 @@
-import type { IAllDataType } from '#/public'
+import type { AllDataType } from '#/public'
 import { encrypt, decrypt } from 'crypto-js/aes'
 import { CRYPTO_SECRET } from './config'
 import UTF8 from 'crypto-js/enc-utf8'
@@ -13,7 +13,7 @@ import md5 from 'crypto-js/md5'
  * @param data - 加密数据
  * @param secret - 加密密钥
  */
-export function encryption(data: IAllDataType, secret = CRYPTO_SECRET) {
+export function encryption(data: AllDataType, secret = CRYPTO_SECRET) {
   const code = JSON.stringify(data)
   return encrypt(code, secret).toString()
 }

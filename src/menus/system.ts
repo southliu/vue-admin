@@ -1,7 +1,7 @@
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 
 // 系统管理
-export const SystemMenus: ISideMenu[] = [
+export const SystemMenus: SideMenu[] = [
   {
     label: '系统管理',
     key: 'system',

@@ -1,10 +1,10 @@
-import type { IFormList } from "#/form"
+import type { FormList } from "#/form"
 import type { VxeGridPropTypes } from "vxe-table"
 import { INPUT_REQUIRED } from "@/utils/config"
 import CustomizeInput from "./components/CustomizeInput.vue"
 
 // 搜索数据
-export const searchList: IFormList[] = [
+export const searchList: FormList[] = [
   {
     label: '用户名',
     name: 'username',
@@ -45,7 +45,7 @@ export const tableColumns: VxeGridPropTypes.Columns = [
 ]
 
 // 新增数据
-export const createList: IFormList[] = [
+export const createList: FormList[] = [
   {
     label: '用户名',
     name: 'username',

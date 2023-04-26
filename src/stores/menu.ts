@@ -1,8 +1,8 @@
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import { defineStore } from 'pinia'
 
 // 菜单项
-export interface IMenuItem {
+export interface MenuItem {
   key: string;
   path: string;
   top: string;
@@ -12,12 +12,12 @@ export interface IMenuItem {
   icon?: string;
 }
 
-interface IState {
+interface StateData {
   isPhone: boolean;
-  firstMenu: IMenuItem;
+  firstMenu: MenuItem;
   openKeys: string[];
   selectedKeys: string[];
-  menuList: ISideMenu[],
+  menuList: SideMenu[],
 }
 
 export const useMenuStore = defineStore({
@@ -35,13 +35,13 @@ export const useMenuStore = defineStore({
     openKeys: [],
     selectedKeys: [],
     menuList: []
-  } as IState),
+  } as StateData),
   actions: {
     /**
      * 设置菜单
      * @param menus - 菜单值
      */
-    setMenus(menus: ISideMenu[]) {
+    setMenus(menus: SideMenu[]) {
       this.menuList = menus
     },
     /**
@@ -69,7 +69,7 @@ export const useMenuStore = defineStore({
      * 设置第一个菜单
      * @param obj - 菜单值
      */
-    setFirstMenu(obj: IMenuItem) {
+    setFirstMenu(obj: MenuItem) {
       this.firstMenu = obj
     }
   }

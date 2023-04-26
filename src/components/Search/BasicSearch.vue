@@ -65,10 +65,10 @@
  */
 import type { PropType } from 'vue'
 import type { FormInstance } from 'ant-design-vue'
-import type { IFormData, IFormList } from '#/form'
+import type { FormData, FormList } from '#/form'
 import type { ColProps } from 'ant-design-vue'
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface'
-import type { IAllDataType } from '#/public'
+import type { AllDataType } from '#/public'
 import { watch, ref } from 'vue'
 import { Form, FormItem, Button } from 'ant-design-vue'
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue'
@@ -76,7 +76,7 @@ import { useDebounceFn } from '@vueuse/core'
 import { filterEmptyValue } from '@/utils/helper'
 import BasicComponents from '../Form/BasicComponents.vue'
 
-type IFinishFun = (values: IFormData) => void
+type FinishFun = (values: FormData) => void
 
 const emit = defineEmits(['handleFinish', 'onCreate'])
 
@@ -86,7 +86,7 @@ const props = defineProps({
     required: true
   },
   list: {
-    type: Array as PropType<IFormList[]>,
+    type: Array as PropType<FormList[]>,
     required: true
   },
   wrapperCol: {
@@ -137,13 +137,13 @@ const handleReset = () => {
  * @param obj - 表单数据对象
  * @param value - 修改值
  */
-const deepNested = (arr: string[], obj: Record<string, IAllDataType>, value: IAllDataType) => {
+const deepNested = (arr: string[], obj: Record<string, AllDataType>, value: AllDataType) => {
   const key = arr.shift()?.trim()
   if (!obj) obj = {}
   if (key) {
     if (!obj[key]) obj[key] = {}
     if (arr.length) {
-      obj[key] = deepNested(arr, obj[key] as Record<string, IAllDataType>, value)
+      obj[key] = deepNested(arr, obj[key] as Record<string, AllDataType>, value)
     } else {
       obj[key] = value
     }
@@ -156,7 +156,7 @@ const deepNested = (arr: string[], obj: Record<string, IAllDataType>, value: IAl
  * @param key - 键值
  * @param value - 修改值
  */
-const setFromState = (key: string | string[], value: IAllDataType) => {
+const setFromState = (key: string | string[], value: AllDataType) => {
   if (Array.isArray(key)) {
     const arr = JSON.parse(JSON.stringify(key))
     deepNested(arr, formState.value, value)
@@ -174,7 +174,7 @@ const onCreate = () => {
  * 提交处理
  * @param values - 表单数据
  */
-const onFinish: IFinishFun = useDebounceFn(values => {
+const onFinish: FinishFun = useDebounceFn(values => {
   const params = filterEmptyValue(values)
   emit('handleFinish', params)
 })

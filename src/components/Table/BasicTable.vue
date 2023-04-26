@@ -15,7 +15,7 @@
 
 <script lang="ts" setup>
 import type { PropType } from 'vue'
-import type { ITableData } from '#/public'
+import type { TableData } from '#/public'
 import type { VxeGridProps, VxeGridPropTypes } from 'vxe-table'
 import {
   h,
@@ -36,7 +36,7 @@ const props = defineProps({
     default: 'table'
   },
   data: {
-    type: Object as PropType<ITableData>,
+    type: Object as PropType<TableData>,
     required: true
   },
   columns: {

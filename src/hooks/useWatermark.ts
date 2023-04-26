@@ -1,6 +1,6 @@
 // import { shallowRef } from "vue";
 
-interface IOption {
+interface OptionProps {
   content: string;
   height: number;
   width: number;
@@ -25,7 +25,7 @@ export function useWatermark() {
    * 水印
    * @param text - 水印显示值
    */
-  const Watermark = (options: IOption) => {
+  const Watermark = (options: OptionProps) => {
     const {
       content,
       height,

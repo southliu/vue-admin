@@ -1,10 +1,10 @@
-import type { IFormList } from "#/form"
+import type { FormList } from "#/form"
 import type { VxeGridPropTypes } from "vxe-table"
 import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config"
 import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from "@/utils/constants"
 
 // 搜索数据
-export const searchList: IFormList[] = [
+export const searchList: FormList[] = [
   {
     label: '状态',
     name: 'status',
@@ -30,7 +30,7 @@ export const searchList: IFormList[] = [
 ]
 
 // 新增数据
-export const createList: (id: string) => IFormList[] = id => [
+export const createList: (id: string) => FormList[] = id => [
   {
     label: '名称',
     name: 'name',

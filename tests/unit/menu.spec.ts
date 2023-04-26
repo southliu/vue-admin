@@ -1,9 +1,9 @@
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import { describe, test, expect, beforeEach } from 'vitest'
 import { defaultMenus } from '@/menus'
 import { filterMenus, getFirstMenu, getMenuByKey } from '@/menus/utils/helper'
 
-let data: ISideMenu[] = []
+let data: SideMenu[] = []
 // 模拟权限
 const permissions = ['/dashboard', '/system/menu']
 
