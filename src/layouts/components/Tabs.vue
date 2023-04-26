@@ -143,7 +143,7 @@ import { defaultMenus } from '@/menus'
 import { getMenuByKey } from '@/menus/utils/helper'
 import { routeToKeepalive } from '@/router/utils/helper'
 
-interface ITimeout {
+interface TimeoutData {
   icon: null | NodeJS.Timeout;
   refresh: null | NodeJS.Timeout;
 }
@@ -181,7 +181,7 @@ const {
 } = tabStore
 const isRefresh = ref(false) // 是否刷新
 const isDropdown = ref(false) // 是否显示下拉菜单
-const timeout = reactive<ITimeout>({
+const timeout = reactive<TimeoutData>({
   icon: null,
   refresh: null
 })

@@ -1,6 +1,6 @@
-import type { IComponentType, IFormList } from '#/form'
-import type { IAllDataType } from '#/public'
-import type { IWangEditorProps } from '@/components/WangEditor/model'
+import type { ComponentType, FormList } from '#/form'
+import type { AllDataType } from '#/public'
+import type { WangEditorProps } from '@/components/WangEditor/model'
 import type { DatePickerProps } from 'ant-design-vue'
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
 import type { Dayjs } from 'dayjs'
@@ -12,7 +12,7 @@ import dayjs from 'dayjs'
  * 生成占位符
  * @param component - 组件名
  */
-export function createPlaceholder(component: IComponentType): string {
+export function createPlaceholder(component: ComponentType): string {
   if (component.includes('Select') || component.includes('Picker')) {
     return PLEASE_SELECT
   }
@@ -24,13 +24,13 @@ export function createPlaceholder(component: IComponentType): string {
  * @param arr - 键值数组
  * @param obj - 表单数据对象
  */
-const getDeepNested = (arr: string[], obj: Record<string, IAllDataType>) => {
+const getDeepNested = (arr: string[], obj: Record<string, AllDataType>) => {
   try {
     for (let i = 0; i < arr.length; i++) {
       const key = arr[i]?.trim()
       if (!key || !obj || !obj[key]) return ''
       if (arr.length - 1 === i) return obj[key]
-      obj = obj[key] as Record<string, IAllDataType>
+      obj = obj[key] as Record<string, AllDataType>
     }
     return ''
   } catch(e) {
@@ -45,12 +45,12 @@ const getDeepNested = (arr: string[], obj: Record<string, IAllDataType>) => {
  * @param setData - 修改数据
  */
 export function getComponentProps(
-  item: IFormList,
-  data: Record<string, IAllDataType>,
-  setData: (key: string | string[], value: IAllDataType) => void
+  item: FormList,
+  data: Record<string, AllDataType>,
+  setData: (key: string | string[], value: AllDataType) => void
 ) {
   const key = item.name
-  let compData: IAllDataType
+  let compData: AllDataType
 
   // 当key存在逗号时，分割数据
   if (Array.isArray(key)) {
@@ -64,7 +64,7 @@ export function getComponentProps(
     case 'Editor':
       return {
         modelValue: compData as string,
-        height: (compData as IWangEditorProps)?.height || 300,
+        height: (compData as WangEditorProps)?.height || 300,
         'onUpdate:modelValue': (value: string) => setData(key, value)
       }
 
@@ -115,7 +115,7 @@ export function getComponentProps(
     default:
       return {
         value: compData,
-        'onUpdate:value': (value: IAllDataType) => {
+        'onUpdate:value': (value: AllDataType) => {
           setData(key, value)
         }
       }

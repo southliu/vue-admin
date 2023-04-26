@@ -3,10 +3,10 @@
  * @description: 根据API获取数据树形下拉组件
  */
 import type { PropType } from 'vue'
-import type { IApi, IApiTreeSelectProps } from '#/form'
+import type { ApiFun, ApiTreeSelectProps } from '#/form'
 import type { TreeSelectProps } from 'ant-design-vue'
 import type { SelectValue } from 'ant-design-vue/lib/select'
-import type { IAllDataType } from '#/public'
+import type { AllDataType } from '#/public'
 import { defineComponent, onMounted, watch, ref, h } from 'vue'
 import { TreeSelect } from 'ant-design-vue'
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
@@ -24,11 +24,11 @@ export default defineComponent({
       required: false
     },
     componentProps: {
-      type: Object as PropType<IApiTreeSelectProps>,
+      type: Object as PropType<ApiTreeSelectProps>,
       required: false
     },
     api: {
-      type: Function as PropType<IApi>,
+      type: Function as PropType<ApiFun>,
       required: true
     },
     params: {
@@ -103,10 +103,10 @@ export default defineComponent({
             getApiData()
           }
         },
-        'onUpdate:value': (value: IAllDataType) => {
+        'onUpdate:value': (value: AllDataType) => {
           emit('update:value', value)
         },
-        'onUpdate:modelValue': (value: IAllDataType) => {
+        'onUpdate:modelValue': (value: AllDataType) => {
           emit('update:modelValue', value)
         }
       }

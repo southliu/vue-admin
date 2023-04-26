@@ -1,4 +1,4 @@
-import type { IComponentType } from '#/form'
+import type { ComponentType } from '#/form'
 import type { Component } from 'vue'
 import ApiSelect from '@/components/Selects/ApiSelect.vue'
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue'
@@ -22,7 +22,7 @@ import {
   Upload
 } from 'ant-design-vue'
 
-const componentMap = new Map<IComponentType, Component>()
+const componentMap = new Map<ComponentType, Component>()
 
 // antv组件注入
 componentMap.set('Input', Input)
@@ -54,7 +54,7 @@ createBusinessComp()
  * @param name - 组件名
  * @param component - 组件
  */
-export function addComponent(name: IComponentType, component: Component): void {
+export function addComponent(name: ComponentType, component: Component): void {
   componentMap.set(name, component)
 }
 
@@ -62,7 +62,7 @@ export function addComponent(name: IComponentType, component: Component): void {
  * 删除组件
  * @param name - 组件名
  */
-export function deleteComponent(name: IComponentType): void {
+export function deleteComponent(name: ComponentType): void {
   componentMap.delete(name)
 }
 

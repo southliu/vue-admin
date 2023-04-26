@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 
-interface IState {
+interface StateData {
   isRefreshPage: boolean;
 }
 
@@ -8,7 +8,7 @@ export const usePublicStore = defineStore({
   id: 'public',
   state: () => ({
     isRefreshPage: false
-  } as IState),
+  } as StateData),
   actions: {
     /**
      * 设置刷新页面

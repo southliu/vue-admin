@@ -1,5 +1,5 @@
 // 外部调BasicForm方法
-export type IBasicForm = {
+export type BasicFormProps = {
   handleReset: () => void;
   handleSubmit: () => void;
 }

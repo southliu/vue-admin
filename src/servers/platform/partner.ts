@@ -1,12 +1,12 @@
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
-import type { IServerResult } from '#/public'
+import type { ServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
   URL = '/platform/partner',
 }
 
-interface IResult {
+interface ResultData {
   id: string;
   name: string;
 }
@@ -17,7 +17,7 @@ interface IResult {
  */
 export function getPartner(data?: unknown): Promise<DefaultOptionType[]> {
   return new Promise((resolve, reject) => {
-    request.get<IServerResult<IResult[]>>(`${API.URL}`, { params: data }).then(res => {
+    request.get<ServerResult<ResultData[]>>(`${API.URL}`, { params: data }).then(res => {
       const data: DefaultOptionType[] = []
 
       res?.data?.data.forEach(item => {

@@ -1,4 +1,4 @@
-import type { IPageServerResult, IPaginationData } from '#/public'
+import type { PageServerResult, PaginationData } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
@@ -9,8 +9,8 @@ enum API {
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getSystemMenuPage(data: Partial<unknown> & IPaginationData) {
-  return request.get<IPageServerResult<unknown[]>>(
+export function getSystemMenuPage(data: Partial<unknown> & PaginationData) {
+  return request.get<PageServerResult<unknown[]>>(
     `${API.URL}/index`,
     { params: data }
   )

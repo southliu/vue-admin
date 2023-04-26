@@ -21,11 +21,11 @@ import { onMounted, ref } from 'vue'
 import { Tooltip } from 'ant-design-vue'
 import Icon from '@/components/Icon/index.vue'
 
-type IType = 'dark' | 'light'
+type TypeData = 'dark' | 'light'
 
 const key = 'theme'
-const themeCache = (localStorage.getItem(key) || 'light') as IType
-const theme = ref<IType>(themeCache)
+const themeCache = (localStorage.getItem(key) || 'light') as TypeData
+const theme = ref<TypeData>(themeCache)
 
 onMounted(() => {
   if (!themeCache) {
@@ -36,7 +36,7 @@ onMounted(() => {
   }
 })
 
-const onChange = (type: IType) => {
+const onChange = (type: TypeData) => {
   localStorage.setItem(key, type)
   theme.value = type
 

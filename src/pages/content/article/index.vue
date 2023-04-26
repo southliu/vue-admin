@@ -52,8 +52,8 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import type { IFormData } from '#/form'
-import type { ISearchData, ITableData, IPaginationData } from '#/public'
+import type { FormData } from '#/form'
+import type { SearchData, TableData, PaginationData } from '#/public'
 import { useRouter } from 'vue-router'
 import { message } from 'ant-design-vue'
 import { useTitle } from '@/hooks/useTitle'
@@ -92,18 +92,18 @@ const pagePermission = reactive({
 })
 
 // 搜索数据
-const searches = reactive<ISearchData>({
+const searches = reactive<SearchData>({
   data: {}
 })
 
 // 表格数据
-const tables = reactive<ITableData>({
+const tables = reactive<TableData>({
   total: 0,
   data: []
 })
 
 // 分页数据
-const pagination = reactive<IPaginationData>({
+const pagination = reactive<PaginationData>({
   page: 1,
   pageSize: 20,
 })
@@ -130,7 +130,7 @@ const getPage = async () => {
   * 搜索提交
   * @param values - 表单返回数据
   */
-const handleSearch = async (values: IFormData) => {
+const handleSearch = async (values: FormData) => {
   searches.data = values
   const query = { ...pagination, ...values }
   try {
@@ -153,7 +153,7 @@ const onCreate = () => {
   * 点击编辑
   * @param record - 当前行数据
   */
-const onUpdate = async (record: IFormData) => {
+const onUpdate = async (record: FormData) => {
   const { id } = record
   router.push(`/content/article/option?type=update&id=${id as string}`)
 }

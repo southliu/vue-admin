@@ -1,5 +1,5 @@
-import type { IDashboardResult } from '@/pages/dashboard/model'
-import type { IServerResult } from '#/public'
+import type { DashboardResult } from '@/pages/dashboard/model'
+import type { ServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 /**
@@ -7,5 +7,5 @@ import { request } from '@/utils/request'
  * @param data - 请求数据
  */
 export function getDataTrends(data: object) {
-  return request.get<IServerResult<IDashboardResult>>('/dashboard', { params: data })
+  return request.get<ServerResult<DashboardResult>>('/dashboard', { params: data })
 }

@@ -65,7 +65,7 @@ import { useDebounceFn } from '@vueuse/core'
 import BasicModal from '../Modal/BasicModal.vue'
 import PasswordStrength from '../PasswordStrength/index.vue'
 
-interface IFormData {
+interface FormData {
   oldPassword: string,
   newPassword: string,
   confirmPassword: string
@@ -87,7 +87,7 @@ defineProps({
 const formRef = ref<FormInstance>()
 
 // 表单数据
-const formState = reactive<IFormData>({
+const formState = reactive<FormData>({
   oldPassword: '',
   newPassword: '',
   confirmPassword: ''

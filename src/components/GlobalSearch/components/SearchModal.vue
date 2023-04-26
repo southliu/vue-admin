@@ -34,7 +34,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import { Modal, Input } from 'ant-design-vue'
 import { useRouter } from 'vue-router'
 import { useTabStore } from '@/stores/tabs'
@@ -70,7 +70,7 @@ const { permissions } = storeToRefs(userStore)
 const inputRef = ref()
 const inputValue = ref('')
 const active = ref('')
-const list = ref<ISideMenu[]>([])
+const list = ref<SideMenu[]>([])
 const { setOpenKeys } = menuStore
 const { setActiveKey, addTabs } = tabStore
 
@@ -152,8 +152,8 @@ watch(() => inputValue.value, useDebounceFn((value: string) => {
   }
   const searchValue = searchMenuValue(searchProps)
   if (searchValue?.length) {
-    active.value = (searchValue as ISideMenu[])?.[0]?.key || ''
-    list.value = searchValue as ISideMenu[]
+    active.value = (searchValue as SideMenu[])?.[0]?.key || ''
+    list.value = searchValue as SideMenu[]
   } else {
     active.value = ''
     list.value = []

@@ -44,7 +44,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ITabs } from '@/stores/tabs'
+import type { TabsData } from '@/stores/tabs'
 import { PropType } from 'vue'
 import { TabEnums } from '../model'
 import { Menu, MenuItem } from 'ant-design-vue'
@@ -71,7 +71,7 @@ defineProps({
     required: true
   },
   list: {
-    type: Array as PropType<ITabs[]>,
+    type: Array as PropType<TabsData[]>,
     required: true
   }
 })

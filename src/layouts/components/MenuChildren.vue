@@ -42,12 +42,12 @@
 <script lang="ts" setup>
 import type { PropType } from 'vue'
 import { MenuItem, SubMenu } from 'ant-design-vue'
-import type { ISideMenu } from '#/public'
+import type { SideMenu } from '#/public'
 import Icon from '@/components/Icon/index.vue'
 
 defineProps({
   list: {
-    type: Array as PropType<ISideMenu[]>,
+    type: Array as PropType<SideMenu[]>,
     required: true
   },
   handleClick: {

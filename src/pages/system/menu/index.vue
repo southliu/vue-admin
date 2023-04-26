@@ -68,9 +68,9 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import type { IFormData } from '#/form'
-import type { IBasicForm } from '@/components/Form/model'
-import type { ICreateData, ISearchData, ITableData, IPaginationData } from '#/public'
+import type { FormData } from '#/form'
+import type { BasicFormProps } from '@/components/Form/model'
+import type { CreateData, SearchData, TableData, PaginationData } from '#/public'
 import { message } from 'ant-design-vue'
 import { onMounted, reactive, ref } from 'vue'
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons'
@@ -99,7 +99,7 @@ const userStore = useUserStore()
 const { permissions } = storeToRefs(userStore)
 const isLoading = ref(false)
 const isCreateLoading = ref(false)
-const createFormRef = ref<IBasicForm>()
+const createFormRef = ref<BasicFormProps>()
 
 // 权限前缀
 const permissionPrefix = '/authority/menu'
@@ -119,12 +119,12 @@ const initCreate = {
 }
 
 // 搜索数据
-const searches = reactive<ISearchData>({
+const searches = reactive<SearchData>({
   data: {}
 })
 
 // 新增数据
-const creates = reactive<ICreateData>({
+const creates = reactive<CreateData>({
   id: '',
   isVisible: false,
   title: '新增',
@@ -132,13 +132,13 @@ const creates = reactive<ICreateData>({
 })
 
 // 表格数据
-const tables = reactive<ITableData>({
+const tables = reactive<TableData>({
   total: 0,
   data: []
 })
 
 // 分页数据
-const pagination = reactive<IPaginationData>({
+const pagination = reactive<PaginationData>({
   page: 1,
   pageSize: 20,
 })
@@ -161,7 +161,7 @@ const createSubmit = () => {
  * 搜索提交
  * @param values - 表单返回数据
  */
-const handleSearch = async (values: IFormData) => {
+const handleSearch = async (values: FormData) => {
   searches.data = values
   const query = { ...pagination, ...values }
   try {
@@ -187,7 +187,7 @@ const onCreate = () => {
  * 点击编辑
  * @param record - 当前行数据
  */
-const onUpdate = async (record: IFormData) => {
+const onUpdate = async (record: FormData) => {
   const { id, name } = record
   creates.isVisible = !creates.isVisible
   creates.id = id as string
@@ -206,7 +206,7 @@ const onUpdate = async (record: IFormData) => {
  * 新增/编辑提交
  * @param values - 表单返回数据
  */
-const handleCreate = async (values: IFormData) => {
+const handleCreate = async (values: FormData) => {
   try {
     isCreateLoading.value = true
     const functions = () => creates.id ? updateSystemMenu(creates.id, values) : createSystemMenu(values)

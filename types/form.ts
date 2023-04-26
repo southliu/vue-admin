@@ -9,83 +9,83 @@ import type {
   RateProps,
   SliderProps
 } from "ant-design-vue"
-import type { IAllDataType } from './public'
+import type { AllDataType } from './public'
 import type { DefaultOptionType } from 'ant-design-vue/lib/select'
 import type { RuleObject } from 'ant-design-vue/lib/form'
-import type { IBusinessComponentType } from '@/components/Business'
-import type { IWangEditorProps } from '@/components/WangEditor/model'
+import type { BusinessComponentType } from '@/components/Business'
+import type { WangEditorProps } from '@/components/WangEditor/model'
 
 // 数据类型
-export type IFormData = Record<string, IAllDataType>
+export type FormData = Record<string, AllDataType>
 
 // 基础数据组件
-type IDefaultDataComponents = 'Input' |
+type DefaultDataComponents = 'Input' |
                               'InputNumber' |
                               'Textarea' |
                               'InputPassword' |
                               'AutoComplete' |
                               'customize' |
-                              IBusinessComponentType
+                              BusinessComponentType
 
 // 下拉组件
-type ISelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect'
+type SelectComponents = 'Select' | 'TreeSelect' | 'ApiSelect' | 'ApiTreeSelect'
 
 // 复选框组件
-type ICheckboxComponents = 'Checkbox' | 'CheckboxGroup'
+type CheckboxComponents = 'Checkbox' | 'CheckboxGroup'
 
 // 单选框组件
-type IRadioComponents = 'RadioGroup' | 'Switch'
+type RadioComponents = 'RadioGroup' | 'Switch'
 
 // 时间组件
-type ITimeComponents = 'DatePicker' | 'RangePicker'
+type TimeComponents = 'DatePicker' | 'RangePicker'
 
 // 上传组件
-type IUploadComponents = 'Upload'
+type UploadComponents = 'Upload'
 
 // 星级组件
-type IRateComponents = 'Rate'
+type RateComponents = 'Rate'
 
 // 滑动输入条组件
-type ISliderComponents = 'Slider'
+type SliderComponents = 'Slider'
 
 // 自定义组件
-type ICustomizeComponents = 'Customize'
+type CustomizeComponents = 'Customize'
 
 // 富文本编辑器
-type IEditorComponents = 'Editor'
+type EditorComponents = 'Editor'
 
 // 密码强度组件
-type IPasswordStrength = 'PasswordStrength'
+type PasswordStrength = 'PasswordStrength'
 
 // 组件集合
-export type IComponentType = IDefaultDataComponents |
-                          ISelectComponents |
-                          ICheckboxComponents |
-                          ITimeComponents |
-                          IRadioComponents |
-                          ICustomizeComponents |
-                          IUploadComponents |
-                          IRateComponents |
-                          ISliderComponents |
-                          IEditorComponents |
-                          IPasswordStrength
+export type ComponentType = DefaultDataComponents |
+                          SelectComponents |
+                          CheckboxComponents |
+                          TimeComponents |
+                          RadioComponents |
+                          CustomizeComponents |
+                          UploadComponents |
+                          RateComponents |
+                          SliderComponents |
+                          EditorComponents |
+                          PasswordStrength
 
-export type IApi = (params?: unknown) => Promise<DefaultOptionType[]>
+export type ApiFun = (params?: unknown) => Promise<DefaultOptionType[]>
 
 // api参数
-interface IApiParam {
-  api?: IApi;
+interface ApiParam {
+  api?: ApiFun;
   params?: object;
 }
 
 // ApiSelect
-export type IApiSelectProps = IApiParam & SelectProps
+export type ApiSelectProps = ApiParam & SelectProps
 
 // ApiTreeSelect
-export type IApiTreeSelectProps = IApiParam & TreeSelectProps
+export type ApiTreeSelectProps = ApiParam & TreeSelectProps
 
 // 组件参数
-export type IComponentProps = InputProps |
+export type ComponentProps = InputProps |
                               SelectProps |
                               TreeSelectProps |
                               CheckboxGroupProps |
@@ -94,25 +94,25 @@ export type IComponentProps = InputProps |
                               UploadProps |
                               RateProps |
                               SliderProps |
-                              IApiSelectProps |
-                              IApiTreeSelectProps |
-                              IWangEditorProps
+                              ApiSelectProps |
+                              ApiTreeSelectProps |
+                              WangEditorProps
 
 // 表单规则
-export type IFormRule = RuleObject & {
+export type FormRule = RuleObject & {
   trigger?: 'blur' | 'change' | ['change', 'blur'];
 };
 
 // 表单数据
-export type IFormList = {
+export type FormList = {
   name: string | string[]; // 表单域字段
   label: string; // 标签
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏
-  rules?: IFormRule[]; // 规则
+  rules?: FormRule[]; // 规则
   labelCol?: number; // label宽度
   wrapperCol?: number; // 内容宽度
-  component: IComponentType; // 组件
-  componentProps?: IComponentProps; // 组件参数
+  component: ComponentType; // 组件
+  componentProps?: ComponentProps; // 组件参数
   render?: any; // 自定义渲染
 }

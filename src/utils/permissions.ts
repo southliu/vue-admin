@@ -1,10 +1,10 @@
-import type { IPermissions } from "@/pages/login/model"
+import type { PermissionsData } from "@/pages/login/model"
 
 /**
  * 授权参数转字符串数组
  * @param permissions - 授权值
  */
-export const permissionsToArray = (permissions: IPermissions[]): string[] => {
+export const permissionsToArray = (permissions: PermissionsData[]): string[] => {
   const res: string[] = []
   for (let i = 0; i < permissions.length; i++) {
     const { id, operation } = permissions[i]

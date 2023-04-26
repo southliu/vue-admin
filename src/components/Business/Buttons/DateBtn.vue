@@ -31,16 +31,16 @@ import { DATE_FORMAT } from '@/utils/constants'
 import Icon from '@/components/Icon/index.vue'
 import dayjs from 'dayjs'
 
-type IType = 'yesterday' |
+type TypeData = 'yesterday' |
               'tomorrow' |
               'today' |
               'prevMonth' |
               'nextMonth' |
               'month'
 
-interface IList {
+interface ListData {
   title: string;
-  value: IType;
+  value: TypeData;
 }
 
 const emit = defineEmits(['handleResult'])
@@ -62,7 +62,7 @@ const props = defineProps({
   }
 })
 
-const list: IList[] = [
+const list: ListData[] = [
   { title: '前一天', value: 'yesterday' },
   { title: '下一天', value: 'tomorrow' },
   { title: '当天', value: 'today' },
@@ -75,7 +75,7 @@ const list: IList[] = [
  * 处理点击
  * @param type = 类型 
  */
-const handleClick = (type: IType) => {
+const handleClick = (type: TypeData) => {
   let result: string[] = []
   switch (type) {
     // 前一天

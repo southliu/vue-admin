@@ -1,6 +1,6 @@
 <script lang="ts">
-import type { IFormList } from '#/form'
-import type { IAllDataType } from '#/public'
+import type { FormList } from '#/form'
+import type { AllDataType } from '#/public'
 import type { PropType } from 'vue'
 import { defineComponent, h } from 'vue'
 import { componentMap } from './utils/componentMap'
@@ -10,15 +10,15 @@ export default defineComponent({
   name: 'BasicComponents',
   props: {
     item: {
-      type: Object as PropType<IFormList>,
+      type: Object as PropType<FormList>,
       required: true
     },
     data: {
-      type: Object as PropType<Record<string, IAllDataType>>,
+      type: Object as PropType<Record<string, AllDataType>>,
       required: true
     },
     setData: {
-      type: Function as PropType<(key: string | string[], value: IAllDataType) => void>,
+      type: Function as PropType<(key: string | string[], value: AllDataType) => void>,
       required: true
     }
   },

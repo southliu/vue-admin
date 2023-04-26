@@ -1,4 +1,4 @@
-import type { IAllDataType, IArrayData } from "#/public"
+import type { AllDataType, ArrayData } from "#/public"
 
 /**
  * 首字母大写
@@ -21,9 +21,9 @@ export function amountFormatter(amount: number) {
  * 过滤空数据
  * @param obj - 传入对象
  */
-type IEmptyData = Record<string, IAllDataType>
-export function filterEmptyValue(obj: IEmptyData): IEmptyData {
-  const res: IEmptyData = {}
+type EmptyData = Record<string, AllDataType>
+export function filterEmptyValue(obj: EmptyData): EmptyData {
+  const res: EmptyData = {}
 
   for (let key in obj) {
     // 去除key中多余的空格
@@ -38,7 +38,7 @@ export function filterEmptyValue(obj: IEmptyData): IEmptyData {
     // 空数组过滤
     if (
       obj[key]?.constructor === Array &&
-      (obj[key] as IArrayData).length === 0
+      (obj[key] as ArrayData).length === 0
     ) continue
 
     // 空字符串过滤
