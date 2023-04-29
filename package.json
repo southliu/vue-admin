@@ -75,7 +75,7 @@
     "unocss": "^0.28.1",
     "unplugin-auto-import": "^0.6.1",
     "unplugin-vue-components": "^0.24.1",
-    "vite": "4.3.0-beta.8",
+    "vite": "^4.3.2",
     "vite-plugin-cdn-import": "^0.3.5",
     "vite-plugin-compression": "^0.5.1",
     "vite-plugin-pages": "^0.27.1",
