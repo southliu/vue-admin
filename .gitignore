@@ -28,6 +28,9 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
+vite.config.ts.*.mjs
+__unconfig_vite.config.ts
+
 # 测试覆盖率
 /coverage/
 
