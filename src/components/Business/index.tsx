@@ -1,6 +1,6 @@
-import { addComponent } from "../Form/utils/componentMap"
-import GameSelect from './Selects/GameSelect.vue'
-import PartnerSelect from './Selects/PartnerSelect.vue'
+import { addComponent } from "../Form/utils/componentMap";
+import GameSelect from './Selects/GameSelect.vue';
+import PartnerSelect from './Selects/PartnerSelect.vue';
 
 /**
  * 组件类型
@@ -10,6 +10,6 @@ export type BusinessComponentType = 'GameSelect' | 'PartnerSelect'
 
 /** 生成业务组件 */
 export function createBusinessComp() {
-  addComponent('GameSelect', GameSelect)
-  addComponent('PartnerSelect', PartnerSelect)
+  addComponent('GameSelect', GameSelect);
+  addComponent('PartnerSelect', PartnerSelect);
 }

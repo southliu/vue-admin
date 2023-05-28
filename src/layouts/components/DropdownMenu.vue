@@ -44,18 +44,18 @@
 </template>
 
 <script lang="ts" setup>
-import type { TabsData } from '@/stores/tabs'
-import { PropType } from 'vue'
-import { TabEnums } from '../model'
-import { Menu, MenuItem } from 'ant-design-vue'
+import type { TabsData } from '@/stores/tabs';
+import { PropType } from 'vue';
+import { TabEnums } from '../model';
+import { Menu, MenuItem } from 'ant-design-vue';
 import {
   RedoOutlined,
   CloseOutlined,
   VerticalAlignTopOutlined,
   VerticalAlignMiddleOutlined
-} from '@ant-design/icons-vue'
+} from '@ant-design/icons-vue';
 
-const emit = defineEmits(['handleDropdown', 'handleRefresh'])
+const emit = defineEmits(['handleDropdown', 'handleRefresh']);
 
 defineProps({
   currentKey: {
@@ -74,7 +74,7 @@ defineProps({
     type: Array as PropType<TabsData[]>,
     required: true
   }
-})
+});
 
 /**
  * 处理下拉事件
@@ -82,11 +82,11 @@ defineProps({
  * @param key - 唯一值 
  */
 const handleDropdown = (type: TabEnums, key: string) => {
-  emit('handleDropdown', type, key)
-}
+  emit('handleDropdown', type, key);
+};
 
 /** 刷新当前页 */
 const handleRefresh = () => {
-  emit('handleRefresh')
-}
+  emit('handleRefresh');
+};
 </script>

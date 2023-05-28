@@ -57,13 +57,13 @@
 /**
  * @description: 修改密码组件
  */
-import type { FormInstance } from 'ant-design-vue'
-import { reactive, ref } from 'vue'
-import { Form, FormItem, InputPassword, message } from 'ant-design-vue'
-import { PASSWORD_RULE } from '@/utils/config'
-import { useDebounceFn } from '@vueuse/core'
-import BasicModal from '../Modal/BasicModal.vue'
-import PasswordStrength from '../PasswordStrength/index.vue'
+import type { FormInstance } from 'ant-design-vue';
+import { reactive, ref } from 'vue';
+import { Form, FormItem, InputPassword, message } from 'ant-design-vue';
+import { PASSWORD_RULE } from '@/utils/config';
+import { useDebounceFn } from '@vueuse/core';
+import BasicModal from '../Modal/BasicModal.vue';
+import PasswordStrength from '../PasswordStrength/index.vue';
 
 interface FormData {
   oldPassword: string,
@@ -71,7 +71,7 @@ interface FormData {
   confirmPassword: string
 }
 
-const emit = defineEmits(['handleCancel', 'handleSubmit'])
+const emit = defineEmits(['handleCancel', 'handleSubmit']);
 
 defineProps({
   isVisible: {
@@ -82,21 +82,21 @@ defineProps({
     type: Boolean,
     required: true
   }
-})
+});
 
-const formRef = ref<FormInstance>()
+const formRef = ref<FormInstance>();
 
 // 表单数据
 const formState = reactive<FormData>({
   oldPassword: '',
   newPassword: '',
   confirmPassword: ''
-})
+});
 
 /** 关闭弹窗 */
 const handleCancel = () => {
-  emit('handleCancel')
-}
+  emit('handleCancel');
+};
 
 /** 点击确认 */
 const onFinish = useDebounceFn(() => {
@@ -105,10 +105,10 @@ const onFinish = useDebounceFn(() => {
     .then(values => {
       // 密码不一致不通过
       if (values.newPassword !== values.confirmPassword) {
-        return message.warning({ content: '重复密码不一致', key: 'password' })
+        return message.warning({ content: '重复密码不一致', key: 'password' });
       }
 
-      emit('handleSubmit', values)
-    })
-})
+      emit('handleSubmit', values);
+    });
+});
 </script>

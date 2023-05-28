@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 interface StateData {
   isRefreshPage: boolean;
@@ -15,7 +15,7 @@ export const usePublicStore = defineStore({
      * @param isRefresh - 是否刷新
      */
     setRefreshPage(isRefresh: boolean) {
-      this.isRefreshPage = isRefresh
+      this.isRefreshPage = isRefresh;
     },
   },
-})
+});

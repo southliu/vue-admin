@@ -11,9 +11,9 @@
 </template>
 
 <script lang="ts" setup>
-import { Button } from 'ant-design-vue'
-import { useCopyToClipboard } from '@/hooks/useCopyToClipboard'
-import Icon from '@/components/Icon/index.vue'
+import { Button } from 'ant-design-vue';
+import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
+import Icon from '@/components/Icon/index.vue';
 
 const props = defineProps({
   text: {
@@ -28,10 +28,10 @@ const props = defineProps({
     type: String,
     required: true
   }
-})
+});
 
 /** 点击编辑 */
 const onClick = () => {
-  useCopyToClipboard(props.value)
-}
+  useCopyToClipboard(props.value);
+};
 </script>

@@ -13,35 +13,35 @@
 </template>
 
 <script lang="ts" setup>
-import { Button } from 'ant-design-vue'
-import { useRouter } from 'vue-router'
-import { useTabStore } from '@/stores/tabs'
-import { useUserStore } from '@/stores/user'
-import { storeToRefs } from 'pinia'
-import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper'
-import { defaultMenus } from '@/menus'
+import { Button } from 'ant-design-vue';
+import { useRouter } from 'vue-router';
+import { useTabStore } from '@/stores/tabs';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
+import { defaultMenus } from '@/menus';
 
-const router = useRouter()
-const tabStore = useTabStore()
-const userStore = useUserStore()
-const { permissions } = storeToRefs(userStore)
-const { setActiveKey, addTabs } = tabStore
+const router = useRouter();
+const tabStore = useTabStore();
+const userStore = useUserStore();
+const { permissions } = storeToRefs(userStore);
+const { setActiveKey, addTabs } = tabStore;
 
 /** 跳转首页 */
 const goIndex = () => {
-  const firstMenu = getFirstMenu(defaultMenus, permissions.value)
-  router.push(firstMenu)
+  const firstMenu = getFirstMenu(defaultMenus, permissions.value);
+  router.push(firstMenu);
   const menuByKeyProps = {
     menus: defaultMenus,
     permissions: permissions.value,
     key: firstMenu
-  }
-  const newItems = getMenuByKey(menuByKeyProps)
+  };
+  const newItems = getMenuByKey(menuByKeyProps);
   if (newItems) {
-    setActiveKey(newItems.key)
-    addTabs(newItems)
+    setActiveKey(newItems.key);
+    addTabs(newItems);
   }
-}
+};
 </script>
 
 <style lang="less" scoped>

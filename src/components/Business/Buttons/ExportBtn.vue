@@ -11,12 +11,12 @@
 </template>
 
 <script lang="ts" setup>
-import { Button } from 'ant-design-vue'
+import { Button } from 'ant-design-vue';
 
-const emit = defineEmits(['click'])
+const emit = defineEmits(['click']);
 
 // 处理点击事件
 const handleClick = () => {
-  emit('click')
-}
+  emit('click');
+};
 </script>

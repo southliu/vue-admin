@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import Icon from '@/components/Icon/index.vue'
+import Icon from '@/components/Icon/index.vue';
 </script>
 
 <style lang="less" scoped>

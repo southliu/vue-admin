@@ -1,10 +1,10 @@
 <script lang="ts">
-import type { FormList } from '#/form'
-import type { AllDataType } from '#/public'
-import type { PropType } from 'vue'
-import { defineComponent, h } from 'vue'
-import { componentMap } from './utils/componentMap'
-import { createPlaceholder, getComponentProps } from './utils/helper'
+import type { FormList } from '#/form';
+import type { AllDataType } from '#/public';
+import type { PropType } from 'vue';
+import { defineComponent, h, watch } from 'vue';
+import { componentMap } from './utils/componentMap';
+import { createPlaceholder, getComponentProps } from './utils/helper';
 
 export default defineComponent({
   name: 'BasicComponents',
@@ -23,17 +23,21 @@ export default defineComponent({
     }
   },
   setup(props) {
-    let Comp: ReturnType<typeof defineComponent>
+    let Comp: ReturnType<typeof defineComponent>;
 
     // 组件
-    if (props.item.component === 'customize') {
-      Comp = props.item.render
-    } else {
-      Comp = componentMap.get(props.item.component)
+    if (props.item.component !== 'customize') {
+      Comp = componentMap.get(props.item.component);
     }
+    
+    watch(() => props.item, () => {
+      if (props.item.component === 'customize') {
+        Comp = props.item.render;
+      }
+    });
 
     // 占位符
-    const placeholder = props.item.placeholder || createPlaceholder(props.item.component)
+    const placeholder = props.item.placeholder || createPlaceholder(props.item.component);
 
     // 渲染组件
     return () => h(Comp, {
@@ -46,7 +50,7 @@ export default defineComponent({
         props.setData
       ),
       ...props.item.componentProps
-    })
+    });
   }
-})
+});
 </script>

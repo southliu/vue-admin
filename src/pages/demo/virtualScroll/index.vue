@@ -20,22 +20,22 @@
 </template>
 
 <script lang="ts" setup>
-import type { AllDataType } from '#/public'
-import { reactive, nextTick, onMounted } from 'vue'
-import { List } from 'vxe-table'
-import { Button, message } from 'ant-design-vue'
-import { useTitle } from '@/hooks/useTitle'
+import type { AllDataType } from '#/public';
+import { reactive, nextTick, onMounted } from 'vue';
+import { List } from 'vxe-table';
+import { Button, message } from 'ant-design-vue';
+import { useTitle } from '@/hooks/useTitle';
 
 interface ItemVO {
   [key: string]: AllDataType;
 }
 
-useTitle('虚拟滚动')
-const mockList: ItemVO[] = []
+useTitle('虚拟滚动');
+const mockList: ItemVO[] = [];
 const demo = reactive({
   isLoading: false,
   list: [] as ItemVO[]
-})
+});
 
 // 模拟后台
 const getList = (size: number): Promise<ItemVO[]> => {
@@ -46,27 +46,27 @@ const getList = (size: number): Promise<ItemVO[]> => {
           mockList.push({
             id: index,
             label: `row_${index}`
-          })
+          });
         }
       }
-      resolve(mockList.slice(0, size))
-    }, 100)
-  })
-}
+      resolve(mockList.slice(0, size));
+    }, 100);
+  });
+};
 
 const loadData = async (size: number) => {
-  demo.isLoading = true
-  demo.list = await getList(size)
-  demo.isLoading = false
-  const startTime = Date.now()
-  await nextTick()
-  await message.info({ content: `渲染 ${size} 行，用时 ${Date.now() - startTime}毫秒`, key: 'info' })
-}
+  demo.isLoading = true;
+  demo.list = await getList(size);
+  demo.isLoading = false;
+  const startTime = Date.now();
+  await nextTick();
+  await message.info({ content: `渲染 ${size} 行，用时 ${Date.now() - startTime}毫秒`, key: 'info' });
+};
 
 // 初始化
 onMounted(async () => {
-  demo.list = await getList(200)
-})
+  demo.list = await getList(200);
+});
 </script>
 
 <style scoped>

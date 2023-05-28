@@ -1,12 +1,12 @@
-import type { AllDataType, ArrayData } from "#/public"
+import type { AllDataType, ArrayData } from "#/public";
 
 /**
  * 首字母大写
  * @param str - 传入英文字符串
  */
 export function firstCapitalize(str: string): string {
-  if (!str || typeof str !== 'string') return ''
-  return str.substring(0, 1).toUpperCase() + str.substring(1)
+  if (!str || typeof str !== 'string') return '';
+  return str.substring(0, 1).toUpperCase() + str.substring(1);
 }
 
 /**
@@ -14,7 +14,7 @@ export function firstCapitalize(str: string): string {
  * @param amount - 金额
  */
 export function amountFormatter(amount: number) {
-  return `${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+  return `${amount}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 /**
@@ -23,45 +23,45 @@ export function amountFormatter(amount: number) {
  */
 type EmptyData = Record<string, AllDataType>
 export function filterEmptyValue(obj: EmptyData): EmptyData {
-  const res: EmptyData = {}
+  const res: EmptyData = {};
 
   for (let key in obj) {
     // 去除key中多余的空格
-    key = key.trim()
+    key = key.trim();
 
     // undefined过滤
-    if (obj[key] === undefined) continue
+    if (obj[key] === undefined) continue;
 
     // null过滤
-    if (obj[key] === null) continue
+    if (obj[key] === null) continue;
 
     // 空数组过滤
     if (
       obj[key]?.constructor === Array &&
       (obj[key] as ArrayData).length === 0
-    ) continue
+    ) continue;
 
     // 空字符串过滤
     if (
       obj[key]?.constructor === String &&
       (obj[key] as string).length === 0
-    ) continue
+    ) continue;
 
     // 空对象过滤
     if (
       obj[key]?.constructor === Object &&
       Object.keys(obj[key] as object).length === 0
-    ) continue
+    ) continue;
 
     // 去除字符串多余空格
     if (obj[key]?.constructor === String) {
-      res[key] = (obj[key] as string).trim()
+      res[key] = (obj[key] as string).trim();
     } else {
-      res[key] = obj[key]
+      res[key] = obj[key];
     }
   }
 
-  return res
+  return res;
 }
 
 /**
@@ -73,15 +73,15 @@ export function recursiveData<T extends IRecursiveChildren<T>, U>(
   data: T[],
   callback: (data: T) => U
 ): U[] {
-  if (data. length === 0) return []
-  const res: U[] = []
+  if (data. length === 0) return [];
+  const res: U[] = [];
 
   for (let i = 0; i < data.length; i++) {
-    const element = data[i]
-    const filterData = callback(element)
-    const children = element.children ? recursiveData(element.children, callback) : undefined
-    res.push({ ...filterData, children })
+    const element = data[i];
+    const filterData = callback(element);
+    const children = element.children ? recursiveData(element.children, callback) : undefined;
+    res.push({ ...filterData, children });
   }
 
-  return res
+  return res;
 }

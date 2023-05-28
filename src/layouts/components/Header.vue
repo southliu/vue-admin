@@ -48,32 +48,32 @@
 </template>
 
 <script lang="ts" setup>
-import { createVNode, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
-import { useToken } from '@/hooks/useToken'
-import { useTabStore } from '@/stores/tabs'
-import { useUserStore } from '@/stores/user'
-import { storeToRefs } from 'pinia'
-import { Modal } from 'ant-design-vue'
+import { createVNode, nextTick } from 'vue';
+import { useRouter } from 'vue-router';
+import { useToken } from '@/hooks/useToken';
+import { useTabStore } from '@/stores/tabs';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+import { Modal } from 'ant-design-vue';
 import {
   Menu,
   MenuItem,
   Dropdown,
   MenuProps
-} from 'ant-design-vue'
+} from 'ant-design-vue';
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   LogoutOutlined,
   FormOutlined,
   ExclamationCircleOutlined
-} from '@ant-design/icons-vue'
-import DataScreen from '@/components/DataScreen/index.vue'
-import Fullscreen from '@/components/Fullscreen/index.vue'
-import GlobalSearch from '@/components/GlobalSearch/index.vue'
-import Theme from '@/components/Theme/index.vue'
-import Avatar from '@/assets/images/avatar.png'
-import Nav from './Nav.vue'
+} from '@ant-design/icons-vue';
+import DataScreen from '@/components/DataScreen/index.vue';
+import Fullscreen from '@/components/Fullscreen/index.vue';
+import GlobalSearch from '@/components/GlobalSearch/index.vue';
+import Theme from '@/components/Theme/index.vue';
+import Avatar from '@/assets/images/avatar.png';
+import Nav from './Nav.vue';
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -81,7 +81,7 @@ enum Dropdowns {
   logout
 }
 
-const emit = defineEmits(['toggleCollapsed', 'onUpdatePassword'])
+const emit = defineEmits(['toggleCollapsed', 'onUpdatePassword']);
 
 defineProps({
   isCollapsed: {
@@ -92,24 +92,24 @@ defineProps({
     type: String,
     required: true
   }
-})
+});
 
-const router = useRouter()
-const tabStore = useTabStore()
-const userStore = useUserStore()
-const { removeToken } = useToken()
-const { clearInfo } = userStore
+const router = useRouter();
+const tabStore = useTabStore();
+const userStore = useUserStore();
+const { removeToken } = useToken();
+const { clearInfo } = userStore;
 const {
   closeAllTab,
   clearCacheRoutes,
   setActiveKey
-} = tabStore
-const { nav } = storeToRefs(tabStore)
+} = tabStore;
+const { nav } = storeToRefs(tabStore);
 
 /** 收缩菜单 */
 const toggleCollapsed = () => {
-  emit('toggleCollapsed')
-}
+  emit('toggleCollapsed');
+};
 
 /** 退出登录 */
 const handleLogout = () => {
@@ -118,18 +118,18 @@ const handleLogout = () => {
     icon: createVNode(ExclamationCircleOutlined),
     content: '是否确定退出系统?',
     onOk() {
-      removeToken()
-      clearInfo()
-      closeAllTab()
-      clearCacheRoutes()
-      setActiveKey('')
+      removeToken();
+      clearInfo();
+      closeAllTab();
+      clearCacheRoutes();
+      setActiveKey('');
 
       nextTick(() => {
-        router.push('/login')
-      })
+        router.push('/login');
+      });
     }
-  })
-}
+  });
+};
 
 /**
  * 点击下拉菜单
@@ -139,16 +139,16 @@ const onClickDropdown: MenuProps['onClick'] = e => {
   switch ((e as { key: Dropdowns }).key) {
     // 修改密码
     case Dropdowns.update:
-      emit('onUpdatePassword')
-      break
+      emit('onUpdatePassword');
+      break;
 
     // 退出登录
     case Dropdowns.logout:
-      handleLogout()
-      break
+      handleLogout();
+      break;
 
     default:
-      break
+      break;
   }
-}
+};
 </script>

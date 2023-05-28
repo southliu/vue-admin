@@ -10,11 +10,11 @@
 </template>
 
 <script lang="ts" setup>
-import { createVNode } from 'vue'
-import { Button, Modal } from 'ant-design-vue'
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue'
+import { createVNode } from 'vue';
+import { Button, Modal } from 'ant-design-vue';
+import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
-const emit = defineEmits(['click'])
+const emit = defineEmits(['click']);
 
 defineProps({
   isLoading: {
@@ -22,7 +22,7 @@ defineProps({
     required: false,
     default: false
   }
-})
+});
 
 /** 点击删除 */
 const onClick = () => {
@@ -34,8 +34,8 @@ const onClick = () => {
     okType: 'danger',
     cancelText: '取消',
     onOk() {
-      emit('click')
+      emit('click');
     }
-  })
-}
+  });
+};
 </script>

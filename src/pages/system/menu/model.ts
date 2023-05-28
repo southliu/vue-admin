@@ -1,7 +1,7 @@
-import type { FormList } from "#/form"
-import type { VxeGridPropTypes } from "vxe-table"
-import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config"
-import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from "@/utils/constants"
+import type { FormList } from "#/form";
+import type { VxeGridPropTypes } from "vxe-table";
+import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config";
+import { MENU_ACTIONS, MENU_MODULE, MENU_STATUS } from "@/utils/constants";
 
 // 搜索数据
 export const searchList: FormList[] = [
@@ -27,7 +27,7 @@ export const searchList: FormList[] = [
     name: 'controller',
     component: 'Input'
   }
-]
+];
 
 // 新增数据
 export const createList: (id: string) => FormList[] = id => [
@@ -70,7 +70,7 @@ export const createList: (id: string) => FormList[] = id => [
       options: MENU_ACTIONS
     }
   },
-]
+];
 
 // 表格数据
 export const tableColumns: VxeGridPropTypes.Columns = [
@@ -111,4 +111,4 @@ export const tableColumns: VxeGridPropTypes.Columns = [
     showOverflow: false,
     slots: { default: 'operate' }
   }
-]
+];

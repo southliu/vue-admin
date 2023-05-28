@@ -2,14 +2,14 @@
 /**
  * @description: 根据API获取数据下拉组件
  */
-import type { PropType } from 'vue'
-import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select'
-import type { ApiFun, ApiSelectProps } from '#/form'
-import { defineComponent, onMounted, watch, ref, h } from 'vue'
-import { Select } from 'ant-design-vue'
-import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config'
-import BasicLoading from '../Loading/BasicLoading.vue'
-import { AllDataType } from '#/public'
+import type { PropType } from 'vue';
+import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select';
+import type { ApiFun, ApiSelectProps } from '#/form';
+import { defineComponent, onMounted, watch, ref, h } from 'vue';
+import { Select } from 'ant-design-vue';
+import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config';
+import BasicLoading from '../Loading/BasicLoading.vue';
+import { AllDataType } from '#/public';
 
 export default defineComponent({
   name: 'ApiSelect',
@@ -44,45 +44,45 @@ export default defineComponent({
     BasicLoading
   },
   setup(props, { emit }) {
-    const options = ref<DefaultOptionType[]>([])
-    const selectValue = ref(props.value || props.modelValue)
-    const isLoading = ref(false)
+    const options = ref<DefaultOptionType[]>([]);
+    const selectValue = ref(props.value || props.modelValue);
+    const isLoading = ref(false);
 
     onMounted(() => {
       // 首次有值获取API接口
       if ((props.value || props.modelValue) && options.value.length === 0) {
-        getApiData()
+        getApiData();
       }
-    })
+    });
 
     watch(() => props.value, value => {
-      selectValue.value = value
+      selectValue.value = value;
 
       // 首次有值获取API接口
       if (value && options.value?.length === 0) {
-        getApiData()
+        getApiData();
       }
-    })
+    });
 
     watch(() => props.modelValue, value => {
-      selectValue.value = value
+      selectValue.value = value;
 
       // 首次有值获取API接口
       if (value && options.value?.length === 0) {
-        getApiData()
+        getApiData();
       }
-    })
+    });
 
     /** 获取接口数据 */
     const getApiData = async () => {
       try {
-        isLoading.value = true
-        const data = await props?.api?.(props?.params)
-        options.value = data
+        isLoading.value = true;
+        const data = await props?.api?.(props?.params);
+        options.value = data;
       } finally {
-        isLoading.value = false
+        isLoading.value = false;
       }
-    }
+    };
 
     return () => h(
       Select, {
@@ -96,19 +96,19 @@ export default defineComponent({
         notFoundContent: isLoading.value && h(BasicLoading),
         onDropdownVisibleChange: async (open: boolean) => {
           if (props?.onDropdownVisibleChange) {
-            props.onDropdownVisibleChange?.(open)
+            props.onDropdownVisibleChange?.(open);
           } else if (open) {
-            getApiData()
+            getApiData();
           }
         },
         'onUpdate:value': (value: AllDataType) => {
-          emit('update:value', value)
+          emit('update:value', value);
         },
         'onUpdate:modelValue': (value: AllDataType) => {
-          emit('update:modelValue', value)
+          emit('update:modelValue', value);
         }
       }
-    )
+    );
   }
-})
+});
 </script>

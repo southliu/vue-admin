@@ -19,7 +19,7 @@ defineProps({
     type: Number,
     required: true
   }
-})
+});
 
-const arr = new Array(5).fill(0).map((_, index) => index + 1)
+const arr = new Array(5).fill(0).map((_, index) => index + 1);
 </script>

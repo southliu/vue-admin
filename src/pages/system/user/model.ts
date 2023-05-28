@@ -1,8 +1,8 @@
-import type { FormList } from "#/form"
-import type { VxeGridPropTypes } from "vxe-table"
-import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config"
-import { h } from "vue"
-import { OPEN_CLOSE } from "@/utils/constants"
+import type { FormList } from "#/form";
+import type { VxeGridPropTypes } from "vxe-table";
+import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config";
+import { h } from "vue";
+import { OPEN_CLOSE } from "@/utils/constants";
 
 // 搜索数据
 export const searchList: FormList[] = [
@@ -16,7 +16,7 @@ export const searchList: FormList[] = [
     name: 'keyword',
     component: 'Input'
   }
-]
+];
 
 // 新增数据
 export const createList: FormList[] = [
@@ -53,7 +53,7 @@ export const createList: FormList[] = [
       options: OPEN_CLOSE
     }
   }
-]
+];
 
 // 表格数据
 export const tableColumns: VxeGridPropTypes.Columns = [
@@ -97,4 +97,4 @@ export const tableColumns: VxeGridPropTypes.Columns = [
     showOverflow: false,
     slots: { default: 'operate' }
   },
-]
+];

@@ -1,5 +1,5 @@
-import type { PageServerResult, PaginationData, ServerResult } from '#/public'
-import { request } from '@/utils/request'
+import type { PageServerResult, PaginationData, ServerResult } from '#/public';
+import { request } from '@/utils/request';
 
 enum API {
   URL = '/content/article'
@@ -13,7 +13,7 @@ export function getArticlePage(data: Partial<unknown> & PaginationData) {
   return request.get(
     `${API.URL}/index`,
     { params: data }
-  ) as Promise<PageServerResult<unknown[]>>
+  ) as Promise<PageServerResult<unknown[]>>;
 }
 
 /**
@@ -21,7 +21,7 @@ export function getArticlePage(data: Partial<unknown> & PaginationData) {
  * @param id - ID
  */
 export function getArticleById(id: string) {
-  return request.get(`${API.URL}/${id}`)
+  return request.get(`${API.URL}/${id}`);
 }
 
 /**
@@ -29,7 +29,7 @@ export function getArticleById(id: string) {
  * @param data - 请求数据
  */
 export function createArticle(data: unknown) {
-  return request.post(API.URL, data)
+  return request.post(API.URL, data);
 }
 
 /**
@@ -38,7 +38,7 @@ export function createArticle(data: unknown) {
  * @param data - 请求数据
  */
 export function updateArticle(id: string, data: unknown) {
-  return request.put(`${API.URL}/${id}`, data)
+  return request.put(`${API.URL}/${id}`, data);
 }
 
 /**
@@ -46,5 +46,5 @@ export function updateArticle(id: string, data: unknown) {
  * @param id - 删除id值
  */
 export function deleteArticle(id: string) {
-  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>
+  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>;
 }

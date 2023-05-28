@@ -1,4 +1,4 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 
 interface UserDataInfo {
   id: number;
@@ -31,26 +31,26 @@ export const useUserStore = defineStore({
      * @param permissions - 权限
      */
     setPermissions(permissions: string[]) {
-      this.permissions = permissions
+      this.permissions = permissions;
     },
     /**
      * 获取用户权限
      */
     getPermissions() {
-      return this.permissions
+      return this.permissions;
     },
     /**
      * 设置用户信息
      * @param userInfo - 用户值
      */
     setUserInfo(userInfo: UserDataInfo) {
-      this.userInfo = userInfo
+      this.userInfo = userInfo;
     },
     /**
      * 获取用户信息
      */
     getUserInfo() {
-      return this.userInfo
+      return this.userInfo;
     },
     /**
      * 清除用户信息
@@ -61,7 +61,7 @@ export const useUserStore = defineStore({
         username: '',
         email: '',
         phone: ''
-      }
+      };
     }
   },
-})
+});

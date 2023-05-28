@@ -26,10 +26,10 @@
  * @param format - 时间格式化
  * @result string[]
  */
-import { Button } from 'ant-design-vue'
-import { DATE_FORMAT } from '@/utils/constants'
-import Icon from '@/components/Icon/index.vue'
-import dayjs from 'dayjs'
+import { Button } from 'ant-design-vue';
+import { DATE_FORMAT } from '@/utils/constants';
+import Icon from '@/components/Icon/index.vue';
+import dayjs from 'dayjs';
 
 type TypeData = 'yesterday' |
               'tomorrow' |
@@ -43,7 +43,7 @@ interface ListData {
   value: TypeData;
 }
 
-const emit = defineEmits(['handleResult'])
+const emit = defineEmits(['handleResult']);
 
 const props = defineProps({
   date: {
@@ -60,7 +60,7 @@ const props = defineProps({
     required: false,
     default: DATE_FORMAT
   }
-})
+});
 
 const list: ListData[] = [
   { title: '前一天', value: 'yesterday' },
@@ -69,34 +69,34 @@ const list: ListData[] = [
   { title: '前一月', value: 'prevMonth' },
   { title: '下一月', value: 'nextMonth' },
   { title: '本月', value: 'month' },
-]
+];
 
 /**
  * 处理点击
  * @param type = 类型 
  */
 const handleClick = (type: TypeData) => {
-  let result: string[] = []
+  let result: string[] = [];
   switch (type) {
     // 前一天
     case 'yesterday': {
-      const date = dayjs(props.date).subtract(1, 'd').format(props.format)
-      result = [date, date]
-      break
+      const date = dayjs(props.date).subtract(1, 'd').format(props.format);
+      result = [date, date];
+      break;
     }
 
     // 下一天
     case 'tomorrow': {
-      const date = dayjs(props.date).add(1, 'd').format(props.format)
-      result = [date, date]
-      break
+      const date = dayjs(props.date).add(1, 'd').format(props.format);
+      result = [date, date];
+      break;
     }
 
     // 当天
     case 'today': {
-      const date = dayjs().format(props.format)
-      result = [date, date]
-      break
+      const date = dayjs().format(props.format);
+      result = [date, date];
+      break;
     }
 
     // 前一月
@@ -104,13 +104,13 @@ const handleClick = (type: TypeData) => {
       const start = dayjs(props.date)
                     .subtract(1, 'month')
                     .startOf('month')
-                    .format(props.format)
+                    .format(props.format);
       const end = dayjs(props.date)
                     .subtract(1, 'month')
                     .endOf('month')
-                    .format(props.format)
-      result = [start, end]
-      break
+                    .format(props.format);
+      result = [start, end];
+      break;
     }
 
     // 下一月
@@ -118,26 +118,26 @@ const handleClick = (type: TypeData) => {
       const start = dayjs(props.date)
                     .add(1, 'month')
                     .startOf('month')
-                    .format(props.format)
+                    .format(props.format);
       const end = dayjs(props.date)
                     .add(1, 'month')
                     .endOf('month')
-                    .format(props.format)
-      result = [start, end]
-      break
+                    .format(props.format);
+      result = [start, end];
+      break;
     }
 
     // 本月
     case 'month': {
-      const start = dayjs().startOf('month').format(props.format)
-      const end = dayjs().endOf('month').format(props.format)
-      result = [start, end]
-      break
+      const start = dayjs().startOf('month').format(props.format);
+      const end = dayjs().endOf('month').format(props.format);
+      result = [start, end];
+      break;
     }
 
     default:
-      break
+      break;
   }
-  emit('handleResult', result)
-}
+  emit('handleResult', result);
+};
 </script>

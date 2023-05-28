@@ -1,7 +1,7 @@
-import type { Component } from 'vue'
-import type { ComponentType } from '#/form'
-import { tryOnUnmounted } from '@vueuse/core'
-import { addComponent, deleteComponent } from '../utils/componentMap'
+import type { Component } from 'vue';
+import type { ComponentType } from '#/form';
+import { tryOnUnmounted } from '@vueuse/core';
+import { addComponent, deleteComponent } from '../utils/componentMap';
 
 /**
  * 组件注册，页面销毁且组件销毁
@@ -9,8 +9,8 @@ import { addComponent, deleteComponent } from '../utils/componentMap'
  * @param comp - 组件
  */
 export function useComponentRegister(compName: ComponentType, comp: Component) {
-  addComponent(compName, comp)
+  addComponent(compName, comp);
   tryOnUnmounted(() => {
-    deleteComponent(compName)
-  })
+    deleteComponent(compName);
+  });
 }

@@ -19,15 +19,15 @@
 /**
  * @description: 顶部全局搜索菜单组件
  */
-import { ref } from 'vue'
-import { Tooltip } from 'ant-design-vue'
-import SearchModal from './components/SearchModal.vue'
-import Icon from '@/components/Icon/index.vue'
+import { ref } from 'vue';
+import { Tooltip } from 'ant-design-vue';
+import SearchModal from './components/SearchModal.vue';
+import Icon from '@/components/Icon/index.vue';
 
-const isVisible = ref(false)
+const isVisible = ref(false);
 
 /** 切换搜索框显示状态 */
 const toggle = () => {
-  isVisible.value = !isVisible.value
-}
+  isVisible.value = !isVisible.value;
+};
 </script>

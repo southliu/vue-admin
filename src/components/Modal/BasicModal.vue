@@ -69,13 +69,13 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, PropType, ref, watch } from 'vue'
-import { Modal, Tooltip, Button, Spin } from 'ant-design-vue'
-import { useModalDragMove } from './hooks/useModalDrag'
-import { useDebounceFn } from '@vueuse/core'
-import Icon from '../Icon/index.vue'
+import { nextTick, PropType, ref, watch } from 'vue';
+import { Modal, Tooltip, Button, Spin } from 'ant-design-vue';
+import { useModalDragMove } from './hooks/useModalDrag';
+import { useDebounceFn } from '@vueuse/core';
+import Icon from '../Icon/index.vue';
 
-const emit = defineEmits(['handleCancel', 'handleFinish'])
+const emit = defineEmits(['handleCancel', 'handleFinish']);
 
 const props = defineProps({
   isVisible: {
@@ -105,35 +105,35 @@ const props = defineProps({
     required: false,
     default: false
   }
-})
+});
 
 // 是否最大化
-const isFullscreen = ref(false)
+const isFullscreen = ref(false);
 
 /** 点击关闭 */
 const onCancel = () => {
-  emit('handleCancel')
-}
+  emit('handleCancel');
+};
 
 /** 点击确认 */
 const onFinish = useDebounceFn(() => {
-  emit('handleFinish')
-}, 500)
+  emit('handleFinish');
+}, 500);
 
 /** 最大化 */
 const onFullscreen = () => {
-  isFullscreen.value = !isFullscreen.value
-}
+  isFullscreen.value = !isFullscreen.value;
+};
 
 // 监听显示开启拖拽
 watch(() => props.isVisible, async (value) => {
   if (value) {
-    await nextTick()
-    useModalDragMove()
+    await nextTick();
+    useModalDragMove();
   } else {
-    isFullscreen.value = false
+    isFullscreen.value = false;
   }
-})
+});
 </script>
 
 <style lang="less">

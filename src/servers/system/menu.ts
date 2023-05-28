@@ -1,5 +1,5 @@
-import type { PageServerResult, PaginationData, ServerResult } from '#/public'
-import { request } from '@/utils/request'
+import type { PageServerResult, PaginationData, ServerResult } from '#/public';
+import { request } from '@/utils/request';
 
 enum API {
   URL = '/authority/menu',
@@ -13,7 +13,7 @@ export function getSystemMenuPage(data: Partial<unknown> & PaginationData) {
   return request.get(
     `${API.URL}/index`,
     { params: data }
-  ) as Promise<PageServerResult<unknown[]>>
+  ) as Promise<PageServerResult<unknown[]>>;
 }
 
 /**
@@ -21,7 +21,7 @@ export function getSystemMenuPage(data: Partial<unknown> & PaginationData) {
  * @param id - ID
  */
 export function getSystemMenuById(id: string) {
-  return request.get(`${API.URL}/${id}`)
+  return request.get(`${API.URL}/${id}`);
 }
 
 /**
@@ -29,7 +29,7 @@ export function getSystemMenuById(id: string) {
  * @param data - 请求数据
  */
 export function createSystemMenu(data: unknown) {
-  return request.post(API.URL, data)
+  return request.post(API.URL, data);
 }
 
 /**
@@ -38,7 +38,7 @@ export function createSystemMenu(data: unknown) {
  * @param data - 请求数据
  */
 export function updateSystemMenu(id: string, data: unknown) {
-  return request.put(`${API.URL}/${id}`, data)
+  return request.put(`${API.URL}/${id}`, data);
 }
 
 /**
@@ -46,7 +46,7 @@ export function updateSystemMenu(id: string, data: unknown) {
  * @param id - 删除id值
  */
  export function deleteSystemMenu(id: string) {
-  return request.delete(`${API.URL}/${id}`)
+  return request.delete(`${API.URL}/${id}`);
 }
 
 /**
@@ -54,7 +54,7 @@ export function updateSystemMenu(id: string, data: unknown) {
  * @param data - 搜索数据
  */
  export function getPermission(data: unknown) {
-  return request.get(`${API.URL}/tree`, { params: data })
+  return request.get(`${API.URL}/tree`, { params: data });
 }
 
 /**
@@ -62,5 +62,5 @@ export function updateSystemMenu(id: string, data: unknown) {
  * @param data - 权限数据
  */
 export function savePermission(data: unknown) {
-  return request.put(`${API.URL}/authorize/save`, data) as Promise<ServerResult>
+  return request.put(`${API.URL}/authorize/save`, data) as Promise<ServerResult>;
 }

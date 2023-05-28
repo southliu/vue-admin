@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
-import type { EChartsCoreOption } from "echarts"
-import Echarts from '@/components/Echarts/index.vue'
+import { ref } from 'vue';
+import type { EChartsCoreOption } from "echarts";
+import Echarts from '@/components/Echarts/index.vue';
 
 const option = ref<EChartsCoreOption>({
   title: {
@@ -63,5 +63,5 @@ const option = ref<EChartsCoreOption>({
       data: [90, 122, 90, 140, 123, 280, 200]
     },
   ]
-})
+});
 </script>

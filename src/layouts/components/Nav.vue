@@ -27,17 +27,17 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import { storeToRefs } from 'pinia'
-import { useMenuStore } from '@/stores/menu'
+import type { PropType } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useMenuStore } from '@/stores/menu';
 
-const menuStore = useMenuStore()
-const { isPhone } = storeToRefs(menuStore)
+const menuStore = useMenuStore();
+const { isPhone } = storeToRefs(menuStore);
 
 defineProps({
   list: {
     type: Array as PropType<string[]>,
     required: true
   }
-})
+});
 </script>

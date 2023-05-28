@@ -6,10 +6,10 @@
 </template>
 
 <script lang="ts" setup>
-  import type { PropType } from 'vue'
-  import type { ECBasicOption } from 'echarts/types/dist/shared'
-  import { onMounted, onUnmounted, watch, ref } from 'vue'
-  import echarts from './lib/echarts'
+  import type { PropType } from 'vue';
+  import type { ECBasicOption } from 'echarts/types/dist/shared';
+  import { onMounted, onUnmounted, watch, ref } from 'vue';
+  import echarts from './lib/echarts';
 
   const props = defineProps({
     width: {
@@ -26,42 +26,42 @@
       type: Object as PropType<ECBasicOption>,
       required: true
     }
-  })
+  });
 
-  const chartRef = ref<HTMLDivElement | null>(null)
+  const chartRef = ref<HTMLDivElement | null>(null);
 
   /** 销毁echarts */
   const dispose = () => {
     if (chartRef.value && echarts !== null && echarts !== undefined) {
-      echarts?.dispose(chartRef.value)
+      echarts?.dispose(chartRef.value);
     }
-  }
+  };
 
   const init = () => {
     if (chartRef.value) {
       // 摧毁echarts后在初始化
-      dispose()
+      dispose();
 
       // 初始化chart
-      const chartInstance = echarts.init(chartRef.value as HTMLDivElement)
-      chartInstance.setOption(props.option)
+      const chartInstance = echarts.init(chartRef.value as HTMLDivElement);
+      chartInstance.setOption(props.option);
     }
-  }
+  };
 
   onMounted(() => {
-    init()
-    window.addEventListener("resize", () => init(), false)
-  })
+    init();
+    window.addEventListener("resize", () => init(), false);
+  });
 
   onUnmounted(() => {
-    window.removeEventListener("resize", () => init())
-    dispose()
-  })
+    window.removeEventListener("resize", () => init());
+    dispose();
+  });
 
   watch(() => props.option, value => {
     if (value) {
       // 初始化chart
-      init()
+      init();
     }
-  })
+  });
 </script>

@@ -6,5 +6,5 @@
 </template>
 
 <script lang="ts" setup>
-import { Spin } from 'ant-design-vue'
+import { Spin } from 'ant-design-vue';
 </script>
