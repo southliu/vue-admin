@@ -146,14 +146,12 @@ onUnmounted(() => {
 const getUserInfo = async () => {
   try {
     const { data } = await getPermissions({ refresh_cache: false })
-    if (data) {
-      const { data: { user, permissions } } = data
-      const newPermissions = permissionsToArray(permissions)
-      username.value = user.username
+    const { user, permissions } = data
+    const newPermissions = permissionsToArray(permissions)
+    username.value = user.username
 
-      setUserInfo(user)
-      setPermissions(newPermissions)
-    }
+    setUserInfo(user)
+    setPermissions(newPermissions)
   } catch(err) {
     console.error(err)
   }
@@ -171,7 +169,7 @@ const onUpdatePassword = () => {
 const handleUpdatePassword = async (params: unknown) => {
   try {
     isLoading.value = true
-    const { data } = await updatePassword(params)
+    const data = await updatePassword(params)
     message.success(data.message || '修改成功')
     isUpdatePassword.value = !isUpdatePassword.value
   } finally {

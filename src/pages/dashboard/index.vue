@@ -87,7 +87,7 @@ const handleSearch = async (values: FormData) => {
     isLoading.value = true
     searches.data = values
     const query = { ...values }
-    const { data: { data } } = await getDataTrends(query)
+    const { data } = await getDataTrends(query)
     datum.value = data
   } finally {
     isLoading.value = false

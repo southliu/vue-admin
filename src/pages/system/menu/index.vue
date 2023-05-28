@@ -166,7 +166,7 @@ const handleSearch = async (values: FormData) => {
   const query = { ...pagination, ...values }
   try {
     isLoading.value = true
-    const { data: { data } } = await getSystemMenuPage(query)
+    const { data } = await getSystemMenuPage(query)
     const { items, total } = data
     tables.data = items
     tables.total = total
@@ -195,7 +195,7 @@ const onUpdate = async (record: FormData) => {
 
   try {
     isCreateLoading.value = true
-    const { data: { data } } = await getSystemMenuById(id as string)
+    const { data } = await getSystemMenuById(id as string)
     creates.data = data
   } finally {
     isCreateLoading.value = false
@@ -234,7 +234,7 @@ const onCloseCreate = () => {
 const handleDelete = async (id: string | number) => {
   try {
     isLoading.value = true
-    const { data } = await deleteSystemMenu(id as string)
+    const data = await deleteSystemMenu(id as string)
     if (data?.code === 200) {
       message.success(data?.message || '删除成功')
       getPage()

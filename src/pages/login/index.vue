@@ -128,7 +128,7 @@ const handleFinish: FormProps['onFinish'] = async (values: LoginData) => {
   try {
     isLoading.value = true
     const { data } = await login(values)
-    const { data: { token, user, permissions } } = data
+    const { token, user, permissions } = data
 
     if (!permissions?.length || !token) {
       return message.error({ content: '用户暂无权限登录', key: 'permissions' })

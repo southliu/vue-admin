@@ -1,4 +1,4 @@
-import type { PageServerResult, PaginationData } from '#/public'
+import type { PageServerResult, PaginationData, ServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
@@ -10,10 +10,10 @@ enum API {
  * @param data - 请求数据
  */
 export function getSystemMenuPage(data: Partial<unknown> & PaginationData) {
-  return request.get<PageServerResult<unknown[]>>(
+  return request.get(
     `${API.URL}/index`,
     { params: data }
-  )
+  ) as Promise<PageServerResult<unknown[]>>
 }
 
 /**
@@ -62,5 +62,5 @@ export function updateSystemMenu(id: string, data: unknown) {
  * @param data - 权限数据
  */
 export function savePermission(data: unknown) {
-  return request.put(`${API.URL}/authorize/save`, data)
+  return request.put(`${API.URL}/authorize/save`, data) as Promise<ServerResult>
 }
