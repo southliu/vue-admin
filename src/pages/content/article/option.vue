@@ -97,7 +97,7 @@ const handleCreate = () => {
  const handleUpdate = async (id: string) => {
   try {
     isLoading.value = true
-    const { data: { data } } = await getArticleById(id)
+    const { data } = await getArticleById(id)
     createData.value = data
   } finally {
     isLoading.value = false

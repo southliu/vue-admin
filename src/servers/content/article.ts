@@ -1,4 +1,4 @@
-import type { PageServerResult, PaginationData } from '#/public'
+import type { PageServerResult, PaginationData, ServerResult } from '#/public'
 import { request } from '@/utils/request'
 
 enum API {
@@ -10,10 +10,10 @@ enum API {
  * @param data - 请求数据
  */
 export function getArticlePage(data: Partial<unknown> & PaginationData) {
-  return request.get<PageServerResult<unknown[]>>(
+  return request.get(
     `${API.URL}/index`,
     { params: data }
-  )
+  ) as Promise<PageServerResult<unknown[]>>
 }
 
 /**
@@ -46,5 +46,5 @@ export function updateArticle(id: string, data: unknown) {
  * @param id - 删除id值
  */
 export function deleteArticle(id: string) {
-  return request.delete(`${API.URL}/${id}`)
+  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>
 }

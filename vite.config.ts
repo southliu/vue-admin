@@ -5,7 +5,7 @@ import { createVitePlugins } from './build/plugins'
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const root = import.meta.cwd()
+  const root = process.cwd()
   const env = loadEnv(mode, root)
   const viteEnv = handleEnv(env)
   const { VITE_SERVER_PORT, VITE_PROXY } = viteEnv
@@ -17,9 +17,6 @@ export default defineConfig(({ mode }) => {
         '@': '/src',
         '#': '/types'
       }
-    },
-    define: {
-      'import.meta.env': {}
     },
     server: {
       port: VITE_SERVER_PORT,

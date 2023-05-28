@@ -202,7 +202,7 @@ const handleSearch = async (values: FormData) => {
   const query = { ...pagination, ...values }
   try {
     isLoading.value = true
-    const { data: { data } } = await getSystemUserPage(query)
+    const { data } = await getSystemUserPage(query)
     const { items, total } = data
     tables.data = items
     tables.total = total
@@ -231,7 +231,7 @@ const onUpdate = async (record: FormData) => {
 
   try {
     isCreateLoading.value = true
-    const { data: { data } } = await getSystemUserById(id as string)
+    const { data } = await getSystemUserById(id as string)
     creates.data = data
   } finally {
     isCreateLoading.value = false
@@ -270,7 +270,7 @@ const onCloseCreate = () => {
 const handleDelete = async (id: string | number) => {
   try {
     isLoading.value = true
-    const { data } = await deleteSystemUser(id as string)
+    const data = await deleteSystemUser(id as string)
     if (data?.code === 200) {
       message.success(data?.message || '删除成功')
       getPage()
@@ -297,7 +297,7 @@ const openPermission = async (id: string) => {
     isLoading.value = true
     const params = { userId: id }
     const { data } = await getPermission(params)
-    const { data: { defaultCheckedKeys, treeData } } = data
+    const { defaultCheckedKeys, treeData } = data
     permissionConfig.id = id
     permissionConfig.treeData = treeData
     permissionConfig.checkedKeys = Object.values(defaultCheckedKeys)
@@ -322,7 +322,7 @@ const permissionSubmit = async (checked: Key[]) => {
       menuIds: checked,
       userId: permissionConfig.id
     }
-    const { data } = await savePermission(params)
+    const data = await savePermission(params)
     message.success(data.message || '授权成功')
     permissionConfig.isVisible = false
   } finally {

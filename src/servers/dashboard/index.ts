@@ -7,5 +7,8 @@ import { request } from '@/utils/request'
  * @param data - 请求数据
  */
 export function getDataTrends(data: object) {
-  return request.get<ServerResult<DashboardResult>>('/dashboard', { params: data })
+  return request.get(
+    '/dashboard',
+    { params: data }
+  ) as Promise<ServerResult<DashboardResult>>
 }

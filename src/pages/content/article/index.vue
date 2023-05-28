@@ -135,7 +135,7 @@ const handleSearch = async (values: FormData) => {
   const query = { ...pagination, ...values }
   try {
     isLoading.value = true
-    const { data: { data } } = await getArticlePage(query)
+    const { data } = await getArticlePage(query)
     const { items, total } = data
     tables.data = items
     tables.total = total
@@ -165,7 +165,7 @@ const onUpdate = async (record: FormData) => {
 const handleDelete = async (id: string | number) => {
   try {
     isLoading.value = true
-    const { data } = await deleteArticle(id as string)
+    const data = await deleteArticle(id as string)
     if (data?.code === 200) {
       message.success(data?.message || '删除成功')
       getPage()
