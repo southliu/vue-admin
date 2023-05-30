@@ -1,4 +1,4 @@
-import Pages from 'vite-plugin-pages'
+import Pages from 'vite-plugin-pages';
 
 /**
  * @description 自动生成路由
@@ -18,5 +18,5 @@ export function configPageImportPlugin() {
         '**/__test__/**/*'
       ]
     })
-  ]
+  ];
 }

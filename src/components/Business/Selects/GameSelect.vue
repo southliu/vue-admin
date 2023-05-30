@@ -2,10 +2,10 @@
 /**
  * @description: 游戏下拉组件
  */
-import type { AllDataType } from '#/public'
-import { defineComponent, h } from 'vue'
-import { getGames } from '@/servers/platform/game'
-import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue'
+import type { AllDataType } from '#/public';
+import { defineComponent, h } from 'vue';
+import { getGames } from '@/servers/platform/game';
+import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue';
 
 export default defineComponent({
   name: 'GameSelect',
@@ -15,10 +15,10 @@ export default defineComponent({
         multiple: true,
         api: getGames,
         'onUpdate:value': (value: AllDataType) => {
-          emit('update:value', value)
+          emit('update:value', value);
         }
       })
-    )
+    );
   },
-})
+});
 </script>

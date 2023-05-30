@@ -10,13 +10,13 @@
 </template>
 
 <script lang="ts" setup>
-import { useTitle } from '@/hooks/useTitle'
-import { useWatermark } from '@/hooks/useWatermark'
-import { Button } from 'ant-design-vue'
-import BasicContent from '@/components/Content/BasicContent.vue'
+import { useTitle } from '@/hooks/useTitle';
+import { useWatermark } from '@/hooks/useWatermark';
+import { Button } from 'ant-design-vue';
+import BasicContent from '@/components/Content/BasicContent.vue';
 
-useTitle('水印')
-const { Watermark, RemoveWatermark } = useWatermark()
+useTitle('水印');
+const { Watermark, RemoveWatermark } = useWatermark();
 
 const openWatermark = () => {
   Watermark({
@@ -27,9 +27,9 @@ const openWatermark = () => {
     color: '#000',
     fontSize: 30,
     opacity: .07
-  })
-}
+  });
+};
 const hidWatermark = () => {
-  RemoveWatermark()
-}
+  RemoveWatermark();
+};
 </script>

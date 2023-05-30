@@ -3,4 +3,4 @@
 declare global {
 
 }
-export {}
+export {};

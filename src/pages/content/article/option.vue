@@ -19,27 +19,27 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormData } from '#/form'
-import type { BasicFormProps } from '@/components/Form/model'
-import { onMounted, reactive, ref } from 'vue'
-import { checkPermission } from '@/utils/permissions'
-import { useRoute, useRouter } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { createList } from './model'
-import { useTabStore } from '@/stores/tabs'
-import { usePublicStore } from '@/stores/public'
-import { useTitle } from '@/hooks/useTitle'
-import { useUserStore } from '@/stores/user'
-import { message, Spin } from 'ant-design-vue'
-import { ADD_TITLE, EDIT_TITLE } from '@/utils/config'
+import type { FormData } from '#/form';
+import type { BasicFormProps } from '@/components/Form/model';
+import { onMounted, reactive, ref } from 'vue';
+import { checkPermission } from '@/utils/permissions';
+import { useRoute, useRouter } from 'vue-router';
+import { storeToRefs } from 'pinia';
+import { createList } from './model';
+import { useTabStore } from '@/stores/tabs';
+import { usePublicStore } from '@/stores/public';
+import { useTitle } from '@/hooks/useTitle';
+import { useUserStore } from '@/stores/user';
+import { message, Spin } from 'ant-design-vue';
+import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import {
  getArticleById,
  createArticle,
  updateArticle
-} from '@/servers/content/article'
-import BasicForm from '@/components/Form/BasicForm.vue'
-import BasicContent from '@/components/Content/BasicContent.vue'
-import SubmitBottom from '@/components/Bottom/SubmitBottom.vue'
+} from '@/servers/content/article';
+import BasicForm from '@/components/Form/BasicForm.vue';
+import BasicContent from '@/components/Content/BasicContent.vue';
+import SubmitBottom from '@/components/Bottom/SubmitBottom.vue';
 
 // 初始化新增数据
 const initCreate = {
@@ -49,46 +49,46 @@ const initCreate = {
       test: ''
     }
   }
-}
+};
 
-const router = useRouter()
-const tabStore = useTabStore()
-const userStore = useUserStore()
-const { setRefreshPage } = usePublicStore()
-const { query, fullPath } = useRoute()
-const { permissions } = storeToRefs(userStore)
+const router = useRouter();
+const tabStore = useTabStore();
+const userStore = useUserStore();
+const { setRefreshPage } = usePublicStore();
+const { query, fullPath } = useRoute();
+const { permissions } = storeToRefs(userStore);
 const {
   setActiveKey,
   addTabs,
   setNav,
   closeTabGoNext
-} = tabStore
-const createFormRef = ref<BasicFormProps>()
-const isLoading = ref(false)
-const createData = ref<FormData>(initCreate)
+} = tabStore;
+const createFormRef = ref<BasicFormProps>();
+const isLoading = ref(false);
+const createData = ref<FormData>(initCreate);
 
-const title = '文章管理'
-const id = query?.id as string || ''
-const createTitle = `${ADD_TITLE}${title}`
-const updateTitle = `${EDIT_TITLE(id, title)}`
-useTitle(id ? updateTitle : createTitle)
+const title = '文章管理';
+const id = query?.id as string || '';
+const createTitle = `${ADD_TITLE}${title}`;
+const updateTitle = `${EDIT_TITLE(id, title)}`;
+useTitle(id ? updateTitle : createTitle);
 
 // 父路径
-const fatherPath = '/content/article'
+const fatherPath = '/content/article';
 
 // 权限前缀
-const permissionPrefix = '/content/article'
+const permissionPrefix = '/content/article';
 
 // 权限
 const pagePermission = reactive({
   create: checkPermission(`${permissionPrefix}/create`, permissions.value),
   update: checkPermission(`${permissionPrefix}/update`, permissions.value),
-})
+});
 
 /** 处理新增 */
 const handleCreate = () => {
-  createData.value = initCreate
-}
+  createData.value = initCreate;
+};
 
 /**
  * 处理编辑
@@ -96,13 +96,13 @@ const handleCreate = () => {
  */
  const handleUpdate = async (id: string) => {
   try {
-    isLoading.value = true
-    const { data } = await getArticleById(id)
-    createData.value = data
+    isLoading.value = true;
+    const { data } = await getArticleById(id);
+    createData.value = data;
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
 /**
  * 添加标签
@@ -110,37 +110,37 @@ const handleCreate = () => {
  */
   const handleAddTab = (path = fullPath) => {
   // 当值为空时匹配路由
-  if (path === '/') return
+  if (path === '/') return;
 
-  const title = id ? updateTitle : createTitle
+  const title = id ? updateTitle : createTitle;
   const newTab = {
     label: title,
     key: fullPath,
     nav: ['内容管理', '文章管理', title]
-  }
-  setActiveKey(newTab.key)
-  setNav(newTab.nav)
-  addTabs(newTab)
-}
+  };
+  setActiveKey(newTab.key);
+  setNav(newTab.nav);
+  addTabs(newTab);
+};
 
 onMounted(() => {
-  id ? handleUpdate(id) : handleCreate()
+  id ? handleUpdate(id) : handleCreate();
 
   // 添加标签
-  handleAddTab()
-})
+  handleAddTab();
+});
 
 /** 表格提交 */
 const handleSubmit = () => {
-  createFormRef.value?.handleSubmit()
-}
+  createFormRef.value?.handleSubmit();
+};
 
 /** 返回主页 */
 const goBack = (isRefresh?: boolean) => {
-  if (isRefresh) setRefreshPage(true)
-  router.push(fatherPath)
-  closeTabGoNext(fullPath, fatherPath)
-}
+  if (isRefresh) setRefreshPage(true);
+  router.push(fatherPath);
+  closeTabGoNext(fullPath, fatherPath);
+};
 
 /**
  * 新增/编辑提交
@@ -148,15 +148,15 @@ const goBack = (isRefresh?: boolean) => {
  */
 const handleFinish = async (values: FormData) => {
   try {
-    isLoading.value = true
-    const functions = () => id ? updateArticle(id, values) : createArticle(values)
-    const { data } = await functions()
-    message.success(data?.message || '操作成功')
-    createFormRef.value?.handleReset()
-    createData.value = initCreate
-    goBack(true)
+    isLoading.value = true;
+    const functions = () => id ? updateArticle(id, values) : createArticle(values);
+    const { data } = await functions();
+    message.success(data?.message || '操作成功');
+    createFormRef.value?.handleReset();
+    createData.value = initCreate;
+    goBack(true);
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 </script>

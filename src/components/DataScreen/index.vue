@@ -11,11 +11,11 @@
 </template>
 
 <script lang="ts" setup>
-import { Tooltip } from 'ant-design-vue'
-import Icon from '@/components/Icon/index.vue'
+import { Tooltip } from 'ant-design-vue';
+import Icon from '@/components/Icon/index.vue';
 
 /** 跳转数据大屏 */
 const goDataScreen = () => {
-  window.open('https://iamsouth.gitee.io/echarts')
-}
+  window.open('https://iamsouth.gitee.io/echarts');
+};
 </script>

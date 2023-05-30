@@ -14,20 +14,20 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import type { TableData } from '#/public'
-import type { VxeGridProps, VxeGridPropTypes } from 'vxe-table'
+import type { PropType } from 'vue';
+import type { TableData } from '#/public';
+import type { VxeGridProps, VxeGridPropTypes } from 'vxe-table';
 import {
   h,
   ref,
   reactive,
   onMounted,
   onUnmounted
-} from 'vue'
-import { Grid } from 'vxe-table'
-import { useTableHeight } from './hooks/useTableHeight'
-import { useDebounceFn } from '@vueuse/core'
-import { EMPTY_VALUE } from '@/utils/config'
+} from 'vue';
+import { Grid } from 'vxe-table';
+import { useTableHeight } from './hooks/useTableHeight';
+import { useDebounceFn } from '@vueuse/core';
+import { EMPTY_VALUE } from '@/utils/config';
 
 const props = defineProps({
   id: {
@@ -64,22 +64,22 @@ const props = defineProps({
     required: false,
     default: true
   }
-})
+});
 
-const tableHeight = ref(0)
+const tableHeight = ref(0);
 
 onMounted(() => {
-  getTableHeight()
+  getTableHeight();
   if (props.isResize) {
-    startResize()
+    startResize();
   }
-})
+});
 
 onUnmounted(() => {
   if (props.isResize) {
-    stopResize()
+    stopResize();
   }
-})
+});
 
 // 表格参数
 const gridOptions = reactive<VxeGridProps>({
@@ -107,53 +107,53 @@ const gridOptions = reactive<VxeGridProps>({
     enabled: true // 纵向虚拟滚动配置
   },
   ...props.options
-})
+});
 
 /**
  * 处理表格数据，为空显示'-'
  * @param array - 表格列值
  */
 const handleColumns = (array?: VxeGridPropTypes.Columns) => {
-  if (!array) return undefined
+  if (!array) return undefined;
 
   for (let i = 0; i < array.length; i++) {
-    const element = array[i]
+    const element = array[i];
     // 初始化最小宽度70
-    element.minWidth = element.minWidth || 50
+    element.minWidth = element.minWidth || 50;
 
     // 如果表格存在默认值设置，则跳过当前循环
-    if (element.slots && Object.keys(element.slots).length > 0) continue
+    if (element.slots && Object.keys(element.slots).length > 0) continue;
 
     // 为每项添加default插槽
-    if (!element.slots) element.slots = {}
+    if (!element.slots) element.slots = {};
     element.slots = {
       default: ({ row }) => [
         h('span', {
           innerHTML: row?.[element.field as string] || EMPTY_VALUE
         })
       ]
-    }
+    };
   }
 
-  return array
-}
+  return array;
+};
 
 /** 获取表格高度 */
 const getTableHeight = () => {
-  tableHeight.value = useTableHeight(props.id, props.offsetHeight)
-}
+  tableHeight.value = useTableHeight(props.id, props.offsetHeight);
+};
 
 // 滚动事件防抖
-const handler = () => getTableHeight()
-const handleSize = useDebounceFn(handler, 200)
+const handler = () => getTableHeight();
+const handleSize = useDebounceFn(handler, 200);
 
 /** 开始监听滚动事件 */
 const startResize = () => {
-  window.addEventListener('resize', handleSize)
-}
+  window.addEventListener('resize', handleSize);
+};
 
 /** 结束监听滚动事件 */
 const stopResize = () => {
-  window.removeEventListener('resize', handleSize)
-}
+  window.removeEventListener('resize', handleSize);
+};
 </script>

@@ -1,7 +1,7 @@
 /**
  * @description 样式按需加载
  */
-import { createStyleImportPlugin } from 'vite-plugin-style-import'
+import { createStyleImportPlugin } from 'vite-plugin-style-import';
 
 export function configStyleImportPlugin() {
   const styleImportPlugin = createStyleImportPlugin({
@@ -41,7 +41,7 @@ export function configStyleImportPlugin() {
             'skeleton-paragraph',
             'skeleton-image',
             'skeleton-button',
-          ]
+          ];
           // 这里是需要额外引入样式的子组件列表
           // 单独引入子组件时需引入组件样式，否则会在打包后导致子组件样式丢失
           const replaceList = {
@@ -60,16 +60,16 @@ export function configStyleImportPlugin() {
             'layout-footer': 'layout',
             'layout-header': 'layout',
             'month-picker': 'date-picker',
-          }
+          };
 
           return ignoreList.includes(name)
             ? ''
             : Object.prototype.hasOwnProperty.call(replaceList, name)
             ? `ant-design-vue/es/${(replaceList as { [name: string]: string })[name]}/style/index`
-            : `ant-design-vue/es/${name}/style/index`
+            : `ant-design-vue/es/${name}/style/index`;
         },
       }
     ],
-  })
-  return styleImportPlugin
+  });
+  return styleImportPlugin;
 }

@@ -1,4 +1,4 @@
-import type { SideMenu } from '#/public'
+import type { SideMenu } from '#/public';
 
 // 系统管理
 export const SystemMenus: SideMenu[] = [
@@ -19,4 +19,4 @@ export const SystemMenus: SideMenu[] = [
       },
     ]
   }
-]
+];

@@ -22,13 +22,13 @@
 /**
  * @description: 富文本组件
  */
-import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import type { IDomEditor, IEditorConfig } from '@wangeditor/editor'
-import { onBeforeUnmount, ref, shallowRef, watch } from 'vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
-import { FILE_API } from '@/utils/config'
+import '@wangeditor/editor/dist/css/style.css'; // 引入 css
+import type { IDomEditor, IEditorConfig } from '@wangeditor/editor';
+import { onBeforeUnmount, ref, shallowRef, watch } from 'vue';
+import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
+import { FILE_API } from '@/utils/config';
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 
 const props = defineProps({
   modelValue: {
@@ -39,14 +39,14 @@ const props = defineProps({
     type: Number,
     required: false
   }
-})
+});
 
 // 编辑器实例，必须用 shallowRef
-const editorRef = shallowRef()
+const editorRef = shallowRef();
 // 内容 HTML
-const valueHtml = ref(props.modelValue || '')
+const valueHtml = ref(props.modelValue || '');
 // 工具栏配置
-const toolbarConfig = {}
+const toolbarConfig = {};
 // 编辑器配置
 const editorConfig: Partial<IEditorConfig> = {
   placeholder: '请输入内容...',
@@ -60,34 +60,34 @@ const editorConfig: Partial<IEditorConfig> = {
       server: FILE_API
     }
   }
-}
+};
 
 // 组件销毁时，也及时销毁编辑器
 onBeforeUnmount(() => {
-  const editor = editorRef.value
-  if (editor === null) return
-  editor.destroy()
-})
+  const editor = editorRef.value;
+  if (editor === null) return;
+  editor.destroy();
+});
 
 // 监听组件值变化
 watch(() => props.modelValue, value => {
-  const content = isHtml(value as string) ? value : `<p>${value}</p>`
-  valueHtml.value = content as string
-})
+  const content = isHtml(value as string) ? value : `<p>${value}</p>`;
+  valueHtml.value = content as string;
+});
 
 /** 判断最外层是否有标签 */
 const isHtml = (text: string) => {
-  const reg = /^<([a-zA-Z]+)[^>]*>(.*)<\/\1>$/
-  return reg.test(text)
-}
+  const reg = /^<([a-zA-Z]+)[^>]*>(.*)<\/\1>$/;
+  return reg.test(text);
+};
 
 /** 记录editor实例 */
 const handleCreated = (editor: IDomEditor) => {
-  editorRef.value = editor // 记录 editor 实例，重要！
-}
+  editorRef.value = editor; // 记录 editor 实例，重要！
+};
 
 /** 处理变更 */
 const handleChange = (editor: IDomEditor) => {
-  emit('update:modelValue', editor.getHtml())
-}
+  emit('update:modelValue', editor.getHtml());
+};
 </script>

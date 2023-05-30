@@ -8,12 +8,12 @@ import type {
   UploadProps,
   RateProps,
   SliderProps
-} from "ant-design-vue"
-import type { AllDataType } from './public'
-import type { DefaultOptionType } from 'ant-design-vue/lib/select'
-import type { RuleObject } from 'ant-design-vue/lib/form'
-import type { BusinessComponentType } from '@/components/Business'
-import type { WangEditorProps } from '@/components/WangEditor/model'
+} from "ant-design-vue";
+import type { AllDataType } from './public';
+import type { DefaultOptionType } from 'ant-design-vue/lib/select';
+import type { RuleObject } from 'ant-design-vue/lib/form';
+import type { BusinessComponentType } from '@/components/Business';
+import type { WangEditorProps } from '@/components/WangEditor/model';
 
 // 数据类型
 export type FormData = Record<string, AllDataType>

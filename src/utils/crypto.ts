@@ -1,8 +1,8 @@
-import type { AllDataType } from '#/public'
-import { encrypt, decrypt } from 'crypto-js/aes'
-import { CRYPTO_SECRET } from './config'
-import UTF8 from 'crypto-js/enc-utf8'
-import md5 from 'crypto-js/md5'
+import type { AllDataType } from '#/public';
+import { encrypt, decrypt } from 'crypto-js/aes';
+import { CRYPTO_SECRET } from './config';
+import UTF8 from 'crypto-js/enc-utf8';
+import md5 from 'crypto-js/md5';
 
 /**
  * @description: 加密/解密封装，secret值建议从后台接口获取
@@ -14,8 +14,8 @@ import md5 from 'crypto-js/md5'
  * @param secret - 加密密钥
  */
 export function encryption(data: AllDataType, secret = CRYPTO_SECRET) {
-  const code = JSON.stringify(data)
-  return encrypt(code, secret).toString()
+  const code = JSON.stringify(data);
+  return encrypt(code, secret).toString();
 }
 
 /**
@@ -24,12 +24,12 @@ export function encryption(data: AllDataType, secret = CRYPTO_SECRET) {
  * @param secret - 解密密钥
  */
 export function decryption(data: string, secret = CRYPTO_SECRET) {
-  const bytes = decrypt(data, secret)
-  const originalText = bytes.toString(UTF8)
+  const bytes = decrypt(data, secret);
+  const originalText = bytes.toString(UTF8);
   if (originalText) {
-    return JSON.parse(originalText)
+    return JSON.parse(originalText);
   }
-  return null
+  return null;
 }
 
 /**
@@ -37,5 +37,5 @@ export function decryption(data: string, secret = CRYPTO_SECRET) {
  * @param data - 加密数据
  */
 export function encryptMd5(data: string) {
-  return md5(data).toString()
+  return md5(data).toString();
 }

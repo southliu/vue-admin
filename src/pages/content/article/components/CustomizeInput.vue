@@ -10,9 +10,9 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import type { InputProps } from 'ant-design-vue'
-import { Input } from 'ant-design-vue'
+import type { PropType } from 'vue';
+import type { InputProps } from 'ant-design-vue';
+import { Input } from 'ant-design-vue';
 
 const props = defineProps({
     value: {
@@ -23,15 +23,15 @@ const props = defineProps({
       type: Function as PropType<(open: boolean) => void>,
       required: false
     }
-})
+});
 
-const emit = defineEmits(['update:value'])
+const emit = defineEmits(['update:value']);
 
 /**
  * 更改数据
  * @param e - 下标值
  */
 const onChange: InputProps['onChange'] = e => {
-  emit('update:value', e.target.value)
-}
+  emit('update:value', e.target.value);
+};
 </script>

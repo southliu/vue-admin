@@ -91,76 +91,76 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue'
-import { useTabStore } from '@/stores/tabs'
-import { useMenuStore } from '@/stores/menu'
-import { useUserStore } from '@/stores/user'
-import { storeToRefs } from 'pinia'
-import { useDebounceFn } from '@vueuse/core'
-import { getPermissions } from '@/servers/permission'
-import { permissionsToArray } from '@/utils/permissions'
-import { message, Skeleton } from 'ant-design-vue'
-import { useRoute } from 'vue-router'
-import { updatePassword } from '@/servers/login'
-import Header from './components/Header.vue'
-import Menu from './components/Menu.vue'
-import Tabs from './components/Tabs.vue'
-import UpdatePassword from '@/components/UpdatePassword/index.vue'
-import { routeToKeepalive } from '@/router/utils/helper'
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useTabStore } from '@/stores/tabs';
+import { useMenuStore } from '@/stores/menu';
+import { useUserStore } from '@/stores/user';
+import { storeToRefs } from 'pinia';
+import { useDebounceFn } from '@vueuse/core';
+import { getPermissions } from '@/servers/permission';
+import { permissionsToArray } from '@/utils/permissions';
+import { message, Skeleton } from 'ant-design-vue';
+import { useRoute } from 'vue-router';
+import { updatePassword } from '@/servers/login';
+import Header from './components/Header.vue';
+import Menu from './components/Menu.vue';
+import Tabs from './components/Tabs.vue';
+import UpdatePassword from '@/components/UpdatePassword/index.vue';
+import { routeToKeepalive } from '@/router/utils/helper';
 
-const route = useRoute()
-const tabStore = useTabStore()
-const menuStore = useMenuStore()
-const userStore = useUserStore()
-const { setUserInfo, setPermissions } = userStore
-const { userInfo, permissions } = storeToRefs(userStore)
-const { cacheRoutes } = storeToRefs(tabStore)
-const { isPhone } = storeToRefs(menuStore)
-const { addCacheRoutes } = tabStore
+const route = useRoute();
+const tabStore = useTabStore();
+const menuStore = useMenuStore();
+const userStore = useUserStore();
+const { setUserInfo, setPermissions } = userStore;
+const { userInfo, permissions } = storeToRefs(userStore);
+const { cacheRoutes } = storeToRefs(tabStore);
+const { isPhone } = storeToRefs(menuStore);
+const { addCacheRoutes } = tabStore;
 
-const username = ref(userInfo.value?.username || '') // 用户名
-const isLoading = ref(false)
-const isCollapsed = ref(false) // 是否收起菜单
-const isMaximize = ref(false) // 是否窗口最大化
-const isUpdatePassword = ref(false) // 是否显示修改密码
+const username = ref(userInfo.value?.username || ''); // 用户名
+const isLoading = ref(false);
+const isCollapsed = ref(false); // 是否收起菜单
+const isMaximize = ref(false); // 是否窗口最大化
+const isUpdatePassword = ref(false); // 是否显示修改密码
 
 onMounted(() => {
-  handleIsPhone()
-  startResize()
+  handleIsPhone();
+  startResize();
 
   // 转为keepalive形式
-  const cacheRoute = routeToKeepalive(route.path)
-  addCacheRoutes(cacheRoute) // 添加keepalive缓存
+  const cacheRoute = routeToKeepalive(route.path);
+  addCacheRoutes(cacheRoute); // 添加keepalive缓存
 
   // 如果用户id不存在则重新获取
   if (!userInfo.value?.id) {
-    getUserInfo()
+    getUserInfo();
   }
-})
+});
 
 onUnmounted(() => {
-  stopResize()
-})
+  stopResize();
+});
 
 /** 获取用户信息和权限 */
 const getUserInfo = async () => {
   try {
-    const { data } = await getPermissions({ refresh_cache: false })
-    const { user, permissions } = data
-    const newPermissions = permissionsToArray(permissions)
-    username.value = user.username
+    const { data } = await getPermissions({ refresh_cache: false });
+    const { user, permissions } = data;
+    const newPermissions = permissionsToArray(permissions);
+    username.value = user.username;
 
-    setUserInfo(user)
-    setPermissions(newPermissions)
+    setUserInfo(user);
+    setPermissions(newPermissions);
   } catch(err) {
-    console.error(err)
+    console.error(err);
   }
-}
+};
 
 /** 点击修改密码 */
 const onUpdatePassword = () => {
-    isUpdatePassword.value = !isUpdatePassword.value
-}
+    isUpdatePassword.value = !isUpdatePassword.value;
+};
 
 /**
  * 修改密码
@@ -168,50 +168,50 @@ const onUpdatePassword = () => {
  */
 const handleUpdatePassword = async (params: unknown) => {
   try {
-    isLoading.value = true
-    const data = await updatePassword(params)
-    message.success(data.message || '修改成功')
-    isUpdatePassword.value = !isUpdatePassword.value
+    isLoading.value = true;
+    const data = await updatePassword(params);
+    message.success(data.message || '修改成功');
+    isUpdatePassword.value = !isUpdatePassword.value;
   } finally {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}
+};
 
 /** 收缩菜单 */
 const toggleCollapsed = () => {
-  isCollapsed.value = !isCollapsed.value
-}
+  isCollapsed.value = !isCollapsed.value;
+};
 
 /** 窗口最大化 */
 const toggleMaximize = () => {
-  isMaximize.value = !isMaximize.value
-}
+  isMaximize.value = !isMaximize.value;
+};
 
 /** 判断是否是手机端 */
 const handleIsPhone = useDebounceFn(() => {
-  const isPhone = window.innerWidth <= 768
+  const isPhone = window.innerWidth <= 768;
   // 手机首次进来收缩菜单
-  if (isPhone) isCollapsed.value = true
-  menuStore.setPhone(isPhone)
-}, 500)
+  if (isPhone) isCollapsed.value = true;
+  menuStore.setPhone(isPhone);
+}, 500);
 
 /** 滚动事件防抖 */
-const handler = () => handleIsPhone()
-const handleSize = useDebounceFn(handler, 200)
+const handler = () => handleIsPhone();
+const handleSize = useDebounceFn(handler, 200);
 
 /** 开始监听滚动事件 */
 const startResize = () => {
-  window.addEventListener('resize', handleSize)
-}
+  window.addEventListener('resize', handleSize);
+};
 
 /** 结束监听滚动事件 */
 const stopResize = () => {
-  window.removeEventListener('resize', handleSize)
-}
+  window.removeEventListener('resize', handleSize);
+};
 
 defineExpose({
   cacheRoutes
-})
+});
 </script>
 
 <style lang="less" scoped>

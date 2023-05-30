@@ -121,34 +121,34 @@
 </template>
 
 <script lang="ts" setup>
-import type { Key } from 'ant-design-vue/lib/_util/type'
-import { storeToRefs } from 'pinia'
-import { useTabStore } from '@/stores/tabs'
-import { CloseOutlined } from '@ant-design/icons-vue'
-import { useRoute, useRouter } from 'vue-router'
-import { useDebounceFn } from '@vueuse/core'
-import { TabEnums } from '../model'
-import { onMounted, reactive, ref, watch } from 'vue'
+import type { Key } from 'ant-design-vue/lib/_util/type';
+import { storeToRefs } from 'pinia';
+import { useTabStore } from '@/stores/tabs';
+import { CloseOutlined } from '@ant-design/icons-vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useDebounceFn } from '@vueuse/core';
+import { TabEnums } from '../model';
+import { onMounted, reactive, ref, watch } from 'vue';
 import {
   Tabs,
   TabPane,
   Dropdown,
   Tooltip,
   message
-} from 'ant-design-vue'
-import DropdownMenu from './DropdownMenu.vue'
-import Icon from '@/components/Icon/index.vue'
-import { useUserStore } from '@/stores/user'
-import { defaultMenus } from '@/menus'
-import { getMenuByKey } from '@/menus/utils/helper'
-import { routeToKeepalive } from '@/router/utils/helper'
+} from 'ant-design-vue';
+import DropdownMenu from './DropdownMenu.vue';
+import Icon from '@/components/Icon/index.vue';
+import { useUserStore } from '@/stores/user';
+import { defaultMenus } from '@/menus';
+import { getMenuByKey } from '@/menus/utils/helper';
+import { routeToKeepalive } from '@/router/utils/helper';
 
 interface TimeoutData {
   icon: null | NodeJS.Timeout;
   refresh: null | NodeJS.Timeout;
 }
 
-const emit = defineEmits(['toggleMaximize'])
+const emit = defineEmits(['toggleMaximize']);
 
 defineProps({
   isMaximize: {
@@ -156,19 +156,19 @@ defineProps({
     required: false,
     defaultValue: false
   }
-})
+});
 
-const route = useRoute()
-const router = useRouter()
-const tabStore = useTabStore()
-const userStore = useUserStore()
-const { permissions } = storeToRefs(userStore)
+const route = useRoute();
+const router = useRouter();
+const tabStore = useTabStore();
+const userStore = useUserStore();
+const { permissions } = storeToRefs(userStore);
 const {
   tabs,
   prevPath,
   activeKey,
   cacheRoutes
-} = storeToRefs(tabStore)
+} = storeToRefs(tabStore);
 const {
   setActiveKey,
   addTabs,
@@ -178,38 +178,38 @@ const {
   closeOther,
   closeLeft,
   closeRight
-} = tabStore
-const isRefresh = ref(false) // 是否刷新
-const isDropdown = ref(false) // 是否显示下拉菜单
+} = tabStore;
+const isRefresh = ref(false); // 是否刷新
+const isDropdown = ref(false); // 是否显示下拉菜单
 const timeout = reactive<TimeoutData>({
   icon: null,
   refresh: null
-})
+});
 
 // 首次进入添加标签
 onMounted(() => {
   if (permissions.value?.length) {
-    handleAddTab()
+    handleAddTab();
   }
-})
+});
 
 // 监听路由变化添加标签
 watch(() => route.path, value => {
-  handleAddTab(value)
-})
+  handleAddTab(value);
+});
 
 // 监听权限变化添加标签
 watch(() => permissions.value, value => {
-  handleAddTab()
-})
+  handleAddTab();
+});
 
 // 监听选中标签
 watch(activeKey, value => {
   // 当选中贴标签不等于当前路由则跳转
   if (value !== route.path) {
-    router.push(value)
+    router.push(value);
   }
-})
+});
 
 /**
  * 添加标签
@@ -217,91 +217,91 @@ watch(activeKey, value => {
  */
 const handleAddTab = (path = route.path) => {
   if (permissions.value?.length > 0) {
-    if (path === '/') return
+    if (path === '/') return;
     const menuByKeyProps = {
       menus: defaultMenus,
       permissions: permissions.value,
       key: path
-    }
-    const newItems = getMenuByKey(menuByKeyProps)
+    };
+    const newItems = getMenuByKey(menuByKeyProps);
     if (newItems?.key) {
-      setActiveKey(newItems.key)
-      setNav(newItems.nav)
-      addTabs(newItems)
+      setActiveKey(newItems.key);
+      setNav(newItems.nav);
+      addTabs(newItems);
     }
   }
-}
+};
 
 /**
  * 是否是选中
  * @param key - 唯一值
  */
-const isActive = (key: string) => key === activeKey.value
+const isActive = (key: string) => key === activeKey.value;
 
 /**
  * 点击标签
  * @param targetKey - 当前选中唯一值
  */
 const onChange = (targetKey: Key) => {
-  router.push(targetKey as string)
-}
+  router.push(targetKey as string);
+};
 
 /**
  * 移除当前标签页
  * @param targetKey - 当前选中唯一值
  */
 const handleRemove = (targetKey: string) => {
-  closeTabs(targetKey)
-}
+  closeTabs(targetKey);
+};
 
 /** 获取tabs下标 */
 const getTabIndex = (key: string): number => {
-  return tabs.value.findIndex(item => item.key === key)
-}
+  return tabs.value.findIndex(item => item.key === key);
+};
 
 /**
  * 刷新当前页
  */
 const handleRefresh = (key = activeKey.value) => {
   // 关闭右键菜单显示
-  isDropdown.value = false
+  isDropdown.value = false;
   // 缓存上一个路径地址
-  addPrevPath(route.path)
+  addPrevPath(route.path);
 
   // 当timeout没执行时刷新页面
   if (!timeout.icon) {
-    isRefresh.value = true
+    isRefresh.value = true;
   
     // 去除缓存路由中当前路由
-    const cacheRoute = routeToKeepalive(key)
-    cacheRoutes.value = cacheRoutes.value.filter(item => item !== cacheRoute)
+    const cacheRoute = routeToKeepalive(key);
+    cacheRoutes.value = cacheRoutes.value.filter(item => item !== cacheRoute);
 
     // 调转空白页
-    router.push('/loading')
+    router.push('/loading');
   }
 
   /** 清除timeout */
   const clearRefresh = () => {
-    clearTimeout(timeout.refresh!)
-    timeout.refresh = null
-  }
+    clearTimeout(timeout.refresh!);
+    timeout.refresh = null;
+  };
   const clearIcon = () => {
-    clearTimeout(timeout.icon!)
-    timeout.icon = null
-  }
+    clearTimeout(timeout.icon!);
+    timeout.icon = null;
+  };
 
   // 200毫秒调转回来
   timeout.refresh = setTimeout(() => {
-    router.push(prevPath.value)
-    clearRefresh()
-    message.success({ content: '刷新成功', key: 'refresh' })
-  }, 200)
+    router.push(prevPath.value);
+    clearRefresh();
+    message.success({ content: '刷新成功', key: 'refresh' });
+  }, 200);
   // icon 1秒后转回来
   timeout.icon = setTimeout(() => {
-    isRefresh.value = false
-    clearIcon()
-  }, 1000)
-}
+    isRefresh.value = false;
+    clearIcon();
+  }, 1000);
+};
 
 /**
  * 点击右键功能
@@ -310,50 +310,50 @@ const handleRefresh = (key = activeKey.value) => {
  */
 const handleDropdown = useDebounceFn((type: TabEnums, key: string) => {
   // 关闭右键菜单显示
-  isDropdown.value = false
+  isDropdown.value = false;
 
   switch (type) {
     // 关闭标签
     case TabEnums.CLOSE_CURRENT:
-      closeTabs(key)
-      break
+      closeTabs(key);
+      break;
 
     // 关闭其他
     case TabEnums.CLOSE_OTHER:
-      closeOther(key)
-      break
+      closeOther(key);
+      break;
 
     // 关闭左侧
     case TabEnums.CLOSE_LEFT:
-      closeLeft(key)
-      break
+      closeLeft(key);
+      break;
 
     // 关闭右侧
     case TabEnums.CLOSE_RIGHT:
-      closeRight(key)
-      break
+      closeRight(key);
+      break;
 
     default:
-      break
+      break;
   }
-})
+});
 
 /** 处理最大化 */
 const handleMaximize = () => {
-  emit('toggleMaximize')
-}
+  emit('toggleMaximize');
+};
 
 /**
  * 监听菜单变化
  * @param isVisible - 是否显示
  */
 const handleDropdownChange = (isVisible: boolean) => {
-  isDropdown.value = isVisible
-}
+  isDropdown.value = isVisible;
+};
 
 defineExpose({
   TabEnums
-})
+});
 </script>
 
 <style lang="less" scoped>

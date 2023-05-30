@@ -1,5 +1,5 @@
-import type { SideMenu } from '#/public'
-import { defineStore } from 'pinia'
+import type { SideMenu } from '#/public';
+import { defineStore } from 'pinia';
 
 // 菜单项
 export interface MenuItem {
@@ -42,35 +42,35 @@ export const useMenuStore = defineStore({
      * @param menus - 菜单值
      */
     setMenus(menus: SideMenu[]) {
-      this.menuList = menus
+      this.menuList = menus;
     },
     /**
      * 设置是否是手机
      * @param isPhone - 是否是手机打开
      */
     setPhone(isPhone: boolean) {
-      this.isPhone = isPhone
+      this.isPhone = isPhone;
     },
     /**
      * 设置展开值
      * @param arr - 展开值
      */
      setOpenKeys(arr: string[]) {
-      this.openKeys = arr
+      this.openKeys = arr;
     },
     /**
      * 设置选中的值
      * @param arr - 选中的值
      */
      setSelectedKeys(arr: string[]) {
-      this.selectedKeys = arr
+      this.selectedKeys = arr;
     },
     /**
      * 设置第一个菜单
      * @param obj - 菜单值
      */
     setFirstMenu(obj: MenuItem) {
-      this.firstMenu = obj
+      this.firstMenu = obj;
     }
   }
-})
+});

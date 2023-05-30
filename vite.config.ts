@@ -1,14 +1,14 @@
-import { defineConfig, loadEnv } from 'vite'
-import { handleEnv } from './build/utils'
-import { createProxy } from './build/vite/proxy'
-import { createVitePlugins } from './build/plugins'
+import { defineConfig, loadEnv } from 'vite';
+import { handleEnv } from './build/utils';
+import { createProxy } from './build/vite/proxy';
+import { createVitePlugins } from './build/plugins';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const root = process.cwd()
-  const env = loadEnv(mode, root)
-  const viteEnv = handleEnv(env)
-  const { VITE_SERVER_PORT, VITE_PROXY } = viteEnv
+  const root = process.cwd();
+  const env = loadEnv(mode, root);
+  const viteEnv = handleEnv(env);
+  const { VITE_SERVER_PORT, VITE_PROXY } = viteEnv;
 
   return {
     plugins: createVitePlugins(),
@@ -47,5 +47,5 @@ export default defineConfig(({ mode }) => {
         },
       }
     }
-  }
-})
+  };
+});

@@ -17,37 +17,37 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import { Tooltip } from 'ant-design-vue'
-import Icon from '@/components/Icon/index.vue'
+import { onMounted, ref } from 'vue';
+import { Tooltip } from 'ant-design-vue';
+import Icon from '@/components/Icon/index.vue';
 
 type TypeData = 'dark' | 'light'
 
-const key = 'theme'
-const themeCache = (localStorage.getItem(key) || 'light') as TypeData
-const theme = ref<TypeData>(themeCache)
+const key = 'theme';
+const themeCache = (localStorage.getItem(key) || 'light') as TypeData;
+const theme = ref<TypeData>(themeCache);
 
 onMounted(() => {
   if (!themeCache) {
-    localStorage.setItem(key, 'light')
+    localStorage.setItem(key, 'light');
   }
   if (themeCache === 'dark') {
-    document.body.className = 'theme-dark'
+    document.body.className = 'theme-dark';
   }
-})
+});
 
 const onChange = (type: TypeData) => {
-  localStorage.setItem(key, type)
-  theme.value = type
+  localStorage.setItem(key, type);
+  theme.value = type;
 
   switch (type) {
     case 'dark':
-      document.body.className = 'theme-dark'
-      break
+      document.body.className = 'theme-dark';
+      break;
 
     default:
-      document.body.className = 'theme-primary'
-      break
+      document.body.className = 'theme-primary';
+      break;
   }
-}
+};
 </script>

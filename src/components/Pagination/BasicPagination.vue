@@ -26,9 +26,9 @@
 </template>
 
 <script lang="ts" setup>
-import { Pagination } from 'ant-design-vue'
+import { Pagination } from 'ant-design-vue';
 
-const emit = defineEmits(['handleChange'])
+const emit = defineEmits(['handleChange']);
 
 defineProps({
   total: {
@@ -51,15 +51,15 @@ defineProps({
     required: false,
     default: false
   }
-})
+});
 
 /**
  * 显示总数
  * @param total - 总数
  */
 const showTotal = (total: number): string => {
-  return `共 ${total || 0} 条数据`
-}
+  return `共 ${total || 0} 条数据`;
+};
 
 /**
  * 页数改变
@@ -67,8 +67,8 @@ const showTotal = (total: number): string => {
  * @param pageSize - 页总数
  */
 const onChange = (page: number, pageSize: number) => {
-  emit('handleChange', page, pageSize)
-}
+  emit('handleChange', page, pageSize);
+};
 </script>
 
 <style lang="less">

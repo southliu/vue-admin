@@ -31,8 +31,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue'
-import { Button } from 'ant-design-vue'
+import type { PropType } from 'vue';
+import { Button } from 'ant-design-vue';
 
 defineProps({
   isLoading: {
@@ -48,5 +48,5 @@ defineProps({
     type: Function as PropType<() => void>,
     required: true
   }
-})
+});
 </script>

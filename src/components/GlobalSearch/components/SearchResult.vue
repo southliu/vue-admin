@@ -49,11 +49,11 @@
 </template>
 
 <script lang="ts" setup>
-import type { SideMenu } from '#/public'
-import { PropType } from 'vue'
-import Icon from '@/components/Icon/index.vue'
+import type { SideMenu } from '#/public';
+import { PropType } from 'vue';
+import Icon from '@/components/Icon/index.vue';
 
-const emit = defineEmits(['handleClick', 'handleMouse'])
+const emit = defineEmits(['handleClick', 'handleMouse']);
 
 defineProps({
   list: {
@@ -64,20 +64,20 @@ defineProps({
     type: String,
     required: true
   }
-})
+});
 
 /**
  * 处理鼠标经过
  * @param item - 当前值
  */
 const handleMouse = (item: string) => {
-  emit('handleMouse', item)
-}
+  emit('handleMouse', item);
+};
 
 /**
  * 鼠标点击
  */
 const handleClick = () => {
-  emit('handleClick')
-}
+  emit('handleClick');
+};
 </script>

@@ -1,5 +1,5 @@
-import type { TabPaneProps } from 'ant-design-vue'
-import { defineStore } from 'pinia'
+import type { TabPaneProps } from 'ant-design-vue';
+import { defineStore } from 'pinia';
 
 export interface TabsData extends Omit<TabPaneProps, 'tab'> {
   key: string;
@@ -35,7 +35,7 @@ export const useTabStore = defineStore({
      */
     addCacheRoutes(key: string) {
       if (!this.cacheRoutes.includes(key)) {
-        this.cacheRoutes.push(key)
+        this.cacheRoutes.push(key);
       }
     },
 
@@ -44,13 +44,13 @@ export const useTabStore = defineStore({
      * @param key - 路由值
      */
     removeCacheRoutes(key: string) {
-      const index = this.cacheRoutes.findIndex(item => item === key)
-      if (index >= 0) this.cacheRoutes.splice(index, 1)
+      const index = this.cacheRoutes.findIndex(item => item === key);
+      if (index >= 0) this.cacheRoutes.splice(index, 1);
     },
 
     /** 清空缓存路由 */
     clearCacheRoutes() {
-      this.cacheRoutes = []
+      this.cacheRoutes = [];
     },
 
     /**
@@ -58,7 +58,7 @@ export const useTabStore = defineStore({
      * @param path - 路径
      */
     addPrevPath(path: string) {
-      this.prevPath = path
+      this.prevPath = path;
     },
 
     /**
@@ -66,7 +66,7 @@ export const useTabStore = defineStore({
      * @param nav - 导航数据
      */
     setNav(nav: string[]) {
-      this.nav = nav
+      this.nav = nav;
     },
 
     /**
@@ -74,7 +74,7 @@ export const useTabStore = defineStore({
      * @param targetKey - 当前选中唯一值
      */
     setActiveKey(targetKey: string) {
-      this.activeKey = targetKey
+      this.activeKey = targetKey;
     },
 
     /**
@@ -83,11 +83,11 @@ export const useTabStore = defineStore({
      */
     addTabs(tab: TabsData) {
       // 判断是否存在相同的路由，不存在则累加
-      const has = this.tabs.find(item => item.key === tab.key)
-      if (!has) this.tabs.push(tab)
+      const has = this.tabs.find(item => item.key === tab.key);
+      if (!has) this.tabs.push(tab);
 
       // 如果只剩一个则无法关闭
-      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
 
     /**
@@ -96,22 +96,22 @@ export const useTabStore = defineStore({
      */
     closeTabs(targetKey: string) {
       // 发现下标并从数组中删除
-      const index = this.tabs.findIndex(item => item.key === targetKey)
-      if (index >= 0) this.tabs.splice(index, 1)
+      const index = this.tabs.findIndex(item => item.key === targetKey);
+      if (index >= 0) this.tabs.splice(index, 1);
 
       // 如果当前下标是当前选中的标签，则跳转至上一个/下一个有效值
       if (targetKey === this.activeKey) {
-        let target = ''
+        let target = '';
         if (index === 0) {
-          target = this.tabs[index].key
+          target = this.tabs[index].key;
         } else {
-          target = this.tabs[index - 1].key
+          target = this.tabs[index - 1].key;
         }
-        this.activeKey = target
+        this.activeKey = target;
       }
 
       // 如果只剩一个则无法关闭
-      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
 
     /**
@@ -121,17 +121,17 @@ export const useTabStore = defineStore({
      */
     closeTabGoNext(targetKey: string, nextPath: string) {
       // 发现下标并从数组中删除
-      const index = this.tabs.findIndex(item => item.key === targetKey)
-      if (index >= 0) this.tabs.splice(index, 1)
+      const index = this.tabs.findIndex(item => item.key === targetKey);
+      if (index >= 0) this.tabs.splice(index, 1);
 
       // 如果当前下标是当前选中的标签，则跳转至上一个/下一个有效值
       if (targetKey === this.activeKey) {
-        this.activeKey = nextPath
+        this.activeKey = nextPath;
         // this.isLock = true
       }
 
       // 如果只剩一个则无法关闭
-      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
 
     /**
@@ -140,14 +140,14 @@ export const useTabStore = defineStore({
      */
     closeOther(targetKey: string) {
       // 发现下标并从数组中删除
-      const tab = this.tabs.find(item => item.key === targetKey)
+      const tab = this.tabs.find(item => item.key === targetKey);
       if (tab) {
-        this.tabs = [tab]
-        this.activeKey = tab.key
+        this.tabs = [tab];
+        this.activeKey = tab.key;
       }
 
       // 如果只剩一个则无法关闭
-      if (this.tabs?.length) this.tabs[0].closable = false
+      if (this.tabs?.length) this.tabs[0].closable = false;
     },
 
     /**
@@ -156,12 +156,12 @@ export const useTabStore = defineStore({
      */
     closeLeft(targetKey: string) {
       // 发现下标并从数组中删除
-      const index = this.tabs.findIndex(item => item.key === targetKey)
-      if (index >= 0) this.tabs.splice(0, index)
-      this.activeKey = this.tabs[0].key
+      const index = this.tabs.findIndex(item => item.key === targetKey);
+      if (index >= 0) this.tabs.splice(0, index);
+      this.activeKey = this.tabs[0].key;
 
       // 如果只剩一个则无法关闭
-      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
 
     /**
@@ -170,17 +170,17 @@ export const useTabStore = defineStore({
      */
     closeRight(targetKey: string) {
       // 发现下标并从数组中删除
-      const index = this.tabs.findIndex(item => item.key === targetKey)
-      if (index >= 0) this.tabs.splice(index + 1, this.tabs.length - index - 1)
-      this.activeKey = this.tabs[this.tabs.length - 1].key
+      const index = this.tabs.findIndex(item => item.key === targetKey);
+      if (index >= 0) this.tabs.splice(index + 1, this.tabs.length - index - 1);
+      this.activeKey = this.tabs[this.tabs.length - 1].key;
 
       // 如果只剩一个则无法关闭
-      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1
+      if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
 
     /** 关闭全部 */
     closeAllTab() {
-      this.tabs = []
+      this.tabs = [];
     }
   }
-})
+});

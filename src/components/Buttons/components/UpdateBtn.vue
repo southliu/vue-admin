@@ -9,9 +9,9 @@
 </template>
 
 <script lang="ts" setup>
-import { Button } from 'ant-design-vue'
+import { Button } from 'ant-design-vue';
 
-const emit = defineEmits(['click'])
+const emit = defineEmits(['click']);
 
 defineProps({
   isLoading: {
@@ -19,10 +19,10 @@ defineProps({
     required: false,
     default: false
   }
-})
+});
 
 /** 点击编辑 */
 const onClick = () => {
-  emit('click')
-}
+  emit('click');
+};
 </script>

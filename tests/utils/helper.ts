@@ -1,4 +1,4 @@
-import { VueWrapper } from "@vue/test-utils"
+import { VueWrapper } from "@vue/test-utils";
 
 /**
  * 获取属性名
@@ -6,5 +6,5 @@ import { VueWrapper } from "@vue/test-utils"
  * @param name - 属性名
  */
 export function findTestWrapper(wrapper: VueWrapper, name: string) {
-  return wrapper.find(`[data-test="${name}"]`)
+  return wrapper.find(`[data-test="${name}"]`);
 }

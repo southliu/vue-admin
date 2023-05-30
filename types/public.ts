@@ -1,5 +1,5 @@
-import type { VxeTableProps } from "vxe-table"
-import type { FormData } from "./form"
+import type { VxeTableProps } from "vxe-table";
+import type { FormData } from "./form";
 
 // 基础类型
 export type BasicData = string | number | boolean

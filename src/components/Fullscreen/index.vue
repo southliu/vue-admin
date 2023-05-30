@@ -15,9 +15,9 @@
 /**
  * @description: 全屏组件
  */
-import { useFullscreen } from '@vueuse/core'
-import { Tooltip } from 'ant-design-vue'
-import Icon from '@/components/Icon/index.vue'
+import { useFullscreen } from '@vueuse/core';
+import { Tooltip } from 'ant-design-vue';
+import Icon from '@/components/Icon/index.vue';
 
-const { isFullscreen, toggle } = useFullscreen()
+const { isFullscreen, toggle } = useFullscreen();
 </script>

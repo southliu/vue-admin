@@ -1,5 +1,5 @@
-import type { FormList } from "#/form"
-import { DATE_FORMAT } from "@/utils/constants"
+import type { FormList } from "#/form";
+import { DATE_FORMAT } from "@/utils/constants";
 
 // 接口返回数据
 export interface DashboardResult {
@@ -41,4 +41,4 @@ export const searchList: FormList[] = [
     wrapperCol: 15,
     component: 'Checkbox'
   }
-]
+];
