@@ -247,7 +247,8 @@ defineExpose({
 }
 
 .con {
-  position: fixed;
+  width: calc(100% - @layoutLeft);
+  position: relative;
   left: @layoutLeft;
   top: @layoutTop;
   right: 0;
