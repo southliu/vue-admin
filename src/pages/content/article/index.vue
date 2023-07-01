@@ -43,14 +43,6 @@
   </BasicContent>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'ContentArticle'
-});
-</script>
-
 <script lang="ts" setup>
 import type { FormData } from '#/form';
 import type { SearchData, TableData, PaginationData } from '#/public';
@@ -69,6 +61,10 @@ import BasicContent from '@/components/Content/BasicContent.vue';
 import BasicTable from '@/components/Table/BasicTable.vue';
 import BasicPagination from '@/components/Pagination/BasicPagination.vue';
 import BasicSearch from '@/components/Search/BasicSearch.vue';
+
+defineOptions({
+  name: 'ContentArticle'
+});
 
 useTitle('文章管理');
 const router = useRouter();

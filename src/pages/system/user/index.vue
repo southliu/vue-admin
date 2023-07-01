@@ -75,14 +75,6 @@
   />
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'SystemUser'
-});
-</script>
-
 <script lang="ts" setup>
 import type { FormData } from '#/form';
 import type { BasicFormProps } from '@/components/Form/model';
@@ -120,6 +112,10 @@ interface PermissionConfig {
   checkedKeys: Key[];
   treeData: DataNode[];
 }
+
+defineOptions({
+  name: 'SystemUser'
+});
 
 useTitle('用户管理');
 const userStore = useUserStore();
