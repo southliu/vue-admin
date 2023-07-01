@@ -25,14 +25,6 @@
   </BasicContent>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'DashboardPage'
-});
-</script>
-
 <script lang="ts" setup>
 import type { DashboardResult } from './model';
 import type { SearchData } from '#/public';
@@ -49,6 +41,10 @@ import Bar from './components/Bar.vue';
 import dayjs from 'dayjs';
 import BasicSearch from '@/components/Search/BasicSearch.vue';
 import BasicContent from '@/components/Content/BasicContent.vue';
+
+defineOptions({
+  name: 'DashboardPage'
+});
 
 useTitle('数据总览');
 

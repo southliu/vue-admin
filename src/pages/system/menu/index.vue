@@ -59,14 +59,6 @@
   </BasicModal>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
-
-export default defineComponent({
-  name: 'SystemMenu'
-});
-</script>
-
 <script lang="ts" setup>
 import type { FormData } from '#/form';
 import type { BasicFormProps } from '@/components/Form/model';
@@ -93,6 +85,10 @@ import BasicPagination from '@/components/Pagination/BasicPagination.vue';
 import BasicSearch from '@/components/Search/BasicSearch.vue';
 import BasicForm from '@/components/Form/BasicForm.vue';
 import BasicModal from '@/components/Modal/BasicModal.vue';
+
+defineOptions({
+  name: 'SystemMenu'
+});
 
 useTitle('菜单管理');
 const userStore = useUserStore();
