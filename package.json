@@ -21,7 +21,7 @@
     "@vueuse/core": "^7.7.0",
     "@wangeditor/editor": "^5.1.1",
     "@wangeditor/editor-for-vue": "^5.1.11",
-    "ant-design-vue": "3.2.15",
+    "ant-design-vue": "4.0.0",
     "axios": "0.27.2",
     "crypto-js": "^4.1.1",
     "dayjs": "1.11.3",
