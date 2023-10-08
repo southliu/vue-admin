@@ -1,6 +1,6 @@
 <template>
   <Modal
-    :visible="isVisible"
+    :open="isVisible"
     :width="isFullscreen ? '100%' : width"
     :layout="layout"
     :mask-closable="false"
