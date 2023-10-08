@@ -1,7 +1,7 @@
 <template>
   <Modal
     class="rounded-100px"
-    :open="isVisible"
+    :visible="isVisible"
     :closable="false"
     @cancel="toggle"
   >

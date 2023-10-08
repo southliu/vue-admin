@@ -9,7 +9,7 @@ import {
   Input,
   InputNumber,
   InputPassword,
-  // AutoComplete,
+  AutoComplete,
   Select,
   TreeSelect,
   Checkbox,
@@ -28,7 +28,7 @@ const componentMap = new Map<ComponentType, Component>();
 componentMap.set('Input', Input);
 componentMap.set('InputNumber', InputNumber);
 componentMap.set('InputPassword', InputPassword);
-// componentMap.set('AutoComplete', AutoComplete);
+componentMap.set('AutoComplete', AutoComplete);
 componentMap.set('Select', Select);
 componentMap.set('TreeSelect', TreeSelect);
 componentMap.set('Checkbox', Checkbox);
