@@ -1,6 +1,6 @@
 <template>
   <BasicModal
-    :isVisible="isVisible"
+    :isOpen="isOpen"
     title="修改密码"
     :width="450"
     :isLoading="isLoading"
@@ -74,7 +74,7 @@ interface FormData {
 const emit = defineEmits(['handleCancel', 'handleSubmit']);
 
 defineProps({
-  isVisible: {
+  isOpen: {
     type: Boolean,
     required: true
   },

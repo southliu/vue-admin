@@ -1,31 +1,22 @@
-// import { shallowRef } from "vue";
-
-interface OptionProps {
-  content: string;
-  height: number;
-  width: number;
-  rotate: number;
-  color: string;
-  fontSize: number;
-  opacity: number;
+interface Option {
+  content: string; // 内容
+  height: number; // 水印行高
+  width: number; // 水印宽度
+  rotate: number; // 旋转度数（可为负值）
+  color: string; // 水印字体颜色
+  fontSize: number; // 水印字体的大小
+  opacity: number; // 水印透明度（0~1之间取值）
 }
 
 /**
  * 水印
- * @param content - 内容
- * @param height - 水印行高
- * @param width - 水印宽度
- * @param rotate - 旋转度数（可为负值）
- * @param color - 水印字体颜色
- * @param fontSize - 水印字体的大小
- * @param opacity - 水印透明度（0~1之间取值）
  */
 export function useWatermark() {
   /**
    * 水印
-   * @param text - 水印显示值
+   * @param options - 操作值
    */
-  const Watermark = (options: OptionProps) => {
+  const Watermark = (options: Option) => {
     const {
       content,
       height,
@@ -62,7 +53,8 @@ export function useWatermark() {
     const DivLine = document.createElement('div');
     DivLine.innerHTML = StrLine;
 
-    const TpColumn = Math.floor(document.body.clientHeight / height) * 2; // 一列显示几行
+    const TpColumn = (Math.floor(document.body.clientHeight / height) * 2) || 4; // 一列显示几行
+
     let StrColumn = '';
     for (let i = 0; i < TpColumn; i++) {
       StrColumn += `<div style="white-space: nowrap;">${DivLine.innerHTML}</div>`;
@@ -73,7 +65,7 @@ export function useWatermark() {
     DivLayer.style.position = 'fixed';
     DivLayer.style.top = '0px'; // 整体水印距离顶部距离
     DivLayer.style.left = '-100px'; // 改变整体水印的left值
-    DivLayer.style.zIndex = '99999'; // 水印页面层级
+    DivLayer.style.zIndex = '999999'; // 水印页面层级
     DivLayer.style.pointerEvents = 'none';
     DivLayer.style.userSelect = 'none';
 
@@ -92,5 +84,5 @@ export function useWatermark() {
     }
   };
 
-  return { Watermark, RemoveWatermark };
+  return [Watermark, RemoveWatermark] as const;
 }

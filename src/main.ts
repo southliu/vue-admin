@@ -8,9 +8,9 @@ import Element from './App.vue';
 // 样式
 import 'virtual:uno.css';
 import 'nprogress/nprogress.css';
+import '@/assets/css/antd.less';
 import '@/assets/css/scrollbar.less';
 import '@/assets/css/theme-color.less';
-import 'ant-design-vue/dist/reset.css';
 
 // vxe-table
 import { Column, Table, Grid } from 'vxe-table';

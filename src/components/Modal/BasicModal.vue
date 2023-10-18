@@ -1,6 +1,6 @@
 <template>
   <Modal
-    :open="isVisible"
+    :open="isOpen"
     :width="isFullscreen ? '100%' : width"
     :layout="layout"
     :mask-closable="false"
@@ -8,10 +8,10 @@
     :wrapClassName="isFullscreen ? 'full-modal' : ''"
   >
     <template #closeIcon>
-      <div class="mt-7px">
+      <div class="">
         <div class="h-full flex items-center justify-center :hover:text-white text-#000">
           <Tooltip
-            class="p-10px font-16px text-#00000073 hover:text-#404040"
+            class="p-5px font-16px text-#00000073 hover:text-#404040"
             placement="bottom"
             @click="onFullscreen"
           >
@@ -31,7 +31,7 @@
           </Tooltip>
 
           <Tooltip
-            class="p-10px font-16px text-#00000073 hover:text-#404040"
+            class="p-5px font-16px text-#00000073 hover:text-#404040"
             placement="bottom"
             @click="onCancel"
           >
@@ -78,7 +78,7 @@ import Icon from '../Icon/index.vue';
 const emit = defineEmits(['handleCancel', 'handleFinish']);
 
 const props = defineProps({
-  isVisible: {
+  isOpen: {
     type: Boolean,
     required: true
   },
@@ -126,7 +126,7 @@ const onFullscreen = () => {
 };
 
 // 监听显示开启拖拽
-watch(() => props.isVisible, async (value) => {
+watch(() => props.isOpen, async (value) => {
   if (value) {
     await nextTick();
     useModalDragMove();
@@ -138,7 +138,11 @@ watch(() => props.isVisible, async (value) => {
 
 <style lang="less">
 .ant-modal-close-x {
-  width: 100px !important;
+  margin-right: 50px;
+}
+
+:where(.css-dev-only-do-not-override-eq3tly).ant-modal .ant-modal-close:hover {
+  background-color: transparent;
 }
 
 .full-modal {

@@ -1,6 +1,6 @@
 <template>
   <div v-if="!isLock" class="bg-light-400 w-screen h-screen">
-    <div class="box w-300px h-290px p-30px rounded-5px bg-white">
+    <div class="box w-300px h-290px p-30px rounded-5px bg-white box-border">
       <div class="pb-30px pt-10px flex items-center justify-center">
         <img
           class="mr-2 object-contain"
@@ -105,7 +105,7 @@ const router = useRouter();
 const userStore = useUserStore();
 const { setUserInfo, setPermissions } = userStore;
 const { setToken } = useToken();
-const { RemoveWatermark } = useWatermark();
+const [_, RemoveWatermark] = useWatermark();
 const isLoading = ref(false);
 const isLock = ref(false);
 

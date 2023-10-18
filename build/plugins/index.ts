@@ -1,7 +1,6 @@
 import type { Plugin } from 'vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import { presetUno, presetAttributify, presetIcons } from 'unocss';
-import { configStyleImportPlugin } from './styleImport';
 import { configPageImportPlugin } from './pages';
 import { timePlugin } from './time';
 import { visualizer } from 'rollup-plugin-visualizer';
@@ -48,8 +47,6 @@ export function createVitePlugins() {
     }),
     // 打包时间
     timePlugin(),
-    // css按需加载
-    configStyleImportPlugin(),
     // 自动生成路由
     configPageImportPlugin()
   ];

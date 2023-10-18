@@ -18,7 +18,6 @@
         :rules="item.rules"
         :labelCol="{ style: { width: `${ item.labelCol }px` } }"
         :wrapperCol="{ style: { width: `${ item.wrapperCol }px` } }"
-        :style="{ display: 'inline-block' }"
       >
         <BasicComponents
           class="min-w-100px"

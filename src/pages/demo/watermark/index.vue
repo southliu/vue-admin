@@ -16,7 +16,7 @@ import { Button } from 'ant-design-vue';
 import BasicContent from '@/components/Content/BasicContent.vue';
 
 useTitle('水印');
-const { Watermark, RemoveWatermark } = useWatermark();
+const [Watermark, RemoveWatermark] = useWatermark();
 
 const openWatermark = () => {
   Watermark({
