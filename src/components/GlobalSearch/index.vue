@@ -9,8 +9,8 @@
   </Tooltip>
 
   <SearchModal
-    v-if="isVisible"
-    :isVisible="isVisible"
+    v-if="isOpen"
+    :isOpen="isOpen"
     @toggle="toggle"
   />
 </template>
@@ -24,10 +24,10 @@ import { Tooltip } from 'ant-design-vue';
 import SearchModal from './components/SearchModal.vue';
 import Icon from '@/components/Icon/index.vue';
 
-const isVisible = ref(false);
+const isOpen = ref(false);
 
 /** 切换搜索框显示状态 */
 const toggle = () => {
-  isVisible.value = !isVisible.value;
+  isOpen.value = !isOpen.value;
 };
 </script>

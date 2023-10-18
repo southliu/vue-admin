@@ -51,7 +51,7 @@
   </BasicContent>
 
   <BasicModal
-    v-model:isVisible="creates.isVisible"
+    v-model:isOpen="creates.isOpen"
     :isLoading="isCreateLoading"
     :title="creates.title"
     @handleFinish="createSubmit"
@@ -67,7 +67,7 @@
   </BasicModal>
 
   <PermissionDrawer
-    :isVisible="permissionConfig.isVisible"
+    :isOpen="permissionConfig.isOpen"
     :treeData="permissionConfig.treeData"
     :checkedKeys="permissionConfig.checkedKeys"
     @onClose="closePermission"
@@ -108,7 +108,7 @@ import PermissionDrawer from './components/PermissionDrawer.vue';
 
 interface PermissionConfig {
   id: string;
-  isVisible: boolean;
+  isOpen: boolean;
   checkedKeys: Key[];
   treeData: DataNode[];
 }
@@ -139,7 +139,7 @@ const pagePermission = reactive({
 // 权限配置
 const permissionConfig = reactive<PermissionConfig>({
   id: '',
-  isVisible: false,
+  isOpen: false,
   checkedKeys: [],
   treeData: []
 });
@@ -158,7 +158,7 @@ const searches = reactive<SearchData>({
 // 新增数据
 const creates = reactive<CreateData>({
   id: '',
-  isVisible: false,
+  isOpen: false,
   title: '新增',
   data: initCreate
 });
@@ -209,7 +209,7 @@ const handleSearch = async (values: FormData) => {
 
 /** 点击新增 */
 const onCreate = () => {
-  creates.isVisible = !creates.isVisible;
+  creates.isOpen = !creates.isOpen;
   creates.title = ADD_TITLE;
   creates.id = '';
   creates.data = initCreate;
@@ -221,7 +221,7 @@ const onCreate = () => {
  */
 const onUpdate = async (record: FormData) => {
   const { id, name } = record;
-  creates.isVisible = !creates.isVisible;
+  creates.isOpen = !creates.isOpen;
   creates.id = id as string;
   creates.title = EDIT_TITLE(name as string);
 
@@ -245,7 +245,7 @@ const handleCreate = async (values: FormData) => {
     const { data } = await functions();
     getPage();
     creates.id = '';
-    creates.isVisible = false;
+    creates.isOpen = false;
     creates.data = initCreate;
     createFormRef.value?.handleReset();
     message.success(data?.message || '操作成功');
@@ -256,7 +256,7 @@ const handleCreate = async (values: FormData) => {
 
 /** 关闭新增/编辑 */
 const onCloseCreate = () => {
-  creates.isVisible = false;
+  creates.isOpen = false;
 };
 
 /**
@@ -297,7 +297,7 @@ const openPermission = async (id: string) => {
     permissionConfig.id = id;
     permissionConfig.treeData = treeData;
     permissionConfig.checkedKeys = Object.values(defaultCheckedKeys);
-    permissionConfig.isVisible = true;
+    permissionConfig.isOpen = true;
   } finally {
     isLoading.value = false;
   }
@@ -305,7 +305,7 @@ const openPermission = async (id: string) => {
 
 /** 关闭权限 */
 const closePermission = () => {
-  permissionConfig.isVisible = false;
+  permissionConfig.isOpen = false;
 };
 
 /**
@@ -320,7 +320,7 @@ const permissionSubmit = async (checked: Key[]) => {
     };
     const data = await savePermission(params);
     message.success(data.message || '授权成功');
-    permissionConfig.isVisible = false;
+    permissionConfig.isOpen = false;
   } finally {
     isLoading.value = false;
   }

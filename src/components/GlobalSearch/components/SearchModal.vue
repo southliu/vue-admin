@@ -1,7 +1,7 @@
 <template>
   <Modal
     class="rounded-100px"
-    :visible="isVisible"
+    :open="isOpen"
     :closable="false"
     @cancel="toggle"
   >
@@ -56,7 +56,7 @@ import Icon from '@/components/Icon/index.vue';
 const emit = defineEmits(['toggle']);
 
 defineProps({
-  isVisible: {
+  isOpen: {
     type: Boolean,
     required: true
   }

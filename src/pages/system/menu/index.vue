@@ -43,7 +43,7 @@
   </BasicContent>
 
   <BasicModal
-    v-model:isVisible="creates.isVisible"
+    v-model:isOpen="creates.isOpen"
     :isLoading="isCreateLoading"
     :title="creates.title"
     @handleFinish="createSubmit"
@@ -122,7 +122,7 @@ const searches = reactive<SearchData>({
 // 新增数据
 const creates = reactive<CreateData>({
   id: '',
-  isVisible: false,
+  isOpen: false,
   title: '新增',
   data: initCreate
 });
@@ -173,7 +173,7 @@ const handleSearch = async (values: FormData) => {
 
 /** 点击新增 */
 const onCreate = () => {
-  creates.isVisible = !creates.isVisible;
+  creates.isOpen = !creates.isOpen;
   creates.title = ADD_TITLE;
   creates.id = '';
   creates.data = initCreate;
@@ -185,7 +185,7 @@ const onCreate = () => {
  */
 const onUpdate = async (record: FormData) => {
   const { id, name } = record;
-  creates.isVisible = !creates.isVisible;
+  creates.isOpen = !creates.isOpen;
   creates.id = id as string;
   creates.title = EDIT_TITLE(name as string);
 
@@ -209,7 +209,7 @@ const handleCreate = async (values: FormData) => {
     const { data } = await functions();
     getPage();
     creates.id = '';
-    creates.isVisible = false;
+    creates.isOpen = false;
     creates.data = initCreate;
     createFormRef.value?.handleReset();
     message.success(data?.message || '操作成功');
@@ -220,7 +220,7 @@ const handleCreate = async (values: FormData) => {
 
 /** 关闭新增/编辑 */
 const onCloseCreate = () => {
-  creates.isVisible = false;
+  creates.isOpen = false;
 };
 
 /**

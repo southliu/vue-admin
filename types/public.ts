@@ -37,7 +37,7 @@ export interface SearchData {
 // 新增数据
 export interface CreateData {
   id: string;
-  isVisible: boolean;
+  isOpen: boolean;
   title: string;
   data: FormData;
 }

@@ -19,7 +19,7 @@
         <template #tab>
           <Dropdown :trigger="['contextmenu']">
             <div
-              class="flex items-center justify-between w-full px-3 py-1 mr-0 border border-light-900"
+              class="flex items-center justify-between w-full pl-4 pr-1 py-1 mr-0 border border-light-900"
               :class="{
                 'bg-blue-700': isActive(item.key),
                 '!text-white': isActive(item.key)
@@ -75,7 +75,7 @@
           <span>更多功能</span>
         </template>
 
-        <Dropdown :trigger="['click']" @visibleChange="handleDropdownChange">
+        <Dropdown :trigger="['click']" @openChange="handleDropdownChange">
           <div>
             <Icon
               class="flex items-center justify-center change text-lg cursor-pointer transition-all transform "
@@ -345,10 +345,10 @@ const handleMaximize = () => {
 
 /**
  * 监听菜单变化
- * @param isVisible - 是否显示
+ * @param isOpen - 是否显示
  */
-const handleDropdownChange = (isVisible: boolean) => {
-  isDropdown.value = isVisible;
+const handleDropdownChange = (isOpen: boolean) => {
+  isDropdown.value = isOpen;
 };
 
 defineExpose({

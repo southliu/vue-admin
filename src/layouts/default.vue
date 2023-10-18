@@ -84,7 +84,7 @@
   <!-- 修改密码 -->
   <UpdatePassword
     :isLoading="isLoading"
-    :isVisible="isUpdatePassword"
+    :isOpen="isUpdatePassword"
     @handleCancel="onUpdatePassword"
     @handleSubmit="handleUpdatePassword"
   />
@@ -224,6 +224,8 @@ defineExpose({
   right: 0;
   height: @layoutTop;
   border-bottom: 1px solid #eee;
+  z-index: 100;
+  background-color: #fff;
 }
 
 .header-close-menu {
@@ -240,6 +242,7 @@ defineExpose({
   bottom: 0;
   background-color: #000;
   width: @layoutLeft;
+  z-index: 101;
 }
 
 .menu-close {

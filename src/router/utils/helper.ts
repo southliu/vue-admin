@@ -23,6 +23,7 @@ export function routeToKeepalive(route: string): string {
  * @param routes - 路由数据
  */
 export function layoutRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
+  console.log('routes:', routes)
   const layouts: RouteRecordRaw[] = []; // layout内部组件
 
   for (let i = 0; i < routes.length; i++) {
