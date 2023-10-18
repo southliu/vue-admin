@@ -103,7 +103,12 @@ git push
 - [x] 搜索功能
 
 ## 🐓 keep-alive说明：
-### 如果需要使用keep-alive功能则需要文件名和菜单对应的name名一致，首字母大写，否则会失效。
+### 如果需要使用keep-alive功能则需要文件名里面添加name即可。
+```ts
+defineOptions({
+  name: 'SystemUser'
+});
+```
 
 ## 🐵 关于封装
   1. 功能扩展，在原有的api上拓展。

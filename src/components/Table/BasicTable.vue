@@ -140,7 +140,8 @@ const handleColumns = (array?: VxeGridPropTypes.Columns) => {
 
 /** 获取表格高度 */
 const getTableHeight = () => {
-  tableHeight.value = useTableHeight(props.id, props.offsetHeight);
+  const [height] = useTableHeight(props.id, props.offsetHeight);
+  tableHeight.value = height;
 };
 
 // 滚动事件防抖
