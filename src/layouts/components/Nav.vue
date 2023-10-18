@@ -18,7 +18,7 @@
       </span>
       <span
         v-if="index < list.length - 1"
-        class="px-3px"
+        class="px-3px text-#8b8b8b"
       >
         /
       </span>
