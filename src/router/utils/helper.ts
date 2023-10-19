@@ -1,5 +1,8 @@
-import { firstCapitalize } from "@/utils/helper";
 import type { RouteRecordRaw } from "vue-router";
+import { ROUTER_EXCLUDE } from "@/utils/config";
+import { firstCapitalize } from "@/utils/helper";
+import { usePublicStore } from '@/stores/public';
+import pinia from '../../stores';
 
 /**
  * 路由转为Keepalive
@@ -37,17 +40,31 @@ const handleRouterName = (path: string) => {
   return result;
 };
 
+/**
+ * 匹配路由是否在排查名单中
+ * @param path - 路径
+ */
+function handleRouterExclude(path: string): boolean {
+  for (let i = 0; i < ROUTER_EXCLUDE.length; i++) {
+    const item = ROUTER_EXCLUDE[i];
+    if (path.includes(item)) return true;
+  }
+
+  return false;
+}
+
 /** 路由添加layout */
 export function layoutRoutes(): RouteRecordRaw[] {
   const layouts: RouteRecordRaw[] = []; // layout内部组件
+  const { routerList } = usePublicStore(pinia);
+  const pages = routerList || {};
 
-  const pages = import.meta.glob('../../pages/**/*.vue', { import: 'default', eager: true }) as Record<string, { name?: string }>;
   for (const key in pages) {
-    if (!key.includes('/component')) {
+    if (!handleRouterExclude(key)) {
       layouts.push({
         path: handleRouterName(key),
         name: pages[key]?.name,
-        component: () => import(key)
+        component: () => import(`../${key}`)
       });
     }
   }

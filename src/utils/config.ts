@@ -5,7 +5,6 @@ export const TITLE_SUFFIX = 'South Admin'; // 标题后缀
 export const TOKEN = 'admin_token'; // token名称
 export const WATERMARK_PREFIX = 'admin'; // 水印前缀
 export const EMPTY_VALUE = '-'; // 空值显示
-export const CRYPTO_SECRET = '__Vite_Admin_Secret__'; // 加密密钥
 
 // 公共组件默认值
 export const PLEASE_ENTER = '请输入'; // 输入框默认文字
@@ -30,3 +29,15 @@ export const PASSWORD_RULE = {
   pattern: /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z~!@#$%^&*+\.\_\-*]{6,30}$/,
   message: '密码为6-30位必须包含字母和数字!'
 };
+
+// 生成路由排除内容，不带后缀名转换成“/文件名/”格式
+export const ROUTER_EXCLUDE = [
+  '/login',
+  '/components',
+  '/utils',
+  '/lib',
+  '/hooks',
+  '/403',
+  '/404'
+];
+
