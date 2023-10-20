@@ -1,36 +1,37 @@
-<script lang="ts">
-import { defineComponent, ref, h, watch } from 'vue';
-import { renderHTML } from '@iconify/iconify';
+<template>
+  <Icon>
+    <template #component>
+      <i
+        v-bind="attrs"
+        :class="`iconify ${attrs.class}`"
+        :data-icon="icon"
+      />
+      </template>
+  </Icon>
+</template>
+
+<script lang="ts" setup>
+import { watch, useAttrs } from 'vue';
+import { getIcon } from '@iconify/iconify';
 import Icon from '@ant-design/icons-vue';
 
 /**
  * 图标组件
  */
-export default defineComponent({
-  name: 'IconBtn',
-  props: {
-    icon: {
-      type: String,
-      required: true
-    }
-  },
-  setup(props) {
-    // 初始化渲染
-    const initData = `<i class="iconify" data-icon="${props.icon}" />`;
-    const data = ref(initData);
+defineOptions({
+  name: 'IconBtn'
+});
 
-    watch(() => props.icon, value => {
-      data.value = renderHTML(value) || '';
-    });
-
-    return () => h(
-      Icon, null,
-      {
-        component: () => (
-          h('span', { innerHTML: data.value })
-        )
-      }
-    );
+const props = defineProps({
+  icon: {
+    type: String,
+    required: true
   }
+});
+
+const attrs = useAttrs();
+
+watch(() => props.icon, () => {
+  getIcon(props.icon);
 });
 </script>

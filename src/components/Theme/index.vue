@@ -1,7 +1,7 @@
 <template>
   <Tooltip>
     <template #title>主题模式</template>
-    <div class="flex items-center justify-center text-lg mr-4 cursor-pointer">
+    <div class="flex items-center justify-center text-lg ml-5px mr-10px cursor-pointer">
       <Icon
         v-if="theme === 'light'"
         icon="mdi-white-balance-sunny"

@@ -102,18 +102,20 @@
             <span>{{ isMaximize ? '退出最大化' : '最大化' }}</span>
           </template>
 
-          <Icon
-            v-show="isMaximize"
-            class="w-full h-full flex items-center justify-center change text-lg cursor-pointer"
-            icon="ant-design:compress-outlined"
-            @click="handleMaximize()"
-          />
-          <Icon
-            v-show="!isMaximize"
-            class="w-full h-full flex items-center justify-center change text-lg cursor-pointer"
-            icon="ant-design:expand-outlined"
-            @click="handleMaximize()"
-          />
+          <div class="w-full h-full flex items-center justify-center">
+            <Icon
+              v-show="isMaximize"
+              class="flex items-center justify-center change text-lg cursor-pointer"
+              icon="ant-design:compress-outlined"
+              @click="handleMaximize()"
+            />
+            <Icon
+              v-show="!isMaximize"
+              class="flex items-center justify-center change text-lg cursor-pointer"
+              icon="ant-design:expand-outlined"
+              @click="handleMaximize()"
+            />
+          </div>
         </Tooltip>
       </div>
     </div>

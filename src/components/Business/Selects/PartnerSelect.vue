@@ -1,23 +1,31 @@
-<script lang="ts">
+<template>
+  <ApiTreeSelect
+    multiple
+    :api="getPartner"
+    :fieldNames="{ label: 'name', value: 'id' }"
+    @update="handleUpdate"
+  />
+</template>
+
+<script lang="ts" setup>
 /**
  * @description: 合作公司下拉组件
  */
 import type { AllDataType } from '#/public';
-import { defineComponent, h } from 'vue';
 import { getPartner } from '@/servers/platform/partner';
-import ApiSelect from '@/components/Selects/ApiSelect.vue';
+import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue';
 
-export default defineComponent({
-  name: "PartnerSelect",
-  setup(props, { emit }) {
-    return () =>
-      h(ApiSelect, {
-        api: getPartner,
-        mode: 'multiple',
-        'onUpdate:value': (value: AllDataType) => {
-          emit('update:value', value);
-        }
-      });
-  },
+defineOptions({
+  name: 'PartnerSelect'
 });
+
+const emit = defineEmits(['update:value']);
+
+/**
+ * 处理更改
+ * @param value - 值
+ */
+const handleUpdate = (value: AllDataType) => {
+  emit('update:value', value);
+};
 </script>

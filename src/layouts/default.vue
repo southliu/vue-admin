@@ -102,11 +102,11 @@ import { permissionsToArray } from '@/utils/permissions';
 import { message, Skeleton } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
 import { updatePassword } from '@/servers/login';
+import { routeToKeepalive } from '@/router/utils/helper';
 import Header from './components/Header.vue';
 import Menu from './components/Menu.vue';
 import Tabs from './components/Tabs.vue';
 import UpdatePassword from '@/components/UpdatePassword/index.vue';
-import { routeToKeepalive } from '@/router/utils/helper';
 
 const route = useRoute();
 const tabStore = useTabStore();
