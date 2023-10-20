@@ -2,7 +2,7 @@
   <Tooltip>
     <template #title>搜索</template>
     <Icon
-      class="flex items-center justify-center text-lg mr-3"
+      class="flex items-center justify-center text-lg mr-5px"
       icon="uil-search"
       @click="toggle"
     />

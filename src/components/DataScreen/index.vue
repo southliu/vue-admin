@@ -3,7 +3,7 @@
     <template #title>数据大屏</template>
     <div @click="goDataScreen">
       <Icon
-        class="flex items-center justify-center text-lg mr-3 cursor-pointer"
+        class="flex items-center justify-center text-lg mr-5px cursor-pointer"
         icon='ion:bar-chart-sharp'
       />
     </div>

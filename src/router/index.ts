@@ -1,14 +1,14 @@
 import type { RouteRecordRaw } from "vue-router";
 import { createRouter, createWebHashHistory } from 'vue-router';
 import { layoutRoutes } from './utils/helper';
+import routes from '~pages';
 
 // 自动生成路径转换为layout嵌套路径
-const layouts = layoutRoutes();
+const layouts = layoutRoutes(routes);
 
 const newRoutes: RouteRecordRaw[] = [
   {
     path: "/login",
-    name: 'Login',
     component: () => import('../pages/login/index.vue')
   },
   {

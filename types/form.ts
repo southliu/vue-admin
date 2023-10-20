@@ -9,8 +9,7 @@ import type {
   RateProps,
   SliderProps
 } from "ant-design-vue";
-import type { AllDataType } from './public';
-import type { DefaultOptionType } from 'ant-design-vue/lib/select';
+import type { AllDataType, ServerResult } from './public';
 import type { RuleObject } from 'ant-design-vue/lib/form';
 import type { BusinessComponentType } from '@/components/Business';
 import type { WangEditorProps } from '@/components/WangEditor/model';
@@ -70,7 +69,7 @@ export type ComponentType = DefaultDataComponents |
                           EditorComponents |
                           PasswordStrength
 
-export type ApiFun = (params?: unknown) => Promise<DefaultOptionType[]>
+export type ApiFun = (params?: unknown) => Promise<ServerResult>
 
 // api参数
 interface ApiParam {

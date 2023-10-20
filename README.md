@@ -105,6 +105,11 @@ git push
 ## 🐓 keep-alive说明：
 ### 如果需要使用keep-alive功能则需要文件名里面添加name即可。
 ```ts
+/**
+ * 需要通过路径转换成对应的name
+ * /system/user => SystemUser
+ * /content/article => ContentArticle
+ */
 defineOptions({
   name: 'SystemUser'
 });

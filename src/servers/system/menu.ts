@@ -46,7 +46,7 @@ export function updateSystemMenu(id: string, data: unknown) {
  * @param id - 删除id值
  */
  export function deleteSystemMenu(id: string) {
-  return request.delete(`${API.URL}/${id}`);
+  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>;
 }
 
 /**

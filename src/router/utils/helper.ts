@@ -1,14 +1,12 @@
 import type { RouteRecordRaw } from "vue-router";
-import { ROUTER_EXCLUDE } from "@/utils/config";
 import { firstCapitalize } from "@/utils/helper";
-import { usePublicStore } from '@/stores/public';
-import pinia from '../../stores';
+import { ROUTER_EXCLUDE } from "@/utils/config";
 
 /**
  * 路由转为Keepalive
  * @param route - 路由
  */
-export function routeToKeepalive(route: string): string {
+export function routeToKeepalive(route: String): string {
   if (typeof route !== "string") return '';
 
   let result = '';
@@ -22,23 +20,8 @@ export function routeToKeepalive(route: string): string {
 }
 
 /**
- * 路由名处理
- * @param path - 路由路径
+ * 刺激微模块，欧盟和
  */
-const handleRouterName = (path: string) => {
-  if (!path || !path.includes('pages')) return '';
-
-  const arr = path.split('pages');
-  let result = arr?.[1]?.substring(0, arr?.[1]?.length - 4);
-
-  // 如果结尾是index则去除
-  const endStr = result.substring(result?.length - 6, result?.length);
-  if (endStr === '/index') {
-    result = result.substring(0, result.length - 6);
-  }
-
-  return result;
-};
 
 /**
  * 匹配路由是否在排查名单中
@@ -53,20 +36,17 @@ function handleRouterExclude(path: string): boolean {
   return false;
 }
 
-/** 路由添加layout */
-export function layoutRoutes(): RouteRecordRaw[] {
+/**
+ * 路由添加layout
+ * @param routes - 路由数据
+ */
+export function layoutRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
   const layouts: RouteRecordRaw[] = []; // layout内部组件
-  const { routerList } = usePublicStore(pinia);
-  const pages = routerList || {};
 
-  for (const key in pages) {
-    if (!handleRouterExclude(key)) {
-      layouts.push({
-        path: handleRouterName(key),
-        name: pages[key]?.name,
-        component: () => import(`../${key}`)
-      });
-    }
+  for (let i = 0; i < routes.length; i++) {
+    const item = routes[i];
+    if (handleRouterExclude(item.path)) continue;
+    layouts.push(item);
   }
 
   return layouts;

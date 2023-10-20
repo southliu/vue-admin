@@ -10,6 +10,8 @@ import Components from 'unplugin-vue-components/vite';
 import Unocss from 'unocss/vite';
 import vueJsx from '@vitejs/plugin-vue-jsx';
 import viteCompression from 'vite-plugin-compression';
+import Pages from 'vite-plugin-pages';
+// import dynamicImport from 'vite-plugin-dynamic-import';
 
 export function createVitePlugins() {
   // 插件参数
@@ -39,6 +41,9 @@ export function createVitePlugins() {
         AntDesignVueResolver()
       ]
     }),
+    Pages({}),
+    // import字符串导入
+    // dynamicImport({}),
     // 包分析
     visualizer({
       gzipSize: true,

@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     DateBtn: typeof import('./src/components/Business/Buttons/DateBtn.vue')['default']
     DeleteBtn: typeof import('./src/components/Buttons/components/DeleteBtn.vue')['default']
     Echarts: typeof import('./src/components/Echarts/index.vue')['default']
+    EmptyContent: typeof import('./src/components/EmptyContent/index.vue')['default']
     ExportBtn: typeof import('./src/components/Business/Buttons/ExportBtn.vue')['default']
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
     GameSelect: typeof import('./src/components/Business/Selects/GameSelect.vue')['default']
