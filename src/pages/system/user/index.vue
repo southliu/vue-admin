@@ -1,5 +1,5 @@
 <template>
-  <BasicContent v-if="pagePermission.page">
+  <BasicContent :isPermission="pagePermission.page">
     <template #top>
       <BasicSearch
         :list="searchList"

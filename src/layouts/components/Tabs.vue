@@ -141,9 +141,9 @@ import {
 import DropdownMenu from './DropdownMenu.vue';
 import Icon from '@/components/Icon/index.vue';
 import { useUserStore } from '@/stores/user';
-import { defaultMenus } from '@/menus';
 import { getMenuByKey } from '@/menus/utils/helper';
 import { routeToKeepalive } from '@/router/utils/helper';
+import { useMenuStore } from '@/stores/menu';
 
 interface TimeoutData {
   icon: null | NodeJS.Timeout;
@@ -163,7 +163,9 @@ defineProps({
 const route = useRoute();
 const router = useRouter();
 const tabStore = useTabStore();
+const menuStore = useMenuStore();
 const userStore = useUserStore();
+const { menuList } = storeToRefs(menuStore);
 const { permissions } = storeToRefs(userStore);
 const {
   tabs,
@@ -221,7 +223,7 @@ const handleAddTab = (path = route.path) => {
   if (permissions.value?.length > 0) {
     if (path === '/') return;
     const menuByKeyProps = {
-      menus: defaultMenus,
+      menus: menuList.value,
       permissions: permissions.value,
       key: path
     };

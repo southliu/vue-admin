@@ -52,7 +52,6 @@ import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
 import { Menu } from 'ant-design-vue';
 import { storeToRefs } from 'pinia';
-import { defaultMenus } from '@/menus';
 import {
   filterMenus,
   getFirstMenu,
@@ -94,7 +93,7 @@ const currentOpenKeys = ref(openKeys.value);
 onMounted(() => {
   if (permissions.value.length > 0) {
     // 创建菜单
-    const newMenus = filterMenus(defaultMenus, permissions.value);
+    const newMenus = filterMenus(menuList.value, permissions.value);
     setMenus(newMenus || []);
   
     // 展开菜单
@@ -130,7 +129,7 @@ const goPath = (path: string) => {
 
 /** 点击logo */
 const onClickLogo = () => {
-  const firstMenu = getFirstMenu(defaultMenus, permissions.value);
+  const firstMenu = getFirstMenu(menuList.value, permissions.value);
   goPath(firstMenu);
 };
 
