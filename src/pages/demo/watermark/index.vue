@@ -1,5 +1,5 @@
 <template>
-  <BasicContent>
+  <BasicContent :isPermission="true">
     <Button primary @click="openWatermark">
       打开水印
     </Button>

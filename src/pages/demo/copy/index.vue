@@ -1,5 +1,5 @@
 <template>
-  <BasicContent>
+  <BasicContent :isPermission="true">
     <h1>剪切板：</h1>
     <Copy class="w-300px" />
 

@@ -1,6 +1,6 @@
 <template>
   <div
-    class="header flex flex-col box-border overflow-hidden"
+    class="layout-header flex flex-col box-border overflow-hidden"
     :class="{
       'header-close-menu': isCollapsed,
       'header-none': isMaximize,
@@ -217,7 +217,7 @@ defineExpose({
 <style lang="less" scoped>
 @import '@/assets/css/default.less';
 
-.header {
+.layout-header {
   position: fixed;
   top: 0;
   left: @layoutLeft;
@@ -225,7 +225,6 @@ defineExpose({
   height: @layoutTop;
   border-bottom: 1px solid #eee;
   z-index: 100;
-  background-color: #fff;
 }
 
 .header-close-menu {

@@ -6,8 +6,8 @@ import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { routeToKeepalive } from "./helper";
+import { useMenuStore } from "@/stores/menu";
 import { getFirstMenu } from '@/menus/utils/helper';
-import { defaultMenus } from "@/menus";
 import NProgress from 'nprogress';
 import pinia from '../../stores';
 
@@ -26,6 +26,8 @@ export function routerIntercept(router: Router) {
 
     const userStore = useUserStore(pinia);
     const tabStore = useTabStore(pinia);
+    const menuStore = useMenuStore();
+    const { menuList } = storeToRefs(menuStore);
     const { addCacheRoutes } = tabStore;
     const { permissions } = storeToRefs(userStore);
 
@@ -39,18 +41,8 @@ export function routerIntercept(router: Router) {
       next({ path: `/login?redirect=${to.path}` });
     } else if (token && to.path === '/login') {
       // 有token且在登录页跳转第一个有效菜单
-      const firstMenu = getFirstMenu(defaultMenus, permissions.value);
+      const firstMenu = getFirstMenu(menuList.value, permissions.value);
       next(firstMenu);
-    // }
-    //  else if (to?.meta?.rule && permissions.value?.length > 0) {
-    //   // 判断是否有权限
-    //   const isRule = checkPermission((to.meta.rule) as string, permissions.value)
-    //   if (isRule) {
-    //     next()
-    //   } else {
-    //     // 没权限跳转403
-    //     next('/403')
-    //   }
     } else next();
   });
 

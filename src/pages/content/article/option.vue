@@ -1,5 +1,5 @@
 <template>
-  <BasicContent v-if="pagePermission.create">
+  <BasicContent :isPermission="pagePermission.create">
     <Spin class='mb-50px' :spinning="isLoading">
       <BasicForm
         ref="createFormRef"

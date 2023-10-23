@@ -1,5 +1,5 @@
 <template>
-  <BasicContent>
+  <BasicContent :isPermission="true">
     <template #top>
       <BasicSearch
         :labelCol="70"

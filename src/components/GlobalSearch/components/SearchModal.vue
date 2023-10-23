@@ -40,7 +40,6 @@ import { useRouter } from 'vue-router';
 import { useTabStore } from '@/stores/tabs';
 import { useMenuStore } from '@/stores/menu';
 import { useDebounceFn, onKeyStroke } from '@vueuse/core';
-import { defaultMenus } from '@/menus';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { onMounted, ref, watch } from 'vue';
@@ -67,6 +66,7 @@ const tabStore = useTabStore();
 const userStore = useUserStore();
 const menuStore = useMenuStore();
 const { permissions } = storeToRefs(userStore);
+const { menuList } = storeToRefs(menuStore);
 const inputRef = ref();
 const inputValue = ref('');
 const active = ref('');
@@ -95,7 +95,7 @@ const onPressEnter = () => {
     router.push(active.value);
     // 添加标签
     const menuByKeyProps = {
-      menus: defaultMenus,
+      menus: menuList.value,
       permissions: permissions.value,
       key: active.value
     };
@@ -146,7 +146,7 @@ const onChangeActive = (value: string) => {
 // 监听变化
 watch(() => inputValue.value, useDebounceFn((value: string) => {
   const searchProps = {
-    menus: defaultMenus,
+    menus: menuList.value,
     permissions: permissions.value,
     value
   };
