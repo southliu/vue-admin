@@ -20,6 +20,8 @@
       </span>
     </div>
     <div class="menu-height overflow-y-auto">
+      <span class="text-white">
+      </span>
       <Menu
         v-model:openKeys="currentOpenKeys"
         v-model:selectedKeys="selectedKeys"
@@ -53,7 +55,6 @@ import { useRoute, useRouter } from 'vue-router';
 import { Menu } from 'ant-design-vue';
 import { storeToRefs } from 'pinia';
 import {
-  filterMenus,
   getFirstMenu,
   getOpenMenuByRouter,
   splitPath
@@ -82,7 +83,6 @@ const {
   menuList
 } = storeToRefs(menuStore);
 const {
-  setMenus,
   setOpenKeys,
   setSelectedKeys
 } = menuStore;
@@ -92,10 +92,6 @@ const currentOpenKeys = ref(openKeys.value);
 
 onMounted(() => {
   if (permissions.value.length > 0) {
-    // 创建菜单
-    const newMenus = filterMenus(menuList.value, permissions.value);
-    setMenus(newMenus || []);
-  
     // 展开菜单
     const newOpenKey = getOpenMenuByRouter(route.path);
     setOpenKeys(newOpenKey);
@@ -111,11 +107,11 @@ watch(() => route.path, value => {
 });
 
 // 监听展开
-watch(() => openKeys, openKeys => {
+watch(() => openKeys.value, openKeys => {
   if (props.isCollapsed || isPhone.value) {
     currentOpenKeys.value = [];
   } else {
-    currentOpenKeys.value = openKeys.value;
+    currentOpenKeys.value = openKeys;
   }
 });
 

@@ -1,5 +1,10 @@
 <template>
-  <ConfigProvider :locale="zhCN">
+  <ConfigProvider
+    :locale="zhCN"
+    :theme="{
+      algorithm: [themeType === 'dark' ? darkAlgorithm : defaultAlgorithm]
+    }"
+  >
     <div class="font-sans">
       <router-view />
     </div>
@@ -8,12 +13,20 @@
 
 <script lang="ts" setup>
 import { onMounted } from 'vue';
-import { ConfigProvider } from 'ant-design-vue';
+import { storeToRefs } from 'pinia';
+import { usePublicStore } from '@/stores/public';
+import { ConfigProvider, theme } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
 import dayjs from 'dayjs';
 import 'dayjs/locale/zh-cn';
 
 dayjs.locale('zh-cn');
+
+// antd主题
+const { defaultAlgorithm, darkAlgorithm } = theme;
+
+const publicStore = usePublicStore();
+const { themeType } = storeToRefs(publicStore);
 
 onMounted(() => {
   // 关闭loading

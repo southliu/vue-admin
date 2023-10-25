@@ -1,30 +1,46 @@
 <template>
-  <div :id="id" class="vxe_table" :style="{ height: tableHeight + 'px' }">
-    <Grid
+  <div :id="id" class="vxe_table">
+    <Table
+      :maxHeight="tableHeight"
       v-bind="gridOptions"
       :loading="isLoading"
-      :data="data.data"
-      :columns="handleColumns(columns)"
+      :data="data"
     >
-      <template #operate="{ row }">
-        <slot name="operate" :record="row" />
-      </template>
-    </Grid>
+      <Column
+        v-for="item in handleColumns(columns)"
+        :key="item.field"
+        v-bind="item"
+      >
+        <template #default="{ row }">
+          <template v-if="item.slots">
+            <slot
+              v-for="slot in slotList"
+              :key="slot"
+              :name="item.slots?.[slot]"
+              :record="row"
+            />
+          </template>
+
+          <span v-if="!item.slots">
+            {{ row?.[item.field as string] || EMPTY_VALUE }}
+          </span>
+        </template>
+      </Column>
+    </Table>
   </div>
 </template>
 
 <script lang="ts" setup>
 import type { PropType } from 'vue';
-import type { TableData } from '#/public';
-import type { VxeGridProps, VxeGridPropTypes } from 'vxe-table';
+import type { TableData, TableProps } from '#/public';
+import type { VxeTableProps, VxeColumnPropTypes } from 'vxe-table';
 import {
-  h,
   ref,
   reactive,
   onMounted,
   onUnmounted
 } from 'vue';
-import { Grid } from 'vxe-table';
+import { Table, Column } from 'vxe-table';
 import { useTableHeight } from './hooks/useTableHeight';
 import { useDebounceFn } from '@vueuse/core';
 import { EMPTY_VALUE } from '@/utils/config';
@@ -36,15 +52,15 @@ const props = defineProps({
     default: 'table'
   },
   data: {
-    type: Object as PropType<TableData>,
+    type: Object as PropType<TableData[]>,
     required: true
   },
   columns: {
-    type: Array as PropType<VxeGridPropTypes.Columns>,
+    type: Array as PropType<TableProps[]>,
     required: true
   },
   options: {
-    type: Object as PropType<VxeGridProps>,
+    type: Object as PropType<VxeTableProps>,
     required: false,
   },
   isLoading: {
@@ -66,7 +82,17 @@ const props = defineProps({
   }
 });
 
+type SlotsKey = keyof VxeColumnPropTypes.Slots;
+
 const tableHeight = ref(0);
+// 插槽列表
+const slotList: SlotsKey[] = [
+  'default',
+  'header',
+  'footer',
+  'filter',
+  'edit'
+];
 
 onMounted(() => {
   getTableHeight();
@@ -82,7 +108,7 @@ onUnmounted(() => {
 });
 
 // 表格参数
-const gridOptions = reactive<VxeGridProps>({
+const gridOptions = reactive<VxeTableProps>({
   border: true, // 边框
   showOverflow: true, // 内容过长时显示为省略号
   showHeaderOverflow: true, // 表头所有内容过长时显示为省略号
@@ -113,26 +139,13 @@ const gridOptions = reactive<VxeGridProps>({
  * 处理表格数据，为空显示'-'
  * @param array - 表格列值
  */
-const handleColumns = (array?: VxeGridPropTypes.Columns) => {
+const handleColumns = (array?: TableProps[]) => {
   if (!array) return undefined;
 
   for (let i = 0; i < array.length; i++) {
-    const element = array[i];
+    const item = array[i];
     // 初始化最小宽度70
-    element.minWidth = element.minWidth || 50;
-
-    // 如果表格存在默认值设置，则跳过当前循环
-    if (element.slots && Object.keys(element.slots).length > 0) continue;
-
-    // 为每项添加default插槽
-    if (!element.slots) element.slots = {};
-    element.slots = {
-      default: ({ row }) => [
-        h('span', {
-          innerHTML: row?.[element.field as string] || EMPTY_VALUE
-        })
-      ]
-    };
+    item.minWidth = item.minWidth || 50;
   }
 
   return array;

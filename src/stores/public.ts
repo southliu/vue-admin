@@ -1,7 +1,10 @@
 import { defineStore } from 'pinia';
 
+export type ThemeType = 'light' | 'dark';
+
 interface StateData {
   isRefreshPage: boolean;
+  themeType: ThemeType;
   routerList: Record<string, { name?: string }>;
 }
 
@@ -9,6 +12,7 @@ export const usePublicStore = defineStore({
   id: 'public',
   state: () => ({
     isRefreshPage: false,
+    themeType: 'light',
     routerList: import.meta.glob('../pages/**/*.vue', { import: 'default', eager: true }) as Record<string, { name?: string }>
   } as StateData),
   actions: {
@@ -25,6 +29,13 @@ export const usePublicStore = defineStore({
      */
     setRouterList(data: Record<string, { name?: string }>) {
       this.routerList = data;
+    },
+    /**
+     * 设置主题
+     * @param themeType - 路由数据
+     */
+    setTheme(themeType: ThemeType) {
+      this.themeType = themeType;
     },
   },
 });

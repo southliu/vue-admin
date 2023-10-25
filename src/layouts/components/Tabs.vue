@@ -202,9 +202,11 @@ watch(() => route.path, value => {
   handleAddTab(value);
 });
 
-// 监听权限变化添加标签
-watch(() => permissions.value, value => {
-  handleAddTab();
+// 监听菜单
+watch(() => menuList.value, () => {
+  if (tabs.value?.length === 0) {
+    handleAddTab();
+  }
 });
 
 // 监听选中标签
@@ -364,4 +366,4 @@ defineExpose({
 .right-item {
   border-left: 1px solid #d9d9d9;
 }
-</style>
+</style>@/menus/utils/menu

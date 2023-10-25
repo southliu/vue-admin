@@ -1,30 +1,30 @@
 <template>
-  <BasicContent :isPermission="pagePermission.page">
+  <BasicContent :isPermission="checkPermission(pagePermission.page)">
     <template #top>
       <BasicSearch
         :list="searchList"
         :data="searches.data"
         :isLoading="isLoading"
-        :isCreate="pagePermission.create"
+        :isCreate="checkPermission(pagePermission.create)"
         @onCreate="onCreate"
         @handleFinish="handleSearch"
       />
     </template>
 
     <BasicTable
-      :data="tables"
+      :data="tableData"
       :columns="tableColumns"
       :isLoading="isLoading"
     >
       <template v-slot:operate='row'>
         <UpdateBtn
-          v-if="pagePermission.update"
+          v-if="checkPermission(pagePermission.update)"
           class="mr-2"
           :isLoading="isCreateLoading"
           @click="onUpdate(row.record)"
         />
         <DeleteBtn
-          v-if="pagePermission.delete"
+          v-if="checkPermission(pagePermission.delete)"
           :isLoading="isLoading"
           @click="handleDelete(row.record.id)"
         />
@@ -35,7 +35,7 @@
       <BasicPagination
         :page="pagination.page"
         :pageSize="pagination.pageSize"
-        :total="tables.total"
+        :total="pagination.total"
         :isLoading="isLoading"
         @handleChange="handlePagination"
       />
@@ -67,11 +67,9 @@ import { message } from 'ant-design-vue';
 import { onMounted, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
-import { searchList, createList, tableColumns } from './model';
+import { searchList, createList, tableColumns, pagePermission } from './model';
 import { useTitle } from '@/hooks/useTitle';
 import { checkPermission } from '@/utils/permissions';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
 import {
   getSystemMenuPage,
   getSystemMenuById,
@@ -91,22 +89,9 @@ defineOptions({
 });
 
 useTitle('菜单管理');
-const userStore = useUserStore();
-const { permissions } = storeToRefs(userStore);
 const isLoading = ref(false);
 const isCreateLoading = ref(false);
 const createFormRef = ref<BasicFormProps>();
-
-// 权限前缀
-const permissionPrefix = '/authority/menu';
-
-// 权限
-const pagePermission = reactive({
-  page: checkPermission(`${permissionPrefix}/index`, permissions.value),
-  create: checkPermission(`${permissionPrefix}/create`, permissions.value),
-  update: checkPermission(`${permissionPrefix}/update`, permissions.value),
-  delete: checkPermission(`${permissionPrefix}/delete`, permissions.value)
-});
 
 // 初始化新增数据
 const initCreate = {
@@ -128,13 +113,11 @@ const creates = reactive<CreateData>({
 });
 
 // 表格数据
-const tables = reactive<TableData>({
-  total: 0,
-  data: []
-});
+const tableData = ref<TableData[]>([]);
 
 // 分页数据
 const pagination = reactive<PaginationData>({
+  total: 0,
   page: 1,
   pageSize: 20,
 });
@@ -164,8 +147,8 @@ const handleSearch = async (values: FormData) => {
     isLoading.value = true;
     const { data } = await getSystemMenuPage(query);
     const { items, total } = data;
-    tables.data = items;
-    tables.total = total;
+    tableData.value = items;
+    pagination.total = total;
   } finally {
     isLoading.value = false;
   }

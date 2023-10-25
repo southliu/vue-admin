@@ -1,4 +1,4 @@
-import type { VxeTableProps } from "vxe-table";
+import type { VxeTableProps, VxeColumnProps, VxeColumnPropTypes } from "vxe-table";
 import type { FormData } from "./form";
 
 // 基础类型
@@ -44,14 +44,19 @@ export interface CreateData {
 
 // 分页数据
 export interface PaginationData {
+  total?: number;
   page: number;
   pageSize: number;
 }
 
+// 表格参数
+export interface TableProps extends VxeColumnProps {
+  slots?: VxeColumnPropTypes.Slots;
+}
+
 // 表格数据
-export type TableData = {
-  total?: number;
-} & VxeTableProps
+export interface TableData extends VxeTableProps {
+}
 
 // 接口响应数据
 export interface ServerResult<T = unknown> {

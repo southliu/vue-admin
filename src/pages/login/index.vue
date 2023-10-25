@@ -80,15 +80,16 @@ import { message } from 'ant-design-vue';
 import { onMounted, reactive, ref } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { login } from '@/servers/login';
-import { PASSWORD_RULE } from '@/utils/config';
-import { useToken } from '@/hooks/useToken';
-import { useUserStore } from '@/stores/user';
 import { useRouter } from 'vue-router';
-import { useWatermark } from '@/hooks/useWatermark';
+import { useToken } from '@/hooks/useToken';
 import { useTitle } from '@/hooks/useTitle';
+import { useMenuStore } from '@/stores/menu';
+import { useUserStore } from '@/stores/user';
+import { PASSWORD_RULE } from '@/utils/config';
+import { useWatermark } from '@/hooks/useWatermark';
 import { permissionsToArray } from '@/utils/permissions';
-import { defaultMenus } from '@/menus';
-import { getFirstMenu } from '@/menus/utils/helper';
+import { filterMenus, getFirstMenu } from '@/menus/utils/helper';
+import { getMenuList } from '@/servers/system/menu';
 import {
   Form,
   FormItem,
@@ -103,7 +104,9 @@ import PageLoading from '@/components/Loading/PageLoading.vue';
 useTitle('登录');
 const router = useRouter();
 const userStore = useUserStore();
+const menuStore = useMenuStore();
 const { setUserInfo, setPermissions } = userStore;
+const { setMenus } = menuStore;
 const { setToken } = useToken();
 const [_, RemoveWatermark] = useWatermark();
 const isLoading = ref(false);
@@ -120,6 +123,39 @@ onMounted(() => {
   RemoveWatermark();
 });
 
+/** 获取用户菜单 */
+const getUserMenu = async (permissions: string[]) => {
+  try {
+    isLoading.value = true;
+    const { code, data } = await getMenuList({ isLayout: true });
+    if (Number(code) !== 200) return;
+    const menuData = filterMenus(data, permissions);
+    setMenus(menuData);
+    return menuData;
+  } finally {
+    isLoading.value = false;
+  }
+};
+
+/** 处理跳转第一个有效菜单 */
+const handleGoFirstMenu = async (permissions: string[]) => {
+  try {
+    isLoading.value = true;
+    const menuData = await getUserMenu(permissions);
+    if (!menuData) return;
+    const firstMenu = getFirstMenu(menuData || [], permissions);
+
+    if (!firstMenu) {
+      return message.error({ content: '用户暂无权限登录', key: 'menu' });
+    }
+
+    setMenus(menuData);
+    router.push(firstMenu);
+  } finally {
+    isLoading.value = false;
+  }
+};
+
 /**
  * 处理登录
  * @param values - 表单数据
@@ -135,11 +171,10 @@ const handleFinish: FormProps['onFinish'] = async (values: LoginData) => {
     }
 
     const newPermissions = permissionsToArray(permissions);
-    const firstMenu = getFirstMenu(defaultMenus, newPermissions);
     setToken(token);
     setUserInfo(user);
     setPermissions(newPermissions);
-    router.push(firstMenu);
+    handleGoFirstMenu(newPermissions);
   } finally {
     isLoading.value = false;
   }
