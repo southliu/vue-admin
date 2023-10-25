@@ -24,12 +24,10 @@ import type { BasicFormProps } from '@/components/Form/model';
 import { onMounted, reactive, ref } from 'vue';
 import { checkPermission } from '@/utils/permissions';
 import { useRoute, useRouter } from 'vue-router';
-import { storeToRefs } from 'pinia';
 import { createList } from './model';
 import { useTabStore } from '@/stores/tabs';
 import { usePublicStore } from '@/stores/public';
 import { useTitle } from '@/hooks/useTitle';
-import { useUserStore } from '@/stores/user';
 import { message, Spin } from 'ant-design-vue';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import {
@@ -53,10 +51,8 @@ const initCreate = {
 
 const router = useRouter();
 const tabStore = useTabStore();
-const userStore = useUserStore();
 const { setRefreshPage } = usePublicStore();
 const { query, fullPath } = useRoute();
-const { permissions } = storeToRefs(userStore);
 const {
   setActiveKey,
   addTabs,
@@ -81,8 +77,8 @@ const permissionPrefix = '/content/article';
 
 // 权限
 const pagePermission = reactive({
-  create: checkPermission(`${permissionPrefix}/create`, permissions.value),
-  update: checkPermission(`${permissionPrefix}/update`, permissions.value),
+  create: checkPermission(`${permissionPrefix}/create`),
+  update: checkPermission(`${permissionPrefix}/update`),
 });
 
 /** 处理新增 */

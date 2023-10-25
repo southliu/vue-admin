@@ -1,11 +1,11 @@
 <template>
-  <BasicContent :isPermission="pagePermission.page">
+  <BasicContent :isPermission="checkPermission(pagePermission.page)">
     <template #top>
       <BasicSearch
         :list="searchList"
         :data="searches.data"
         :isLoading="isLoading"
-        :isCreate="pagePermission.create"
+        :isCreate="checkPermission(pagePermission.create)"
         @onCreate="onCreate"
         @handleFinish="handleSearch"
       />
@@ -18,13 +18,13 @@
     >
       <template v-slot:operate='row'>
         <UpdateBtn
-          v-if="pagePermission.update"
+          v-if="checkPermission(pagePermission.update)"
           class="mr-2"
           :isLoading="isCreateLoading"
           @click="onUpdate(row.record)"
         />
         <DeleteBtn
-          v-if="pagePermission.delete"
+          v-if="checkPermission(pagePermission.delete)"
           :isLoading="isLoading"
           @click="handleDelete(row.record.id)"
         />
@@ -35,7 +35,7 @@
       <BasicPagination
         :page="pagination.page"
         :pageSize="pagination.pageSize"
-        :total="tables.total"
+        :total="pagination.total"
         :isLoading="isLoading"
         @handleChange="handlePagination"
       />
@@ -51,10 +51,9 @@ import { message } from 'ant-design-vue';
 import { useTitle } from '@/hooks/useTitle';
 import { onActivated, onMounted, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
-import { searchList, tableColumns } from './model';
+import { pagePermission, searchList, tableColumns } from './model';
 import { checkPermission } from '@/utils/permissions';
 import { usePublicStore } from '@/stores/public';
-import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { getArticlePage, deleteArticle } from '@/servers/content/article';
 import BasicContent from '@/components/Content/BasicContent.vue';
@@ -68,24 +67,11 @@ defineOptions({
 
 useTitle('文章管理');
 const router = useRouter();
-const userStore = useUserStore();
 const publicStore = usePublicStore();
 const { setRefreshPage } = publicStore;
-const { permissions } = storeToRefs(userStore);
 const { isRefreshPage } = storeToRefs(publicStore);
 const isLoading = ref(false);
 const isCreateLoading = ref(false);
-
-// 权限前缀
-const permissionPrefix = '/content/article';
-
-// 权限
-const pagePermission = reactive({
-  page: checkPermission(`${permissionPrefix}/index`, permissions.value),
-  create: checkPermission(`${permissionPrefix}/create`, permissions.value),
-  update: checkPermission(`${permissionPrefix}/update`, permissions.value),
-  delete: checkPermission(`${permissionPrefix}/delete`, permissions.value)
-});
 
 // 搜索数据
 const searches = reactive<SearchData>({
@@ -93,13 +79,11 @@ const searches = reactive<SearchData>({
 });
 
 // 表格数据
-const tables = reactive<TableData>({
-  total: 0,
-  data: []
-});
+const tables = ref<TableData[]>([]);
 
 // 分页数据
 const pagination = reactive<PaginationData>({
+  total: 0,
   page: 1,
   pageSize: 20,
 });
@@ -133,8 +117,8 @@ const handleSearch = async (values: FormData) => {
     isLoading.value = true;
     const { data } = await getArticlePage(query);
     const { items, total } = data;
-    tables.data = items;
-    tables.total = total;
+    tables.value = items;
+    pagination.total = total;
   } finally {
     isLoading.value = false;
   }

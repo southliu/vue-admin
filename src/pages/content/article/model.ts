@@ -1,7 +1,18 @@
 import type { FormList } from "#/form";
-import type { VxeGridPropTypes } from "vxe-table";
+import type { TableProps } from "#/public";
 import { INPUT_REQUIRED } from "@/utils/config";
 import CustomizeInput from "./components/CustomizeInput.vue";
+
+// 权限前缀
+const permissionPrefix = '/content/article';
+
+// 权限
+export const pagePermission = {
+  page: `${permissionPrefix}/index`,
+  create: `${permissionPrefix}/create`,
+  update: `${permissionPrefix}/update`,
+  delete: `${permissionPrefix}/delete`
+};
 
 // 搜索数据
 export const searchList: FormList[] = [
@@ -18,7 +29,7 @@ export const searchList: FormList[] = [
 ];
 
 // 表格数据
-export const tableColumns: VxeGridPropTypes.Columns = [
+export const tableColumns: TableProps[] = [
   {
     title: 'ID',
     field: 'id'

@@ -1,11 +1,11 @@
 <template>
-  <BasicContent :isPermission="pagePermission.page">
+  <BasicContent :isPermission="checkPermission(pagePermission.page)">
     <template #top>
       <BasicSearch
         :list="searchList"
         :data="searches.data"
         :isLoading="isLoading"
-        :isCreate="pagePermission.create"
+        :isCreate="checkPermission(pagePermission.create)"
         @onCreate="onCreate"
         @handleFinish="handleSearch"
       />
@@ -18,7 +18,7 @@
     >
       <template v-slot:operate='row'>
         <Button
-          v-if="pagePermission.permission"
+          v-if="checkPermission(pagePermission.permission)"
           class="mr-2"
           :isLoading="isLoading"
           @click="openPermission(row.record.id)"
@@ -26,13 +26,13 @@
           权限
         </Button>
         <UpdateBtn
-          v-if="pagePermission.update"
+          v-if="checkPermission(pagePermission.update)"
           class="mr-2"
           :isLoading="isCreateLoading"
           @click="onUpdate(row.record)"
         />
         <DeleteBtn
-          v-if="pagePermission.delete"
+          v-if="checkPermission(pagePermission.delete)"
           :isLoading="isLoading"
           @click="handleDelete(row.record.id)"
         />
@@ -43,7 +43,7 @@
       <BasicPagination
         :page="pagination.page"
         :pageSize="pagination.pageSize"
-        :total="tables.total"
+        :total="pagination.total"
         :isLoading="isLoading"
         @handleChange="handlePagination"
       />
@@ -85,11 +85,8 @@ import { message, Button } from 'ant-design-vue';
 import { onMounted, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
-import { searchList, createList, tableColumns } from './model';
+import { searchList, createList, tableColumns, pagePermission } from './model';
 import { useTitle } from '@/hooks/useTitle';
-import { checkPermission } from '@/utils/permissions';
-import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
 import { getPermission, savePermission } from '@/servers/system/menu';
 import {
   getSystemUserPage,
@@ -105,6 +102,7 @@ import BasicSearch from '@/components/Search/BasicSearch.vue';
 import BasicForm from '@/components/Form/BasicForm.vue';
 import BasicModal from '@/components/Modal/BasicModal.vue';
 import PermissionDrawer from './components/PermissionDrawer.vue';
+import { checkPermission } from '@/utils/permissions';
 
 interface PermissionConfig {
   id: string;
@@ -118,23 +116,9 @@ defineOptions({
 });
 
 useTitle('用户管理');
-const userStore = useUserStore();
-const { permissions } = storeToRefs(userStore);
 const isLoading = ref(false);
 const isCreateLoading = ref(false);
 const createFormRef = ref<BasicFormProps>();
-
-// 权限前缀
-const permissionPrefix = '/authority/user';
-
-// 权限
-const pagePermission = reactive({
-  page: checkPermission(`${permissionPrefix}/index`, permissions.value),
-  create: checkPermission(`${permissionPrefix}/create`, permissions.value),
-  update: checkPermission(`${permissionPrefix}/update`, permissions.value),
-  delete: checkPermission(`${permissionPrefix}/delete`, permissions.value),
-  permission: checkPermission(`${permissionPrefix}/authority`, permissions.value)
-});
 
 // 权限配置
 const permissionConfig = reactive<PermissionConfig>({
@@ -164,13 +148,11 @@ const creates = reactive<CreateData>({
 });
 
 // 表格数据
-const tables = reactive<TableData>({
-  total: 0,
-  data: []
-});
+const tables = ref<TableData[]>([]);
 
 // 分页数据
 const pagination = reactive<PaginationData>({
+  total: 0,
   page: 1,
   pageSize: 20,
 });
@@ -200,8 +182,8 @@ const handleSearch = async (values: FormData) => {
     isLoading.value = true;
     const { data } = await getSystemUserPage(query);
     const { items, total } = data;
-    tables.data = items;
-    tables.total = total;
+    tables.value = items;
+    pagination.total = total;
   } finally {
     isLoading.value = false;
   }

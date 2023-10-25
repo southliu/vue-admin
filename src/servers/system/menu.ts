@@ -1,4 +1,4 @@
-import type { PageServerResult, PaginationData, ServerResult } from '#/public';
+import type { PageServerResult, PaginationData, ServerResult, SideMenu, TableData } from '#/public';
 import { request } from '@/utils/request';
 
 enum API {
@@ -13,7 +13,15 @@ export function getSystemMenuPage(data: Partial<unknown> & PaginationData) {
   return request.get(
     `${API.URL}/index`,
     { params: data }
-  ) as Promise<PageServerResult<unknown[]>>;
+  ) as Promise<PageServerResult<TableData[]>>;
+}
+
+/**
+ * 获取当前菜单数据
+ * @param data - 请求数据
+ */
+export function getMenuList(data?: unknown) {
+  return request.get(`/menu/list`, { params: data }) as Promise<ServerResult<SideMenu[]>>;
 }
 
 /**
