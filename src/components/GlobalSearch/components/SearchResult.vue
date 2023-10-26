@@ -53,7 +53,12 @@ import type { SideMenu } from '#/public';
 import { PropType } from 'vue';
 import Icon from '@/components/Icon/index.vue';
 
-const emit = defineEmits(['handleClick', 'handleMouse']);
+interface DefineEmits {
+  (e: 'handleClick'): void;
+  (e: 'handleMouse', value: string): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 defineProps({
   list: {

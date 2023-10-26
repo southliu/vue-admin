@@ -55,7 +55,12 @@ import {
   VerticalAlignMiddleOutlined
 } from '@ant-design/icons-vue';
 
-const emit = defineEmits(['handleDropdown', 'handleRefresh']);
+interface DefineEmits {
+  (e: 'handleDropdown', type: TabEnums, key: string): void;
+  (e: 'handleRefresh'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 defineProps({
   currentKey: {

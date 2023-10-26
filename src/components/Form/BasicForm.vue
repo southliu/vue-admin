@@ -47,7 +47,11 @@ import BasicComponents from './BasicComponents.vue';
 
 type FinishFun = (values: FormData) => void
 
-const emit = defineEmits(['handleFinish']);
+interface DefineEmits {
+  (e: 'handleFinish', params: FormData): void;
+}
+ 
+const emit = defineEmits<DefineEmits>();
 
 const props = defineProps({
   data: {

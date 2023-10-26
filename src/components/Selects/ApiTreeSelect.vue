@@ -37,7 +37,12 @@ defineOptions({
   name: 'ApiTreeSelect'
 });
 
-const emit = defineEmits(['update:modelValue', 'update:value']);
+interface DefineEmits {
+  (e: 'update:modelValue', value: SelectValue): void;
+  (e: 'update:value', value: SelectValue): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 const props = defineProps({
   modelValue: {

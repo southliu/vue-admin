@@ -43,7 +43,11 @@ interface ListData {
   value: TypeData;
 }
 
-const emit = defineEmits(['handleResult']);
+interface DefineEmits {
+  (e: 'handleResult', value: string[]): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 const props = defineProps({
   date: {

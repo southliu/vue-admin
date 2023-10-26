@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" class="vxe_table">
+  <div :id="id" class="vxe-table">
     <Table
       :maxHeight="tableHeight"
       v-bind="gridOptions"
@@ -21,9 +21,17 @@
             />
           </template>
 
-          <span v-if="!item.slots">
-            {{ row?.[item.field as string] || EMPTY_VALUE }}
-          </span>
+          <template v-if="!item.slots">
+            <span
+              v-if="item.echoArr"
+              :style="`color: ${handleEchoColor(row?.[item.field as string] || '', item.echoArr)}`"
+            >
+              {{ handleEchoArr(row?.[item.field as string] || '', item.echoArr) || EMPTY_VALUE }}
+            </span>
+            <span v-else>
+              {{ row?.[item.field as string] || EMPTY_VALUE }}
+            </span>
+          </template>
         </template>
       </Column>
     </Table>
@@ -31,7 +39,6 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue';
 import type { TableData, TableProps } from '#/public';
 import type { VxeTableProps, VxeColumnPropTypes } from 'vxe-table';
 import {
@@ -42,44 +49,25 @@ import {
 } from 'vue';
 import { Table, Column } from 'vxe-table';
 import { useTableHeight } from './hooks/useTableHeight';
+import { handleEchoArr, handleEchoColor } from '@/utils/helper';
 import { useDebounceFn } from '@vueuse/core';
 import { EMPTY_VALUE } from '@/utils/config';
 
-const props = defineProps({
-  id: {
-    type: String,
-    required: false,
-    default: 'table'
-  },
-  data: {
-    type: Object as PropType<TableData[]>,
-    required: true
-  },
-  columns: {
-    type: Array as PropType<TableProps[]>,
-    required: true
-  },
-  options: {
-    type: Object as PropType<VxeTableProps>,
-    required: false,
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  // 高度偏移差
-  offsetHeight: {
-    type: Number,
-    required: false,
-    default: 0
-  },
-  // 是否开启监听窗口变化而更改高度
-  isResize: {
-    type: Boolean,
-    required: false,
-    default: true
-  }
+interface DefineProps extends VxeTableProps {
+  id?: string;
+  data: TableData[];
+  columns: TableProps[];
+  isLoading?: boolean;
+  offsetHeight?: number;
+  isResize?: boolean;
+  options?: VxeTableProps;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {
+  isResize: true,
+  isLoading: false,
+  offsetHeight: 0,
+  id: 'table',
 });
 
 type SlotsKey = keyof VxeColumnPropTypes.Slots;
@@ -113,7 +101,7 @@ const gridOptions = reactive<VxeTableProps>({
   showOverflow: true, // 内容过长时显示为省略号
   showHeaderOverflow: true, // 表头所有内容过长时显示为省略号
   autoResize: true, // 自动监听父元素的变化去重新计算表格
-  stripe: true, // 斑马纹
+  // stripe: true, // 斑马纹
   size: 'small', // 表格尺寸
   rowConfig: {
     useKey: true, // 是否需要为每一行的 VNode 设置 key 属性
@@ -132,7 +120,7 @@ const gridOptions = reactive<VxeTableProps>({
   scrollY: {
     enabled: true // 纵向虚拟滚动配置
   },
-  ...props.options
+  ...props.options,
 });
 
 /**

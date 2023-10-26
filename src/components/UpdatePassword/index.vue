@@ -58,6 +58,7 @@
  * @description: 修改密码组件
  */
 import type { FormInstance } from 'ant-design-vue';
+import type { FormData } from '#/form';
 import { reactive, ref } from 'vue';
 import { Form, FormItem, InputPassword, message } from 'ant-design-vue';
 import { PASSWORD_RULE } from '@/utils/config';
@@ -65,13 +66,18 @@ import { useDebounceFn } from '@vueuse/core';
 import BasicModal from '../Modal/BasicModal.vue';
 import PasswordStrength from '../PasswordStrength/index.vue';
 
-interface FormData {
+interface CurrentFormData {
   oldPassword: string,
   newPassword: string,
   confirmPassword: string
 }
 
-const emit = defineEmits(['handleCancel', 'handleSubmit']);
+interface DefineEmits {
+  (e: 'handleCancel'): void;
+  (e: 'handleSubmit', value: FormData): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 defineProps({
   isOpen: {
@@ -87,7 +93,7 @@ defineProps({
 const formRef = ref<FormInstance>();
 
 // 表单数据
-const formState = reactive<FormData>({
+const formState = reactive<CurrentFormData>({
   oldPassword: '',
   newPassword: '',
   confirmPassword: ''

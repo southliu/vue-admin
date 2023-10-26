@@ -3,6 +3,8 @@
     type="primary"
     danger
     :loading="isLoading"
+    v-bind="attrs"
+    :class="`btn ${attrs.class}`"
     @click="onClick"
   >
     删除
@@ -10,11 +12,15 @@
 </template>
 
 <script lang="ts" setup>
-import { createVNode } from 'vue';
+import { createVNode, useAttrs } from 'vue';
 import { Button, Modal } from 'ant-design-vue';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
 
-const emit = defineEmits(['click']);
+interface DefineEmits {
+  (e: 'click'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 defineProps({
   isLoading: {
@@ -23,6 +29,8 @@ defineProps({
     default: false
   }
 });
+
+const attrs = useAttrs();
 
 /** 点击删除 */
 const onClick = () => {

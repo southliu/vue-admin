@@ -75,7 +75,12 @@ import { useModalDragMove } from './hooks/useModalDrag';
 import { useDebounceFn } from '@vueuse/core';
 import Icon from '../Icon/index.vue';
 
-const emit = defineEmits(['handleCancel', 'handleFinish']);
+interface DefineEmits {
+  (e: 'handleCancel'): void;
+  (e: 'handleFinish'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 const props = defineProps({
   isOpen: {

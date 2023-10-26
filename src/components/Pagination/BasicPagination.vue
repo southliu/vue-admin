@@ -29,7 +29,11 @@
 <script lang="ts" setup>
 import { Pagination } from 'ant-design-vue';
 
-const emit = defineEmits(['handleChange']);
+interface DefineEmits {
+  (e: 'handleChange', page: number, pageSize: number): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 defineProps({
   total: {

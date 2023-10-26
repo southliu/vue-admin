@@ -1,12 +1,11 @@
 <template>
   <Button
     type="primary"
-    :loading="isLoading"
     v-bind="attrs"
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
-    编辑
+    <slot />
   </Button>
 </template>
 
@@ -15,22 +14,14 @@ import { useAttrs } from 'vue';
 import { Button } from 'ant-design-vue';
 
 interface DefineEmits {
-  (e: 'click'): void;
-}
-
-const emit = defineEmits<DefineEmits>();
-
-defineProps({
-  isLoading: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
-});
+   (e: 'click'): void;
+ }
+ 
+ const emit = defineEmits<DefineEmits>();
 
 const attrs = useAttrs();
 
-/** 点击编辑 */
+/** 处理点击事件 */
 const onClick = () => {
   emit('click');
 };

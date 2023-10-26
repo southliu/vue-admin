@@ -147,6 +147,7 @@ const handleFinish = async (values: FormData) => {
     isLoading.value = true;
     const functions = () => id ? updateArticle(id, values) : createArticle(values);
     const { data } = await functions();
+    if (Number(data?.code) !== 200) return;
     message.success(data?.message || '操作成功');
     createFormRef.value?.handleReset();
     createData.value = initCreate;
