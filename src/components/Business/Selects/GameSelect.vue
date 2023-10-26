@@ -11,7 +11,6 @@
 /**
  * @description: 游戏下拉组件
  */
-import type { AllDataType } from '#/public';
 import { getGames } from '@/servers/platform/game';
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue';
 
@@ -19,13 +18,17 @@ defineOptions({
   name: 'GameSelect'
 });
 
-const emit = defineEmits(['update:value']);
+interface DefineEmits {
+  (e: 'update:value', value: FormData): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 /**
  * 处理更改
  * @param value - 值
  */
-const handleUpdate = (value: AllDataType) => {
+const handleUpdate = (value: FormData) => {
   emit('update:value', value);
 };
 </script>

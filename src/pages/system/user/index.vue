@@ -85,9 +85,14 @@ import { message, Button } from 'ant-design-vue';
 import { onMounted, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
-import { searchList, createList, tableColumns, pagePermission } from './model';
 import { useTitle } from '@/hooks/useTitle';
 import { getPermission, savePermission } from '@/servers/system/menu';
+import {
+  searchList,
+  createList,
+  tableColumns,
+  pagePermission
+} from './model';
 import {
   getSystemUserPage,
   getSystemUserById,
@@ -225,6 +230,7 @@ const handleCreate = async (values: FormData) => {
     isCreateLoading.value = true;
     const functions = () => creates.id ? updateSystemUser(creates.id, values) : createSystemUser(values);
     const { data } = await functions();
+    if (Number(data.code) !== 200) return;
     getPage();
     creates.id = '';
     creates.isOpen = false;

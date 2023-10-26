@@ -1,3 +1,4 @@
+import type { IConstant } from "./constants";
 import type { AllDataType, ArrayData } from "#/public";
 
 /**
@@ -84,4 +85,34 @@ export function recursiveData<T extends IRecursiveChildren<T>, U>(
   }
 
   return res;
+}
+
+/**
+ * 处理回显数据
+ * @param arr - 数组
+ */
+export function handleEchoArr(value: unknown, arr: IConstant[]) {
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (item.value === value) {
+      return item.label;
+    }
+  }
+
+  return '';
+}
+
+/**
+ * 处理回显颜色
+ * @param arr - 数组
+ */
+export function handleEchoColor(value: unknown, arr: IConstant[]) {
+  for (let i = 0; i < arr.length; i++) {
+    const item = arr[i];
+    if (item.value === value) {
+      return item.color;
+    }
+  }
+
+  return '';
 }

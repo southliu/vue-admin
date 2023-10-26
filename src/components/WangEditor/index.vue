@@ -28,7 +28,11 @@ import { onBeforeUnmount, ref, shallowRef, watch } from 'vue';
 import { Editor, Toolbar } from '@wangeditor/editor-for-vue';
 import { FILE_API } from '@/utils/config';
 
-const emit = defineEmits(['update:modelValue']);
+interface DefineEmits {
+  (e: 'update:modelValue', value: string): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 const props = defineProps({
   modelValue: {

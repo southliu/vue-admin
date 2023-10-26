@@ -13,7 +13,11 @@
 <script lang="ts" setup>
 import { Button } from 'ant-design-vue';
 
-const emit = defineEmits(['click']);
+interface DefineEmits {
+  (e: 'click'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 // 处理点击事件
 const handleClick = () => {

@@ -150,7 +150,11 @@ interface TimeoutData {
   refresh: null | NodeJS.Timeout;
 }
 
-const emit = defineEmits(['toggleMaximize']);
+interface DefineEmits {
+  (e: 'toggleMaximize'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 defineProps({
   isMaximize: {

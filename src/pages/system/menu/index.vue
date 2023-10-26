@@ -67,7 +67,6 @@ import { message } from 'ant-design-vue';
 import { onMounted, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
-import { searchList, createList, tableColumns, pagePermission } from './model';
 import { useTitle } from '@/hooks/useTitle';
 import { checkPermission } from '@/utils/permissions';
 import {
@@ -77,6 +76,12 @@ import {
   updateSystemMenu,
   deleteSystemMenu
 } from '@/servers/system/menu';
+import {
+  searchList,
+  createList,
+  tableColumns,
+  pagePermission
+} from './model';
 import BasicContent from '@/components/Content/BasicContent.vue';
 import BasicTable from '@/components/Table/BasicTable.vue';
 import BasicPagination from '@/components/Pagination/BasicPagination.vue';
@@ -190,6 +195,7 @@ const handleCreate = async (values: FormData) => {
     isCreateLoading.value = true;
     const functions = () => creates.id ? updateSystemMenu(creates.id, values) : createSystemMenu(values);
     const { data } = await functions();
+    if (Number(data.code) !== 200) return;
     getPage();
     creates.id = '';
     creates.isOpen = false;

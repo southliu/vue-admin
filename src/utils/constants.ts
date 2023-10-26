@@ -13,8 +13,8 @@
   info = '#909399'
 }
 
-interface IConstant {
-  value: string | number;
+export interface IConstant {
+  value: string | number | boolean;
   label: string;
   color?: colors;
 }

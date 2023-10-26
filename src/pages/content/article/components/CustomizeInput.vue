@@ -25,7 +25,11 @@ const props = defineProps({
     }
 });
 
-const emit = defineEmits(['update:value']);
+interface DefineEmits {
+  (e: 'update:value', value?: string): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 /**
  * 更改数据

@@ -81,7 +81,12 @@ enum Dropdowns {
   logout
 }
 
-const emit = defineEmits(['toggleCollapsed', 'onUpdatePassword']);
+interface DefineEmits {
+  (e: 'toggleCollapsed'): void;
+  (e: 'onUpdatePassword'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 defineProps({
   isCollapsed: {

@@ -52,7 +52,11 @@ import SearchResult from './SearchResult.vue';
 import SearchFooter from './SearchFooter.vue';
 import Icon from '@/components/Icon/index.vue';
 
-const emit = defineEmits(['toggle']);
+interface DefineEmits {
+  (e: 'toggle'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 defineProps({
   isOpen: {

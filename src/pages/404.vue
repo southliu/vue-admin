@@ -18,21 +18,23 @@ import { useRouter } from 'vue-router';
 import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
+import { useMenuStore } from '@/stores/menu';
 import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
-import { defaultMenus } from '@/menus';
 
 const router = useRouter();
 const tabStore = useTabStore();
 const userStore = useUserStore();
+const menuStore = useMenuStore();
+const { menuList } = storeToRefs(menuStore);
 const { permissions } = storeToRefs(userStore);
 const { setActiveKey, addTabs } = tabStore;
 
 /** 跳转首页 */
 const goIndex = () => {
-  const firstMenu = getFirstMenu(defaultMenus, permissions.value);
+  const firstMenu = getFirstMenu(menuList.value, permissions.value);
   router.push(firstMenu);
   const menuByKeyProps = {
-    menus: defaultMenus,
+    menus: menuList.value,
     permissions: permissions.value,
     key: firstMenu
   };

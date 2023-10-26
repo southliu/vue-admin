@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     ApiSelect: typeof import('./src/components/Selects/ApiSelect.vue')['default']
     ApiTreeSelect: typeof import('./src/components/Selects/ApiTreeSelect.vue')['default']
+    BasicBtn: typeof import('./src/components/Buttons/components/BasicBtn.vue')['default']
     BasicComponents: typeof import('./src/components/Form/BasicComponents.vue')['default']
     BasicContent: typeof import('./src/components/Content/BasicContent.vue')['default']
     BasicForm: typeof import('./src/components/Form/BasicForm.vue')['default']

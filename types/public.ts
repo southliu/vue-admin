@@ -1,4 +1,5 @@
-import type { VxeTableProps, VxeColumnProps, VxeColumnPropTypes } from "vxe-table";
+import type { VxeColumnProps, VxeColumnPropTypes } from "vxe-table";
+import type { IConstant } from "@/utils/constants";
 import type { FormData } from "./form";
 
 // 基础类型
@@ -40,6 +41,7 @@ export interface CreateData {
   isOpen: boolean;
   title: string;
   data: FormData;
+  type?: 'create' | 'update';
 }
 
 // 分页数据
@@ -52,11 +54,11 @@ export interface PaginationData {
 // 表格参数
 export interface TableProps extends VxeColumnProps {
   slots?: VxeColumnPropTypes.Slots;
+  echoArr?: IConstant[];
 }
 
 // 表格数据
-export interface TableData extends VxeTableProps {
-}
+export type TableData = Record<string, unknown>
 
 // 接口响应数据
 export interface ServerResult<T = unknown> {
