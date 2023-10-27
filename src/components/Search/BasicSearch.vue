@@ -1,5 +1,5 @@
 <template>
-  <div id="searches" class="pt-4 pb-1 px-5">
+  <div id="searches" class="pt-4 pb-1">
     <Form
       ref="formRef"
       labelAlign="left"
@@ -13,7 +13,7 @@
       <FormItem
         v-for="item in list"
         :key="`${item.name}`"
-        :name="item.name"
+        :name="handleFilterTrim(item.name)"
         :label="item.label"
         :rules="item.rules"
         :labelCol="{ style: { width: `${ item.labelCol }px` } }"
@@ -70,7 +70,7 @@ import { watch, ref } from 'vue';
 import { Form, FormItem, Button } from 'ant-design-vue';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useDebounceFn } from '@vueuse/core';
-import { filterEmptyValue } from '@/utils/helper';
+import { filterEmptyValue, handleFilterTrim } from '@/utils/helper';
 import BasicComponents from '../Form/BasicComponents.vue';
 
 type FinishFun = (values: FormData) => void

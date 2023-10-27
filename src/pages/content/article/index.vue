@@ -3,7 +3,7 @@
     <template #top>
       <BasicSearch
         :list="searchList"
-        :data="searches.data"
+        :data="searchData"
         :isLoading="isLoading"
         :isCreate="checkPermission(pagePermission.create)"
         @onCreate="onCreate"
@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
 import type { FormData } from '#/form';
-import type { SearchData, TableData, PaginationData } from '#/public';
+import type { TableData, PaginationData } from '#/public';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { useTitle } from '@/hooks/useTitle';
@@ -74,9 +74,7 @@ const isLoading = ref(false);
 const isCreateLoading = ref(false);
 
 // 搜索数据
-const searches = reactive<SearchData>({
-  data: {}
-});
+const searchData = ref<FormData>({});
 
 // 表格数据
 const tables = ref<TableData[]>([]);
@@ -103,7 +101,7 @@ onActivated(() => {
 
 /** 获取表格数据 */
 const getPage = async () => {
-  handleSearch(searches.data);
+  handleSearch(searchData.value);
 };
 
 /**
@@ -111,7 +109,7 @@ const getPage = async () => {
   * @param values - 表单返回数据
   */
 const handleSearch = async (values: FormData) => {
-  searches.data = values;
+  searchData.value = values;
   const newPagination = { ...pagination };
   delete newPagination.total;
   const query = { ...newPagination, ...values };

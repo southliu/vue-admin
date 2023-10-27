@@ -11,7 +11,7 @@ enum API {
  * 获取分页数据
  * @param data - 请求数据
  */
-export function getSystemMenuPage(data: Partial<unknown> & PaginationData) {
+export function getSystemMenuPage(data: PaginationData) {
   return request.get<PageServerResult<TableData[]>>(
     `${API.URL}/page`,
     { params: data }

@@ -132,6 +132,7 @@ const handleColumns = (array?: TableProps[]) => {
 
   for (let i = 0; i < array.length; i++) {
     const item = array[i];
+    item.field = item.field?.trim() || '';
     // 初始化最小宽度70
     item.minWidth = item.minWidth || 50;
   }

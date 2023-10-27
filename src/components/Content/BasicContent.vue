@@ -1,11 +1,11 @@
 <template>
-  <div v-if="isPermission" class="h-full px-2 py-3 box-border">
-    <div id="container" class="h-full relative overflow-auto">
+  <div v-if="isPermission" class="h-full p-10px box-border">
+    <div id="container" class="h-full px-5 py-3 relative overflow-auto rounded-5">
       <div id="top">
         <slot name="top"></slot>
       </div>
 
-      <div id="content" class="p-5 overflow-auto">
+      <div id="content" class="py-5 overflow-auto">
         <slot></slot>
       </div>
 
