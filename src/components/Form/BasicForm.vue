@@ -33,10 +33,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue';
-import type { FormInstance } from 'ant-design-vue';
+import type { FormInstance, FormProps } from 'ant-design-vue';
 import type { FormData, FormList } from '#/form';
-import type { AllDataType } from "#/public";
 import type { ColProps } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
 import { ref, watch } from 'vue';
@@ -53,46 +51,26 @@ interface DefineEmits {
  
 const emit = defineEmits<DefineEmits>();
 
-const props = defineProps({
-  data: {
-    type: Object as PropType<Record<string, AllDataType>>,
-    required: true
-  },
-  list: {
-    type: Array as PropType<FormList[]>,
-    required: true
-  },
-  layout: {
-    type: String as PropType<'inline' | 'horizontal'>,
-    required: false,
-    default: 'horizontal'
-  },
-  labelCol: {
-    type: Object as PropType<Partial<ColProps>>,
-    required: false,
-    default: () => {
-      return { span: 5 };
-    }
-  },
-  wrapperCol: {
-    type: Object as PropType<Partial<ColProps>>,
-    required: false,
-    default: () => {
-      return { span: 16 };
-    }
-  },
-  labelAlign: {
-    type: String as PropType<'left' | 'right'>,
-    required: false,
-    default: 'right'
-  },
-  isLoading: {
-    type: Boolean
-  },
+interface DefineProps extends FormProps {
+  isLoading?: boolean;
+  data: FormData;
+  list: FormList[];
+  layout?: 'inline' | 'horizontal';
+  labelCol?: Partial<ColProps>;
+  wrapperCol?: Partial<ColProps>;
+  labelAlign?: 'left' | 'right',
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
+  layout: 'horizontal',
+  labelAlign: 'right',
+  labelCol: () => ({ span: 5 }),
+  wrapperCol: () => ({ span: 16 }),
 });
 
 const formRef = ref<FormInstance>();
-const formState = ref<Record<string, AllDataType>>(props.data);
+const formState = ref<FormData>(props.data);
 
 // 监听表单数据变化
 watch(() => props.data, value => {
@@ -126,13 +104,13 @@ const handleReset = () => {
  * @param obj - 表单数据对象
  * @param value - 修改值
  */
-const deepNested = (arr: string[], obj: Record<string, AllDataType>, value: AllDataType) => {
+const deepNested = (arr: string[], obj: FormData, value: unknown) => {
   const key = arr.shift()?.trim();
   if (!obj) obj = {};
   if (key) {
     if (!obj[key]) obj[key] = {};
     if (arr.length) {
-      obj[key] = deepNested(arr, obj[key] as Record<string, AllDataType>, value);
+      obj[key] = deepNested(arr, obj[key] as FormData, value);
     } else {
       obj[key] = value;
     }
@@ -145,7 +123,7 @@ const deepNested = (arr: string[], obj: Record<string, AllDataType>, value: AllD
  * @param key - 键值
  * @param value - 修改值
  */
-const setFromState = (key: string | string[], value: AllDataType) => {
+const setFromState = (key: string | string[], value: unknown) => {
   if (Array.isArray(key)) {
     const arr = JSON.parse(JSON.stringify(key));
     deepNested(arr, formState.value, value);

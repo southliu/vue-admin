@@ -15,7 +15,6 @@
     </div>
 
     <div class="flex items-center">
-      <DataScreen />
       <GlobalSearch />
       <Fullscreen />
       <Theme />
@@ -68,7 +67,6 @@ import {
   FormOutlined,
   ExclamationCircleOutlined
 } from '@ant-design/icons-vue';
-import DataScreen from '@/components/DataScreen/index.vue';
 import Fullscreen from '@/components/Fullscreen/index.vue';
 import GlobalSearch from '@/components/GlobalSearch/index.vue';
 import Theme from '@/components/Theme/index.vue';
@@ -88,16 +86,12 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-defineProps({
-  isCollapsed: {
-    type: Boolean,
-    required: true
-  },
-  username: {
-    type: String,
-    required: true
-  }
-});
+interface DefineProps {
+  isCollapsed: boolean;
+  username: string;
+}
+
+withDefaults(defineProps<DefineProps>(), {});
 
 const router = useRouter();
 const tabStore = useTabStore();

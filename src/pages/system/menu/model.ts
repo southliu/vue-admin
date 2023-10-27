@@ -46,7 +46,10 @@ export const createList: (id: string) => FormList[] = id => [
     label: '名称',
     name: 'name',
     rules: INPUT_REQUIRED,
-    component: 'Input'
+    component: 'Input',
+    componentProps: {
+      maxlength: 32
+    }
   },
   {
     label: '状态',
@@ -54,6 +57,7 @@ export const createList: (id: string) => FormList[] = id => [
     rules: SELECT_REQUIRED,
     component: 'Select',
     componentProps: {
+      maxlength: 32,
       options: MENU_STATUS
     }
   },
@@ -70,7 +74,10 @@ export const createList: (id: string) => FormList[] = id => [
     label: '控制器',
     name: 'controller',
     rules: INPUT_REQUIRED,
-    component: 'Input'
+    component: 'Input',
+    componentProps: {
+      maxlength: 32
+    }
   },
   {
     label: '同时创建菜单',

@@ -16,17 +16,17 @@
       :columns="tableColumns"
       :isLoading="isLoading"
     >
-      <template v-slot:operate='row'>
+      <template #operate="{ record }">
         <UpdateBtn
           v-if="checkPermission(pagePermission.update)"
           class="mr-2"
           :isLoading="isCreateLoading"
-          @click="onUpdate(row.record)"
+          @click="onUpdate(record)"
         />
         <DeleteBtn
           v-if="checkPermission(pagePermission.delete)"
           :isLoading="isLoading"
-          @click="handleDelete(row.record.id)"
+          @click="handleDelete(record.id)"
         />
       </template>
     </BasicTable>
@@ -112,10 +112,13 @@ const getPage = async () => {
   */
 const handleSearch = async (values: FormData) => {
   searches.data = values;
-  const query = { ...pagination, ...values };
+  const newPagination = { ...pagination };
+  delete newPagination.total;
+  const query = { ...newPagination, ...values };
   try {
     isLoading.value = true;
-    const { data } = await getArticlePage(query);
+    const { code, data } = await getArticlePage(query);
+    if (Number(code) !== 200) return;
     const { items, total } = data;
     tables.value = items;
     pagination.total = total;

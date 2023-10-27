@@ -16,12 +16,12 @@
       :columns="tableColumns"
       :isLoading="isLoading"
     >
-      <template v-slot:operate='row'>
+      <template #operate="{ record }">
         <Button
           v-if="checkPermission(pagePermission.permission)"
           class="mr-2"
           :isLoading="isLoading"
-          @click="openPermission(row.record.id)"
+          @click="openPermission(record.id)"
         >
           权限
         </Button>
@@ -29,12 +29,12 @@
           v-if="checkPermission(pagePermission.update)"
           class="mr-2"
           :isLoading="isCreateLoading"
-          @click="onUpdate(row.record)"
+          @click="onUpdate(record)"
         />
         <DeleteBtn
           v-if="checkPermission(pagePermission.delete)"
           :isLoading="isLoading"
-          @click="handleDelete(row.record.id)"
+          @click="handleDelete(record.id)"
         />
       </template>
     </BasicTable>
@@ -182,10 +182,13 @@ const createSubmit = () => {
  */
 const handleSearch = async (values: FormData) => {
   searches.data = values;
-  const query = { ...pagination, ...values };
+  const newPagination = { ...pagination };
+  delete newPagination.total;
+  const query = { ...newPagination, ...values };
   try {
     isLoading.value = true;
-    const { data } = await getSystemUserPage(query);
+    const { code, data } = await getSystemUserPage(query);
+    if (Number(code) !== 200) return;
     const { items, total } = data;
     tables.value = items;
     pagination.total = total;
@@ -214,7 +217,8 @@ const onUpdate = async (record: FormData) => {
 
   try {
     isCreateLoading.value = true;
-    const { data } = await getSystemUserById(id as string);
+    const { code, data } = await getSystemUserById(id as string);
+    if (Number(code) !== 200) return;
     creates.data = data;
   } finally {
     isCreateLoading.value = false;
@@ -229,14 +233,14 @@ const handleCreate = async (values: FormData) => {
   try {
     isCreateLoading.value = true;
     const functions = () => creates.id ? updateSystemUser(creates.id, values) : createSystemUser(values);
-    const { data } = await functions();
-    if (Number(data.code) !== 200) return;
+    const { code, message: resultMessage } = await functions();
+    if (Number(code) !== 200) return;
     getPage();
     creates.id = '';
     creates.isOpen = false;
     creates.data = initCreate;
     createFormRef.value?.handleReset();
-    message.success(data?.message || '操作成功');
+    message.success(resultMessage || '操作成功');
   } finally {
     isCreateLoading.value = false;
   }
@@ -280,7 +284,8 @@ const openPermission = async (id: string) => {
   try {
     isLoading.value = true;
     const params = { userId: id };
-    const { data } = await getPermission(params);
+    const { code, data } = await getPermission(params);
+    if (Number(code) !== 200) return;
     const { defaultCheckedKeys, treeData } = data;
     permissionConfig.id = id;
     permissionConfig.treeData = treeData;

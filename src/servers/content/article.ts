@@ -1,5 +1,5 @@
 import type { PageServerResult, PaginationData, ServerResult, TableData } from '#/public';
-import { request } from '@/utils/request';
+import { request } from '@/servers/request';
 
 enum API {
   URL = '/content/article'
@@ -10,10 +10,10 @@ enum API {
  * @param data - 请求数据
  */
 export function getArticlePage(data: Partial<unknown> & PaginationData) {
-  return request.get(
-    `${API.URL}/index`,
+  return request.get<PageServerResult<TableData[]>>(
+    `${API.URL}/page`,
     { params: data }
-  ) as Promise<PageServerResult<TableData[]>>;
+  );
 }
 
 /**

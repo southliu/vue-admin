@@ -64,12 +64,11 @@ import Logo from '@/assets/images/logo.png';
 
 const emit = defineEmits(['toggleCollapsed']);
 
-const props = defineProps({
-  isCollapsed: {
-    type: Boolean,
-    required: true
-  }
-});
+interface DefineProps {
+  isCollapsed: boolean;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {});
 
 const route = useRoute();
 const router = useRouter();

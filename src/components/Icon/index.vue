@@ -22,12 +22,11 @@ defineOptions({
   name: 'IconBtn'
 });
 
-const props = defineProps({
-  icon: {
-    type: String,
-    required: true
-  }
-});
+interface DefineProps {
+  icon: string;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {});
 
 const attrs = useAttrs();
 

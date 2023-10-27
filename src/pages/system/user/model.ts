@@ -36,25 +36,37 @@ export const createList: FormList[] = [
     label: '嵌套数据',
     name: ['user', 'name', 'test'],
     rules: INPUT_REQUIRED,
-    component: 'Input'
+    component: 'Input',
+    componentProps: {
+      maxlength: 32
+    }
   },
   {
     label: '用户名',
     name: 'username',
     rules: INPUT_REQUIRED,
-    component: 'Input'
+    component: 'Input',
+    componentProps: {
+      maxlength: 32
+    }
   },
   {
     label: '姓名',
     name: 'real_name',
     rules: INPUT_REQUIRED,
-    component: 'Input'
+    component: 'Input',
+    componentProps: {
+      maxlength: 32
+    }
   },
   {
     label: '角色',
     name: 'roles_name',
     rules: INPUT_REQUIRED,
-    component: 'Input'
+    component: 'Input',
+    componentProps: {
+      maxlength: 32
+    }
   },
   {
     label: '状态',

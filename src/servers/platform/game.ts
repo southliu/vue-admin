@@ -1,5 +1,4 @@
-import type { ServerResult } from '#/public';
-import { request } from '@/utils/request';
+import { request } from '@/servers/request';
 
 enum API {
   COMMON_URL = '/authority/common',
@@ -16,8 +15,8 @@ interface ResultData {
  * @param data - 请求数据
  */
 export function getGames(data?: unknown) {
-  return request.get(
+  return request.get<ResultData[]>(
     `${API.COMMON_URL}/games`,
     { params: data }
-  ) as Promise<ServerResult<ResultData[]>>;
+  );
 }

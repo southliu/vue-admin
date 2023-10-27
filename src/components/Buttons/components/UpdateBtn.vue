@@ -20,12 +20,12 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-defineProps({
-  isLoading: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
+interface DefineProps {
+  isLoading?: boolean;
+}
+
+withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
 });
 
 const attrs = useAttrs();

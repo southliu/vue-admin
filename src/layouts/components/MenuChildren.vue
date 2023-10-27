@@ -40,19 +40,14 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue';
 import { MenuItem, SubMenu } from 'ant-design-vue';
 import type { SideMenu } from '#/public';
 import Icon from '@/components/Icon/index.vue';
 
-defineProps({
-  list: {
-    type: Array as PropType<SideMenu[]>,
-    required: true
-  },
-  handleClick: {
-    type: Function as PropType<(key: string) => void>,
-    required: true
-  }
-});
+interface DefineProps {
+  list: SideMenu[];
+  handleClick: (key: string) => void;
+}
+
+withDefaults(defineProps<DefineProps>(), {});
 </script>

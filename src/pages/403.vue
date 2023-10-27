@@ -6,20 +6,25 @@
     <p class="w-full text-20px font-bold mt-15px text-dark-700">
       当前页面无法访问，可能没权限或已删除
     </p>
-    <Button class="mt-25px margin-auto" @click="goIndex">
+    <Button :loading="isLoading" class="mt-25px margin-auto" @click="goIndex">
       返回首页
     </Button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Button } from 'ant-design-vue';
+import { ref } from 'vue';
+import { Button, message } from 'ant-design-vue';
 import { useRouter } from 'vue-router';
 import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useMenuStore } from '@/stores/menu';
-import { getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
+import { filterMenus, getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
+import { permissionsToArray } from '@/utils/permissions';
+import { getPermissions } from '@/servers/permission';
+import { getMenuList } from '@/servers/system/menu';
+import { useToken } from '@/hooks/useToken';
 
 const router = useRouter();
 const tabStore = useTabStore();
@@ -27,15 +32,77 @@ const userStore = useUserStore();
 const menuStore = useMenuStore();
 const { menuList } = storeToRefs(menuStore);
 const { permissions } = storeToRefs(userStore);
-const { setActiveKey, addTabs } = tabStore;
+const { removeToken } = useToken();
+const { setMenus } = menuStore;
+const { setUserInfo, setPermissions, clearInfo } = userStore;
+const {
+  setActiveKey,
+  addTabs,
+  closeAllTab,
+  clearCacheRoutes
+} = tabStore;
+
+const isLoading = ref(false);
+
+/** 获取用户信息和权限 */
+const getUserInfo = async () => {
+  try {
+    const { code, data } = await getPermissions({ refresh_cache: false });
+    if (Number(code) !== 200) return;
+    const { user, permissions } = data;
+    const newPermissions = permissionsToArray(permissions);
+
+    setUserInfo(user);
+    setPermissions(newPermissions);
+    getUserMenu(newPermissions);
+    return newPermissions;
+  } catch(err) {
+    console.error(err);
+  }
+};
+
+/** 获取用户菜单 */
+const getUserMenu = async (permissions: string[]) => {
+  try {
+    isLoading.value = true;
+    const { code, data } = await getMenuList({ isLayout: true });
+    if (Number(code) !== 200) return;
+    const menuData = filterMenus(data, permissions);
+    setMenus(menuData);
+    return menuData;
+  } finally {
+    isLoading.value = false;
+  }
+};
 
 // 跳转首页
-const goIndex = () => {
-  const firstMenu = getFirstMenu(menuList.value, permissions.value);
+const goIndex = async () => {
+  let currentMenuList = menuList.value;
+  let currentPermissions = permissions.value;
+
+  if (!currentMenuList?.length || !currentPermissions?.length) {
+    const permissions = await getUserInfo();
+    const menuList = await getUserMenu(permissions || []);
+    currentPermissions = permissions || [];
+    currentMenuList = menuList || [];
+  }
+
+  const firstMenu = getFirstMenu(currentMenuList, currentPermissions);
+
+  // 不存在第一个菜单则跳回登录页
+  if (!firstMenu) {
+    removeToken();
+    clearInfo();
+    closeAllTab();
+    clearCacheRoutes();
+    router.push('/login');
+    return message.error({ content: '用户暂无权限登录', key: 'permissions' });
+  }
+
   router.push(firstMenu);
   const menuByKeyProps = {
-    menus: menuList.value,
-    permissions: permissions.value,
+    menus: currentMenuList,
+    permissions: currentPermissions,
     key: firstMenu
   };
   const newItems = getMenuByKey(menuByKeyProps);

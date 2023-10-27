@@ -51,6 +51,7 @@
     "stylelint",
     "Optpng",
     "Pngquant",
-    "treenode"
+    "treenode",
+    "maxlength",
   ]
 }

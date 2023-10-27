@@ -163,7 +163,8 @@ const handleGoFirstMenu = async (permissions: string[]) => {
 const handleFinish: FormProps['onFinish'] = async (values: LoginData) => {
   try {
     isLoading.value = true;
-    const { data } = await login(values);
+    const { code, data } = await login(values);
+    if (Number(code) !== 200) return;
     const { token, user, permissions } = data;
 
     if (!permissions?.length || !token) {

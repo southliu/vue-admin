@@ -45,7 +45,6 @@
 
 <script lang="ts" setup>
 import type { TabsData } from '@/stores/tabs';
-import { PropType } from 'vue';
 import { TabEnums } from '../model';
 import { Menu, MenuItem } from 'ant-design-vue';
 import {
@@ -62,24 +61,14 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-defineProps({
-  currentKey: {
-    type: String,
-    required: true
-  },
-  activeKey: {
-    type: String,
-    required: true
-  },
-  index: {
-    type: Number,
-    required: true
-  },
-  list: {
-    type: Array as PropType<TabsData[]>,
-    required: true
-  }
-});
+interface DefineProps {
+  currentKey: string;
+  activeKey: string;
+  index: number;
+  list: TabsData[];
+}
+
+withDefaults(defineProps<DefineProps>(), {});
 
 /**
  * 处理下拉事件

@@ -31,22 +31,16 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue';
 import { Button } from 'ant-design-vue';
 
-defineProps({
-  isLoading: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  goBack: {
-    type: Function as PropType<() => void>,
-    required: true
-  },
-  handleSubmit: {
-    type: Function as PropType<() => void>,
-    required: true
-  }
+//组件发送事件类型
+interface DefineProps {
+  isLoading?: boolean;
+  goBack: () => void;
+  handleSubmit: () => void;
+}
+
+withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
 });
 </script>

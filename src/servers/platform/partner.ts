@@ -1,5 +1,4 @@
-import type { ServerResult } from '#/public';
-import { request } from '@/utils/request';
+import { request } from '@/servers/request';
 
 enum API {
   URL = '/platform/partner',
@@ -15,8 +14,8 @@ interface ResultData {
  * @param data - 请求数据
  */
 export function getPartner(data?: unknown) {
-  return request.get(
+  return request.get<ResultData[]>(
     `${API.URL}`,
     { params: data }
-  ) as Promise<ServerResult<ResultData[]>>;
+  );
 }

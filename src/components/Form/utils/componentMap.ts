@@ -19,7 +19,8 @@ import {
   DatePicker,
   Rate,
   Slider,
-  Upload
+  Upload,
+  Textarea
 } from 'ant-design-vue';
 
 const componentMap = new Map<ComponentType, Component>();
@@ -39,6 +40,7 @@ componentMap.set('DatePicker', DatePicker);
 componentMap.set('Rate', Rate);
 componentMap.set('Slider', Slider);
 componentMap.set('Upload', Upload);
+componentMap.set('Textarea', Textarea);
 
 // 自定义组件注入
 componentMap.set('ApiSelect', ApiSelect);

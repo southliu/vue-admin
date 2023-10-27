@@ -79,15 +79,13 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true
-  },
-  isLoading: {
-    type: Boolean,
-    required: true
-  }
+interface DefineProps {
+  isLoading?: boolean;
+  isOpen: boolean;
+}
+
+withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
 });
 
 const formRef = ref<FormInstance>();
