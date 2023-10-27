@@ -1,4 +1,3 @@
-import type { AllDataType } from '#/public';
 import { encrypt, decrypt } from 'crypto-js/aes';
 import UTF8 from 'crypto-js/enc-utf8';
 import md5 from 'crypto-js/md5';
@@ -14,7 +13,7 @@ const secretKey = import.meta.env.VITE_SECRET_KEY as string;
  * @param data - 加密数据
  * @param secret - 加密密钥
  */
-export function encryption(data: AllDataType, secret = secretKey) {
+export function encryption(data: unknown, secret = secretKey) {
   const code = JSON.stringify(data);
   return encrypt(code, secret).toString();
 }

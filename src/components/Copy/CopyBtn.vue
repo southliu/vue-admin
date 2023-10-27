@@ -15,19 +15,14 @@ import { Button } from 'ant-design-vue';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
 import Icon from '@/components/Icon/index.vue';
 
-const props = defineProps({
-  text: {
-    type: String
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  value: {
-    type: String,
-    required: true
-  }
+interface DefineProps {
+  isLoading?: boolean;
+  text?: string;
+  value: string;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
 });
 
 /** 点击编辑 */

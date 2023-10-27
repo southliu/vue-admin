@@ -9,13 +9,13 @@ import type {
   RateProps,
   SliderProps
 } from "ant-design-vue";
-import type { AllDataType, ServerResult } from './public';
+import type { ServerResult } from './public';
 import type { RuleObject } from 'ant-design-vue/lib/form';
 import type { BusinessComponentType } from '@/components/Business';
 import type { WangEditorProps } from '@/components/WangEditor/model';
 
 // 数据类型
-export type FormData = Record<string, AllDataType>
+export type FormData = Record<string, unknown>
 
 // 基础数据组件
 type DefaultDataComponents = 'Input' |

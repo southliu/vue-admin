@@ -1,5 +1,7 @@
-import type { PageServerResult, PaginationData, ServerResult, SideMenu, TableData } from '#/public';
-import { request } from '@/utils/request';
+import type { PageServerResult, PaginationData, SideMenu, TableData } from '#/public';
+import type { DataNode } from 'ant-design-vue/lib/tree';
+import type { Key } from 'ant-design-vue/lib/vc-tree/interface';
+import { request } from '@/servers/request';
 
 enum API {
   URL = '/authority/menu',
@@ -10,10 +12,10 @@ enum API {
  * @param data - 请求数据
  */
 export function getSystemMenuPage(data: Partial<unknown> & PaginationData) {
-  return request.get(
-    `${API.URL}/index`,
+  return request.get<PageServerResult<TableData[]>>(
+    `${API.URL}/page`,
     { params: data }
-  ) as Promise<PageServerResult<TableData[]>>;
+  );
 }
 
 /**
@@ -21,7 +23,7 @@ export function getSystemMenuPage(data: Partial<unknown> & PaginationData) {
  * @param data - 请求数据
  */
 export function getMenuList(data?: unknown) {
-  return request.get(`/menu/list`, { params: data }) as Promise<ServerResult<SideMenu[]>>;
+  return request.get<SideMenu[]>(`/menu/list`, { params: data });
 }
 
 /**
@@ -54,7 +56,7 @@ export function updateSystemMenu(id: string, data: unknown) {
  * @param id - 删除id值
  */
  export function deleteSystemMenu(id: string) {
-  return request.delete(`${API.URL}/${id}`) as Promise<ServerResult>;
+  return request.delete(`${API.URL}/${id}`);
 }
 
 /**
@@ -62,7 +64,10 @@ export function updateSystemMenu(id: string, data: unknown) {
  * @param data - 搜索数据
  */
  export function getPermission(data: unknown) {
-  return request.get(`${API.URL}/tree`, { params: data });
+  return request.get<{
+    defaultCheckedKeys: Key[];
+    treeData: DataNode[];
+  }>(`${API.URL}/tree`, { params: data });
 }
 
 /**
@@ -70,5 +75,5 @@ export function updateSystemMenu(id: string, data: unknown) {
  * @param data - 权限数据
  */
 export function savePermission(data: unknown) {
-  return request.put(`${API.URL}/authorize/save`, data) as Promise<ServerResult>;
+  return request.put(`${API.URL}/authorize/save`, data);
 }

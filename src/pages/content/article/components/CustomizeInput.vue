@@ -10,20 +10,15 @@
 </template>
 
 <script lang="ts" setup>
-import type { PropType } from 'vue';
 import type { InputProps } from 'ant-design-vue';
 import { Input } from 'ant-design-vue';
 
-const props = defineProps({
-    value: {
-      type: String,
-      required: false
-    },
-    setData: {
-      type: Function as PropType<(open: boolean) => void>,
-      required: false
-    }
-});
+interface DefineProps {
+  value?: string;
+  setData?: (open: boolean) => void;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {});
 
 interface DefineEmits {
   (e: 'update:value', value?: string): void;

@@ -22,7 +22,6 @@
 /**
  * @description: 根据API获取数据下拉组件
  */
-import type { PropType } from 'vue';
 import type { ApiFun, ApiSelectProps } from '#/form';
 import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select';
 import { onMounted, useAttrs, watch, ref } from 'vue';
@@ -41,32 +40,16 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-const props = defineProps({
-  modelValue: {
-    type: [String, Number, Array] as PropType<SelectValue>,
-    required: false
-  },
-  value: {
-    type: [String, Number, Array] as PropType<SelectValue>,
-    required: false
-  },
-  componentProps: {
-    type: Object as PropType<ApiSelectProps>,
-    required: false
-  },
-  api: {
-    type: Function as PropType<ApiFun>,
-    required: true
-  },
-  params: {
-    type: Object,
-    required: false
-  },
-  onDropdownVisibleChange: {
-    type: Function as PropType<(open: boolean) => void>,
-    required: false
-  }
-});
+interface DefineProps {
+  modelValue?: SelectValue;
+  value?: SelectValue;
+  params?: object;
+  componentProps?: ApiSelectProps;
+  api: ApiFun;
+  onDropdownVisibleChange?: (open: boolean) => void
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {});
 
 const attrs = useAttrs();
 const options = ref<DefaultOptionType[]>([]);

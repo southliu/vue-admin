@@ -50,7 +50,6 @@
 
 <script lang="ts" setup>
 import type { SideMenu } from '#/public';
-import { PropType } from 'vue';
 import Icon from '@/components/Icon/index.vue';
 
 interface DefineEmits {
@@ -60,16 +59,12 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-defineProps({
-  list: {
-    type: Array as PropType<SideMenu[]>,
-    required: true
-  },
-  active: {
-    type: String,
-    required: true
-  }
-});
+interface DefineProps {
+  list: SideMenu[];
+  active: string;
+}
+
+withDefaults(defineProps<DefineProps>(), {});
 
 /**
  * 处理鼠标经过

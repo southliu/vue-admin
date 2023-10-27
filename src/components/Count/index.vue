@@ -6,19 +6,13 @@
 import { amountFormatter } from '@/utils/helper';
 import { onMounted, watch, ref, onUnmounted } from 'vue';
 
-const props = defineProps({
-  start: {
-    type: Number,
-    required: true
-  },
-  end: {
-    type: Number,
-    required: true
-  },
-  prefix: {
-    type: String
-  }
-});
+interface DefineProps {
+  start: number;
+  end: number;
+  prefix?: string;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {});
 
 const num = ref(0);
 const timer = ref<NodeJS.Timer | null>(null);

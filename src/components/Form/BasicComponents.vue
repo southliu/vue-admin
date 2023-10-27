@@ -16,9 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormList } from '#/form';
-import type { AllDataType } from '#/public';
-import type { PropType } from 'vue';
+import type { FormData, FormList } from '#/form';
 import { defineComponent, watch } from 'vue';
 import { componentMap } from './utils/componentMap';
 import { createPlaceholder, getComponentProps } from './utils/helper';
@@ -27,20 +25,13 @@ defineOptions({
   name: 'BasicComponents'
 });
 
-const props = defineProps({
-  item: {
-    type: Object as PropType<FormList>,
-    required: true
-  },
-  data: {
-    type: Object as PropType<Record<string, AllDataType>>,
-    required: true
-  },
-  setData: {
-    type: Function as PropType<(key: string | string[], value: AllDataType) => void>,
-    required: true
-  }
-});
+interface DefineProps {
+  item: FormList;
+  data: FormData;
+  setData: (key: string | string[], value: unknown) => void;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {});
 
 let Comp: ReturnType<typeof defineComponent>;
 

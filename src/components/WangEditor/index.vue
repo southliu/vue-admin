@@ -34,16 +34,12 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    required: false
-  },
-  height: {
-    type: Number,
-    required: false
-  }
-});
+interface DefineProps {
+  modelValue?: string;
+  height?: number;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {});
 
 // 编辑器实例，必须用 shallowRef
 const editorRef = shallowRef();

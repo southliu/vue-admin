@@ -93,8 +93,9 @@ const handleCreate = () => {
  const handleUpdate = async (id: string) => {
   try {
     isLoading.value = true;
-    const { data } = await getArticleById(id);
-    createData.value = data;
+    const { code, data } = await getArticleById(id);
+    if (Number(code) !== 200) return;
+    createData.value = (data || {}) as FormData;
   } finally {
     isLoading.value = false;
   }
@@ -146,9 +147,9 @@ const handleFinish = async (values: FormData) => {
   try {
     isLoading.value = true;
     const functions = () => id ? updateArticle(id, values) : createArticle(values);
-    const { data } = await functions();
-    if (Number(data?.code) !== 200) return;
-    message.success(data?.message || '操作成功');
+    const { code, message: resultMessage } = await functions();
+    if (Number(code) !== 200) return;
+    message.success(resultMessage || '操作成功');
     createFormRef.value?.handleReset();
     createData.value = initCreate;
     goBack(true);

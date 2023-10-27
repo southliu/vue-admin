@@ -148,7 +148,8 @@ onUnmounted(() => {
 /** 获取用户信息和权限 */
 const getUserInfo = async () => {
   try {
-    const { data } = await getPermissions({ refresh_cache: false });
+    const { code, data } = await getPermissions({ refresh_cache: false });
+    if (Number(code) !== 200) return;
     const { user, permissions } = data;
     const newPermissions = permissionsToArray(permissions);
     username.value = user.username;

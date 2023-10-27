@@ -23,7 +23,6 @@
 /**
  * @description: 根据API获取数据树形下拉组件
  */
-import type { PropType } from 'vue';
 import type { ApiFun, ApiTreeSelectProps } from '#/form';
 import type { TreeSelectProps } from 'ant-design-vue';
 import type { SelectValue } from 'ant-design-vue/lib/select';
@@ -44,32 +43,16 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-const props = defineProps({
-  modelValue: {
-    type: [String, Number, Array] as PropType<SelectValue>,
-    required: false
-  },
-    value: {
-      type: [String, Number, Array] as PropType<SelectValue>,
-      required: false
-    },
-  componentProps: {
-    type: Object as PropType<ApiTreeSelectProps>,
-    required: false
-  },
-  api: {
-    type: Function as PropType<ApiFun>,
-    required: true
-  },
-  params: {
-    type: Object,
-    required: false
-  },
-  onDropdownVisibleChange: {
-    type: Function as PropType<(open: boolean) => void>,
-    required: false
-  }
-});
+interface DefineProps {
+  modelValue?: SelectValue;
+  value?: SelectValue;
+  params?: object;
+  componentProps?: ApiTreeSelectProps;
+  api: ApiFun;
+  onDropdownVisibleChange?: (open: boolean) => void
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {});
 
 const attrs = useAttrs();
 const options = ref<TreeSelectProps['treeData']>([]);

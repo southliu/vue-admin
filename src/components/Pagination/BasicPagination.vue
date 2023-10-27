@@ -35,27 +35,18 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-defineProps({
-  total: {
-    type: Number,
-    required: false,
-    default: 0
-  },
-  page: {
-    type: Number,
-    required: true,
-    default: 1
-  },
-  pageSize: {
-    type: Number,
-    required: true,
-    default: 20
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
+interface DefineProps {
+  total?: number;
+  page?: number;
+  pageSize?: number;
+  isLoading?: boolean;
+}
+
+withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
+  total: 0,
+  page: 1,
+  pageSize: 20,
 });
 
 /**

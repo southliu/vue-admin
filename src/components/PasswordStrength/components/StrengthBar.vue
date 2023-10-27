@@ -14,12 +14,11 @@
 </template>
 
 <script lang="ts" setup>
-defineProps({
-  strength: {
-    type: Number,
-    required: true
-  }
-});
+interface DefineProps {
+  strength: number;
+}
+
+withDefaults(defineProps<DefineProps>(), {});
 
 const arr = new Array(5).fill(0).map((_, index) => index + 1);
 </script>

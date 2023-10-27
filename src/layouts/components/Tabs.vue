@@ -156,12 +156,12 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-defineProps({
-  isMaximize: {
-    type: Boolean,
-    required: false,
-    defaultValue: false
-  }
+interface DefineProps {
+  isMaximize?: boolean;
+}
+
+withDefaults(defineProps<DefineProps>(), {
+  isMaximize: false
 });
 
 const route = useRoute();

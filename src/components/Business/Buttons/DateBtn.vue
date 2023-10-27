@@ -49,21 +49,15 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-const props = defineProps({
-  date: {
-    type: String,
-    required: true
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-    default: false
-  },
-  format: {
-    type: String,
-    required: false,
-    default: DATE_FORMAT
-  }
+interface DefineProps {
+  isLoading?: boolean;
+  date: string;
+  format?: string;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
+  format: DATE_FORMAT
 });
 
 const list: ListData[] = [

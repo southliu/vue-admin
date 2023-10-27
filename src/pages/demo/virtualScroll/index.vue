@@ -20,14 +20,13 @@
 </template>
 
 <script lang="ts" setup>
-import type { AllDataType } from '#/public';
 import { reactive, nextTick, onMounted } from 'vue';
 import { List } from 'vxe-table';
 import { Button, message } from 'ant-design-vue';
 import { useTitle } from '@/hooks/useTitle';
 
 interface ItemVO {
-  [key: string]: AllDataType;
+  [key: string]: unknown;
 }
 
 useTitle('虚拟滚动');

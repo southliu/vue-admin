@@ -58,12 +58,11 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true
-  }
-});
+interface DefineProps {
+  isOpen: boolean;
+}
+
+withDefaults(defineProps<DefineProps>(), {});
 
 const router = useRouter();
 const tabStore = useTabStore();

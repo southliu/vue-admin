@@ -1,5 +1,5 @@
 import type { IConstant } from "./constants";
-import type { AllDataType, ArrayData } from "#/public";
+import type { ArrayData } from "#/public";
 
 /**
  * 首字母大写
@@ -22,7 +22,7 @@ export function amountFormatter(amount: number) {
  * 过滤空数据
  * @param obj - 传入对象
  */
-type EmptyData = Record<string, AllDataType>
+type EmptyData = Record<string, unknown>
 export function filterEmptyValue(obj: EmptyData): EmptyData {
   const res: EmptyData = {};
 

@@ -62,12 +62,10 @@
 /**
  * @description: 搜索组件
  */
-import type { PropType } from 'vue';
 import type { FormInstance } from 'ant-design-vue';
 import type { FormData, FormList } from '#/form';
 import type { ColProps } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
-import type { AllDataType } from '#/public';
 import { watch, ref } from 'vue';
 import { Form, FormItem, Button } from 'ant-design-vue';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue';
@@ -84,29 +82,17 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-const props = defineProps({
-  data: {
-    type: Object,
-    required: true
-  },
-  list: {
-    type: Array as PropType<FormList[]>,
-    required: true
-  },
-  wrapperCol: {
-    type: Object as PropType<Partial<ColProps>>,
-    required: false,
-  },
-  isLoading: {
-    type: Boolean
-  },
-  isSearch: {
-    type: Boolean,
-    default: true
-  },
-  isCreate: {
-    type: Boolean
-  }
+interface DefineProps {
+  data: FormData;
+  list: FormList[];
+  wrapperCol?: Partial<ColProps>;
+  isLoading?: boolean;
+  isSearch?: boolean;
+  isCreate?: boolean;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {
+  isSearch: true,
 });
 
 const formRef = ref<FormInstance>();
@@ -141,13 +127,13 @@ const handleReset = () => {
  * @param obj - 表单数据对象
  * @param value - 修改值
  */
-const deepNested = (arr: string[], obj: Record<string, AllDataType>, value: AllDataType) => {
+const deepNested = (arr: string[], obj: Record<string, unknown>, value: unknown) => {
   const key = arr.shift()?.trim();
   if (!obj) obj = {};
   if (key) {
     if (!obj[key]) obj[key] = {};
     if (arr.length) {
-      obj[key] = deepNested(arr, obj[key] as Record<string, AllDataType>, value);
+      obj[key] = deepNested(arr, obj[key] as Record<string, unknown>, value);
     } else {
       obj[key] = value;
     }
@@ -160,7 +146,7 @@ const deepNested = (arr: string[], obj: Record<string, AllDataType>, value: AllD
  * @param key - 键值
  * @param value - 修改值
  */
-const setFromState = (key: string | string[], value: AllDataType) => {
+const setFromState = (key: string | string[], value: unknown) => {
   if (Array.isArray(key)) {
     const arr = JSON.parse(JSON.stringify(key));
     deepNested(arr, formState.value, value);

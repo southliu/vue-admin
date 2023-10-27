@@ -1,5 +1,4 @@
 import type { ComponentType, FormList } from '#/form';
-import type { AllDataType } from '#/public';
 import type { WangEditorProps } from '@/components/WangEditor/model';
 import type { DatePickerProps } from 'ant-design-vue';
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface';
@@ -24,13 +23,13 @@ export function createPlaceholder(component: ComponentType): string {
  * @param arr - 键值数组
  * @param obj - 表单数据对象
  */
-const getDeepNested = (arr: string[], obj: Record<string, AllDataType>) => {
+const getDeepNested = (arr: string[], obj: Record<string, unknown>) => {
   try {
     for (let i = 0; i < arr.length; i++) {
       const key = arr[i]?.trim();
       if (!key || !obj || !obj[key]) return '';
       if (arr.length - 1 === i) return obj[key];
-      obj = obj[key] as Record<string, AllDataType>;
+      obj = obj[key] as Record<string, unknown>;
     }
     return '';
   } catch(e) {
@@ -46,11 +45,11 @@ const getDeepNested = (arr: string[], obj: Record<string, AllDataType>) => {
  */
 export function getComponentProps(
   item: FormList,
-  data: Record<string, AllDataType>,
-  setData: (key: string | string[], value: AllDataType) => void
+  data: Record<string, unknown>,
+  setData: (key: string | string[], value: unknown) => void
 ) {
   const key = item.name;
-  let compData: AllDataType;
+  let compData: unknown;
 
   // 当key存在逗号时，分割数据
   if (Array.isArray(key)) {
@@ -115,7 +114,7 @@ export function getComponentProps(
     default:
       return {
         value: compData,
-        'onUpdate:value': (value: AllDataType) => {
+        'onUpdate:value': (value: unknown) => {
           setData(key, value);
         }
       };

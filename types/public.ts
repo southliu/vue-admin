@@ -17,9 +17,6 @@ export type EmptyData = null | undefined
 // 唯一值
 export type SymbolData = symbol | symbol[]
 
-// 全部数据类型
-export type AllDataType = BasicData | ArrayData | EmptyData | ObjectData | SymbolData
-
 // 侧边菜单值
 export interface SideMenu {
   label: string;
@@ -68,11 +65,7 @@ export interface ServerResult<T = unknown> {
 }
 
 // 分页表格响应数据
-export interface PageServerResult<T = unknown> {
-  code: number;
-  message?: string;
-  data: {
-    items: T,
-    total: number
-  }
+export interface PageServerResult<T = unknown[]> {
+  items: T,
+  total: number
 }

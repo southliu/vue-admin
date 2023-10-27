@@ -69,7 +69,7 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, PropType, ref, watch } from 'vue';
+import { nextTick, ref, watch } from 'vue';
 import { Modal, Tooltip, Button, Spin } from 'ant-design-vue';
 import { useModalDragMove } from './hooks/useModalDrag';
 import { useDebounceFn } from '@vueuse/core';
@@ -82,34 +82,20 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-const props = defineProps({
-  isOpen: {
-    type: Boolean,
-    required: true
-  },
-  width: {
-    type: [String, Number],
-    default: 520
-  },
-  layout: {
-    type: String as PropType<'horizontal'|'vertical'|'inline'>,
-    required: false,
-    default: 'horizontal'
-  },
-  title: {
-    type: String,
-    required: true
-  },
-  // 权限控制
-  isPermission: {
-    type: Boolean,
-    default: true
-  },
-  isLoading: {
-    type: Boolean,
-    required: false,
-    default: false
-  }
+interface DefineProps {
+  isOpen: boolean;
+  width?: string | number;
+  layout?: 'horizontal'|'vertical'|'inline';
+  title: string;
+  isPermission?: boolean; // 权限控制
+  isLoading?: boolean;
+}
+
+const props = withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
+  isPermission: true,
+  width: 520,
+  layout: 'horizontal'
 });
 
 // 是否最大化

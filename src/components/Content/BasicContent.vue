@@ -23,10 +23,9 @@
 <script lang="ts" setup>
 import NotPermission from "@/pages/403.vue";
 
-defineProps({
-  isPermission: {
-    type: Boolean,
-    required: true
-  }
-});
+interface DefineProps {
+  isPermission: boolean;
+}
+
+withDefaults(defineProps<DefineProps>(), {});
 </script>
