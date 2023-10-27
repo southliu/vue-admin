@@ -4,7 +4,7 @@
       <BasicSearch
         :labelCol="70"
         :list="searchList"
-        :data="searches.data"
+        :data="searchData"
         :isLoading="isLoading"
         :isSearch="true"
         :isCreate="false"
@@ -27,8 +27,7 @@
 
 <script lang="ts" setup>
 import type { DashboardResult } from './model';
-import type { SearchData } from '#/public';
-import { onMounted, reactive, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useTitle } from '@/hooks/useTitle';
 import { FormData } from '#/form';
 import { getDataTrends } from '@/servers/dashboard';
@@ -56,16 +55,14 @@ const datum = ref<DashboardResult>({
 });
 
 // 搜索数据
-const searches = reactive<SearchData>({
-  data: {
-    pay_date: dayjs().format(DATE_FORMAT),
-    all_pay: true,
-    package_types: [0]
-  }
+const searchData = ref<FormData>({
+  pay_date: dayjs().format(DATE_FORMAT),
+  all_pay: true,
+  package_types: [0]
 });
 
 onMounted(() => {
-  handleSearch(searches.data);
+  handleSearch(searchData.value);
 });
 
 /**
@@ -81,7 +78,7 @@ const handleSearch = async (values: FormData) => {
 
     // 日期转化
     isLoading.value = true;
-    searches.data = values;
+    searchData.value = values;
     const query = { ...values };
     const { code, data } = await getDataTrends(query);
     if (Number(code) !== 200) return;

@@ -6,7 +6,6 @@
       flex
       items-center
       justify-end
-      px-5
       min-h-40px
       box-border
       z-999

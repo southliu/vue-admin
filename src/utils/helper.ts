@@ -116,3 +116,24 @@ export function handleEchoColor(value: unknown, arr: IConstant[]) {
 
   return '';
 }
+
+/**
+ * 过滤前后空格
+ * @param value - 值
+ */
+export const handleFilterTrim = (value: string | string[]): string | string[] => {
+  if (!value) return '';
+
+  // 如果是数组
+  if (Array.isArray(value)) {
+    const result: string[] = [];
+    
+    for (let i = 0; i < value?.length; i++) {
+      result.push(value[i]?.trim());
+    }
+
+    return result;
+  }
+
+  return (value as string)?.trim();
+};

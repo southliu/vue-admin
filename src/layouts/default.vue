@@ -53,7 +53,7 @@
     />
   </div>
   <div
-    id="con"
+    id="layoutContent"
     class="con transition-all overflow-auto"
     :class="{ 
       'con-close-menu': isCollapsed, 
@@ -268,6 +268,7 @@ defineExpose({
 
 .con {
   width: calc(100% - @layoutLeft);
+  min-height: calc(100vh - 4.8rem);
   position: relative;
   left: @layoutLeft;
   top: @layoutTop;
