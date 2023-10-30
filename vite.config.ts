@@ -1,7 +1,8 @@
 import { defineConfig, loadEnv } from 'vite';
-import { handleEnv } from './build/utils';
 import { createProxy } from './build/vite/proxy';
+import { handleEnv } from './build/utils/helper';
 import { createVitePlugins } from './build/plugins';
+import { buildOptions } from './build/vite/build';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -35,17 +36,6 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
-    build: {
-      sourcemap: false,
-      minify: false,
-      brotliSize: false,
-      terserOptions: {
-        compress: {
-          keep_infinity: true,
-          drop_console: true,
-          drop_debugger: true
-        },
-      }
-    }
+    build: buildOptions()
   };
 });
