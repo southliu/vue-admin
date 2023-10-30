@@ -47,6 +47,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { SideMenu } from '#/public';
 import type { Key } from 'ant-design-vue/lib/_util/type';
 import { watch, onMounted, ref } from 'vue';
 import { useMenuStore } from '@/stores/menu';
@@ -54,8 +55,10 @@ import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
 import { Menu } from 'ant-design-vue';
 import { storeToRefs } from 'pinia';
+import { useTitle } from '@/hooks/useTitle';
 import {
   getFirstMenu,
+  getMenuName,
   getOpenMenuByRouter,
   splitPath
 } from '@/menus/utils/helper';
@@ -90,19 +93,19 @@ const {
 const currentOpenKeys = ref(openKeys.value);
 
 onMounted(() => {
-  if (permissions.value.length > 0) {
-    // 展开菜单
-    const newOpenKey = getOpenMenuByRouter(route.path);
-    setOpenKeys(newOpenKey);
-    setSelectedKeys([route.path]);
-  }
+  handleMenuOpen();
+  handleSetTitle(menuList.value, route.path);
+});
+
+watch(() => menuList.value, () => {
+  handleMenuOpen();
+  handleSetTitle(menuList.value, route.path);
 });
 
 // 监听路径
 watch(() => route.path, value => {
-  const newOpenKey = getOpenMenuByRouter(value);
-  setOpenKeys(newOpenKey);
-  setSelectedKeys([value]);
+  handleMenuOpen();
+  handleSetTitle(menuList.value, value);
 });
 
 // 监听展开
@@ -113,6 +116,26 @@ watch(() => openKeys.value, openKeys => {
     currentOpenKeys.value = openKeys;
   }
 });
+
+/** 处理菜单展开 */
+const handleMenuOpen = () => {
+  if (permissions.value.length > 0 && menuList.value?.length) {
+    // 展开菜单
+    const newOpenKey = getOpenMenuByRouter(route.path);
+    setOpenKeys(newOpenKey);
+    setSelectedKeys([route.path]);
+  }
+};
+
+/**
+ * 设置浏览器标签
+ * @param list - 菜单列表
+ * @param path - 路径
+ */
+const handleSetTitle = (list: SideMenu[], path: string) => {
+  const title = getMenuName(list, path);
+  if (title) useTitle(title);
+};
 
 /**
  * 处理跳转

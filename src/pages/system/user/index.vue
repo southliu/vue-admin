@@ -85,7 +85,6 @@ import { message, Button } from 'ant-design-vue';
 import { onMounted, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
-import { useTitle } from '@/hooks/useTitle';
 import { getPermission, savePermission } from '@/servers/system/menu';
 import {
   searchList,
@@ -120,7 +119,6 @@ defineOptions({
   name: 'SystemUser'
 });
 
-useTitle('用户管理');
 const isLoading = ref(false);
 const isCreateLoading = ref(false);
 const createFormRef = ref<BasicFormProps>();
@@ -251,7 +249,7 @@ const onCloseCreate = () => {
 
 /**
  * 删除
- * @param id
+ * @param id - 唯一标识
  */
 const handleDelete = async (id: string | number) => {
   try {

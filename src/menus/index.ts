@@ -1,7 +1,5 @@
 import type { SideMenu } from '#/public';
-import { ContentMenus } from './content';
 import { DemoMenus } from './demo';
-import { SystemMenus } from './system';
 
 // 菜单
 export const defaultMenus: SideMenu[] = [
@@ -18,6 +16,4 @@ export const defaultMenus: SideMenu[] = [
     ]
   },
   ...DemoMenus,
-  ...SystemMenus,
-  ...ContentMenus
 ];

@@ -3,7 +3,4 @@
 </template>
 
 <script lang="ts" setup>
-import { useTitle } from '@/hooks/useTitle';
-
-useTitle('层级3');
 </script>

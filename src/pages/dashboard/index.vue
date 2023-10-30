@@ -28,7 +28,6 @@
 <script lang="ts" setup>
 import type { DashboardResult } from './model';
 import { onMounted, ref } from 'vue';
-import { useTitle } from '@/hooks/useTitle';
 import { FormData } from '#/form';
 import { getDataTrends } from '@/servers/dashboard';
 import { DATE_FORMAT } from '@/utils/constants';
@@ -44,8 +43,6 @@ import BasicContent from '@/components/Content/BasicContent.vue';
 defineOptions({
   name: 'DashboardPage'
 });
-
-useTitle('数据总览');
 
 const isLoading = ref(false);
 

@@ -19,13 +19,13 @@
         <template #tab>
           <Dropdown :trigger="['contextmenu']">
             <div
-              class="flex items-center justify-between w-full pl-4 pr-1 py-1 mr-0 border border-light-900"
+              class="flex items-center justify-between w-full pl-4 py-1 mr-0 border border-light-900"
               :class="{
                 'bg-blue-700': isActive(item.key),
                 '!text-white': isActive(item.key)
               }"
             >
-              <div class="mr-5px">{{ item.label }}</div>
+              <div>{{ item.label }}</div>
               <div v-if="tabs.length > 1" @click.stop="handleRemove(item.key)">
                 <CloseOutlined
                   class="p-1 rounded-1/2 text-11px"
@@ -33,7 +33,7 @@
                     'hover:bg-light-900': !isActive(item.key),
                     'hover:bg-blue-800': isActive(item.key),
                   }"
-                  style="margin-right: 0 !important"
+                  style="margin-right: 5px !important"
                 />
               </div>
             </div>
