@@ -23,13 +23,11 @@
 import { reactive, nextTick, onMounted } from 'vue';
 import { List } from 'vxe-table';
 import { Button, message } from 'ant-design-vue';
-import { useTitle } from '@/hooks/useTitle';
 
 interface ItemVO {
   [key: string]: unknown;
 }
 
-useTitle('虚拟滚动');
 const mockList: ItemVO[] = [];
 const demo = reactive({
   isLoading: false,

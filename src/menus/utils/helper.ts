@@ -275,6 +275,41 @@ export function getFirstMenu(
 }
 
 /**
+ * 获取菜单名
+ * @param list - 菜单列表
+ * @param path - 路径
+ */
+export const getMenuName = (list: SideMenu[], path: string) => {
+  let result = '';
+
+  const deepData = (list: SideMenu[], path: string) => {
+    if (result) return result;
+
+    for (let i = 0; i < list?.length; i++) {
+      const item = list[i];
+      
+      if (item.key === path) {
+        result = item.label;
+        return result;
+      }
+
+      if (item.children?.length) {
+        const childResult = deepData(item.children, path);
+        if (childResult) {
+          result = childResult;
+          return result;
+        }
+      }
+    }
+
+    return result;
+  };
+  deepData(list, path);
+
+  return result;
+};
+
+/**
  * 路由是否权限
  * @param route - 路由
  * @param permissions - 权限

@@ -20,13 +20,13 @@ export function getSystemUserPage(data: PaginationData) {
 
 /**
  * 根据ID获取数据
- * @param id - ID
+ * @param id - 唯一标识
  */
 export function getSystemUserById(id: string) {
   return request.get<{
     defaultCheckedKeys: Key[];
     treeData: DataNode[];
-  }>(`${API.URL}/${id}`);
+  }>(`${API.URL}/detail?id=${id}`);
 }
 
 /**

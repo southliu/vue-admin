@@ -67,7 +67,6 @@ import { message } from 'ant-design-vue';
 import { onMounted, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
-import { useTitle } from '@/hooks/useTitle';
 import { checkPermission } from '@/utils/permissions';
 import {
   getSystemMenuPage,
@@ -93,7 +92,6 @@ defineOptions({
   name: 'SystemMenu'
 });
 
-useTitle('菜单管理');
 const isLoading = ref(false);
 const isCreateLoading = ref(false);
 const createFormRef = ref<BasicFormProps>();
@@ -216,7 +214,7 @@ const onCloseCreate = () => {
 
 /**
  * 删除
- * @param id
+ * @param id - 唯一标识
  */
 const handleDelete = async (id: string | number) => {
   try {

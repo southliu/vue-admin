@@ -246,6 +246,7 @@ defineExpose({
 }
 
 .header-close-menu {
+  width: calc(100% - @layoutLeftClose);
   left: @layoutLeftClose !important;
 }
 

@@ -48,7 +48,6 @@ import type { FormData } from '#/form';
 import type { TableData, PaginationData } from '#/public';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
-import { useTitle } from '@/hooks/useTitle';
 import { onActivated, onMounted, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { pagePermission, searchList, tableColumns } from './model';
@@ -65,7 +64,6 @@ defineOptions({
   name: 'ContentArticle'
 });
 
-useTitle('文章管理');
 const router = useRouter();
 const publicStore = usePublicStore();
 const { setRefreshPage } = publicStore;
@@ -141,7 +139,7 @@ const onUpdate = async (record: FormData) => {
 
 /**
   * 删除
-  * @param id
+  * @param id - 唯一标识
   */
 const handleDelete = async (id: string | number) => {
   try {
