@@ -1,6 +1,5 @@
 <template>
   <Button
-    type="primary"
     v-bind="attrs"
     :class="`btn ${attrs.class}`"
     @click="onClick"

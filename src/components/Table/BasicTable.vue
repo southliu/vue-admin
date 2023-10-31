@@ -24,13 +24,13 @@
           <template v-if="!item.slots">
             <span
               v-if="item.echoArr"
-              :title="handleEchoArr(row?.[item.field as string] || '', item.echoArr) || ''"
-              :style="`color: ${handleEchoColor(row?.[item.field as string] || '', item.echoArr)}`"
+              :title="handleEchoArr(row?.[item.field as string] ?? '', item.echoArr) ?? ''"
+              :style="`color: ${handleEchoColor(row?.[item.field as string] ?? '', item.echoArr)}`"
             >
-              {{ handleEchoArr(row?.[item.field as string] || '', item.echoArr) || EMPTY_VALUE }}
+              {{ handleEchoArr(row?.[item.field as string] ?? '', item.echoArr) ?? EMPTY_VALUE }}
             </span>
-            <span v-else :title="row?.[item.field as string] || ''">
-              {{ row?.[item.field as string] || EMPTY_VALUE }}
+            <span v-else :title="row?.[item.field as string] ?? ''">
+              {{ row?.[item.field as string] ?? EMPTY_VALUE }}
             </span>
           </template>
         </template>

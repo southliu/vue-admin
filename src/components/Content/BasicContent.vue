@@ -1,6 +1,6 @@
 <template>
   <div v-if="isPermission" class="h-full p-10px box-border">
-    <div id="container" class="h-full px-5 py-3 relative overflow-auto rounded-5">
+    <div id="container" class="h-full px-5 py-3 relative overflow-auto rounded-2">
       <div id="top">
         <slot name="top"></slot>
       </div>

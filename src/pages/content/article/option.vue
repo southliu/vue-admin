@@ -21,10 +21,10 @@
 <script lang="ts" setup>
 import type { FormData } from '#/form';
 import type { BasicFormProps } from '@/components/Form/model';
-import { onMounted, ref } from 'vue';
+import { onMounted, watch, ref } from 'vue';
 import { checkPermission } from '@/utils/permissions';
 import { useRoute, useRouter } from 'vue-router';
-import { createList, pagePermission } from './model';
+import { fatherPath, createList, pagePermission } from './model';
 import { useTabStore } from '@/stores/tabs';
 import { usePublicStore } from '@/stores/public';
 import { message, Spin } from 'ant-design-vue';
@@ -38,6 +38,10 @@ import BasicContent from '@/components/Content/BasicContent.vue';
 import SubmitBottom from '@/components/Bottom/SubmitBottom.vue';
 import { useSingleTab } from '@/hooks/useSingleTab';
 
+defineOptions({
+  name: 'ContentArticleOption'
+});
+
 // 初始化新增数据
 const initCreate = {
   content: '<h4>初始化内容</h4>',
@@ -48,19 +52,28 @@ const initCreate = {
   }
 };
 
+const route = useRoute();
 const router = useRouter();
 const tabStore = useTabStore();
 const { setRefreshPage } = usePublicStore();
-const { query, fullPath } = useRoute();
 const { closeTabGoNext } = tabStore;
 const createFormRef = ref<BasicFormProps>();
 const isLoading = ref(false);
 const createData = ref<FormData>(initCreate);
 
-const fatherPath = '/content/article'; // 父路径
-const id = query?.id as string || '';
-const isPermission = checkPermission(id ? pagePermission.update : pagePermission.create);
-useSingleTab(fatherPath, id);
+const id = route.query?.id as string || '';
+const isPermission = ref(checkPermission(id ? pagePermission.update : pagePermission.create));
+useSingleTab(fatherPath);
+
+onMounted(() => {
+  id ? handleUpdate(id) : handleCreate();
+});
+
+watch(() => route.query?.id, () => {
+  const id = (route.query?.id || '') as string;
+  id ? handleUpdate(id) : handleCreate();
+  isPermission.value = checkPermission(id ? pagePermission.update : pagePermission.create);
+});
 
 /** 处理新增 */
 const handleCreate = () => {
@@ -82,10 +95,6 @@ const handleCreate = () => {
   }
 };
 
-onMounted(() => {
-  id ? handleUpdate(id) : handleCreate();
-});
-
 /** 表格提交 */
 const handleSubmit = () => {
   createFormRef.value?.handleSubmit();
@@ -95,7 +104,7 @@ const handleSubmit = () => {
 const goBack = (isRefresh?: boolean) => {
   if (isRefresh) setRefreshPage(true);
   router.push(fatherPath);
-  closeTabGoNext(fullPath, fatherPath);
+  closeTabGoNext(route.fullPath, fatherPath);
 };
 
 /**

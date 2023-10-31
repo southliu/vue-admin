@@ -74,7 +74,31 @@ export const useTabStore = defineStore({
      * @param targetKey - 当前选中唯一值
      */
     setActiveKey(targetKey: string) {
+      // 判断是否存在相同的标签
+      const sameTab = this.hasTabsValue(this.tabs, targetKey);
+      if (sameTab) this.closeTabs(sameTab);
+
       this.activeKey = targetKey;
+    },
+
+    /**
+     * 当前路径是否存在标签内
+     * @param list - 标签列表
+     * @param path - 路径
+     */
+    hasTabsValue(list: TabsData[], path: string) {
+      if (!list?.length || !path) return '';
+
+      // 去除多余参数参数
+      const pathStr = path?.split('?')?.[0] ?? '';
+      
+      for (let i = 0; i < list?.length; i++) {
+        const item = list[i];
+        const currentStr = item.key?.split('?')?.[0] ?? '';
+        if (currentStr === pathStr) return item.key;
+      }
+    
+      return '';
     },
 
     /**

@@ -3,7 +3,7 @@
     <Tabs
       v-model:activeKey="activeKey"
       hide-add
-      class="w-full h-34px py-0"
+      class="tabs"
       :tabBarStyle="{
         height: '34px',
         marginTop: '3px'
@@ -202,7 +202,7 @@ onMounted(() => {
 });
 
 // 监听路由变化添加标签
-watch(() => route.path, value => {
+watch(() => route.fullPath, value => {
   handleAddTab(value);
 });
 
@@ -216,7 +216,7 @@ watch(() => menuList.value, () => {
 // 监听选中标签
 watch(activeKey, value => {
   // 当选中贴标签不等于当前路由则跳转
-  if (value !== route.path) {
+  if (value !== route.fullPath) {
     router.push(value);
   }
 });
@@ -225,7 +225,7 @@ watch(activeKey, value => {
  * 添加标签
  * @param path - 路径
  */
-const handleAddTab = (path = route.path) => {
+const handleAddTab = (path = route.fullPath) => {
   if (permissions.value?.length > 0) {
     if (path === '/') return;
     const menuByKeyProps = {
@@ -276,7 +276,7 @@ const handleRefresh = (key = activeKey.value) => {
   // 关闭右键菜单显示
   isDropdown.value = false;
   // 缓存上一个路径地址
-  addPrevPath(route.path);
+  addPrevPath(route.fullPath);
 
   // 当timeout没执行时刷新页面
   if (!timeout.icon) {
@@ -370,4 +370,10 @@ defineExpose({
 .right-item {
   border-left: 1px solid #d9d9d9;
 }
-</style>@/menus/utils/menu
+
+.tabs {
+  width: calc(100% - 120px);
+  height: 34px;
+  padding-bottom: 0;
+}
+</style>

@@ -3,6 +3,9 @@ import type { TableProps } from "#/public";
 import { INPUT_REQUIRED } from "@/utils/config";
 import CustomizeInput from "./components/CustomizeInput.vue";
 
+// 父路径
+export const fatherPath = '/content/article';
+
 // 权限前缀
 const permissionPrefix = '/content/article';
 
