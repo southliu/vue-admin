@@ -20,12 +20,12 @@
         <UpdateBtn
           v-if="checkPermission(pagePermission.update)"
           class="mr-2"
-          :isLoading="isCreateLoading"
+          :loading="isCreateLoading"
           @click="onUpdate(record)"
         />
         <DeleteBtn
           v-if="checkPermission(pagePermission.delete)"
-          :isLoading="isLoading"
+          :loading="isLoading"
           @click="handleDelete(record.id)"
         />
       </template>
@@ -152,7 +152,7 @@ const handleSearch = async (values: FormData) => {
     if (Number(code) !== 200) return;
     const { items, total } = data;
     tableData.value = items;
-    pagination.total = total;
+    pagination.total = Number(total) || 0;
   } finally {
     isLoading.value = false;
   }

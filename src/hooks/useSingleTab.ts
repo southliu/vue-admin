@@ -1,49 +1,65 @@
 import type { SideMenu } from '#/public';
-import { watch, ref } from 'vue';
+import { onActivated, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
 import { useTitle } from './useTitle';
 import { useTabStore } from '@/stores/tabs';
 import { useMenuStore } from '@/stores/menu';
-import { getMenuName } from '@/menus/utils/helper';
+import { getMenuName, getOpenMenuByRouter } from '@/menus/utils/helper';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 
 /**
  * 单标签设置
  * @param fatherPath - 父级路径
- * @param name - 唯一标识
+ * @param name - 名称
  */
 export function useSingleTab(
   fatherPath: string,
-  name?: string,
-  title?: string
-) {
+  title?: string,
+  name = 'id'
+  ) {
+  const route = useRoute();
   const menuStore = useMenuStore();
   const tabStore = useTabStore();
-  const { path, fullPath } = useRoute();
   const { menuList } = storeToRefs(menuStore);
-  const routePath = fatherPath || path;
-  const menuName = ref(getMenuName(menuList.value, routePath));
   const {
     setActiveKey,
     addTabs,
     setNav
   } = tabStore;
-
+  const {
+    setOpenKeys,
+    setSelectedKeys
+  } = menuStore;
+  
   onMounted(() => {
     handleTitleAndTab();
   });
 
+  onActivated(() => {
+    handleTitleAndTab();
+  });
+
   watch(() => menuList.value, () => {
-    menuName.value = getMenuName(menuList.value, routePath);
+    if (!route.fullPath?.includes(fatherPath)) return;
     handleTitleAndTab();
   });
 
   /** 设置标题 */
   const handleGetTitle = () => {
-    const newCreateTitle = `${title || ADD_TITLE}${menuName.value}`;
-    const newUpdateTitle = title ? `${title}${menuName.value}(${name})` : `${EDIT_TITLE(name || '', menuName.value)}`;
-    const result = name ? newUpdateTitle : newCreateTitle;
+    let result = '', newUpdateTitle = '', newCreateTitle = '';
+    const routeName = (route.query?.[name] || '') as string;
+
+    if (!title) {
+      const menuName = getMenuName(menuList.value, fatherPath);
+      newCreateTitle = `${title || ADD_TITLE}${menuName}`;
+      newUpdateTitle = `${EDIT_TITLE(routeName, menuName)}`;
+    } else {
+      const label = routeName ? `(${routeName})` : '';
+       newCreateTitle = `${title || ADD_TITLE}${label}`;
+       newUpdateTitle = `${title}${label}`;
+    }
+    result = routeName ? newUpdateTitle : newCreateTitle;
     return result;
   };
 
@@ -75,7 +91,7 @@ export function useSingleTab(
   
       return result;
     };
-    deepData(menuList.value, routePath);
+    deepData(menuList.value, fatherPath);
 
     return result;
   };
@@ -84,7 +100,7 @@ export function useSingleTab(
    * 添加标签
    * @param path - 路径
    */
-  const handleTitleAndTab = (path = fullPath) => {
+  const handleTitleAndTab = (path = route.fullPath) => {
     // 当值为空时匹配路由
     if (path === '/' || !menuList.value?.length) return;
 
@@ -95,13 +111,17 @@ export function useSingleTab(
 
     const newTab = {
       label: title,
-      key: fullPath,
+      key: path,
       nav
     };
+    // 展开菜单
+    const newOpenKey = getOpenMenuByRouter(fatherPath);
+    setOpenKeys(newOpenKey);
+    setSelectedKeys([fatherPath]);
     setActiveKey(newTab.key);
     setNav(newTab.nav);
     addTabs(newTab);
   };
 
-  return [menuName.value];
+  return [];
 }

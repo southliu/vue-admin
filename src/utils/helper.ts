@@ -1,5 +1,7 @@
+import type { FormData } from "#/form";
 import type { IConstant } from "./constants";
 import type { ArrayData } from "#/public";
+import type { DefaultOptionType } from "ant-design-vue/es/select";
 
 /**
  * 首字母大写
@@ -136,4 +138,24 @@ export const handleFilterTrim = (value: string | string[]): string | string[] =>
   }
 
   return (value as string)?.trim();
+};
+
+/**
+ * 单选框组过滤
+ * @param list - 列表
+ * @param label - 名称
+ * @param value - 值
+ */
+export const handleRadioGroup = (list: FormData[], label: string, value: string): DefaultOptionType[] => {
+  const result: DefaultOptionType[] = [];
+
+  for (let i = 0; i < list?.length; i++) {
+    const item = list[i];
+    result.push({
+      label: item?.[label],
+      value: item?.[value] as string,
+    });
+  }
+
+  return result;
 };

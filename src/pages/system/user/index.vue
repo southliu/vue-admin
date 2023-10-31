@@ -12,7 +12,7 @@
     </template>
 
     <BasicTable
-      :data="tables"
+      :data="tableData"
       :columns="tableColumns"
       :isLoading="isLoading"
     >
@@ -20,7 +20,7 @@
         <Button
           v-if="checkPermission(pagePermission.permission)"
           class="mr-2"
-          :isLoading="isLoading"
+          :loading="isLoading"
           @click="openPermission(record.id)"
         >
           权限
@@ -28,12 +28,12 @@
         <UpdateBtn
           v-if="checkPermission(pagePermission.update)"
           class="mr-2"
-          :isLoading="isCreateLoading"
+          :loading="isCreateLoading"
           @click="onUpdate(record)"
         />
         <DeleteBtn
           v-if="checkPermission(pagePermission.delete)"
-          :isLoading="isLoading"
+          :loading="isLoading"
           @click="handleDelete(record.id)"
         />
       </template>
@@ -149,7 +149,7 @@ const creates = reactive<CreateData>({
 });
 
 // 表格数据
-const tables = ref<TableData[]>([]);
+const tableData = ref<TableData[]>([]);
 
 // 分页数据
 const pagination = reactive<PaginationData>({
@@ -186,8 +186,8 @@ const handleSearch = async (values: FormData) => {
     const { code, data } = await getSystemUserPage(query);
     if (Number(code) !== 200) return;
     const { items, total } = data;
-    tables.value = items;
-    pagination.total = total;
+    tableData.value = items;
+    pagination.total = Number(total) || 0;
   } finally {
     isLoading.value = false;
   }

@@ -1,8 +1,8 @@
 <template>
+  <contextHolder />
   <Button
     type="primary"
     danger
-    :loading="isLoading"
     v-bind="attrs"
     :class="`btn ${attrs.class}`"
     @click="onClick"
@@ -22,19 +22,12 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-interface DefineProps {
-  isLoading?: boolean;
-}
-
-withDefaults(defineProps<DefineProps>(), {
-  isLoading: false,
-});
-
 const attrs = useAttrs();
+const [modal, contextHolder] = Modal.useModal();
 
 /** 点击删除 */
 const onClick = () => {
-  Modal.confirm({
+  modal.confirm({
     title: '提示',
     icon: createVNode(ExclamationCircleOutlined),
     content: '确定要删除吗?',

@@ -300,6 +300,7 @@ defineExpose({
 }
 
 .con-phone {
+  width: 100%;
   left: 0 !important;
 }
 

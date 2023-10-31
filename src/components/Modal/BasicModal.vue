@@ -38,7 +38,7 @@
             <template #title>
               <span>关闭</span>
             </template>
-            <Icon class="text-lg" icon="ant-design:close-outlined" />
+            <Icon class="text-lg mb-3px" icon="ant-design:close-outlined" />
           </Tooltip>
         </div>
       </div>
