@@ -13,7 +13,7 @@ export function getOpenMenuByRouter(router: string): string[] {
   // 当路由处于多级目录时
   if (arr.length > 2) {
     let str = '/' + arr[0];
-    for (let i = 1; i < arr.length - 1; i++) {
+    for (let i = 1; i < arr.length; i++) {
       str += '/' + arr[i];
       result.push(str);
     }
@@ -124,8 +124,8 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
       const nav = matchPath(menus[i].key, currentPath);
 
       // 匹配到value值时添加到result中
-      const { label, key } = menus[i];
-      result.push({ label, key, nav });
+      const { label, key, id } = menus[i];
+      result.push({ label, key, id, nav });
     }
   }
 

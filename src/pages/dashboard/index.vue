@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import type { DashboardResult } from './model';
-import { onMounted, ref } from 'vue';
+import { onActivated, ref } from 'vue';
 import { FormData } from '#/form';
 import { getDataTrends } from '@/servers/dashboard';
 import { DATE_FORMAT } from '@/utils/constants';
@@ -58,7 +58,7 @@ const searchData = ref<FormData>({
   package_types: [0]
 });
 
-onMounted(() => {
+onActivated(() => {
   handleSearch(searchData.value);
 });
 

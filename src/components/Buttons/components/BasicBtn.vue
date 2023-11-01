@@ -1,5 +1,6 @@
 <template>
   <Button
+    :loading="isLoading"
     v-bind="attrs"
     :class="`btn ${attrs.class}`"
     @click="onClick"
@@ -13,10 +14,18 @@ import { useAttrs } from 'vue';
 import { Button } from 'ant-design-vue';
 
 interface DefineEmits {
-   (e: 'click'): void;
- }
- 
- const emit = defineEmits<DefineEmits>();
+  (e: 'click'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
+
+interface DefineProps {
+  isLoading?: boolean;
+}
+
+withDefaults(defineProps<DefineProps>(), {
+  isLoading: false,
+});
 
 const attrs = useAttrs();
 

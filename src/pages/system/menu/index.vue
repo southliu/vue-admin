@@ -20,12 +20,12 @@
         <UpdateBtn
           v-if="checkPermission(pagePermission.update)"
           class="mr-2"
-          :loading="isCreateLoading"
+          :isLoading="isCreateLoading"
           @click="onUpdate(record)"
         />
         <DeleteBtn
           v-if="checkPermission(pagePermission.delete)"
-          :loading="isLoading"
+          :isLoading="isLoading"
           @click="handleDelete(record.id)"
         />
       </template>
@@ -64,7 +64,7 @@ import type { FormData } from '#/form';
 import type { BasicFormProps } from '@/components/Form/model';
 import type { CreateData, TableData, PaginationData } from '#/public';
 import { message } from 'ant-design-vue';
-import { onMounted, reactive, ref } from 'vue';
+import { onActivated, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { checkPermission } from '@/utils/permissions';
@@ -109,7 +109,7 @@ const searchData = ref<FormData>({});
 const creates = reactive<CreateData>({
   id: '',
   isOpen: false,
-  title: '新增',
+  title: ADD_TITLE,
   data: initCreate
 });
 
@@ -123,7 +123,7 @@ const pagination = reactive<PaginationData>({
   pageSize: 20,
 });
 
-onMounted(() => {
+onActivated(() => {
   getPage();
 });
 

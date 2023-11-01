@@ -1,6 +1,6 @@
 <template>
   <header
-    class="flex items-center justify-between px-6 py-6px box-border transition-all"
+    class="h-40px flex items-center justify-between px-6 py-6px box-border transition-all"
   >
     <div class="flex items-center">
       <div class="text-lg cursor-pointer" @click="toggleCollapsed">

@@ -93,22 +93,20 @@ export function recursiveData<T extends IRecursiveChildren<T>, U>(
  * 处理回显数据
  * @param arr - 数组
  */
-export function handleEchoArr(value: unknown, arr: IConstant[]) {
+export function handleEchoArr(value: unknown, arr: IConstant[] | DefaultOptionType[]) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
     if (item.value === value) {
       return item.label;
     }
   }
-
-  return '';
 }
 
 /**
  * 处理回显颜色
  * @param arr - 数组
  */
-export function handleEchoColor(value: unknown, arr: IConstant[]) {
+export function handleEchoColor(value: unknown, arr: IConstant[] | DefaultOptionType[]) {
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
     if (item.value === value) {
@@ -146,7 +144,7 @@ export const handleFilterTrim = (value: string | string[]): string | string[] =>
  * @param label - 名称
  * @param value - 值
  */
-export const handleRadioGroup = (list: FormData[], label: string, value: string): DefaultOptionType[] => {
+export const handleRadioGroup = (list: FormData[], label: string, value = 'id'): DefaultOptionType[] => {
   const result: DefaultOptionType[] = [];
 
   for (let i = 0; i < list?.length; i++) {

@@ -114,16 +114,16 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  post<T = unknown>(url: string, options: unknown, config?: AxiosRequestConfig<unknown>) {
-    return this.instance.post(url, options, config) as Promise<ServerResult<T>>;
+  post<T = unknown>(url: string, options?: unknown, config?: AxiosRequestConfig<unknown>) {
+    return this.instance.post(url, options || {}, config) as Promise<ServerResult<T>>;
   }
   /**
    * put请求
    * @param url - 链接
    * @param options - 参数
    */
-  put<T = unknown>(url: string, options: unknown, config?: AxiosRequestConfig<unknown>) {
-    return this.instance.put(url, options, config) as Promise<ServerResult<T>>;
+  put<T = unknown>(url: string, options?: unknown, config?: AxiosRequestConfig<unknown>) {
+    return this.instance.put(url, options || {}, config) as Promise<ServerResult<T>>;
   }
   /**
    * delete请求
