@@ -1,3 +1,4 @@
+import type { DefaultOptionType } from "ant-design-vue/es/select";
 /**
  * @description: 公用常量
  */
@@ -13,7 +14,7 @@
   info = '#909399'
 }
 
-export interface IConstant {
+export interface IConstant extends Omit<DefaultOptionType, 'value'> {
   value: string | number | boolean;
   label: string;
   color?: colors;

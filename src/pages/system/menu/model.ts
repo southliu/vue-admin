@@ -40,6 +40,47 @@ export const searchList: FormList[] = [
   }
 ];
 
+// 表格数据
+export const tableColumns: TableProps[] = [
+  {
+    title: 'ID',
+    field: 'id'
+  },
+  {
+    title: '名称',
+    field: 'name'
+  },
+  {
+    title: '状态',
+    field: 'status'
+  },
+  {
+    title: '模块',
+    field: 'module'
+  },
+  {
+    title: '控制器',
+    field: 'controller'
+  },
+  {
+    title: '创建时间',
+    field: 'created_at',
+    minWidth: 140
+  },
+  {
+    title: '更新时间',
+    field: 'updated_at',
+    minWidth: 140
+  },
+  {
+    title: '操作',
+    field: 'operate',
+    minWidth: 160,
+    showOverflow: false,
+    slots: { default: 'operate' }
+  }
+];
+
 // 新增数据
 export const createList: (id: string) => FormList[] = id => [
   {
@@ -88,45 +129,4 @@ export const createList: (id: string) => FormList[] = id => [
       options: MENU_ACTIONS
     }
   },
-];
-
-// 表格数据
-export const tableColumns: TableProps[] = [
-  {
-    title: 'ID',
-    field: 'id'
-  },
-  {
-    title: '名称',
-    field: 'name'
-  },
-  {
-    title: '状态',
-    field: 'status'
-  },
-  {
-    title: '模块',
-    field: 'module'
-  },
-  {
-    title: '控制器',
-    field: 'controller'
-  },
-  {
-    title: '创建时间',
-    field: 'created_at',
-    minWidth: 140
-  },
-  {
-    title: '更新时间',
-    field: 'updated_at',
-    minWidth: 140
-  },
-  {
-    title: '操作',
-    field: 'operate',
-    minWidth: 160,
-    showOverflow: false,
-    slots: { default: 'operate' }
-  }
 ];

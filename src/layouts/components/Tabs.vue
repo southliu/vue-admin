@@ -372,7 +372,7 @@ defineExpose({
 }
 
 .tabs {
-  width: calc(100% - 120px);
+  width: calc(100% - 110px);
   height: 34px;
   padding-bottom: 0;
 }

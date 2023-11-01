@@ -8,11 +8,11 @@ export const defaultMenus: SideMenu[] = [
     key: 'dashboard',
     icon: 'la:tachometer-alt',
     children: [
-      {
-        label: '数据总览',
-        key: '/dashboard',
-        rule: '/dashboard',
-      }
+      // {
+      //   label: '数据总览',
+      //   key: '/dashboard',
+      //   rule: '/dashboard',
+      // }
     ]
   },
   ...DemoMenus,

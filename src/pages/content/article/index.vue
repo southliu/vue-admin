@@ -20,12 +20,12 @@
         <UpdateBtn
           v-if="checkPermission(pagePermission.update)"
           class="mr-2"
-          :loading="isCreateLoading"
+          :isLoading="isCreateLoading"
           @click="onUpdate(record)"
         />
         <DeleteBtn
           v-if="checkPermission(pagePermission.delete)"
-          :loading="isLoading"
+          :isLoading="isLoading"
           @click="handleDelete(record.id)"
         />
       </template>
@@ -48,7 +48,7 @@ import type { FormData } from '#/form';
 import type { TableData, PaginationData } from '#/public';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
-import { onActivated, onMounted, reactive, ref } from 'vue';
+import { onActivated, reactive, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { pagePermission, searchList, tableColumns } from './model';
 import { checkPermission } from '@/utils/permissions';
@@ -84,7 +84,7 @@ const pagination = reactive<PaginationData>({
   pageSize: 20,
 });
 
-onMounted(() => {
+onActivated(() => {
   if (!isRefreshPage.value) {
     getPage();
   }

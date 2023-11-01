@@ -17,23 +17,23 @@
       :isLoading="isLoading"
     >
       <template #operate="{ record }">
-        <Button
+        <BasicBtn
           v-if="checkPermission(pagePermission.permission)"
           class="mr-2"
-          :loading="isLoading"
+          :isLoading="isLoading"
           @click="openPermission(record.id)"
         >
           权限
-        </Button>
+        </BasicBtn>
         <UpdateBtn
           v-if="checkPermission(pagePermission.update)"
           class="mr-2"
-          :loading="isCreateLoading"
+          :isLoading="isCreateLoading"
           @click="onUpdate(record)"
         />
         <DeleteBtn
           v-if="checkPermission(pagePermission.delete)"
-          :loading="isLoading"
+          :isLoading="isLoading"
           @click="handleDelete(record.id)"
         />
       </template>
@@ -81,10 +81,11 @@ import type { BasicFormProps } from '@/components/Form/model';
 import type { CreateData, TableData, PaginationData } from '#/public';
 import type { DataNode } from 'ant-design-vue/lib/tree';
 import type { Key } from 'ant-design-vue/lib/vc-tree/interface';
-import { message, Button } from 'ant-design-vue';
-import { onMounted, reactive, ref } from 'vue';
-import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
+import { message } from 'ant-design-vue';
+import { onActivated, reactive, ref } from 'vue';
+import { checkPermission } from '@/utils/permissions';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
+import { UpdateBtn, DeleteBtn, BasicBtn } from '@/components/Buttons';
 import { getPermission, savePermission } from '@/servers/system/menu';
 import {
   searchList,
@@ -106,7 +107,6 @@ import BasicSearch from '@/components/Search/BasicSearch.vue';
 import BasicForm from '@/components/Form/BasicForm.vue';
 import BasicModal from '@/components/Modal/BasicModal.vue';
 import PermissionDrawer from './components/PermissionDrawer.vue';
-import { checkPermission } from '@/utils/permissions';
 
 interface PermissionConfig {
   id: string;
@@ -144,7 +144,7 @@ const searchData = ref<FormData>({});
 const creates = reactive<CreateData>({
   id: '',
   isOpen: false,
-  title: '新增',
+  title: ADD_TITLE,
   data: initCreate
 });
 
@@ -158,7 +158,7 @@ const pagination = reactive<PaginationData>({
   pageSize: 20,
 });
 
-onMounted(() => {
+onActivated(() => {
   getPage();
 });
 
