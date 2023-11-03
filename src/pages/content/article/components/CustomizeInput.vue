@@ -2,7 +2,7 @@
   <div>
     <Input
       :value="props.value"
-      :allowClear="true"
+      allowClear
       @change="onChange"
     />
     <div className='mb-5px text-red'>注：标题不能含有敏感信息!</div>

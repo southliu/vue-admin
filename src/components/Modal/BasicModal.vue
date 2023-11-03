@@ -38,7 +38,7 @@
             <template #title>
               <span>关闭</span>
             </template>
-            <Icon class="text-lg mb-3px" icon="ant-design:close-outlined" />
+            <Icon class="text-27px" icon="ant-design:close-outlined" />
           </Tooltip>
         </div>
       </div>
@@ -128,14 +128,6 @@ watch(() => props.isOpen, async (value) => {
 </script>
 
 <style lang="less">
-.ant-modal-close-x {
-  margin-right: 50px;
-}
-
-:where(.css-dev-only-do-not-override-eq3tly).ant-modal .ant-modal-close:hover {
-  background-color: transparent;
-}
-
 .full-modal {
   .ant-modal {
     position: absolute;

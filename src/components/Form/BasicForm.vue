@@ -24,6 +24,7 @@
           :item="item"
           v-model:data="formState"
           :setData="setFromState"
+          @pressEnter="onFinish"
         />
       </FormItem>
 

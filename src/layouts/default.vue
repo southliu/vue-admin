@@ -83,6 +83,7 @@
 
   <!-- 修改密码 -->
   <UpdatePassword
+    ref="updatePasswordRef"
     :isLoading="isLoading"
     :isOpen="isUpdatePassword"
     @handleCancel="onUpdatePassword"
@@ -91,7 +92,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, shallowRef, onMounted, onUnmounted } from 'vue';
 import { useTabStore } from '@/stores/tabs';
 import { useMenuStore } from '@/stores/menu';
 import { useUserStore } from '@/stores/user';
@@ -126,6 +127,7 @@ const isLoading = ref(false);
 const isCollapsed = ref(false); // 是否收起菜单
 const isMaximize = ref(false); // 是否窗口最大化
 const isUpdatePassword = ref(false); // 是否显示修改密码
+const updatePasswordRef = shallowRef<{ handleInit: () => void }>();
 
 onMounted(() => {
   handleIsPhone();
@@ -188,8 +190,11 @@ const handleUpdatePassword = async (params: unknown) => {
   try {
     isLoading.value = true;
     const data = await updatePassword(params);
-    message.success(data.message || '修改成功');
-    isUpdatePassword.value = !isUpdatePassword.value;
+    if (Number(data.code) === 200) {
+      message.success(data.message || '修改成功');
+      isUpdatePassword.value = !isUpdatePassword.value;
+      updatePasswordRef.value?.handleInit?.();
+    }
   } finally {
     isLoading.value = false;
   }
@@ -278,6 +283,7 @@ defineExpose({
 }
 
 .con-close-menu {
+  width: calc(100% - @layoutLeftClose);
   left: @layoutLeftClose;
 }
 

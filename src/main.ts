@@ -12,6 +12,7 @@ import '@/assets/css/antd.less';
 import '@/assets/css/public.less';
 import '@/assets/css/scrollbar.less';
 import '@/assets/css/theme-color.less';
+import 'ant-design-vue/dist/reset.css';
 
 // vxe-table
 import { Column, Table, Grid } from 'vxe-table';

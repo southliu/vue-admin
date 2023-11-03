@@ -1,7 +1,7 @@
 <template>
   <TreeSelect
       v-model="selectValue"
-      :allowClear="true"
+      allowClear
       :maxTagCount="MAX_TAG_COUNT"
       :placeholder="PLEASE_SELECT"
       treeNodeFilterProp="label"
@@ -12,9 +12,7 @@
       @dropdownVisibleChange="handleDropdownVisibleChange"
   >
     <template v-if="isLoading" #notFoundContent>
-      <span>
-        <BasicLoading />
-      </span>
+      <BasicLoading />
     </template>
   </TreeSelect>
 </template>
@@ -47,6 +45,7 @@ interface DefineProps {
   modelValue?: SelectValue;
   value?: SelectValue;
   params?: object;
+  apiResultKey?: string; // 接口返回值的key值，枚举接口特殊处理
   componentProps?: ApiTreeSelectProps;
   api: ApiFun;
   onDropdownVisibleChange?: (open: boolean) => void
@@ -88,10 +87,12 @@ watch(() => props.modelValue, value => {
 const getApiData = async () => {
   if (!props.api) return;
   try {
+    const { api, params, apiResultKey } = props;
     isLoading.value = true;
-    const { code, data } = await props.api(props?.params);
+    const { code, data } = await api(params);
     if (Number(code) !== 200) return;
-    options.value = (data || []) as DefaultOptionType[];
+    const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
+    options.value = (result || []) as DefaultOptionType[];
   } finally {
     isLoading.value = false;
   }
