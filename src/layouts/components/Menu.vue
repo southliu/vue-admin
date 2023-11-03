@@ -23,8 +23,8 @@
       <span class="text-white">
       </span>
       <Menu
-        v-model:openKeys="currentOpenKeys"
         v-model:selectedKeys="selectedKeys"
+        :openKeys="(!isCollapsed && !isPhone) ? currentOpenKeys : undefined"
         class="h-full z-1000"
         mode="inline"
         theme="dark"

@@ -1,9 +1,9 @@
 <template>
   <component
     :is="Comp"
-    class="min-w-70px"
+    class="min-w-100px"
     :placeholder="placeholder"
-    :allowClear="true"
+    allowClear
     v-bind="{
       ...getComponentProps(
           props.item,

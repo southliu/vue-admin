@@ -11,7 +11,6 @@
       ref="formRef"
       :model="formState"
       name="horizontal_login"
-      autocomplete="on"
       :labelCol="{ span: 5 }"
       :wrapper-col="{ span: 19 }"
     >
@@ -23,7 +22,13 @@
           PASSWORD_RULE
         ]"
       >
-        <InputPassword v-model:value="formState.oldPassword" placeholder="请输入" />
+        <InputPassword
+          v-model:value="formState.oldPassword"
+          placeholder="请输入"
+          allowClear
+          autoComplete="current-password"
+          @pressEnter="onFinish"
+        />
       </FormItem>
 
       <FormItem
@@ -36,6 +41,9 @@
       >
         <PasswordStrength
           v-model:value="formState.newPassword"
+          autoComplete="new-password"
+          allowClear
+          @pressEnter="onFinish"
         />
       </FormItem>
 
@@ -47,7 +55,13 @@
           PASSWORD_RULE
         ]"
       >
-        <InputPassword v-model:value="formState.confirmPassword" placeholder="请输入" />
+        <InputPassword
+          v-model:value="formState.confirmPassword"
+          placeholder="请输入"
+          allowClear
+          autoComplete="confirm-password"
+          @pressEnter="onFinish"
+        />
       </FormItem>
     </Form>
   </BasicModal>
@@ -59,7 +73,7 @@
  */
 import type { FormInstance } from 'ant-design-vue';
 import type { FormData } from '#/form';
-import { reactive, ref } from 'vue';
+import { ref } from 'vue';
 import { Form, FormItem, InputPassword, message } from 'ant-design-vue';
 import { PASSWORD_RULE } from '@/utils/config';
 import { useDebounceFn } from '@vueuse/core';
@@ -90,12 +104,14 @@ withDefaults(defineProps<DefineProps>(), {
 
 const formRef = ref<FormInstance>();
 
-// 表单数据
-const formState = reactive<CurrentFormData>({
+const initFormState = {
   oldPassword: '',
   newPassword: '',
   confirmPassword: ''
-});
+};
+
+// 表单数据
+const formState = ref<CurrentFormData>({ ...initFormState });
 
 /** 关闭弹窗 */
 const handleCancel = () => {
@@ -114,5 +130,14 @@ const onFinish = useDebounceFn(() => {
 
       emit('handleSubmit', values);
     });
+});
+
+/** 重置数据 */
+const handleInit = () => {
+  formState.value = { ...initFormState };
+};
+
+defineExpose({
+  handleInit
 });
 </script>

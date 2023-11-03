@@ -9,7 +9,7 @@
       ref="inputRef"
       v-model:value="inputValue"
       placeholder="请输入关键词搜索"
-      :allowClear="true"
+      allowClear
       @pressEnter="onPressEnter"
     >
       <template #prefix>

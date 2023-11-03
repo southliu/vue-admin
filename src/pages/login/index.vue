@@ -16,7 +16,6 @@
       <Form
         :model="formState"
         name="horizontal_login"
-        autoComplete="on"
         @finish="handleFinish"
         @finishFailed="handleFinishFailed"
       >
@@ -26,7 +25,7 @@
         >
           <Input
             v-model:value="formState.username"
-            :allowClear="true"
+            allowClear
             placeholder="用户名"
             autoComplete="username"
           >
@@ -45,7 +44,7 @@
         >
           <InputPassword
             v-model:value="formState.password"
-            :allowClear="true"
+            allowClear
             placeholder="密码"
             autoComplete="current-password"
           >

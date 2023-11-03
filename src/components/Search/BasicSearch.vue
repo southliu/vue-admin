@@ -24,6 +24,7 @@
           :item="item"
           :data="formState"
           :setData="setFromState"
+          @pressEnter="onFinish"
         />
       </FormItem>
 
