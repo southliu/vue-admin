@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
     BasicPagination: typeof import('./src/components/Pagination/BasicPagination.vue')['default']
     BasicSearch: typeof import('./src/components/Search/BasicSearch.vue')['default']
     BasicTable: typeof import('./src/components/Table/BasicTable.vue')['default']
+    BasicTabs: typeof import('./src/components/Tabs/BasicTabs.vue')['default']
     Copy: typeof import('./src/components/Copy/index.vue')['default']
     CopyBtn: typeof import('./src/components/Copy/CopyBtn.vue')['default']
     Count: typeof import('./src/components/Count/index.vue')['default']

@@ -2,7 +2,7 @@ import type { SideMenu } from '#/public';
 import { onActivated, onMounted, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useRoute } from 'vue-router';
-import { useTitle } from './useTitle';
+import { setTitle } from '@/utils/helper';
 import { useTabStore } from '@/stores/tabs';
 import { useMenuStore } from '@/stores/menu';
 import { getMenuName, getOpenMenuByRouter } from '@/menus/utils/helper';
@@ -82,7 +82,7 @@ export function useSingleTab(
   
         if (item.children?.length) {
           const childResult = deepData(item.children, path, item.nav);
-          if (childResult) {
+          if (childResult?.length) {
             result = childResult;
             return result;
           }
@@ -106,7 +106,7 @@ export function useSingleTab(
 
     const nav = handleGetNav();
     const title = handleGetTitle();
-    useTitle(title);
+    setTitle(title);
     nav.push(title);
 
     const newTab = {

@@ -106,7 +106,7 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  get<T = unknown>(url: string, options?: unknown) {
+  get<T = object>(url: string, options?: unknown) {
     return this.instance.get(url, options || {}) as Promise<ServerResult<T>>;
   }
   /**
@@ -114,7 +114,7 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  post<T = unknown>(url: string, options?: unknown, config?: AxiosRequestConfig<unknown>) {
+  post<T = object>(url: string, options?: unknown, config?: AxiosRequestConfig<object>) {
     return this.instance.post(url, options || {}, config) as Promise<ServerResult<T>>;
   }
   /**
@@ -122,7 +122,7 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  put<T = unknown>(url: string, options?: unknown, config?: AxiosRequestConfig<unknown>) {
+  put<T = object>(url: string, options?: unknown, config?: AxiosRequestConfig<object>) {
     return this.instance.put(url, options || {}, config) as Promise<ServerResult<T>>;
   }
   /**
@@ -130,7 +130,7 @@ class AxiosRequest {
    * @param url - 链接
    * @param options - 参数
    */
-  delete<T = unknown>(url: string, options?: unknown) {
+  delete<T = object>(url: string, options?: unknown) {
     return this.instance.delete(url, options || {}) as Promise<ServerResult<T>>;
   }
 }

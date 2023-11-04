@@ -55,7 +55,7 @@ import { useUserStore } from '@/stores/user';
 import { useRoute, useRouter } from 'vue-router';
 import { Menu } from 'ant-design-vue';
 import { storeToRefs } from 'pinia';
-import { useTitle } from '@/hooks/useTitle';
+import { setTitle } from '@/utils/helper';
 import {
   getFirstMenu,
   getMenuName,
@@ -134,7 +134,7 @@ const handleMenuOpen = () => {
  */
 const handleSetTitle = (list: SideMenu[], path: string) => {
   const title = getMenuName(list, path);
-  if (title) useTitle(title);
+  if (title) setTitle(title);
 };
 
 /**

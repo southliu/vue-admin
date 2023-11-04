@@ -46,7 +46,7 @@
     "@types/nprogress": "^0.2.0",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "@typescript-eslint/parser": "^6.8.0",
-    "@unocss/vite": "^0.45.25",
+    "@unocss/vite": "^0.57.2",
     "@vitejs/plugin-vue": "^4.0.0",
     "@vitejs/plugin-vue-jsx": "^3.0.0",
     "@vue/compiler-sfc": "^3.2.45",
