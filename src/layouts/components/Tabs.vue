@@ -53,7 +53,7 @@
     </Tabs>
     
     <div class="flex items-center">
-      <div class="right-item w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center">
+      <div class="w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center b-l b-#d9d9d9">
         <Tooltip placement="bottom">
           <template #title>
             <span>重新加载</span>
@@ -69,7 +69,7 @@
       </div>
       <Tooltip
         placement="bottom"
-        class="right-item w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center"
+        class="w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center b-l b-#d9d9d9"
       >
         <template #title>
           <span>更多功能</span>
@@ -96,7 +96,7 @@
           </template>
         </Dropdown>
       </Tooltip>
-      <div class="right-item w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center">
+      <div class="w-36px h-36px leading-36px text-#00000073 hover:text-#404040 flex place-content-center b-l b-#d9d9d9">
         <Tooltip placement="bottom">
           <template #title>
             <span>{{ isMaximize ? '退出最大化' : '最大化' }}</span>
@@ -367,10 +367,6 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-.right-item {
-  border-left: 1px solid #d9d9d9;
-}
-
 .tabs {
   width: calc(100% - 110px);
   height: 34px;

@@ -2,6 +2,7 @@ import type { FormData } from "#/form";
 import type { IConstant } from "./constants";
 import type { ArrayData } from "#/public";
 import type { DefaultOptionType } from "ant-design-vue/es/select";
+import { TITLE_SUFFIX } from "./config";
 
 /**
  * 首字母大写
@@ -157,3 +158,12 @@ export const handleRadioGroup = (list: FormData[], label: string, value = 'id'):
 
   return result;
 };
+
+/**
+ * 设置标题
+ * @param title - 标题
+ */
+export function setTitle(title: string) {
+  const value = `${title ? title + '-' : ''}${TITLE_SUFFIX}`;
+  document.title = value;
+}

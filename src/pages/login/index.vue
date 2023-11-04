@@ -80,8 +80,8 @@ import { onMounted, reactive, ref } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { login } from '@/servers/login';
 import { useRouter } from 'vue-router';
+import { setTitle } from '@/utils/helper';
 import { useToken } from '@/hooks/useToken';
-import { useTitle } from '@/hooks/useTitle';
 import { useMenuStore } from '@/stores/menu';
 import { useUserStore } from '@/stores/user';
 import { PASSWORD_RULE } from '@/utils/config';
@@ -100,7 +100,7 @@ import Logo from '@/assets/images/logo.png';
 import NProgress from 'nprogress';
 import PageLoading from '@/components/Loading/PageLoading.vue';
 
-useTitle('登录');
+setTitle('登录');
 const router = useRouter();
 const userStore = useUserStore();
 const menuStore = useMenuStore();
