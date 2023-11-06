@@ -21,7 +21,7 @@
 <script lang="ts" setup>
 import type { FormData } from '#/form';
 import type { BasicFormProps } from '@/components/Form/model';
-import { onMounted, watch, ref } from 'vue';
+import { onMounted, watch, shallowRef, ref } from 'vue';
 import { checkPermission } from '@/utils/permissions';
 import { useRoute, useRouter } from 'vue-router';
 import { fatherPath, createList, pagePermission } from './model';
@@ -57,7 +57,7 @@ const router = useRouter();
 const tabStore = useTabStore();
 const { setRefreshPage } = usePublicStore();
 const { closeTabGoNext } = tabStore;
-const createFormRef = ref<BasicFormProps>();
+const createFormRef = shallowRef<BasicFormProps>();
 const isLoading = ref(false);
 const createData = ref<FormData>(initCreate);
 

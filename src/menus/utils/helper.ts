@@ -1,4 +1,4 @@
-import type { SideMenu } from '#/public';
+import type { SideMenu, TableData } from '#/public';
 
 /**
  * 根据路由获取展开菜单数组
@@ -188,7 +188,8 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
         // 下次递归前删除面包屑前一步错误路径
         fatherNav.pop();
       }
-    } else if (
+    }
+    if (
       menus[i]?.key === key &&
       hasPermission(menus[i], permissions)
     ) {
@@ -305,6 +306,34 @@ export const getMenuName = (list: SideMenu[], path: string) => {
     return result;
   };
   deepData(list, path);
+
+  return result;
+};
+
+/**
+ * 平铺菜单数据
+ * @param list - 列表数据
+ * @param key - 区分父级的唯一标识
+ */
+export const handleFlatMenu = (list: TableData[], key = 'id') => {
+  const result: TableData[] = [];
+
+  const deepData = (menus: object[], fatherId: string | null = null) => {
+    for (let i = 0; i < menus?.length; i++) {
+      const item = menus[i];
+      const parentId = (item as Record<string, string>)[key];
+      result.push({
+        ...item,
+        parentId: fatherId,
+        children: undefined
+      });
+
+      if ((item as { children: object[] }).children?.length) {
+        deepData((item as { children: object[] }).children, parentId);
+      }
+    }
+  };
+  deepData(list);
 
   return result;
 };

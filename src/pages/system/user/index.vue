@@ -82,7 +82,7 @@ import type { CreateData, TableData, PaginationData } from '#/public';
 import type { DataNode } from 'ant-design-vue/lib/tree';
 import type { Key } from 'ant-design-vue/lib/vc-tree/interface';
 import { message } from 'ant-design-vue';
-import { onActivated, reactive, ref } from 'vue';
+import { onActivated, reactive, shallowRef, ref } from 'vue';
 import { checkPermission } from '@/utils/permissions';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { UpdateBtn, DeleteBtn, BasicBtn } from '@/components/Buttons';
@@ -121,7 +121,7 @@ defineOptions({
 
 const isLoading = ref(false);
 const isCreateLoading = ref(false);
-const createFormRef = ref<BasicFormProps>();
+const createFormRef = shallowRef<BasicFormProps>();
 
 // 权限配置
 const permissionConfig = reactive<PermissionConfig>({

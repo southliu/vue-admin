@@ -33,6 +33,15 @@
         :key="item.key"
         @click="handleClick(item.key)"
       >
+        <template #icon>
+          <Icon
+            v-if="item?.icon"
+            class="mt-2px"
+            :icon="item.icon"
+            :style="{ fontSize: '16px' }"
+          />
+        </template>
+
         {{ item.label }}
       </MenuItem>
     </template>

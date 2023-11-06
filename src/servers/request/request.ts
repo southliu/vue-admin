@@ -41,12 +41,17 @@ class AxiosRequest {
         }
 
         // 如果存在post数据
-        if (res.data && res.data?.[0] === '{' && res.data?.[res.data?.length - 1] === '}') {
+        if (typeof res.data === 'object') {
+          for (const key in res.data) {
+            url += `#${key}=${res.data[key]}`;
+          }
+        }
+        if (typeof res.data === 'string' && res.data?.[0] === '{' && res.data?.[res.data?.length - 1] === '}') {
           const obj = JSON.parse(res.data);
           for (const key in obj) {
             url += `#${key}=${obj[key]}`;
           }
-        } 
+        }
 
         // 如果存在则删除该请求
         if (this.abortControllerMap.get(url)) {

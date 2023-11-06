@@ -32,8 +32,8 @@
     "pinia": "^2.1.7",
     "vue": "^3.3.4",
     "vue-router": "^4.2.5",
-    "vxe-table": "^4.2.8",
-    "xe-utils": "^3.5.4"
+    "vxe-table": "^4.5.13",
+    "xe-utils": "^3.5.14"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.2.1",

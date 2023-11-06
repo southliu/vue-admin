@@ -51,7 +51,9 @@
     </template>
 
     <Spin :spinning="isLoading">
-      <slot></slot>
+      <div class="pt-15px">
+        <slot></slot>
+      </div>
     </Spin>
 
     <template #footer>
