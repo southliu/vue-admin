@@ -10,7 +10,7 @@
 
   // 屏幕可见区域高度 - 内容高度 - 底部高度 - 高度偏移量 = 表格高度
   const containerInnerHeight = height - tableHeight - footerHeight - offsetHeight; // 表格高度
-  const result = containerInnerHeight - 40;
+  const result = containerInnerHeight - 45;
 
   return [result];
 }

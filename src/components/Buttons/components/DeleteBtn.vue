@@ -1,10 +1,10 @@
 <template>
   <contextHolder />
   <Button
-    type="primary"
     danger
     :loading="isLoading"
     v-bind="attrs"
+    :type="type || 'primary'"
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
@@ -13,6 +13,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { ButtonProps } from 'ant-design-vue/lib/button';
 import { createVNode, useAttrs } from 'vue';
 import { Button, Modal } from 'ant-design-vue';
 import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
@@ -23,8 +24,9 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-interface DefineProps {
+interface DefineProps extends ButtonProps {
   isLoading?: boolean;
+  type?: ButtonProps['type']
 }
 
 withDefaults(defineProps<DefineProps>(), {

@@ -36,7 +36,6 @@
 <script lang="ts" setup>
 import type { FormInstance, FormProps } from 'ant-design-vue';
 import type { FormData, FormList } from '#/form';
-import type { ColProps } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
 import { ref, watch } from 'vue';
 import { Form, FormItem } from 'ant-design-vue';
@@ -57,8 +56,8 @@ interface DefineProps extends FormProps {
   data: FormData;
   list: FormList[];
   layout?: 'inline' | 'horizontal';
-  labelCol?: Partial<ColProps>;
-  wrapperCol?: Partial<ColProps>;
+  labelCol?: Partial<FormProps['labelCol']>;
+  wrapperCol?: Partial<FormProps['wrapperCol']>;
   labelAlign?: 'left' | 'right',
 }
 

@@ -1,8 +1,8 @@
 <template>
   <Button
-    type="primary"
     :loading="isLoading"
     v-bind="attrs"
+    :type="type || 'primary'"
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
@@ -11,6 +11,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { ButtonProps } from 'ant-design-vue/lib/button';
 import { useAttrs } from 'vue';
 import { Button } from 'ant-design-vue';
 
@@ -20,8 +21,9 @@ interface DefineEmits {
  
 const emit = defineEmits<DefineEmits>();
 
-interface DefineProps {
+interface DefineProps extends ButtonProps {
   isLoading?: boolean;
+  type?: ButtonProps['type']
 }
 
 withDefaults(defineProps<DefineProps>(), {

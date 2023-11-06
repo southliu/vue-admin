@@ -64,7 +64,7 @@ import type { FormData } from '#/form';
 import type { BasicFormProps } from '@/components/Form/model';
 import type { CreateData, TableData, PaginationData } from '#/public';
 import { message } from 'ant-design-vue';
-import { onActivated, reactive, ref } from 'vue';
+import { onActivated, reactive, shallowRef, ref } from 'vue';
 import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { checkPermission } from '@/utils/permissions';
@@ -94,7 +94,7 @@ defineOptions({
 
 const isLoading = ref(false);
 const isCreateLoading = ref(false);
-const createFormRef = ref<BasicFormProps>();
+const createFormRef = shallowRef<BasicFormProps>();
 
 // 初始化新增数据
 const initCreate = {
