@@ -6,6 +6,7 @@
       :placeholder="PLEASE_SELECT"
       treeNodeFilterProp="label"
       :showSearch="true"
+      :showCheckedStrategy="SHOW_ALL"
       v-bind="{ ...attrs, ...componentProps }"
       :treeData="options"
       @update:value="handleUpdateValue"
@@ -29,6 +30,8 @@ import { onMounted, useAttrs, watch, ref } from 'vue';
 import { TreeSelect } from 'ant-design-vue';
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config';
 import BasicLoading from '../Loading/BasicLoading.vue';
+
+const SHOW_ALL = TreeSelect.SHOW_ALL;
 
 defineOptions({
   name: 'ApiTreeSelect'

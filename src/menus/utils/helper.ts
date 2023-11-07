@@ -338,6 +338,19 @@ export const handleFlatMenu = (list: TableData[], key = 'id') => {
   return result;
 };
 
+/** 获取路由下面对应第一个标签 */
+export const getFirstTab = (path: string) => {
+  const arr = path.split('/');
+  let firstPath = arr?.[1];
+
+  if (firstPath.includes('?')) {
+    const index = firstPath.indexOf('?');
+    if (index !== -1) firstPath = firstPath.substring(0, index);
+  }
+
+  return firstPath;
+};
+
 /**
  * 路由是否权限
  * @param route - 路由

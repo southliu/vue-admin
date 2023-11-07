@@ -47,9 +47,6 @@ type RateComponents = 'Rate'
 // 滑动输入条组件
 type SliderComponents = 'Slider'
 
-// 自定义组件
-type CustomizeComponents = 'Customize'
-
 // 富文本编辑器
 type EditorComponents = 'Editor'
 
@@ -62,7 +59,6 @@ export type ComponentType = DefaultDataComponents |
                           CheckboxComponents |
                           TimeComponents |
                           RadioComponents |
-                          CustomizeComponents |
                           UploadComponents |
                           RateComponents |
                           SliderComponents |
@@ -75,6 +71,7 @@ export type ApiFun = (params?: unknown) => Promise<ServerResult>
 interface ApiParam {
   api?: ApiFun;
   params?: object;
+  apiResultKey?: string;
 }
 
 // ApiSelect
