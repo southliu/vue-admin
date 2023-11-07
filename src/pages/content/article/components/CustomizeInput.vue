@@ -1,7 +1,8 @@
 <template>
   <div>
     <Input
-      :value="props.value"
+      v-bind="attrs"
+      :value="value"
       allowClear
       @change="onChange"
     />
@@ -11,6 +12,7 @@
 
 <script lang="ts" setup>
 import type { InputProps } from 'ant-design-vue';
+import { useAttrs } from 'vue';
 import { Input } from 'ant-design-vue';
 
 interface DefineProps {
@@ -18,13 +20,15 @@ interface DefineProps {
   setData?: (open: boolean) => void;
 }
 
-const props = withDefaults(defineProps<DefineProps>(), {});
+withDefaults(defineProps<DefineProps>(), {});
 
 interface DefineEmits {
   (e: 'update:value', value?: string): void;
 }
 
 const emit = defineEmits<DefineEmits>();
+
+const attrs = useAttrs();
 
 /**
  * 更改数据
