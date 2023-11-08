@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useToken } from '@/hooks/useToken';
-import { filterMenus, getFirstMenu } from '@/menus/utils/helper';
+import { handleFilterApiMenu, getFirstMenu } from '@/menus/utils/helper';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
@@ -15,7 +15,7 @@ import { useMenuStore } from '@/stores/menu';
 import { Spin } from 'ant-design-vue';
 import { getPermissions } from '@/servers/permission';
 import { permissionsToArray } from '@/utils/permissions';
-import { getMenuList } from '@/servers/system/menu';
+import { getSystemMenuTree } from '@/servers/system/menu';
 
 const { getToken } = useToken();
 const userStore = useUserStore();
@@ -57,9 +57,9 @@ const getUserInfo = async () => {
 const getUserMenu = async (permissions: string[]) => {
   try {
     isLoading.value = true;
-    const { code, data } = await getMenuList({ isLayout: true });
+    const { code, data } = await getSystemMenuTree({ isLayout: true });
     if (Number(code) !== 200) return;
-    const menuData = filterMenus(data, permissions);
+    const menuData = handleFilterApiMenu(data, permissions);
     setMenus(menuData);
     return menuData;
   } finally {

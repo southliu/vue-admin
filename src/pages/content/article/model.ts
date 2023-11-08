@@ -1,6 +1,6 @@
 import type { FormList } from "#/form";
 import type { TableProps } from "#/public";
-import { INPUT_REQUIRED } from "@/utils/config";
+import { FORM_REQUIRED } from "@/utils/config";
 import CustomizeInput from "./components/CustomizeInput.vue";
 
 // 父路径
@@ -63,7 +63,7 @@ export const createList: FormList[] = [
   {
     label: '用户名',
     name: 'username',
-    rules: INPUT_REQUIRED,
+    rules: FORM_REQUIRED,
     component: 'Input',
     componentProps: {
       maxlength: 32
@@ -72,7 +72,7 @@ export const createList: FormList[] = [
   {
     label: '嵌套数据',
     name: ['user', 'name', 'test'],
-    rules: INPUT_REQUIRED,
+    rules: FORM_REQUIRED,
     component: 'Input',
     componentProps: {
       maxlength: 32
@@ -81,7 +81,7 @@ export const createList: FormList[] = [
   {
     label: '标题',
     name: 'title',
-    rules: INPUT_REQUIRED,
+    rules: FORM_REQUIRED,
     component: 'customize',
     render: CustomizeInput,
     componentProps: {

@@ -2,7 +2,7 @@
   <Tooltip>
     <template #title>搜索</template>
     <Icon
-      class="flex items-center justify-center text-lg mr-5px"
+      class="flex items-center justify-center text-lg mr-10px"
       icon="uil-search"
       @click="toggle"
     />
@@ -22,7 +22,7 @@
 import { ref } from 'vue';
 import { Tooltip } from 'ant-design-vue';
 import SearchModal from './components/SearchModal.vue';
-import Icon from '@/components/Icon/index.vue';
+import { Icon } from '@iconify/vue';
 
 const isOpen = ref(false);
 

@@ -3,30 +3,31 @@
     v-for="item in list"
     :key="item.key"
   >
-    <SubMenu
-      v-if="item.children?.length"
-      :data-title="item.label"
-      :key="item.key"
-    >
-      <template #icon>
-        <Icon
-          v-if="item?.icon"
-          class="mt-2px"
-          :icon="item.icon"
-          :style="{ fontSize: '16px' }"
+    <template v-if="item.children?.length && item.menuType !== 1">
+      <SubMenu
+        :data-title="item.label"
+        :key="item.key"
+      >
+        <template #icon>
+          <Icon
+            v-if="item?.icon"
+            class="mt-2px"
+            :icon="item.icon"
+            :style="{ fontSize: '16px' }"
+          />
+        </template>
+
+        <template #title>
+          {{ item.label }}
+        </template>
+
+        <MenuChildren
+          v-if="item.children?.length"
+          :list="item.children"
+          :handleClick="handleClick"
         />
-      </template>
-
-      <template #title>
-        {{ item.label }}
-      </template>
-
-      <MenuChildren
-        v-if="item.children?.length"
-        :list="item.children"
-        :handleClick="handleClick"
-      />
-    </SubMenu>
+      </SubMenu>
+    </template>
 
     <template v-else>
       <MenuItem
@@ -42,7 +43,9 @@
           />
         </template>
 
-        {{ item.label }}
+        <span>
+          {{ item.label }}
+        </span>
       </MenuItem>
     </template>
   </template>
@@ -51,7 +54,7 @@
 <script lang="ts" setup>
 import { MenuItem, SubMenu } from 'ant-design-vue';
 import type { SideMenu } from '#/public';
-import Icon from '@/components/Icon/index.vue';
+import { Icon } from '@iconify/vue';
 
 defineOptions({
   name: 'MenuChildren'

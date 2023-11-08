@@ -20,6 +20,7 @@ export type SymbolData = symbol | symbol[]
 // 侧边菜单值
 export interface SideMenu {
   id?: string;
+  menuType: number; // 菜单类型
   label: string;
   key: string;
   icon?: string;

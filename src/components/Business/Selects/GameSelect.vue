@@ -11,6 +11,7 @@
 /**
  * @description: 游戏下拉组件
  */
+import type { SelectValue } from 'ant-design-vue/es/select';
 import { getGames } from '@/servers/platform/game';
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue';
 
@@ -19,7 +20,7 @@ defineOptions({
 });
 
 interface DefineEmits {
-  (e: 'update:value', value: FormData): void;
+  (e: 'update:value', value: SelectValue): void;
 }
 
 const emit = defineEmits<DefineEmits>();
@@ -28,7 +29,7 @@ const emit = defineEmits<DefineEmits>();
  * 处理更改
  * @param value - 值
  */
-const handleUpdate = (value: FormData) => {
+const handleUpdate = (value: SelectValue) => {
   emit('update:value', value);
 };
 </script>

@@ -1,7 +1,7 @@
 import type { SideMenu } from '#/public';
 import { describe, test, expect, beforeEach } from 'vitest';
 import { defaultMenus } from '@/menus';
-import { filterMenus, getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
+import { handleFilterApiMenu, getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
 
 let data: SideMenu[] = [];
 // 模拟权限
@@ -9,7 +9,7 @@ const permissions = ['/dashboard', '/system/menu'];
 
 beforeEach(() => {
   // 获取菜单列表
-  data = filterMenus(defaultMenus, permissions);
+  data = handleFilterApiMenu(defaultMenus, permissions);
 });
 
 describe('菜单功能:', () => {

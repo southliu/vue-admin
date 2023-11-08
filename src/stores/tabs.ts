@@ -1,5 +1,7 @@
 import type { TabPaneProps } from 'ant-design-vue';
 import { defineStore } from 'pinia';
+import { useMenuStore } from './menu';
+import { getFirstTab } from '@/menus/utils/helper';
 
 export interface TabsData extends Omit<TabPaneProps, 'tab'> {
   key: string;
@@ -15,6 +17,8 @@ interface TabsState {
   tabs: TabsData[];
   // 导航数据
   nav: string[];
+  // 缓存的标签
+  cacheTabs: Record<string, TabsData[]>;
   // 缓存的路由名称
   cacheRoutes: string[];
 }
@@ -26,6 +30,7 @@ export const useTabStore = defineStore({
     prevPath: '',
     tabs: [],
     nav: [],
+    cacheTabs: {},
     cacheRoutes: []
   } as TabsState),
   actions: {
@@ -38,7 +43,6 @@ export const useTabStore = defineStore({
         this.cacheRoutes.push(key);
       }
     },
-
     /** 
      * 删除缓存路由
      * @param key - 路由值
@@ -47,12 +51,10 @@ export const useTabStore = defineStore({
       const index = this.cacheRoutes.findIndex(item => item === key);
       if (index >= 0) this.cacheRoutes.splice(index, 1);
     },
-
     /** 清空缓存路由 */
     clearCacheRoutes() {
       this.cacheRoutes = [];
     },
-
     /**
      * 添加上一个路径地址
      * @param path - 路径
@@ -60,7 +62,6 @@ export const useTabStore = defineStore({
     addPrevPath(path: string) {
       this.prevPath = path;
     },
-
     /**
      * 设置导航
      * @param nav - 导航数据
@@ -68,39 +69,20 @@ export const useTabStore = defineStore({
     setNav(nav: string[]) {
       this.nav = nav;
     },
-
     /**
      * 设置选中的标签
      * @param targetKey - 当前选中唯一值
      */
     setActiveKey(targetKey: string) {
-      // 判断是否存在相同的标签
-      const sameTab = this.hasTabsValue(this.tabs, targetKey);
-      if (sameTab) this.closeTabs(sameTab);
-
       this.activeKey = targetKey;
     },
-
     /**
-     * 当前路径是否存在标签内
-     * @param list - 标签列表
-     * @param path - 路径
+     * 设置标签栏
+     * @param tabs - 标签栏数据
      */
-    hasTabsValue(list: TabsData[], path: string) {
-      if (!list?.length || !path) return '';
-
-      // 去除多余参数参数
-      const pathStr = path?.split('?')?.[0] ?? '';
-      
-      for (let i = 0; i < list?.length; i++) {
-        const item = list[i];
-        const currentStr = item.key?.split('?')?.[0] ?? '';
-        if (currentStr === pathStr) return item.key;
-      }
-    
-      return '';
+    setTabs(tabs: TabsData[]) {
+      this.tabs = tabs;
     },
-
     /**
      * 添加标签页
      * @param tab - 标签数据
@@ -108,12 +90,15 @@ export const useTabStore = defineStore({
     addTabs(tab: TabsData) {
       // 判断是否存在相同的路由，不存在则累加
       const has = this.tabs.find(item => item.key === tab.key);
-      if (!has) this.tabs.push(tab);
+      if (!has) {
+        const key = getFirstTab(tab.key);
+        this.tabs.push(tab);
+        this.cacheTabs[`/${key}`] = this.tabs;
+      }
 
       // 如果只剩一个则无法关闭
       if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
-
     /**
      * 移除当前标签页
      * @param targetKey - 标签唯一值
@@ -134,10 +119,12 @@ export const useTabStore = defineStore({
         this.activeKey = target;
       }
 
+      const { topMenuKey } = useMenuStore();
+      this.cacheTabs[topMenuKey] = this.tabs;
+
       // 如果只剩一个则无法关闭
       if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
-
     /**
      * 关闭标签并跳转新的页面
      * @param targetKey - 关闭的key
@@ -151,13 +138,14 @@ export const useTabStore = defineStore({
       // 如果当前下标是当前选中的标签，则跳转至上一个/下一个有效值
       if (targetKey === this.activeKey) {
         this.activeKey = nextPath;
-        // this.isLock = true
       }
+
+      const { topMenuKey } = useMenuStore();
+      this.cacheTabs[topMenuKey] = this.tabs;
 
       // 如果只剩一个则无法关闭
       if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
-
     /**
      * 移除其他标签页
      * @param targetKey - 标签唯一值
@@ -169,11 +157,13 @@ export const useTabStore = defineStore({
         this.tabs = [tab];
         this.activeKey = tab.key;
       }
+      
+      const { topMenuKey } = useMenuStore();
+      this.cacheTabs[topMenuKey] = this.tabs;
 
       // 如果只剩一个则无法关闭
       if (this.tabs?.length) this.tabs[0].closable = false;
     },
-
     /**
      * 关闭左侧
      * @param targetKey - 标签唯一值
@@ -183,11 +173,13 @@ export const useTabStore = defineStore({
       const index = this.tabs.findIndex(item => item.key === targetKey);
       if (index >= 0) this.tabs.splice(0, index);
       this.activeKey = this.tabs[0].key;
+      
+      const { topMenuKey } = useMenuStore();
+      this.cacheTabs[topMenuKey] = this.tabs;
 
       // 如果只剩一个则无法关闭
       if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
-
     /**
      * 关闭右侧
      * @param targetKey - 标签唯一值
@@ -198,13 +190,16 @@ export const useTabStore = defineStore({
       if (index >= 0) this.tabs.splice(index + 1, this.tabs.length - index - 1);
       this.activeKey = this.tabs[this.tabs.length - 1].key;
 
+      const { topMenuKey } = useMenuStore();
+      this.cacheTabs[topMenuKey] = this.tabs;
+
       // 如果只剩一个则无法关闭
       if (this.tabs?.length) this.tabs[0].closable = this.tabs?.length > 1;
     },
-
     /** 关闭全部 */
     closeAllTab() {
       this.tabs = [];
+      this.cacheTabs = {};
     }
   }
 });

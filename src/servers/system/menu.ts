@@ -1,4 +1,5 @@
-import type { PageServerResult, PaginationData, SideMenu, TableData } from '#/public';
+import type { PageServerResult, PaginationData, TableData } from '#/public';
+import type { SystemMenuTree } from '@/pages/system/menu/model';
 import type { DataNode } from 'ant-design-vue/lib/tree';
 import type { Key } from 'ant-design-vue/lib/vc-tree/interface';
 import { request } from '@/servers/request';
@@ -8,22 +9,14 @@ enum API {
 }
 
 /**
- * 获取分页数据
+ * 获取树形数据
  * @param data - 请求数据
  */
-export function getSystemMenuPage(data: PaginationData) {
-  return request.get<PageServerResult<TableData[]>>(
-    `${API.URL}/page`,
-    { params: data }
-  );
-}
-
-/**
- * 获取当前菜单数据
- * @param data - 请求数据
- */
-export function getMenuList(data?: unknown) {
-  return request.get<SideMenu[]>(`/menu/list`, { params: data });
+export function getSystemMenuTree(data?: unknown) {
+  return request.get<SystemMenuTree[]>(
+  `${API.URL}/list`,
+  { params: data }
+);
 }
 
 /**

@@ -80,6 +80,15 @@ export function getComponentProps(
         }
       };
 
+    // 复选框组
+    case 'CheckboxGroup':
+      return {
+        value: Array.isArray(compData) ? compData : [],
+        'onUpdate:value': (value: Record<string, unknown>) => {
+          setData(key, value);
+        }
+      };
+
     // 时间
     case 'DatePicker': {
       const dateValue = compData ? dayjs(compData as string) : undefined;

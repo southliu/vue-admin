@@ -12,6 +12,8 @@
         className="ml-15px"
         :list="nav"
       />
+
+      <TopMenu />
     </div>
 
     <div class="flex items-center">
@@ -71,6 +73,7 @@ import Fullscreen from '@/components/Fullscreen/index.vue';
 import GlobalSearch from '@/components/GlobalSearch/index.vue';
 import Theme from '@/components/Theme/index.vue';
 import Avatar from '@/assets/images/avatar.png';
+import TopMenu from './TopMenu.vue';
 import Nav from './Nav.vue';
 
 // 下拉菜单枚举

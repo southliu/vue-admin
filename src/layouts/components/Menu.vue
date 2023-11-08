@@ -7,7 +7,7 @@
     >
       <img
         class="object-contain"
-        :width="30"
+        :width="50"
         :height="30"
         :src="Logo"
         alt="LOGO"
@@ -16,12 +16,10 @@
         class="text-white ml-3 text-xl font-bold truncate"
         :class="{ 'hidden': isCollapsed }"
       >
-        后台系统
+        楚秀售后系统
       </span>
     </div>
     <div class="menu-height overflow-y-auto">
-      <span class="text-white">
-      </span>
       <Menu
         v-model:selectedKeys="selectedKeys"
         :openKeys="(!isCollapsed && !isPhone) ? currentOpenKeys : undefined"
@@ -32,7 +30,7 @@
         @openChange="openChange"
       >
         <MenuChildren
-          :list="menuList"
+          :list="sideMenuList"
           :handleClick="handleClick"
         />
       </Menu>
@@ -65,7 +63,11 @@ import {
 import MenuChildren from './MenuChildren.vue';
 import Logo from '@/assets/images/logo.png';
 
-const emit = defineEmits(['toggleCollapsed']);
+interface DefineEmits {
+  (e: 'toggleCollapsed'): void;
+}
+
+const emit = defineEmits<DefineEmits>();
 
 interface DefineProps {
   isCollapsed: boolean;
@@ -82,7 +84,7 @@ const {
   isPhone,
   openKeys,
   selectedKeys,
-  menuList
+  sideMenuList
 } = storeToRefs(menuStore);
 const {
   setOpenKeys,
@@ -94,18 +96,18 @@ const currentOpenKeys = ref(openKeys.value);
 
 onMounted(() => {
   handleMenuOpen();
-  handleSetTitle(menuList.value, route.path);
+  handleSetTitle(sideMenuList.value, route.path);
 });
 
-watch(() => menuList.value, () => {
+watch(() => sideMenuList.value, () => {
   handleMenuOpen();
-  handleSetTitle(menuList.value, route.path);
+  handleSetTitle(sideMenuList.value, route.path);
 });
 
 // 监听路径
 watch(() => route.path, value => {
   handleMenuOpen();
-  handleSetTitle(menuList.value, value);
+  handleSetTitle(sideMenuList.value, value);
 });
 
 // 监听展开
@@ -119,7 +121,7 @@ watch(() => openKeys.value, openKeys => {
 
 /** 处理菜单展开 */
 const handleMenuOpen = () => {
-  if (permissions.value.length > 0 && menuList.value?.length) {
+  if (permissions.value.length > 0 && sideMenuList.value?.length) {
     // 展开菜单
     const newOpenKey = getOpenMenuByRouter(route.path);
     setOpenKeys(newOpenKey);
@@ -147,8 +149,8 @@ const goPath = (path: string) => {
 
 /** 点击logo */
 const onClickLogo = () => {
-  const firstMenu = getFirstMenu(menuList.value, permissions.value);
-  goPath(firstMenu);
+  const firstMenu = getFirstMenu(sideMenuList.value, permissions.value);
+  goPath(firstMenu || '/');
 };
 
 /**
@@ -221,4 +223,4 @@ const hiddenMenu = () => {
 .cover {
   left: @layoutLeft;
 }
-</style>
+</style>@/menus/utils/menu

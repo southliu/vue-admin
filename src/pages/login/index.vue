@@ -87,8 +87,8 @@ import { useUserStore } from '@/stores/user';
 import { PASSWORD_RULE } from '@/utils/config';
 import { useWatermark } from '@/hooks/useWatermark';
 import { permissionsToArray } from '@/utils/permissions';
-import { filterMenus, getFirstMenu } from '@/menus/utils/helper';
-import { getMenuList } from '@/servers/system/menu';
+import { handleFilterApiMenu, getFirstMenu } from '@/menus/utils/helper';
+import { getSystemMenuTree } from '@/servers/system/menu';
 import {
   Form,
   FormItem,
@@ -126,9 +126,12 @@ onMounted(() => {
 const getUserMenu = async (permissions: string[]) => {
   try {
     isLoading.value = true;
-    const { code, data } = await getMenuList({ isLayout: true });
+    const { code, data } = await getSystemMenuTree({ isLayout: true });
     if (Number(code) !== 200) return;
-    const menuData = filterMenus(data, permissions);
+    const menuData = handleFilterApiMenu(data, permissions);
+    console.log('menuData:', menuData)
+    console.log('permissions:', permissions)
+    console.log('data:', data)
     setMenus(menuData);
     return menuData;
   } finally {

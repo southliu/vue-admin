@@ -28,7 +28,7 @@
  */
 import { Button } from 'ant-design-vue';
 import { DATE_FORMAT } from '@/utils/constants';
-import Icon from '@/components/Icon/index.vue';
+import { Icon } from '@iconify/vue';
 import dayjs from 'dayjs';
 
 type TypeData = 'yesterday' |
