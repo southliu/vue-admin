@@ -1,4 +1,5 @@
 import type { SideMenu, TableData } from '#/public';
+import type { SystemMenuTree } from "@/pages/system/menu/model";
 
 /**
  * 根据路由获取展开菜单数组
@@ -113,7 +114,9 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
       } else {
         currentPath.pop();
       }
-    } else if (
+    }
+    if (
+      menus[i]?.menuType === 1 &&
       menus[i]?.label?.includes(value) &&
       hasPermission(menus[i], permissions)
     ) {
@@ -124,8 +127,8 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
       const nav = matchPath(menus[i].key, currentPath);
 
       // 匹配到value值时添加到result中
-      const { label, key, id } = menus[i];
-      result.push({ label, key, id, nav });
+      const { label, key, id, menuType } = menus[i];
+      result.push({ label, key, id, menuType, nav });
     }
   }
 
@@ -203,37 +206,96 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
 }
 
 /**
- * 过滤权限菜单
- * @param menus - 菜单
- * @param permissions - 权限列表
+ * 递归获取第一个有效路由名
+ * @param menus - 菜单列表
  */
-export function filterMenus(
-  menus: SideMenu[],
-  permissions: string[]
-): SideMenu[] {
+const getMenuPath = (menus: SystemMenuTree[]) => {
+  let result = '';
+
+  const deepData = (menus: SystemMenuTree[]) => {
+    if (result) return result;
+
+    for (let i = 0; i < menus?.length; i++) {
+      const item = menus[i];
+      
+      if (item.menuRoute) {
+        result = item.menuRoute;
+        return result;
+      }
+
+      if (item.children?.length) {
+        const childResult = deepData(item.children);
+        if (childResult) {
+          result = childResult;
+          return result;
+        }
+      }
+    }
+  };
+  deepData(menus);
+
+  return result;
+};
+
+/**
+ * 过滤接口菜单数据
+ * @param list - 接口列表数据
+ * @param permissionList - 权限列表
+ * @param level - 层次
+ */
+export const handleFilterApiMenu = (
+  list: SystemMenuTree[],
+  permissionList: string[] = [],
+  level: number = 1
+): SideMenu[] => {
   const result: SideMenu[] = [];
 
-  for (let i = 0; i < menus.length; i++) {
-    // 处理子数组
-    if (hasChildren(menus[i])) {
-      const result = filterMenus(
-        menus[i].children as SideMenu[],
-        permissions
-      );
+  for (let i = 0; i < list?.length; i++) {
+    const item = list[i];
+    let children: SideMenu[] = [];
+    const { menuName, permissions, id, menuType } = item;
+    let { menuRoute } = item;
 
-      // 有子权限数据则保留
-      menus[i].children = result?.length ? result : undefined;
+    // 无权限则跳过
+    if (!permissionList.includes(permissions)) continue;
+
+    // 路由为空则转为404
+    if (!menuRoute && !item.children?.length) {
+      menuRoute = '/404';
     }
 
-    // 有权限或有子数据累加
-    if (
-      hasPermission(menus[i], permissions) ||
-      hasChildren(menus[i])
-    ) result.push(menus[i]);
+    // 如果路由不存在
+    if (!menuRoute && item.children?.length) {
+      const firstRoute = getMenuPath(item.children);
+      const arr = firstRoute?.split('/');
+      let newRouter = '';
+
+      for (let i = 1; i < arr?.length && i <= level; i++) {
+        const item = arr[i];
+        newRouter += `/${item}`;
+      }
+
+      menuRoute = newRouter || '/404';
+    }
+
+    if (item.children?.length) {
+      const newLevel = level + 1;
+      children = handleFilterApiMenu(item.children, permissionList, newLevel);
+    }
+
+    const params: SideMenu = {
+      id,
+      menuType,
+      key: menuRoute || permissions,
+      label: menuName,
+      rule: permissions,
+      children
+    };
+    result.push(params);
   }
 
   return result;
-}
+};
 
 /**
  * 获取第一个有效权限路由

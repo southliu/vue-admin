@@ -8,6 +8,7 @@
       :labelCol="labelCol"
       :wrapper-col="wrapperCol"
       :labelAlign="labelAlign"
+      :validateMessages="validateMessages"
       @finish="onFinish"
       @finishFailed="onFinishFailed"
     >
@@ -36,14 +37,11 @@
 <script lang="ts" setup>
 import type { FormInstance, FormProps } from 'ant-design-vue';
 import type { FormData, FormList } from '#/form';
-import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
 import { ref, watch } from 'vue';
 import { Form, FormItem } from 'ant-design-vue';
 import { useDebounceFn } from '@vueuse/core';
 import { filterEmptyValue, handleFilterTrim } from '@/utils/helper';
 import BasicComponents from './BasicComponents.vue';
-
-type FinishFun = (values: FormData) => void
 
 interface DefineEmits {
   (e: 'handleFinish', params: FormData): void;
@@ -71,6 +69,17 @@ const props = withDefaults(defineProps<DefineProps>(), {
 
 const formRef = ref<FormInstance>();
 const formState = ref<FormData>(props.data);
+
+const validateMessages = {
+  required: '${label}为必填项！',
+  types: {
+    email: '${label}不是邮箱格式！',
+    number: '${label}不是数字格式！',
+  },
+  number: {
+    range: '${label}必须大于${min}且小于${max}',
+  },
+};
 
 // 监听表单数据变化
 watch(() => props.data, value => {
@@ -136,7 +145,7 @@ const setFromState = (key: string | string[], value: unknown) => {
  * 提交处理
  * @param values - 表单数据
  */
-const onFinish: FinishFun = useDebounceFn(values => {
+const onFinish: FormProps['onFinish'] = useDebounceFn(values => {
   const params = filterEmptyValue(values);
   emit('handleFinish', params);
 });
@@ -145,8 +154,9 @@ const onFinish: FinishFun = useDebounceFn(values => {
  * 错误处理
  * @param errorInfo - 错误信息
  */
-const onFinishFailed = (errorInfo: ValidateErrorEntity<string>) => {
+const onFinishFailed: FormProps['onFinishFailed'] = errorInfo => {
   console.error('错误信息:', errorInfo);
+  return !!errorInfo;
 };
 
 defineExpose({

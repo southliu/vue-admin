@@ -34,6 +34,7 @@ defineOptions({
 interface DefineEmits {
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:value', value: SelectValue): void;
+  (e: 'update', value: SelectValue): void;
 }
 
 const emit = defineEmits<DefineEmits>();
@@ -102,6 +103,7 @@ const getApiData = async () => {
 const handleUpdateValue = (value: SelectValue) => {
   emit('update:modelValue', value);
   emit('update:value', value);
+  emit('update', value);
 };
 
 /**

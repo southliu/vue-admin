@@ -75,7 +75,7 @@ import { nextTick, ref, watch } from 'vue';
 import { Modal, Tooltip, Button, Spin } from 'ant-design-vue';
 import { useModalDragMove } from './hooks/useModalDrag';
 import { useDebounceFn } from '@vueuse/core';
-import Icon from '../Icon/index.vue';
+import { Icon } from '@iconify/vue';
 
 interface DefineEmits {
   (e: 'handleCancel'): void;

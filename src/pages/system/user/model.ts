@@ -1,6 +1,6 @@
 import type { FormList } from "#/form";
 import type { TableProps } from "#/public";
-import { INPUT_REQUIRED, SELECT_REQUIRED } from "@/utils/config";
+import { FORM_REQUIRED } from "@/utils/config";
 import { h } from "vue";
 import { OPEN_CLOSE } from "@/utils/constants";
 
@@ -79,7 +79,7 @@ export const createList: FormList[] = [
   {
     label: '嵌套数据',
     name: ['user', 'name', 'test'],
-    rules: INPUT_REQUIRED,
+    rules: FORM_REQUIRED,
     component: 'Input',
     componentProps: {
       maxlength: 32
@@ -88,7 +88,7 @@ export const createList: FormList[] = [
   {
     label: '用户名',
     name: 'username',
-    rules: INPUT_REQUIRED,
+    rules: FORM_REQUIRED,
     component: 'Input',
     componentProps: {
       maxlength: 32
@@ -97,7 +97,7 @@ export const createList: FormList[] = [
   {
     label: '姓名',
     name: 'real_name',
-    rules: INPUT_REQUIRED,
+    rules: FORM_REQUIRED,
     component: 'Input',
     componentProps: {
       maxlength: 32
@@ -106,7 +106,7 @@ export const createList: FormList[] = [
   {
     label: '角色',
     name: 'roles_name',
-    rules: INPUT_REQUIRED,
+    rules: FORM_REQUIRED,
     component: 'Input',
     componentProps: {
       maxlength: 32
@@ -115,7 +115,7 @@ export const createList: FormList[] = [
   {
     label: '状态',
     name: 'status',
-    rules: SELECT_REQUIRED,
+    rules: FORM_REQUIRED,
     component: 'Select',
     componentProps: {
       options: OPEN_CLOSE

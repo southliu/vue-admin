@@ -50,7 +50,7 @@
 
 <script lang="ts" setup>
 import type { SideMenu } from '#/public';
-import Icon from '@/components/Icon/index.vue';
+import { Icon } from '@iconify/vue';
 
 interface DefineEmits {
   (e: 'handleClick'): void;

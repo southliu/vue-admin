@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import { Tooltip } from 'ant-design-vue';
-import Icon from '@/components/Icon/index.vue';
+import { Icon } from '@iconify/vue';
 
 /** 跳转数据大屏 */
 const goDataScreen = () => {

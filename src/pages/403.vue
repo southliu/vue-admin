@@ -20,10 +20,10 @@ import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useMenuStore } from '@/stores/menu';
-import { filterMenus, getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
+import { handleFilterApiMenu, getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
 import { permissionsToArray } from '@/utils/permissions';
 import { getPermissions } from '@/servers/permission';
-import { getMenuList } from '@/servers/system/menu';
+import { getSystemMenuTree } from '@/servers/system/menu';
 import { useToken } from '@/hooks/useToken';
 
 const router = useRouter();
@@ -65,9 +65,9 @@ const getUserInfo = async () => {
 const getUserMenu = async (permissions: string[]) => {
   try {
     isLoading.value = true;
-    const { code, data } = await getMenuList({ isLayout: true });
+    const { code, data } = await getSystemMenuTree({ isLayout: true });
     if (Number(code) !== 200) return;
-    const menuData = filterMenus(data, permissions);
+    const menuData = handleFilterApiMenu(data, permissions);
     setMenus(menuData);
     return menuData;
   } finally {

@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { Button } from 'ant-design-vue';
 import { useCopyToClipboard } from '@/hooks/useCopyToClipboard';
-import Icon from '@/components/Icon/index.vue';
+import { Icon } from '@iconify/vue';
 
 interface DefineProps {
   isLoading?: boolean;

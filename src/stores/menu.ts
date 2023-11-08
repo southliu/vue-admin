@@ -1,5 +1,6 @@
 import type { SideMenu } from '#/public';
 import { defineStore } from 'pinia';
+import { useTabStore } from './tabs';
 
 // 菜单项
 export interface MenuItem {
@@ -14,17 +15,20 @@ export interface MenuItem {
 
 interface StateData {
   isPhone: boolean;
+  topMenuKey: string;
   firstMenu: MenuItem;
   openKeys: string[];
   selectedKeys: string[];
   menuList: SideMenu[],
+  sideMenuList: SideMenu[],
 }
 
 export const useMenuStore = defineStore({
   id: 'menu',
   state: () => ({
     isPhone: false,
-    firstMenu: {
+    topMenuKey: '',
+    firstMenu: {  
       key: '',
       path: '',
       top: '',
@@ -34,7 +38,8 @@ export const useMenuStore = defineStore({
     },
     openKeys: [],
     selectedKeys: [],
-    menuList: []
+    menuList: [],
+    sideMenuList: []
   } as StateData),
   actions: {
     /**
@@ -43,6 +48,24 @@ export const useMenuStore = defineStore({
      */
     setMenus(menus: SideMenu[]) {
       this.menuList = menus;
+    },
+    /**
+     * 设置侧边菜单
+     * @param menus - 菜单值
+     */
+    setSideMenu(menus: SideMenu[]) {
+      this.sideMenuList = menus;
+    },
+    /**
+     * 设备顶部菜单选中
+     * @param key - 选中的值
+     */
+    setTopMenuKey(key: string) {
+      this.topMenuKey = key;
+
+      // 标签分割
+      const { cacheTabs, setTabs } = useTabStore();
+      setTabs(cacheTabs?.[key] || []);
     },
     /**
      * 设置是否是手机

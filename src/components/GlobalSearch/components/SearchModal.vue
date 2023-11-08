@@ -42,6 +42,7 @@ import { useMenuStore } from '@/stores/menu';
 import { useDebounceFn, onKeyStroke } from '@vueuse/core';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
+import { Icon } from '@iconify/vue';
 import { onMounted, ref, watch } from 'vue';
 import {
   getMenuByKey,
@@ -50,7 +51,6 @@ import {
 } from '@/menus/utils/helper';
 import SearchResult from './SearchResult.vue';
 import SearchFooter from './SearchFooter.vue';
-import Icon from '@/components/Icon/index.vue';
 
 interface DefineEmits {
   (e: 'toggle'): void;

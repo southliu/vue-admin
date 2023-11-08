@@ -40,6 +40,7 @@ defineOptions({
 interface DefineEmits {
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:value', value: SelectValue): void;
+  (e: 'update', value: SelectValue): void;
 }
 
 const emit = defineEmits<DefineEmits>();
@@ -120,5 +121,6 @@ const handleDropdownVisibleChange = async (open: boolean) => {
 const handleUpdateValue = (value: SelectValue) => {
   emit('update:modelValue', value);
   emit('update:value', value);
+  emit('update', value);
 };
 </script>

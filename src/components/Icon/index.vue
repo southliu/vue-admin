@@ -13,7 +13,7 @@
 <script lang="ts" setup>
 import { watch, useAttrs } from 'vue';
 import { getIcon } from '@iconify/iconify';
-import Icon from '@ant-design/icons-vue';
+import { Icon } from '@iconify/vue';
 
 /**
  * 图标组件

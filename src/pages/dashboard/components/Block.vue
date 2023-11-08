@@ -31,8 +31,8 @@
 
 <script lang="ts" setup>
 import { Row, Col } from 'ant-design-vue';
+import { Icon } from '@iconify/vue';
 import Count from '@/components/Count/index.vue';
-import Icon from '@/components/Icon/index.vue';
 
 const data = [
   { title: '用户数', num: 14966, all: 16236, icon: 'icon-park:peoples' },

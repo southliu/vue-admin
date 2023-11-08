@@ -103,8 +103,8 @@ import { permissionsToArray } from '@/utils/permissions';
 import { message, Skeleton } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
 import { updatePassword } from '@/servers/login';
-import { getMenuList } from '@/servers/system/menu';
-import { filterMenus } from '@/menus/utils/helper';
+import { getSystemMenuTree } from '@/servers/system/menu';
+import { handleFilterApiMenu } from '@/menus/utils/helper';
 import { routeToKeepalive } from '@/router/utils/helper';
 import Header from './components/Header.vue';
 import Menu from './components/Menu.vue';
@@ -168,9 +168,9 @@ const getUserInfo = async () => {
 const getUserMenu = async (permissions: string[]) => {
   try {
     isLoading.value = true;
-    const { code, data } = await getMenuList({ isLayout: true });
+    const { code, data } = await getSystemMenuTree({ isLayout: true });
     if (Number(code) !== 200) return;
-    const menuData = filterMenus(data, permissions);
+    const menuData = handleFilterApiMenu(data, permissions);
     setMenus(menuData);
   } finally {
     isLoading.value = false;

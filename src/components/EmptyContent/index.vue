@@ -11,7 +11,7 @@
 </template>
 
 <script lang="ts" setup>
-import Icon from '@/components/Icon/index.vue';
+import { Icon } from '@iconify/vue';
 
 defineOptions({
   name: 'EmptyContent'

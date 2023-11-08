@@ -28,7 +28,7 @@
               <div>{{ item.label }}</div>
               <div v-if="tabs.length > 1" @click.stop="handleRemove(item.key)">
                 <CloseOutlined
-                  class="p-1 rounded-1/2 text-11px"
+                  class="p-1 rounded-1/2 text-11px ml-10px"
                   :class="{
                     'hover:bg-light-900': !isActive(item.key),
                     'hover:bg-blue-800': isActive(item.key),
@@ -59,12 +59,14 @@
             <span>重新加载</span>
           </template>
 
-          <Icon
-            class="flex items-center justify-center change text-lg cursor-pointer"
-            :class="{ 'animate-spin': isRefresh }"
-            icon="ant-design:reload-outlined"
-            @click="handleRefresh()"
-          />
+          <div class="w-full h-full flex items-center justify-center">
+            <Icon
+              class="flex items-center justify-center change text-lg cursor-pointer"
+              :class="{ 'animate-spin': isRefresh }"
+              icon="ant-design:reload-outlined"
+              @click="handleRefresh()"
+            />
+          </div>
         </Tooltip>
       </div>
       <Tooltip
@@ -76,7 +78,7 @@
         </template>
 
         <Dropdown :trigger="['click']" @openChange="handleDropdownChange">
-          <div>
+          <div class="w-36px h-36px flex items-center justify-center">
             <Icon
               class="flex items-center justify-center change text-lg cursor-pointer transition-all transform "
               :class="{ 'rotate-180': isDropdown, 'rotate-0': !isDropdown }"
@@ -130,6 +132,7 @@ import { CloseOutlined } from '@ant-design/icons-vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useDebounceFn } from '@vueuse/core';
 import { TabEnums } from '../model';
+import { Icon } from '@iconify/vue';
 import { onMounted, reactive, ref, watch } from 'vue';
 import {
   Tabs,
@@ -139,7 +142,6 @@ import {
   message
 } from 'ant-design-vue';
 import DropdownMenu from './DropdownMenu.vue';
-import Icon from '@/components/Icon/index.vue';
 import { useUserStore } from '@/stores/user';
 import { getMenuByKey } from '@/menus/utils/helper';
 import { routeToKeepalive } from '@/router/utils/helper';
