@@ -21,12 +21,15 @@
         :class="{ '!hidden': item.hidden }"
       >
         <BasicComponents
+          v-if="item.component !== 'slot' && !item.slotName"
           class="min-w-100px"
           :item="item"
           v-model:data="formState"
           :setData="setFromState"
           @pressEnter="onFinish"
         />
+
+        <slot v-else :name="item.slotName" />
       </FormItem>
 
       <slot name="otherBtn"></slot>

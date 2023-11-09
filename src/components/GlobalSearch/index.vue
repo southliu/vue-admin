@@ -1,5 +1,5 @@
 <template>
-  <Tooltip>
+  <Tooltip placement="bottom">
     <template #title>搜索</template>
     <Icon
       class="flex items-center justify-center text-lg mr-10px"

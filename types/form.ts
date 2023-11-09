@@ -13,6 +13,7 @@ import type { ServerResult } from './public';
 import type { RuleObject } from 'ant-design-vue/lib/form';
 import type { BusinessComponentType } from '@/components/Business';
 import type { WangEditorProps } from '@/components/WangEditor/model';
+import type { SelectValue } from "ant-design-vue/es/select";
 
 // 数据类型
 export type FormData = Record<string, unknown>
@@ -24,6 +25,7 @@ type DefaultDataComponents = 'Input' |
                               'InputPassword' |
                               'AutoComplete' |
                               'customize' |
+                              'slot' |
                               BusinessComponentType
 
 // 下拉组件
@@ -68,17 +70,27 @@ export type ComponentType = DefaultDataComponents |
 export type ApiFun = (params?: unknown) => Promise<ServerResult>
 
 // api参数
-interface ApiParam {
+export interface ApiSelectParam {
   api?: ApiFun;
   params?: object;
-  apiResultKey?: string;
+  apiResultKey?: string; // 接口返回值的key值，枚举接口特殊处理
+  spliceLabel?: [string, string]; // 拼接名称
+  onUpdate?: (value: SelectValue, list: unknown[]) => void;
 }
 
 // ApiSelect
-export type ApiSelectProps = ApiParam & SelectProps
+export type ApiSelectProps = ApiSelectParam & SelectProps
 
 // ApiTreeSelect
-export type ApiTreeSelectProps = ApiParam & TreeSelectProps
+export type ApiTreeSelectProps = ApiSelectParam & TreeSelectProps
+
+export type BasicSelectParam = Omit<ApiSelectParam, 'api' | 'params' | 'apiResultKey'>
+
+// BasicSelect
+export type BasicSelectProps = BasicSelectParam & SelectProps
+
+// BasicTreeSelect
+export type BasicTreeSelectProps = BasicSelectParam & TreeSelectProps
 
 // 组件参数
 export type ComponentProps = InputProps |
@@ -103,6 +115,7 @@ export type FormRule = RuleObject & {
 export type FormList = {
   name: string | string[]; // 表单域字段
   label: string; // 标签
+  slotName?: string; // 插槽名称
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏
   rules?: FormRule[]; // 规则

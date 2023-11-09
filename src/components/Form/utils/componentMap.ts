@@ -1,17 +1,11 @@
 import type { ComponentType } from '#/form';
 import type { Component } from 'vue';
-import ApiSelect from '@/components/Selects/ApiSelect.vue';
-import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue';
-import WangEditor from '@/components/WangEditor/index.vue';
-import PasswordStrength from '@/components/PasswordStrength/index.vue';
 import { createBusinessComp } from '@/components/Business';
 import {
   Input,
   InputNumber,
   InputPassword,
   AutoComplete,
-  Select,
-  TreeSelect,
   Checkbox,
   CheckboxGroup,
   RadioGroup,
@@ -22,6 +16,12 @@ import {
   Upload,
   Textarea
 } from 'ant-design-vue';
+import BasicSelect from '@/components/Selects/BasicSelect.vue';
+import BasicTreeSelect from '@/components/Selects/BasicTreeSelect.vue';
+import ApiSelect from '@/components/Selects/ApiSelect.vue';
+import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue';
+import WangEditor from '@/components/WangEditor/index.vue';
+import PasswordStrength from '@/components/PasswordStrength/index.vue';
 
 const componentMap = new Map<ComponentType, Component>();
 
@@ -30,8 +30,8 @@ componentMap.set('Input', Input);
 componentMap.set('InputNumber', InputNumber);
 componentMap.set('InputPassword', InputPassword);
 componentMap.set('AutoComplete', AutoComplete);
-componentMap.set('Select', Select);
-componentMap.set('TreeSelect', TreeSelect);
+componentMap.set('Select', BasicSelect);
+componentMap.set('TreeSelect', BasicTreeSelect);
 componentMap.set('Checkbox', Checkbox);
 componentMap.set('CheckboxGroup', CheckboxGroup);
 componentMap.set('RadioGroup', RadioGroup);

@@ -20,12 +20,15 @@
         :wrapperCol="{ style: { width: `${ item.wrapperCol }px` } }"
       >
         <BasicComponents
+          v-if="item.component !== 'slot' && !item.slotName"
           class="min-w-100px"
           :item="item"
           :data="formState"
           :setData="setFromState"
           @pressEnter="onFinish"
         />
+
+        <slot v-else :name="item.slotName" />
       </FormItem>
 
       <FormItem v-if="isSearch">

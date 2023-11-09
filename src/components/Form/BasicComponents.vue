@@ -6,11 +6,11 @@
     allowClear
     v-bind="{
       ...getComponentProps(
-          props.item,
-          props.data,
-          props.setData
+          item,
+          data,
+          setData
         ),
-        ...props.item.componentProps
+        ...item.componentProps
     }"
   />
 </template>
@@ -43,7 +43,10 @@ if (props.item.component !== 'customize') {
 }
 
 watch(() => props.item, () => {
-  if (props.item.component === 'customize') {
+  // 组件
+  if (props.item.component !== 'customize') {
+    Comp = componentMap.get(props.item.component);
+  } else {
     Comp = props.item.render;
   }
 });
