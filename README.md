@@ -10,7 +10,7 @@
 - 获取项目代码
 
 ```bash
-git clone https://github.com/southliu/vue-vite-admin.git
+git clone https://github.com/southliu/vue-admin.git
 ```
 
 - 选择目录
