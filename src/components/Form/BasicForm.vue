@@ -107,6 +107,21 @@ const handleReset = () => {
   formRef.value?.clearValidate();
 };
 
+/** 外部调用校验方法 */
+const handleValidate = () => {
+  return new Promise((resolve, reject) => {
+    formRef.value
+      ?.validateFields()
+      .then(values => {
+        resolve(true);
+      })
+      .catch(info => {
+        console.error('错误信息:', info);
+        reject(false);
+      });
+  });
+};
+
 /**
  * 处理嵌套数据
  * @param arr - 键值数组
@@ -161,6 +176,7 @@ const onFinishFailed: FormProps['onFinishFailed'] = errorInfo => {
 
 defineExpose({
   handleSubmit,
-  handleReset
+  handleReset,
+  handleValidate
 });
 </script>

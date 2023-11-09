@@ -2,4 +2,5 @@
 export interface BasicFormProps extends Element {
   handleReset: () => void;
   handleSubmit: () => void;
+  handleValidate: () => Promise<boolean>;
 }
