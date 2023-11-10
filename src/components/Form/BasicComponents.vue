@@ -1,7 +1,6 @@
 <template>
   <component
     :is="Comp"
-    class="min-w-100px"
     :placeholder="placeholder"
     allowClear
     v-bind="{

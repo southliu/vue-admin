@@ -71,7 +71,7 @@ import { onActivated, reactive, shallowRef, ref } from 'vue';
 import { UpdateBtn, DeleteBtn, BasicBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { checkPermission } from "@/utils/permissions";
-import { handleFlatMenu } from '@/menus/utils/helper';
+import { handleFlatMenu } from '@/utils/menu';
 import {
   searchList,
   createList,

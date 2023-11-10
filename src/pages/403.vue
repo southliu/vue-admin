@@ -20,7 +20,7 @@ import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useMenuStore } from '@/stores/menu';
-import { handleFilterApiMenu, getFirstMenu, getMenuByKey } from '@/menus/utils/helper';
+import { handleFilterApiMenu, getFirstMenu, getMenuByKey } from '@/utils/menu';
 import { permissionsToArray } from '@/utils/permissions';
 import { getPermissions } from '@/servers/permission';
 import { getSystemMenuTree } from '@/servers/system/menu';

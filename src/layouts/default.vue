@@ -104,7 +104,7 @@ import { message, Skeleton } from 'ant-design-vue';
 import { useRoute } from 'vue-router';
 import { updatePassword } from '@/servers/login';
 import { getSystemMenuTree } from '@/servers/system/menu';
-import { handleFilterApiMenu } from '@/menus/utils/helper';
+import { handleFilterApiMenu } from '@/utils/menu';
 import { routeToKeepalive } from '@/router/utils/helper';
 import Header from './components/Header.vue';
 import Menu from './components/Menu.vue';

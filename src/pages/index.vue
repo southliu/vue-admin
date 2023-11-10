@@ -7,7 +7,7 @@
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue';
 import { useToken } from '@/hooks/useToken';
-import { handleFilterApiMenu, getFirstMenu } from '@/menus/utils/helper';
+import { handleFilterApiMenu, getFirstMenu } from '@/utils/menu';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';

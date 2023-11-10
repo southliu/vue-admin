@@ -1,4 +1,4 @@
-import type { ComponentType, FormList } from '#/form';
+import type { ComponentType, FormData, FormList } from '#/form';
 import type { WangEditorProps } from '@/components/WangEditor/model';
 import type { DatePickerProps } from 'ant-design-vue';
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface';
@@ -45,7 +45,7 @@ const getDeepNested = (arr: string[], obj: Record<string, unknown>) => {
  */
 export function getComponentProps(
   item: FormList,
-  data: Record<string, unknown>,
+  data: FormData,
   setData: (key: string | string[], value: unknown) => void
 ) {
   const key = item.name;
@@ -89,6 +89,15 @@ export function getComponentProps(
         }
       };
 
+    // 开关
+    case 'Switch':
+      return {
+        checked: !!compData,
+        'onChange': (value: boolean) => {
+          setData(key, value);
+        }
+      };
+
     // 时间
     case 'DatePicker': {
       const dateValue = compData ? dayjs(compData as string) : undefined;
@@ -123,7 +132,7 @@ export function getComponentProps(
     default:
       return {
         value: compData,
-        'onUpdate:value': (value: unknown) => {
+        'onUpdate:value': (value: Record<string, unknown>) => {
           setData(key, value);
         }
       };

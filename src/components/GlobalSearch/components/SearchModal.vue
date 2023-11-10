@@ -48,7 +48,7 @@ import {
   getMenuByKey,
   getOpenMenuByRouter,
   searchMenuValue
-} from '@/menus/utils/helper';
+} from '@/utils/menu';
 import SearchResult from './SearchResult.vue';
 import SearchFooter from './SearchFooter.vue';
 

@@ -25,7 +25,7 @@ import type { SideMenu } from "#/public";
 import { watch, onUnmounted, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { storeToRefs } from 'pinia';
-import { getFirstTab } from '@/menus/utils/helper';
+import { getFirstTab } from '@/utils/menu';
 import { useMenuStore } from '@/stores/menu';
 import { useTabStore } from "@/stores/tabs";
 

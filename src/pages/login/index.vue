@@ -87,7 +87,7 @@ import { useUserStore } from '@/stores/user';
 import { PASSWORD_RULE } from '@/utils/config';
 import { useWatermark } from '@/hooks/useWatermark';
 import { permissionsToArray } from '@/utils/permissions';
-import { handleFilterApiMenu, getFirstMenu } from '@/menus/utils/helper';
+import { handleFilterApiMenu, getFirstMenu } from '@/utils/menu';
 import { getSystemMenuTree } from '@/servers/system/menu';
 import {
   Form,
