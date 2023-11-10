@@ -1,9 +1,10 @@
 <template>
   <Select
     allowClear
+    showSearch
     :maxTagCount="MAX_TAG_COUNT"
     :placeholder="PLEASE_SELECT"
-    optionFilterProp="label"
+    :optionFilterProp="optionFilterLabel"
     :value="selectValue"
     v-bind="{ ...attrs, ...componentProps }"
     :options="options"
@@ -20,9 +21,9 @@
 /**
  * @description: 根据API获取数据下拉组件
  */
-import type { ApiFun, ApiSelectProps } from '#/form';
+import type { ApiSelectParam, ApiSelectProps } from '#/form';
 import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select';
-import { onMounted, useAttrs, watch, ref } from 'vue';
+import { onMounted, computed, useAttrs, watch, ref } from 'vue';
 import { Select } from 'ant-design-vue';
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config';
 import BasicLoading from '../Loading/BasicLoading.vue';
@@ -34,27 +35,28 @@ defineOptions({
 interface DefineEmits {
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:value', value: SelectValue): void;
-  (e: 'update', value: SelectValue): void;
+  (e: 'update', value: SelectValue, list: unknown[]): void;
 }
 
 const emit = defineEmits<DefineEmits>();
 
-interface DefineProps {
+interface DefineProps extends ApiSelectParam {
   modelValue?: SelectValue;
   value?: SelectValue;
-  params?: object;
-  apiResultKey?: string; // 接口返回值的key值，枚举接口特殊处理
   componentProps?: ApiSelectProps;
-  api: ApiFun;
   onDropdownVisibleChange?: (open: boolean) => void
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {});
 
-const attrs = useAttrs();
+const attrs: ApiSelectProps = useAttrs();
 const options = ref<DefaultOptionType[]>([]);
 const selectValue = ref(props.value || props.modelValue);
 const isLoading = ref(false);
+
+const optionFilterLabel = computed(() => {
+  return props.componentProps?.fieldNames?.label || attrs?.fieldNames?.label || 'label';
+});
 
 onMounted(() => {
   // 首次有值获取API接口
@@ -81,6 +83,23 @@ watch(() => props.modelValue, value => {
   }
 });
 
+/**
+ * 处理拼接名称
+ * @param list - 列表
+ */
+const handleSpliceLabel = (data: unknown[]) => {
+  const { spliceLabel } = props;
+  if (spliceLabel?.length !== 2) return [];
+
+  for (let i = 0; i < data?.length; i++) {
+    const item = data[i] as { [key: string]: unknown };
+    const value = item[spliceLabel[1]] ? `(${item[spliceLabel[1]]})` : '';
+    item.label = `${item[spliceLabel[0]]}${value}`;
+  }
+
+  return data;
+};
+
 /** 获取接口数据 */
 const getApiData = async () => {
   if (!props.api) return;
@@ -90,6 +109,12 @@ const getApiData = async () => {
     const { code, data } = await api(params);
     if (Number(code) !== 200) return;
     const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
+
+    // 如果存在拼接数据
+    if (props.spliceLabel?.length) {
+      handleSpliceLabel(result as unknown[]);
+    }
+
     options.value = (result || []) as DefaultOptionType[];
   } finally {
     isLoading.value = false;
@@ -103,7 +128,7 @@ const getApiData = async () => {
 const handleUpdateValue = (value: SelectValue) => {
   emit('update:modelValue', value);
   emit('update:value', value);
-  emit('update', value);
+  emit('update', value, options.value);
 };
 
 /**

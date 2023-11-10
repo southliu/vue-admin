@@ -8,7 +8,6 @@
       :treeNodeFilterProp="optionFilterLabel"
       :showCheckedStrategy="SHOW_ALL"
       v-bind="{ ...attrs, ...componentProps }"
-      :treeData="options"
       @update:value="handleUpdateValue"
       @dropdownVisibleChange="handleDropdownVisibleChange"
   >
@@ -22,10 +21,9 @@
 /**
  * @description: 根据API获取数据树形下拉组件
  */
-import type { ApiSelectParam, ApiTreeSelectProps } from '#/form';
-import type { TreeSelectProps } from 'ant-design-vue';
-import type { SelectValue, DefaultOptionType } from 'ant-design-vue/es/select';
-import { onMounted, computed, useAttrs, watch, ref } from 'vue';
+import type { BasicSelectParam, BasicTreeSelectProps } from '#/form';
+import type { SelectValue } from 'ant-design-vue/lib/select';
+import { computed, useAttrs, watch, ref } from 'vue';
 import { TreeSelect } from 'ant-design-vue';
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config';
 import BasicLoading from '../Loading/BasicLoading.vue';
@@ -39,22 +37,21 @@ defineOptions({
 interface DefineEmits {
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:value', value: SelectValue): void;
-  (e: 'update', value: SelectValue, list: unknown[]): void;
+  (e: 'update', value: SelectValue): void;
 }
 
 const emit = defineEmits<DefineEmits>();
 
-interface DefineProps extends ApiSelectParam {
+interface DefineProps extends BasicSelectParam {
   modelValue?: SelectValue;
   value?: SelectValue;
-  componentProps?: ApiTreeSelectProps;
+  componentProps?: BasicTreeSelectProps;
   onDropdownVisibleChange?: (open: boolean) => void
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {});
 
-const attrs: ApiTreeSelectProps = useAttrs();
-const options = ref<TreeSelectProps['treeData']>([]);
+const attrs: BasicTreeSelectProps = useAttrs();
 const selectValue = ref(props.value || props.modelValue);
 const isLoading = ref(false);
 
@@ -62,29 +59,12 @@ const optionFilterLabel = computed(() => {
   return props.componentProps?.fieldNames?.label || attrs?.fieldNames?.label || 'label';
 });
 
-onMounted(() => {
-  // 首次有值获取API接口
-  if ((props.value || props.modelValue) && options.value?.length === 0) {
-    getApiData();
-  }
-});
-
 watch(() => props.value, value => {
   selectValue.value = value;
-
-  // 首次有值获取API接口
-  if (value && options.value?.length === 0) {
-    getApiData();
-  }
 });
 
 watch(() => props.modelValue, value => {
   selectValue.value = value;
-
-  // 首次有值获取API接口
-  if (value && options.value?.length === 0) {
-    getApiData();
-  }
 });
 
 /**
@@ -108,27 +88,6 @@ const handleSpliceLabel = (data: unknown[]) => {
   return data;
 };
 
-/** 获取接口数据 */
-const getApiData = async () => {
-  if (!props.api) return;
-  try {
-    const { api, params, apiResultKey } = props;
-    isLoading.value = true;
-    const { code, data } = await api(params);
-    if (Number(code) !== 200) return;
-    const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
-
-    // 如果存在拼接数据
-    if (props.spliceLabel?.length) {
-      handleSpliceLabel(result as unknown[]);
-    }
-
-    options.value = (result || []) as DefaultOptionType[];
-  } finally {
-    isLoading.value = false;
-  }
-};
-
 /**
  * 处理下拉显示
  * @param open - 开关
@@ -136,8 +95,6 @@ const getApiData = async () => {
 const handleDropdownVisibleChange = async (open: boolean) => {
   if (props?.onDropdownVisibleChange) {
     props.onDropdownVisibleChange?.(open);
-  } else if (open) {
-    getApiData();
   }
 };
 
@@ -148,6 +105,6 @@ const handleDropdownVisibleChange = async (open: boolean) => {
 const handleUpdateValue = (value: SelectValue) => {
   emit('update:modelValue', value);
   emit('update:value', value);
-  emit('update', value, options.value as unknown[]);
+  emit('update', value);
 };
 </script>

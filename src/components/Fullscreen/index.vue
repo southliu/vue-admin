@@ -1,5 +1,5 @@
 <template>
-  <Tooltip>
+  <Tooltip placement="bottom">
     <template #title>{{ !isFullscreen ? '全屏' : '退出全屏' }}</template>
     <div
       class="flex items-center justify-center text-lg mr-10px cursor-pointer"

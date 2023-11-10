@@ -1,5 +1,5 @@
 <template>
-  <Tooltip>
+  <Tooltip placement="bottom">
     <template #title>数据大屏</template>
     <div @click="goDataScreen">
       <Icon
