@@ -5,7 +5,7 @@ import { useRoute } from 'vue-router';
 import { setTitle } from '@/utils/helper';
 import { useTabStore } from '@/stores/tabs';
 import { useMenuStore } from '@/stores/menu';
-import { getMenuName, getOpenMenuByRouter } from '@/menus/utils/helper';
+import { getMenuName, getOpenMenuByRouter } from '@/utils/menu';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 
 /**

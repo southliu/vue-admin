@@ -1,4 +1,3 @@
-import type { PageServerResult, PaginationData, TableData } from '#/public';
 import type { SystemMenuTree } from '@/pages/system/menu/model';
 import type { DataNode } from 'ant-design-vue/lib/tree';
 import type { Key } from 'ant-design-vue/lib/vc-tree/interface';

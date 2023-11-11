@@ -19,6 +19,7 @@
       "#/*": ["types/*"]
     },
     "types": [
+      "node",
       "vite/client",
       "vite-plugin-pages/client",
     ]

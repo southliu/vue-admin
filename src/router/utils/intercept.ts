@@ -7,7 +7,7 @@ import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { routeToKeepalive } from "./helper";
 import { useMenuStore } from "@/stores/menu";
-import { getFirstMenu } from '@/menus/utils/helper';
+import { getFirstMenu } from '@/utils/menu';
 import NProgress from 'nprogress';
 import pinia from '../../stores';
 

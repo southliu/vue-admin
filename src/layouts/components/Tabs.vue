@@ -143,7 +143,7 @@ import {
 } from 'ant-design-vue';
 import DropdownMenu from './DropdownMenu.vue';
 import { useUserStore } from '@/stores/user';
-import { getMenuByKey } from '@/menus/utils/helper';
+import { getMenuByKey } from '@/utils/menu';
 import { routeToKeepalive } from '@/router/utils/helper';
 import { useMenuStore } from '@/stores/menu';
 

@@ -35,7 +35,6 @@ declare module '@vue/runtime-core' {
     Fullscreen: typeof import('./src/components/Fullscreen/index.vue')['default']
     GameSelect: typeof import('./src/components/Business/Selects/GameSelect.vue')['default']
     GlobalSearch: typeof import('./src/components/GlobalSearch/index.vue')['default']
-    Icon: typeof import('./src/components/Icon/index.vue')['default']
     PageLoading: typeof import('./src/components/Loading/PageLoading.vue')['default']
     PartnerSelect: typeof import('./src/components/Business/Selects/PartnerSelect.vue')['default']
     PasswordStrength: typeof import('./src/components/PasswordStrength/index.vue')['default']

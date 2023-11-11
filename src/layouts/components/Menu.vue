@@ -59,7 +59,7 @@ import {
   getMenuName,
   getOpenMenuByRouter,
   splitPath
-} from '@/menus/utils/helper';
+} from '@/utils/menu';
 import MenuChildren from './MenuChildren.vue';
 import Logo from '@/assets/images/logo.png';
 

@@ -1,7 +1,7 @@
 import type { TabPaneProps } from 'ant-design-vue';
 import { defineStore } from 'pinia';
 import { useMenuStore } from './menu';
-import { getFirstTab } from '@/menus/utils/helper';
+import { getFirstTab } from '@/utils/menu';
 
 export interface TabsData extends Omit<TabPaneProps, 'tab'> {
   key: string;
