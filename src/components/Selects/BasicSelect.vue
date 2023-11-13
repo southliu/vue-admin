@@ -1,13 +1,13 @@
 <template>
   <Select
+    v-model:value="selectValue"
     allowClear
     showSearch
     :maxTagCount="MAX_TAG_COUNT"
     :placeholder="PLEASE_SELECT"
     :optionFilterProp="optionFilterLabel"
-    :value="selectValue"
     v-bind="{ ...attrs, ...componentProps }"
-    @update:value="handleUpdateValue"
+    @change="handleChange"
     @dropdownVisibleChange="handleDropdownVisibleChange"
   >
     <template v-if="isLoading" #notFoundContent>
@@ -68,7 +68,7 @@ watch(() => props.modelValue, value => {
  * 处理值变化
  * @param value - 值
  */
-const handleUpdateValue = (value: SelectValue) => {
+const handleChange = (value: SelectValue) => {
   emit('update:modelValue', value);
   emit('update:value', value);
   emit('update', value);

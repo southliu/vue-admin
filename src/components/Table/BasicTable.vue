@@ -4,6 +4,7 @@
       :maxHeight="tableHeight"
       v-bind="gridOptions"
       :loading="isLoading"
+      :minHeight="40"
       :data="data"
     >
       <Column
@@ -11,7 +12,7 @@
         :key="item.field"
         v-bind="item"
       >
-        <template #default="{ row }">
+        <template v-if="!item.type" #default="{ row }">
           <template v-if="item.slots">
             <slot
               v-for="slot in slotList"
