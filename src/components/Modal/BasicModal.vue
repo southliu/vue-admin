@@ -11,7 +11,7 @@
       <div class="">
         <div class="h-full flex items-center justify-center :hover:text-white text-#000">
           <Tooltip
-            class="p-5px font-16px text-#00000073 hover:text-#404040"
+            class="min-w-30px p-5px font-16px text-#00000073 hover:text-#404040"
             placement="bottom"
             @click="onFullscreen"
           >
@@ -31,14 +31,14 @@
           </Tooltip>
 
           <Tooltip
-            class="p-5px font-16px text-#00000073 hover:text-#404040"
+            class="min-w-30px p-5px font-16px text-#00000073 hover:text-#404040"
             placement="bottom"
             @click="onCancel"
           >
             <template #title>
               <span>关闭</span>
             </template>
-            <Icon class="text-27px" icon="ant-design:close-outlined" />
+            <Icon class="text-27px mb-5px" icon="ant-design:close-outlined" />
           </Tooltip>
         </div>
       </div>

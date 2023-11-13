@@ -14,6 +14,7 @@ import type { RuleObject } from 'ant-design-vue/lib/form';
 import type { BusinessComponentType } from '@/components/Business';
 import type { WangEditorProps } from '@/components/WangEditor/model';
 import type { SelectValue } from "ant-design-vue/es/select";
+import type { HTMLAttributes } from "vue";
 
 // 数据类型
 export type FormData = Record<string, unknown>
@@ -104,7 +105,8 @@ export type ComponentProps = InputProps |
                               SliderProps |
                               ApiSelectProps |
                               ApiTreeSelectProps |
-                              WangEditorProps
+                              WangEditorProps |
+                              HTMLAttributes
 
 // 表单规则
 export type FormRule = RuleObject & {
@@ -115,6 +117,7 @@ export type FormRule = RuleObject & {
 export type FormList = {
   name: string | string[]; // 表单域字段
   label: string; // 标签
+  unit?: string; // 单位
   slotName?: string; // 插槽名称
   placeholder?: string; // 占位符
   hidden?: boolean; // 是否隐藏

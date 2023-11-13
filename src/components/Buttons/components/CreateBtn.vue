@@ -1,27 +1,28 @@
 <template>
-  <contextHolder />
   <Button
-    danger
     :loading="isLoading"
     v-bind="attrs"
     :type="type || 'primary'"
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
-    <span>{{ content || '删除' }}</span>
+    <template #icon>
+      <PlusOutlined />
+    </template>
+    <span>{{ content || '新增' }}</span>
   </Button>
 </template>
 
 <script lang="ts" setup>
 import type { ButtonProps } from 'ant-design-vue/lib/button';
-import { createVNode, useAttrs } from 'vue';
-import { Button, Modal } from 'ant-design-vue';
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { useAttrs } from 'vue';
+import { Button } from 'ant-design-vue';
+import { PlusOutlined } from '@ant-design/icons-vue';
 
 interface DefineEmits {
   (e: 'click'): void;
 }
-
+ 
 const emit = defineEmits<DefineEmits>();
 
 interface DefineProps extends ButtonProps {
@@ -35,20 +36,9 @@ withDefaults(defineProps<DefineProps>(), {
 });
 
 const attrs = useAttrs();
-const [modal, contextHolder] = Modal.useModal();
 
-/** 点击删除 */
+/** 点击编辑 */
 const onClick = () => {
-  modal.confirm({
-    title: '提示',
-    icon: createVNode(ExclamationCircleOutlined),
-    content: '确定要删除吗?',
-    okText: '确认',
-    okType: 'danger',
-    cancelText: '取消',
-    onOk() {
-      emit('click');
-    }
-  });
+  emit('click');
 };
 </script>

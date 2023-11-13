@@ -6,7 +6,7 @@
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
-    编辑
+    <span>{{ content || '编辑' }}</span>
   </Button>
 </template>
 
@@ -23,6 +23,7 @@ const emit = defineEmits<DefineEmits>();
 
 interface DefineProps extends ButtonProps {
   isLoading?: boolean;
+  content?: string;
   type?: ButtonProps['type']
 }
 
