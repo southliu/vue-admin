@@ -25,6 +25,7 @@ import type { ApiSelectParam, ApiSelectProps } from '#/form';
 import type { DefaultOptionType, SelectValue } from 'ant-design-vue/lib/select';
 import { onMounted, computed, useAttrs, watch, ref } from 'vue';
 import { Select } from 'ant-design-vue';
+import { handleSpliceLabel } from './utils/helper';
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config';
 import BasicLoading from '../Loading/BasicLoading.vue';
 
@@ -83,23 +84,6 @@ watch(() => props.modelValue, value => {
   }
 });
 
-/**
- * 处理拼接名称
- * @param list - 列表
- */
-const handleSpliceLabel = (data: unknown[]) => {
-  const { spliceLabel } = props;
-  if (spliceLabel?.length !== 2) return [];
-
-  for (let i = 0; i < data?.length; i++) {
-    const item = data[i] as { [key: string]: unknown };
-    const value = item[spliceLabel[1]] ? `(${item[spliceLabel[1]]})` : '';
-    item.label = `${item[spliceLabel[0]]}${value}`;
-  }
-
-  return data;
-};
-
 /** 获取接口数据 */
 const getApiData = async () => {
   if (!props.api) return;
@@ -108,11 +92,11 @@ const getApiData = async () => {
     isLoading.value = true;
     const { code, data } = await api(params);
     if (Number(code) !== 200) return;
-    const result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
+    let result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
 
     // 如果存在拼接数据
     if (props.spliceLabel?.length) {
-      handleSpliceLabel(result as unknown[]);
+      result = handleSpliceLabel(result as DefaultOptionType[], props.spliceLabel);
     }
 
     options.value = (result || []) as DefaultOptionType[];

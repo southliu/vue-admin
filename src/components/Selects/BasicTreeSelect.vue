@@ -8,6 +8,7 @@
       :treeNodeFilterProp="optionFilterLabel"
       :showCheckedStrategy="SHOW_ALL"
       v-bind="{ ...attrs, ...componentProps }"
+      :treeData="treeData"
       @change="handleChange"
       @dropdownVisibleChange="handleDropdownVisibleChange"
   >
@@ -23,8 +24,10 @@
  */
 import type { BasicSelectParam, BasicTreeSelectProps } from '#/form';
 import type { SelectValue } from 'ant-design-vue/lib/select';
+import type { TreeSelectProps } from 'ant-design-vue/es/vc-tree-select/TreeSelect';
 import { computed, useAttrs, watch, ref } from 'vue';
 import { TreeSelect } from 'ant-design-vue';
+import { handleSpliceTreeLabel } from './utils/helper';
 import { PLEASE_SELECT, MAX_TAG_COUNT } from '@/utils/config';
 import BasicLoading from '../Loading/BasicLoading.vue';
 
@@ -37,7 +40,7 @@ defineOptions({
 interface DefineEmits {
   (e: 'update:modelValue', value: SelectValue): void;
   (e: 'update:value', value: SelectValue): void;
-  (e: 'update', value: SelectValue): void;
+  (e: 'update', value: SelectValue, list: unknown[]): void;
 }
 
 const emit = defineEmits<DefineEmits>();
@@ -54,6 +57,7 @@ const props = withDefaults(defineProps<DefineProps>(), {});
 const attrs: BasicTreeSelectProps = useAttrs();
 const selectValue = ref(props.value || props.modelValue);
 const isLoading = ref(false);
+const treeData = ref<TreeSelectProps['treeData']>(attrs.treeData || props.componentProps?.treeData || []);
 
 const optionFilterLabel = computed(() => {
   return props.componentProps?.fieldNames?.label || attrs?.fieldNames?.label || 'label';
@@ -67,26 +71,26 @@ watch(() => props.modelValue, value => {
   selectValue.value = value;
 });
 
-/**
- * 处理拼接名称
- * @param list - 列表
- */
-const handleSpliceLabel = (data: unknown[]) => {
-  const { spliceLabel } = props;
-  if (spliceLabel?.length !== 2) return [];
-
-  for (let i = 0; i < data?.length; i++) {
-    const item = data[i] as { [key: string]: unknown };
-    const value = item[spliceLabel[1]] ? `(${item[spliceLabel[1]]})` : '';
-    item.label = `${item[spliceLabel[0]]}${value}`;
-
-    if ((item.children as unknown[])?.length) {
-      item.children = handleSpliceLabel(item.children as unknown[]);
-    }
+watch(() => [
+  props.spliceLabel,
+  props.componentProps?.treeData,
+  attrs?.treeData
+], () => {
+  if (attrs.treeData) {
+    treeData.value = attrs.treeData || [];
+  }
+  if (props.componentProps?.treeData) {
+    treeData.value = props.componentProps?.treeData || [];
   }
 
-  return data;
-};
+  if (props.spliceLabel?.length === 2 && props.componentProps?.treeData?.length) {
+    treeData.value = handleSpliceTreeLabel(props.componentProps.treeData, props.spliceLabel);
+    return;
+  }
+  if (props.spliceLabel?.length === 2 && attrs?.treeData?.length) {
+    treeData.value = handleSpliceTreeLabel(attrs.treeData, props.spliceLabel);
+  }
+});
 
 /**
  * 处理下拉显示
@@ -105,6 +109,6 @@ const handleDropdownVisibleChange = async (open: boolean) => {
 const handleChange = (value: SelectValue) => {
   emit('update:modelValue', value);
   emit('update:value', value);
-  emit('update', value);
+  emit('update', value, treeData.value as unknown[]);
 };
 </script>
