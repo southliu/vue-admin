@@ -57,7 +57,7 @@
     class="con transition-all overflow-auto"
     :class="{ 
       'con-close-menu': isCollapsed, 
-      'con-isMaximize': isMaximize,
+      'con-maximize': isMaximize,
       'con-phone': isPhone,
       'z-1': isPhone && !isCollapsed
     }"
@@ -274,7 +274,7 @@ defineExpose({
 
 .con {
   width: calc(100% - @layoutLeft);
-  min-height: calc(100vh - 4.8rem);
+  min-height: calc(100vh - @layoutTop);
   position: relative;
   left: @layoutLeft;
   top: @layoutTop;
@@ -287,7 +287,9 @@ defineExpose({
   left: @layoutLeftClose;
 }
 
-.con-isMaximize {
+.con-maximize {
+  width: 100% !important;
+  min-height: calc(100vh - 40px);
   left: 0 !important;
   top: calc(@layoutTop / 2);
 }
