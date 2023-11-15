@@ -5,7 +5,6 @@ export type ThemeType = 'light' | 'dark';
 interface StateData {
   isRefreshPage: boolean;
   themeType: ThemeType;
-  routerList: Record<string, { name?: string }>;
 }
 
 export const usePublicStore = defineStore({
@@ -13,7 +12,6 @@ export const usePublicStore = defineStore({
   state: () => ({
     isRefreshPage: false,
     themeType: 'light',
-    routerList: import.meta.glob('../pages/**/*.vue', { import: 'default', eager: true }) as Record<string, { name?: string }>
   } as StateData),
   actions: {
     /**
@@ -22,13 +20,6 @@ export const usePublicStore = defineStore({
      */
     setRefreshPage(isRefresh: boolean) {
       this.isRefreshPage = isRefresh;
-    },
-    /**
-     * 设置路由列表数据
-     * @param data - 路由数据
-     */
-    setRouterList(data: Record<string, { name?: string }>) {
-      this.routerList = data;
     },
     /**
      * 设置主题

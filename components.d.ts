@@ -26,6 +26,7 @@ declare module '@vue/runtime-core' {
     Copy: typeof import('./src/components/Copy/index.vue')['default']
     CopyBtn: typeof import('./src/components/Copy/CopyBtn.vue')['default']
     Count: typeof import('./src/components/Count/index.vue')['default']
+    CreateBtn: typeof import('./src/components/Buttons/components/CreateBtn.vue')['default']
     DataScreen: typeof import('./src/components/DataScreen/index.vue')['default']
     DateBtn: typeof import('./src/components/Business/Buttons/DateBtn.vue')['default']
     DeleteBtn: typeof import('./src/components/Buttons/components/DeleteBtn.vue')['default']
