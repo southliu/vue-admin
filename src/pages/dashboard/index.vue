@@ -53,7 +53,7 @@ const datum = ref<DashboardResult>({
 
 // 搜索数据
 const searchData = ref<FormData>({
-  pay_date: dayjs().format(DATE_FORMAT),
+  pay_date: [dayjs().subtract(7, 'day').format(DATE_FORMAT), dayjs().format(DATE_FORMAT)],
   all_pay: true,
   package_types: [0]
 });

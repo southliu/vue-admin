@@ -5,7 +5,9 @@
     :layout="layout"
     :mask-closable="false"
     :loading="isLoading"
+    v-bind="attrs"
     :wrapClassName="isFullscreen ? 'full-modal' : ''"
+    @cancel="onCancel"
   >
     <template #closeIcon>
       <div class="">
@@ -13,7 +15,7 @@
           <Tooltip
             class="min-w-30px p-5px font-16px text-#00000073 hover:text-#404040"
             placement="bottom"
-            @click="onFullscreen"
+            @click.stop="onFullscreen"
           >
             <template #title>
               <span>{{ isFullscreen ? '退出最大化' : '最大化' }}</span>
@@ -51,7 +53,7 @@
     </template>
 
     <Spin :spinning="isLoading">
-      <div class="pt-15px">
+      <div class="pt-20px">
         <slot></slot>
       </div>
     </Spin>
@@ -71,7 +73,8 @@
 </template>
 
 <script lang="ts" setup>
-import { nextTick, ref, watch } from 'vue';
+import type { ModalProps } from 'ant-design-vue';
+import { nextTick, ref, watch, useAttrs } from 'vue';
 import { Modal, Tooltip, Button, Spin } from 'ant-design-vue';
 import { useModalDragMove } from './hooks/useModalDrag';
 import { useDebounceFn } from '@vueuse/core';
@@ -87,6 +90,7 @@ const emit = defineEmits<DefineEmits>();
 interface DefineProps {
   isOpen: boolean;
   width?: string | number;
+  modelStyle?: string;
   layout?: 'horizontal'|'vertical'|'inline';
   title: string;
   isPermission?: boolean; // 权限控制
@@ -99,6 +103,8 @@ const props = withDefaults(defineProps<DefineProps>(), {
   width: 520,
   layout: 'horizontal'
 });
+
+const attrs: ModalProps = useAttrs();
 
 // 是否最大化
 const isFullscreen = ref(false);

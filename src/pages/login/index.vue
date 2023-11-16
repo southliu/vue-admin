@@ -129,9 +129,6 @@ const getUserMenu = async (permissions: string[]) => {
     const { code, data } = await getSystemMenuTree({ isLayout: true });
     if (Number(code) !== 200) return;
     const menuData = handleFilterApiMenu(data, permissions);
-    console.log('menuData:', menuData)
-    console.log('permissions:', permissions)
-    console.log('data:', data)
     setMenus(menuData);
     return menuData;
   } finally {

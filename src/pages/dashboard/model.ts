@@ -11,7 +11,7 @@ export const searchList: FormList[] = [
   {
     label: '日期',
     name: 'pay_date',
-    component: 'DatePicker',
+    component: 'RangePicker',
     componentProps: {
       allowClear: false,
       format: DATE_FORMAT

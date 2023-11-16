@@ -11,7 +11,10 @@ import dayjs from 'dayjs';
  * 生成占位符
  * @param component - 组件名
  */
-export function createPlaceholder(component: ComponentType): string {
+export function createPlaceholder(component: ComponentType): string | string[] {
+  if (component.includes('RangePicker')) {
+    return ['开始日期', '结束日期'];
+  }
   if (component.includes('Select') || component.includes('Picker')) {
     return PLEASE_SELECT;
   }

@@ -1,7 +1,7 @@
 <template>
   <div class='
     bg-white
-    fixed
+    absolute
     flex
     justify-end
     left-0
@@ -10,8 +10,10 @@
     py-5px
     px-30px
     box-border
-    shadow
-    shadow-gray-500
+    b-t
+    b-#ececec
+    rounded-b-2
+    z-999
   '>
     <Button
       danger
@@ -33,7 +35,6 @@
 <script lang="ts" setup>
 import { Button } from 'ant-design-vue';
 
-//组件发送事件类型
 interface DefineProps {
   isLoading?: boolean;
   goBack: () => void;
