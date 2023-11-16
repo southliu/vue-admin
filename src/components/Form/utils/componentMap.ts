@@ -11,9 +11,9 @@ import {
   RadioGroup,
   Switch,
   DatePicker,
+  RangePicker,
   Rate,
   Slider,
-  Upload,
   Textarea
 } from 'ant-design-vue';
 import BasicSelect from '@/components/Selects/BasicSelect.vue';
@@ -22,6 +22,8 @@ import ApiSelect from '@/components/Selects/ApiSelect.vue';
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue';
 import WangEditor from '@/components/WangEditor/index.vue';
 import PasswordStrength from '@/components/PasswordStrength/index.vue';
+import UploadFile from '@/components/Upload/UploadFile.vue';
+import UploadImage from '@/components/Upload/UploadImage.vue';
 
 const componentMap = new Map<ComponentType, Component>();
 
@@ -37,9 +39,11 @@ componentMap.set('CheckboxGroup', CheckboxGroup);
 componentMap.set('RadioGroup', RadioGroup);
 componentMap.set('Switch', Switch);
 componentMap.set('DatePicker', DatePicker);
+componentMap.set('RangePicker', RangePicker);
 componentMap.set('Rate', Rate);
 componentMap.set('Slider', Slider);
-componentMap.set('Upload', Upload);
+componentMap.set('UploadFile', UploadFile);
+componentMap.set('UploadImage', UploadImage);
 componentMap.set('Textarea', Textarea);
 
 // 自定义组件注入

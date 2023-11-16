@@ -17,6 +17,12 @@
       {{ item.unit }}
     </span>
   </div>
+  <div
+    v-if="item.description"
+    class="text-#999 text-14px mt-3px"
+  >
+    {{ item.description }}
+  </div>
 </template>
 
 <script lang="ts" setup>

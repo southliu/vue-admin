@@ -59,12 +59,8 @@ const optionFilterLabel = computed(() => {
   return props.componentProps?.fieldNames?.label || attrs?.fieldNames?.label || 'label';
 });
 
-watch(() => props.value, value => {
-  selectValue.value = value;
-});
-
-watch(() => props.modelValue, value => {
-  selectValue.value = value;
+watch(() => [props.modelValue, props.value], () => {
+  selectValue.value = props.modelValue ?? props.value;
 });
 
 watch(() => [

@@ -1,16 +1,16 @@
 <template>
   <TreeSelect
-      v-model:value="selectValue"
-      allowClear
-      showSearch
-      :maxTagCount="MAX_TAG_COUNT"
-      :placeholder="PLEASE_SELECT"
-      :treeNodeFilterProp="optionFilterLabel"
-      :showCheckedStrategy="SHOW_ALL"
-      v-bind="{ ...attrs, ...componentProps }"
-      :treeData="treeData"
-      @change="handleChange"
-      @dropdownVisibleChange="handleDropdownVisibleChange"
+    v-model:value="selectValue"
+    allowClear
+    showSearch
+    :maxTagCount="MAX_TAG_COUNT"
+    :placeholder="PLEASE_SELECT"
+    :treeNodeFilterProp="optionFilterLabel"
+    :showCheckedStrategy="SHOW_ALL"
+    v-bind="{ ...attrs, ...componentProps }"
+    :treeData="treeData"
+    @change="handleChange"
+    @dropdownVisibleChange="handleDropdownVisibleChange"
   >
     <template v-if="isLoading" #notFoundContent>
       <BasicLoading />
@@ -70,20 +70,11 @@ onMounted(() => {
   }
 });
 
-watch(() => props.value, value => {
-  selectValue.value = value;
+watch(() => [props.modelValue, props.value], () => {
+  selectValue.value = props.modelValue ?? props.value;
 
   // 首次有值获取API接口
-  if (value && treeData.value?.length === 0) {
-    getApiData();
-  }
-});
-
-watch(() => props.modelValue, value => {
-  selectValue.value = value;
-
-  // 首次有值获取API接口
-  if (value && treeData.value?.length === 0) {
+  if ((selectValue.value) && treeData.value?.length === 0) {
     getApiData();
   }
 });

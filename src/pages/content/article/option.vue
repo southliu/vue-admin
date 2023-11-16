@@ -28,6 +28,7 @@ import { fatherPath, createList, pagePermission } from './model';
 import { useTabStore } from '@/stores/tabs';
 import { usePublicStore } from '@/stores/public';
 import { message, Spin } from 'ant-design-vue';
+import { useSingleTab } from '@/hooks/useSingleTab';
 import {
  getArticleById,
  createArticle,
@@ -36,7 +37,6 @@ import {
 import BasicForm from '@/components/Form/BasicForm.vue';
 import BasicContent from '@/components/Content/BasicContent.vue';
 import SubmitBottom from '@/components/Bottom/SubmitBottom.vue';
-import { useSingleTab } from '@/hooks/useSingleTab';
 
 defineOptions({
   name: 'ContentArticleOption'

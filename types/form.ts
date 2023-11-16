@@ -42,7 +42,7 @@ type RadioComponents = 'RadioGroup' | 'Switch'
 type TimeComponents = 'DatePicker' | 'RangePicker'
 
 // 上传组件
-type UploadComponents = 'Upload'
+type UploadComponents = 'UploadFile' | 'UploadImage'
 
 // 星级组件
 type RateComponents = 'Rate'
@@ -119,12 +119,13 @@ export type FormList = {
   label: string; // 标签
   unit?: string; // 单位
   slotName?: string; // 插槽名称
-  placeholder?: string; // 占位符
+  placeholder?: string | string[]; // 占位符
   hidden?: boolean; // 是否隐藏
   rules?: FormRule[]; // 规则
   labelCol?: number; // label宽度
   wrapperCol?: number; // 内容宽度
   component: ComponentType; // 组件
   componentProps?: ComponentProps; // 组件参数
-  render?: any; // 自定义渲染
+  render?: unknown; // 自定义渲染
+  description?: string; // 描述
 }

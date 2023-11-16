@@ -39,6 +39,7 @@ declare module '@vue/runtime-core' {
     PageLoading: typeof import('./src/components/Loading/PageLoading.vue')['default']
     PartnerSelect: typeof import('./src/components/Business/Selects/PartnerSelect.vue')['default']
     PasswordStrength: typeof import('./src/components/PasswordStrength/index.vue')['default']
+    PreviewImage: typeof import('./src/components/Upload/components/PreviewImage.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     SearchFooter: typeof import('./src/components/GlobalSearch/components/SearchFooter.vue')['default']
@@ -49,6 +50,8 @@ declare module '@vue/runtime-core' {
     Theme: typeof import('./src/components/Theme/index.vue')['default']
     UpdateBtn: typeof import('./src/components/Buttons/components/UpdateBtn.vue')['default']
     UpdatePassword: typeof import('./src/components/UpdatePassword/index.vue')['default']
+    UploadFile: typeof import('./src/components/Upload/UploadFile.vue')['default']
+    UploadImage: typeof import('./src/components/Upload/UploadImage.vue')['default']
     WangEditor: typeof import('./src/components/WangEditor/index.vue')['default']
   }
 }
