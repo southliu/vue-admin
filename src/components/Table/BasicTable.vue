@@ -42,7 +42,11 @@
 
 <script lang="ts" setup>
 import type { TableData, TableProps } from '#/public';
-import type { VxeTableProps, VxeColumnPropTypes } from 'vxe-table';
+import type {
+  VxeTableProps,
+  VxeColumnPropTypes,
+  VxeTableEventProps
+} from 'vxe-table';
 import {
   ref,
   reactive,
@@ -55,7 +59,7 @@ import { handleEchoArr, handleEchoColor } from '@/utils/helper';
 import { useDebounceFn } from '@vueuse/core';
 import { EMPTY_VALUE } from '@/utils/config';
 
-interface DefineProps extends VxeTableProps {
+interface DefineProps extends VxeTableProps, VxeTableEventProps {
   id?: string;
   data: TableData[];
   columns: TableProps[];
@@ -97,8 +101,26 @@ onUnmounted(() => {
   }
 });
 
+/** 获取props全部方法 */
+type FunctionProps = { [key: string]: unknown };
+const getAllFunction = () => {
+  const result: FunctionProps = {};
+
+  for (const key in props) {
+    const pref = key.substring(0, 2);
+
+    // 如果是方法
+    if (pref === 'on' && (props as FunctionProps)[key]) {
+      result[key] = (props as FunctionProps)[key];
+    }
+  }
+
+  return result;
+};
+
 // 表格参数
 const gridOptions = reactive<VxeTableProps>({
+  ...getAllFunction(),
   border: true, // 边框
   showOverflow: true, // 内容过长时显示为省略号
   showHeaderOverflow: true, // 表头所有内容过长时显示为省略号

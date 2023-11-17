@@ -56,12 +56,14 @@ interface DefineProps {
   height?: number;
   text?: string;
   accept?: string;
+  fileSize?: number; // 限制上传文件大小(MB)
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {
   width: 128,
   height: 128,
-  accept: 'image/png, image/jpeg'
+  accept: 'image/png,image/jpeg',
+  fileSize: 2
 });
 
 function getBase64(img: Blob, callback: (base64Url: string) => void) {
@@ -106,15 +108,17 @@ const handleChange = (info: UploadChangeParam) => {
 };
 
 const beforeUpload: UploadProps['beforeUpload'] = (file) => {
-  const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-  if (!isJpgOrPng) {
+  const acceptArr = props.accept?.split(',');
+  acceptArr.forEach((item) => item?.trim());
+  const isFileOrPng = acceptArr.includes(file.type);
+  if (!isFileOrPng) {
     message.error('只能上传图片格式文件!');
   }
-  const isLt2M = file.size / 1024 / 1024 < 2;
-  if (!isLt2M) {
-    message.error('图片不能大雨2MB!');
+  const isMaxFileSize = file.size / 1024 / 1024 < props.fileSize;
+  if (!isMaxFileSize) {
+    message.error(`图片不能大于${props.fileSize}MB!`);
   }
-  return isJpgOrPng && isLt2M;
+  return isFileOrPng && isMaxFileSize;
 };
 
 /** 处理删除 */
