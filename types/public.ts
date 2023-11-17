@@ -71,3 +71,13 @@ export interface PageServerResult<T = unknown[]> {
   items: T,
   total: number
 }
+
+// 某个字段变为可选
+export type PartialByKeys<T, K extends keyof T> = {
+	[P in K]?: T[P];
+} & Omit<T, K>
+
+// 某个字段变为必选
+export type RequiredByKeys<T, K extends keyof T> = {
+	[P in K]: T[P];
+} & Omit<T, K>
