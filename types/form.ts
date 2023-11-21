@@ -1,13 +1,16 @@
 import type {
   InputProps,
+  InputNumberProps,
   SelectProps,
   TreeSelectProps,
   RadioProps,
+  RadioGroupProps,
   CheckboxGroupProps,
   DatePickerProps,
   UploadProps,
   RateProps,
-  SliderProps
+  SliderProps,
+  CascaderProps
 } from "ant-design-vue";
 import type { ServerResult } from './public';
 import type { RuleObject } from 'ant-design-vue/lib/form';
@@ -95,14 +98,17 @@ export type BasicTreeSelectProps = BasicSelectParam & TreeSelectProps
 
 // 组件参数
 export type ComponentProps = InputProps |
+                              InputNumberProps |
                               SelectProps |
                               TreeSelectProps |
                               CheckboxGroupProps |
                               RadioProps |
+                              RadioGroupProps |
                               DatePickerProps |
                               UploadProps |
                               RateProps |
                               SliderProps |
+                              CascaderProps |
                               ApiSelectProps |
                               ApiTreeSelectProps |
                               WangEditorProps |

@@ -110,9 +110,20 @@ const handleChange = (info: UploadChangeParam) => {
 const beforeUpload: UploadProps['beforeUpload'] = (file) => {
   const acceptArr = props.accept?.split(',');
   acceptArr.forEach((item) => item?.trim());
-  const isFileOrPng = acceptArr.includes(file.type);
+  let isFileOrPng = acceptArr.includes(file.type);
   if (!isFileOrPng) {
-    message.error('只能上传图片格式文件!');
+    for (let i = 0; i < acceptArr?.length; i++) {
+      const item = acceptArr[i];
+      if (item.includes('.')) {
+        const newArr = item?.split('.');
+        const newType = newArr?.[newArr?.length - 1] || '';
+        if (file.type.includes(newType)) {
+          isFileOrPng = true;
+          break;
+        }
+      }
+    }
+    if (!isFileOrPng) message.error('只能上传图片格式文件!');
   }
   const isMaxFileSize = file.size / 1024 / 1024 < props.fileSize;
   if (!isMaxFileSize) {
