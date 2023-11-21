@@ -40,7 +40,7 @@
           <template #icon>
             <SearchOutlined />
           </template>
-          <span>搜索</span>
+          <span>{{ searchText }}</span>
         </Button>
       </FormItem>
 
@@ -53,7 +53,7 @@
           <template #icon>
             <PlusOutlined />
           </template>
-          <span>新增</span>
+          <span>{{ createText }}</span>
         </Button>
       </FormItem>
 
@@ -93,10 +93,14 @@ interface DefineProps {
   isLoading?: boolean;
   isSearch?: boolean;
   isCreate?: boolean;
+  createText?: string; // 新增文本
+  searchText?: string; // 搜索文本
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {
   isSearch: true,
+  createText: '新增',
+  searchText: '搜索'
 });
 
 const formRef = ref<FormInstance>();

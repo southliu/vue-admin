@@ -112,9 +112,9 @@ export const useTabStore = defineStore({
       if (targetKey === this.activeKey) {
         let target = '';
         if (index === 0) {
-          target = this.tabs[index].key;
+          target = this.tabs[index]?.key;
         } else {
-          target = this.tabs[index - 1].key;
+          target = this.tabs[index - 1]?.key;
         }
         this.activeKey = target;
       }

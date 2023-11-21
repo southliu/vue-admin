@@ -30,6 +30,13 @@
         />
 
         <slot v-else :name="item.slotName" />
+
+        <div
+          v-if="item.description"
+          class="text-#999 text-14px mt-3px"
+        >
+          {{ item.description }}
+        </div>
       </FormItem>
 
       <slot name="otherBtn"></slot>

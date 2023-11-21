@@ -22,8 +22,8 @@ import ApiSelect from '@/components/Selects/ApiSelect.vue';
 import ApiTreeSelect from '@/components/Selects/ApiTreeSelect.vue';
 import WangEditor from '@/components/WangEditor/index.vue';
 import PasswordStrength from '@/components/PasswordStrength/index.vue';
-import UploadFile from '@/components/Upload/UploadFile.vue';
-import UploadImage from '@/components/Upload/UploadImage.vue';
+import BasicUploadFile from '@/components/Upload/BasicUploadFile.vue';
+import BasicUploadImage from '@/components/Upload/BasicUploadImage.vue';
 
 const componentMap = new Map<ComponentType, Component>();
 
@@ -42,8 +42,8 @@ componentMap.set('DatePicker', DatePicker);
 componentMap.set('RangePicker', RangePicker);
 componentMap.set('Rate', Rate);
 componentMap.set('Slider', Slider);
-componentMap.set('UploadFile', UploadFile);
-componentMap.set('UploadImage', UploadImage);
+componentMap.set('UploadFile', BasicUploadFile);
+componentMap.set('UploadImage', BasicUploadImage);
 componentMap.set('Textarea', Textarea);
 
 // 自定义组件注入

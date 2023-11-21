@@ -35,11 +35,11 @@ export interface SearchData {
 }
 
 // 新增数据
-export interface CreateData {
+export interface CreateData<T = FormData> {
   id: string;
   isOpen: boolean;
   title: string;
-  data: FormData;
+  data: T;
   type?: 'create' | 'update';
 }
 

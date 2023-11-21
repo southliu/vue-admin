@@ -14,4 +14,3 @@ dist
 Dockerfile
 .eslintrc.json
 .commitlintrc.json
-components.d.ts
