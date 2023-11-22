@@ -9,6 +9,8 @@ export interface TabsData extends Omit<TabPaneProps, 'tab'> {
 }
 
 interface TabsState {
+  // 缓存一次关闭标签键值
+  cacheCloseTabKey: string;
   // 当前选中的标签
   activeKey: string;
   // 上一个路径
@@ -28,6 +30,7 @@ export const useTabStore = defineStore({
   state: () => ({
     activeKey: '',
     prevPath: '',
+    cacheCloseTabKey: '',
     tabs: [],
     nav: [],
     cacheTabs: {},
@@ -93,6 +96,13 @@ export const useTabStore = defineStore({
       if (!has) {
         const key = getFirstTab(tab.key);
         this.tabs.push(tab);
+
+        // 如果存在缓存的删除标签
+        if (this.cacheCloseTabKey) {
+          this.closeTabs(this.cacheCloseTabKey);
+          this.cacheCloseTabKey = '';
+        }
+
         this.cacheTabs[`/${key}`] = this.tabs;
       }
 
@@ -104,6 +114,12 @@ export const useTabStore = defineStore({
      * @param targetKey - 标签唯一值
      */
     closeTabs(targetKey: string) {
+      // 当数组为空，首次进入需要关闭且异步未获取标签数据时，记录事件
+      if (!this.tabs?.length) {
+        this.cacheCloseTabKey = targetKey;
+        return;
+      }
+
       // 发现下标并从数组中删除
       const index = this.tabs.findIndex(item => item.key === targetKey);
       if (index >= 0) this.tabs.splice(index, 1);

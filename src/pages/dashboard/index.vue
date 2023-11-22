@@ -30,7 +30,7 @@ import type { DashboardResult } from './model';
 import { onActivated, ref } from 'vue';
 import { FormData } from '#/form';
 import { getDataTrends } from '@/servers/dashboard';
-import { DATE_FORMAT } from '@/utils/constants';
+import { DATE_FORMAT } from '@/utils/config';
 import { searchList } from './model';
 import { Spin } from 'ant-design-vue';
 import Line from './components/Line.vue';

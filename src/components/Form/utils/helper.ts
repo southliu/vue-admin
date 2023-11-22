@@ -3,8 +3,7 @@ import type { WangEditorProps } from '@/components/WangEditor/model';
 import type { DatePickerProps } from 'ant-design-vue';
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface';
 import type { Dayjs } from 'dayjs';
-import { PLEASE_ENTER, PLEASE_SELECT } from '@/utils/config';
-import { DATE_FORMAT } from '@/utils/constants';
+import { PLEASE_ENTER, PLEASE_SELECT, DATE_FORMAT } from '@/utils/config';
 import dayjs from 'dayjs';
 
 /**
@@ -106,7 +105,6 @@ export function getComponentProps(
       const dateValue = compData ? dayjs(compData as string) : undefined;
       return {
         defaultValue: dateValue,
-        value: dateValue,
         'onUpdate:value': (value: Dayjs | string) => {
           const format = (data?.format || DATE_FORMAT) as string;
           setData(key, (value as Dayjs).format(format));
@@ -120,7 +118,7 @@ export function getComponentProps(
         [dayjs((compData as [string, string])[0]), dayjs((compData as [string, string])[1])] : undefined;
       return {
         defaultValue: rangeValue,
-        value: rangeValue,
+        format: [DATE_FORMAT, DATE_FORMAT],
         'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
           const format = ((data as DatePickerProps)?.format || DATE_FORMAT) as string;
           const newValue = [

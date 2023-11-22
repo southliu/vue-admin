@@ -30,6 +30,13 @@
             >
               {{ handleEchoArr(row?.[item.field as string] ?? '', item.echoArr) ?? EMPTY_VALUE }}
             </span>
+
+            <TooltipText
+              v-else-if="item.tooltipKey"
+              :text="row?.[item.field as string]"
+              :tooltipText="row?.[item.tooltipKey as string]"
+            />
+
             <span v-else :title="row?.[item.field as string] ?? ''">
               {{ row?.[item.field as string] ?? EMPTY_VALUE }}
             </span>
@@ -58,6 +65,7 @@ import { useTableHeight } from './hooks/useTableHeight';
 import { handleEchoArr, handleEchoColor } from '@/utils/helper';
 import { useDebounceFn } from '@vueuse/core';
 import { EMPTY_VALUE } from '@/utils/config';
+import TooltipText from '../TooltipText/index.vue';
 
 interface DefineProps extends VxeTableProps, VxeTableEventProps {
   id?: string;
