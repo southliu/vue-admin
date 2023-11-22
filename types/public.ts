@@ -54,6 +54,7 @@ export interface PaginationData {
 export interface TableProps extends VxeColumnProps {
   slots?: VxeColumnPropTypes.Slots;
   echoArr?: IConstant[];
+  tooltipKey?: string; // 提示文本键名
 }
 
 // 表格数据

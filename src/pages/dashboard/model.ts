@@ -1,5 +1,5 @@
 import type { FormList } from "#/form";
-import { DATE_FORMAT } from "@/utils/constants";
+import { DATE_FORMAT } from "@/utils/config";
 
 // 接口返回数据
 export interface DashboardResult {

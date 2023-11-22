@@ -27,7 +27,7 @@
  * @result string[]
  */
 import { Button } from 'ant-design-vue';
-import { DATE_FORMAT } from '@/utils/constants';
+import { DATE_FORMAT } from '@/utils/config';
 import { Icon } from '@iconify/vue';
 import dayjs from 'dayjs';
 

@@ -218,7 +218,7 @@ watch(() => menuList.value, () => {
 // 监听选中标签
 watch(activeKey, value => {
   // 当选中贴标签不等于当前路由则跳转
-  if (value !== route.fullPath) {
+  if (value && value !== route.fullPath) {
     router.push(value);
   }
 });
