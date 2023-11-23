@@ -84,7 +84,7 @@ import type { Key } from 'ant-design-vue/lib/vc-tree/interface';
 import { message } from 'ant-design-vue';
 import { onActivated, reactive, shallowRef, ref } from 'vue';
 import { checkPermission } from '@/utils/permissions';
-import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
+import { ADD_TITLE, EDIT_TITLE, PAGE_SIZE } from '@/utils/config';
 import { UpdateBtn, DeleteBtn, BasicBtn } from '@/components/Buttons';
 import { getPermission, savePermission } from '@/servers/system/menu';
 import {
@@ -155,7 +155,7 @@ const tableData = ref<TableData[]>([]);
 const pagination = reactive<PaginationData>({
   total: 0,
   page: 1,
-  pageSize: 20,
+  pageSize: PAGE_SIZE,
 });
 
 onActivated(() => {

@@ -26,6 +26,7 @@
 </template>
 
 <script lang="ts" setup>
+import { PAGE_SIZE } from '@/utils/config';
 import { Pagination } from 'ant-design-vue';
 
 interface DefineEmits {
@@ -45,7 +46,7 @@ withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
   total: 0,
   page: 1,
-  pageSize: 20,
+  pageSize: PAGE_SIZE,
 });
 
 /**

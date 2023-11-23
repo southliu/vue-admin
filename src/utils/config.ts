@@ -16,6 +16,9 @@ export const FORM_REQUIRED = [{ required: true }]; // 表单必填校验
 export const DATE_FORMAT = 'YYYY/MM/DD';
 export const TIME_FORMAT = 'YYYY/MM/DD hh:mm:ss';
 
+// 分页总数
+export const PAGE_SIZE = 20;
+
 // 环境判断
 const ENV = import.meta.env.VITE_ENV as string;
 // 生成环境所用的接口

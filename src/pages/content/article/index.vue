@@ -53,6 +53,7 @@ import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
 import { pagePermission, searchList, tableColumns } from './model';
 import { checkPermission } from '@/utils/permissions';
 import { usePublicStore } from '@/stores/public';
+import { PAGE_SIZE } from '@/utils/config';
 import { storeToRefs } from 'pinia';
 import { getArticlePage, deleteArticle } from '@/servers/content/article';
 import BasicContent from '@/components/Content/BasicContent.vue';
@@ -81,7 +82,7 @@ const tableData = ref<TableData[]>([]);
 const pagination = reactive<PaginationData>({
   total: 0,
   page: 1,
-  pageSize: 20,
+  pageSize: PAGE_SIZE,
 });
 
 onActivated(() => {
