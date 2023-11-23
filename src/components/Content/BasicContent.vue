@@ -1,6 +1,9 @@
 <template>
   <div v-if="isPermission" class="h-full p-10px box-border">
-    <div id="container" class=" rounded-2">
+    <div
+      id="container"
+      :class="{ 'theme-bg rounded-2': isBg }"
+    >
       <slot name="tabs" />
 
       <div
@@ -14,7 +17,7 @@
         <div
           id="content"
           class="overflow-auto"
-        :class="{ 'py-5': isPadding }"
+          :class="{ 'py-5': isPadding }"
         >
           <slot></slot>
         </div>
@@ -36,10 +39,12 @@ import NotPermission from "@/pages/403.vue";
 
 interface DefineProps {
   isPermission: boolean;
-  isPadding?: boolean;
+  isPadding?: boolean; // 是否需要填充
+  isBg?: boolean; // 是否需要背景色
 }
 
 withDefaults(defineProps<DefineProps>(), {
-  isPadding: true
+  isPadding: true,
+  isBg: true
 });
 </script>
