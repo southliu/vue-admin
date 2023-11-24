@@ -12,13 +12,14 @@
         :key="item.field"
         v-bind="item"
       >
-        <template v-if="!item.type" #default="{ row }">
+        <template v-if="!item.type" #default="{ row, rowIndex }">
           <template v-if="item.slots">
             <slot
               v-for="slot in slotList"
               :key="slot"
               :name="item.slots?.[slot]"
               :record="row"
+              :rowIndex="rowIndex"
             />
           </template>
 
