@@ -1,19 +1,23 @@
 <template>
-  <div class="tabs flex items-center b-b b-#eee relative">
-    <div
-      v-for="item in list"
-      :key="item.value"
-      class="item px-20px py-18px"
-      :class="{
-        'cursor-pointer': list?.length > 1,
-        'active relative text-#FF5f00': active === item.value || list.length === 1
-      }"
-      @click="handleClick(item.value)"
-    >
-      <span class="text-16px">
-        {{ item.label }}
-      </span>
+  <div class="tabs flex items-center justify-between b-b b-#eee relative">
+    <div class="flex">
+      <div
+        v-for="item in list"
+        :key="item.value"
+        class="item px-20px py-18px"
+        :class="{
+          'cursor-pointer': list?.length > 1,
+          'active relative text-#FF5f00': active === item.value || list.length === 1
+        }"
+        @click="handleClick(item.value)"
+      >
+        <span class="text-16px">
+          {{ item.label }}
+        </span>
+      </div>
     </div>
+
+    <slot name="right" />
   </div>
 </template>
 
@@ -24,15 +28,22 @@ defineOptions({
   name: 'BasicTabs'
 });
 
+interface DefineEmits {
+  (e: 'active', value: string | number): void;
+}
+
+const emit = defineEmits<DefineEmits>();
+
 type ListArr = { label: string, value?: string | number };
 
 interface DefineProps {
+  defaultActive?: string;
   list: ListArr[];
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {});
 
-const active = ref(props.list?.[0]?.value || '');
+const active = ref(props?.defaultActive || props.list?.[0]?.value || '');
 
 /**
  * 处理点击事件
@@ -41,6 +52,7 @@ const active = ref(props.list?.[0]?.value || '');
 const handleClick = (value?: string | number) => {
   if (value === undefined) return;
   active.value = value;
+  emit('active', value);
 };
 </script>
 

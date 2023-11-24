@@ -28,12 +28,15 @@ import { storeToRefs } from 'pinia';
 import { getFirstTab } from '@/utils/menu';
 import { useMenuStore } from '@/stores/menu';
 import { useTabStore } from "@/stores/tabs";
+import { useUserStore } from "@/stores/user";
 
 const route = useRoute();
 const router = useRouter();
 const tabStore = useTabStore();
+const userStore = useUserStore();
 const menuStore = useMenuStore();
 const { setSideMenu, setTopMenuKey } = menuStore;
+const { permissions } = storeToRefs(userStore);
 const { menuList, topMenuKey } = storeToRefs(menuStore);
 const { cacheTabs } = storeToRefs(tabStore);
 
@@ -131,6 +134,13 @@ const handleClick = (key: string, list?: SideMenu[]) => {
   if (firstTab) {
     const firstTabRoute = cacheTabs.value?.[`/${firstTab}`]?.[0]?.key;
     if (firstTabRoute) return router.push(firstTabRoute);
+
+    for (let i = 0; i < cacheTabs.value?.[`/${firstTab}`]?.length; i++) {
+      const item = cacheTabs.value[`/${firstTab}`][i];
+      if (permissions.value?.includes(item.key)) {
+        if (item.key) return router.push(item.key);
+      }
+    }
   }
 
   const firstPath = getFirstMenu(list || []);
