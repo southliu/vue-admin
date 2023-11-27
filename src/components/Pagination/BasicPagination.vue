@@ -17,7 +17,7 @@
       size="small"
       :disabled="isLoading"
       :showTotal="() => showTotal(total)"
-      :defaultCurrent="page"
+      v-model:current="currentPage"
       :defaultPageSize="pageSize"
       :total="total"
       :onChange="onChange"
@@ -26,6 +26,7 @@
 </template>
 
 <script lang="ts" setup>
+import { ref, watch } from 'vue';
 import { PAGE_SIZE } from '@/utils/config';
 import { Pagination } from 'ant-design-vue';
 
@@ -42,11 +43,17 @@ interface DefineProps {
   isLoading?: boolean;
 }
 
-withDefaults(defineProps<DefineProps>(), {
+const props = withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
   total: 0,
   page: 1,
   pageSize: PAGE_SIZE,
+});
+
+const currentPage = ref(props.page);
+
+watch(() => props.page, value => {
+  currentPage.value = value || 1;
 });
 
 /**
