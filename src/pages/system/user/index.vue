@@ -164,7 +164,19 @@ onActivated(() => {
 
 /** 获取表格数据 */
 const getPage = async () => {
-  handleSearch(searchData.value);
+  const newPagination = { ...pagination };
+  delete newPagination.total;
+  const query = { ...newPagination, ...searchData.value };
+  try {
+    isLoading.value = true;
+    const { code, data } = await getSystemUserPage(query);
+    if (Number(code) !== 200) return;
+    const { items, total } = data;
+    tableData.value = items;
+    pagination.total = Number(total) || 0;
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 /** 表格提交 */
@@ -176,21 +188,10 @@ const createSubmit = () => {
  * 搜索提交
  * @param values - 表单返回数据
  */
-const handleSearch = async (values: FormData) => {
+const handleSearch = (values: FormData) => {
   searchData.value = values;
-  const newPagination = { ...pagination };
-  delete newPagination.total;
-  const query = { ...newPagination, ...values };
-  try {
-    isLoading.value = true;
-    const { code, data } = await getSystemUserPage(query);
-    if (Number(code) !== 200) return;
-    const { items, total } = data;
-    tableData.value = items;
-    pagination.total = Number(total) || 0;
-  } finally {
-    isLoading.value = false;
-  }
+  pagination.page = 1;
+  getPage();
 };
 
 /** 点击新增 */

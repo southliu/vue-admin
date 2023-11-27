@@ -30,9 +30,11 @@
 import { useSlots } from 'vue';
 import { Icon } from '@iconify/vue';
 import { Button } from 'ant-design-vue';
+import { useRoute, useRouter } from "vue-router";
+import { useTabStore } from "@/stores/tabs";
 
 defineOptions({
-  name: 'BasicNav'
+  name: 'BasicBar'
 });
 
 interface DefineEmits {
@@ -44,16 +46,26 @@ const emit = defineEmits<DefineEmits>();
 interface DefineProps {
   isBack?: boolean;
   title: string;
+  prevUrl?: string; // 上级链接
 }
 
-withDefaults(defineProps<DefineProps>(), {
+const props = withDefaults(defineProps<DefineProps>(), {
   isBack: true
 });
 
 const slots = useSlots();
+const router = useRouter();
+const route = useRoute();
+const tabStore = useTabStore();
+const { closeTabs } = tabStore;
 
 /** 点击返回 */
 const onBack = () => {
   emit('back');
+
+  if (props.prevUrl) {
+    closeTabs(route.fullPath);
+    router.push(props.prevUrl as string);
+  }
 };
 </script>

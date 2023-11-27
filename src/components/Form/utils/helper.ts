@@ -120,6 +120,8 @@ export function getComponentProps(
         defaultValue: rangeValue,
         format: [DATE_FORMAT, DATE_FORMAT],
         'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
+          if (value?.length < 2) return setData(key, []);
+
           const format = ((data as DatePickerProps)?.format || DATE_FORMAT) as string;
           const newValue = [
             (value as [Dayjs, Dayjs])[0].format(format),

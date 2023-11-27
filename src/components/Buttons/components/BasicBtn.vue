@@ -3,6 +3,7 @@
     :loading="isLoading"
     v-bind="attrs"
     :type="type"
+    :danger="danger"
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
@@ -23,7 +24,8 @@ const emit = defineEmits<DefineEmits>();
 
 interface DefineProps extends ButtonProps {
   isLoading?: boolean;
-  type?: ButtonProps['type']
+  type?: ButtonProps['type'],
+  danger?: boolean;
 }
 
 withDefaults(defineProps<DefineProps>(), {

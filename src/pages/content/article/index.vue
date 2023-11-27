@@ -100,18 +100,9 @@ onActivated(() => {
 
 /** 获取表格数据 */
 const getPage = async () => {
-  handleSearch(searchData.value);
-};
-
-/**
-  * 搜索提交
-  * @param values - 表单返回数据
-  */
-const handleSearch = async (values: FormData) => {
-  searchData.value = values;
   const newPagination = { ...pagination };
   delete newPagination.total;
-  const query = { ...newPagination, ...values };
+  const query = { ...newPagination, ...searchData.value };
   try {
     isLoading.value = true;
     const { code, data } = await getArticlePage(query);
@@ -122,6 +113,16 @@ const handleSearch = async (values: FormData) => {
   } finally {
     isLoading.value = false;
   }
+};
+
+/**
+  * 搜索提交
+  * @param values - 表单返回数据
+  */
+const handleSearch = (values: FormData) => {
+  searchData.value = values;
+  pagination.page = 1;
+  getPage();
 };
 
 /** 点击新增 */

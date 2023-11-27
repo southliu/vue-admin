@@ -126,7 +126,15 @@ onActivated(() => {
 
 /** 获取表格数据 */
 const getPage = async () => {
-  handleSearch(searchData.value);
+  const query = { ...searchData.value };
+  try {
+    isLoading.value = true;
+    const { code, data } = await getSystemMenuTree(query);
+    if (Number(code) !== 200) return;
+    tableData.value = JSON.parse(JSON.stringify(data));
+  } finally {
+    isLoading.value = false;
+  }
 };
 
 /** 表格提交 */
@@ -154,17 +162,9 @@ const handleFilterParent = (list: TableData[]): TableData[] => {
  * 搜索提交
  * @param values - 表单返回数据
  */
-const handleSearch = async (values: FormData) => {
+const handleSearch = (values: FormData) => {
   searchData.value = values;
-  const query = { ...values };
-  try {
-    isLoading.value = true;
-    const { code, data } = await getSystemMenuTree(query);
-    if (Number(code) !== 200) return;
-    tableData.value = JSON.parse(JSON.stringify(data));
-  } finally {
-    isLoading.value = false;
-  }
+  getPage();
 };
 
 /** 点击新增 */
