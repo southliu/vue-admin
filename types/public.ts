@@ -1,6 +1,8 @@
 import type { VxeColumnProps, VxeColumnPropTypes } from "vxe-table";
 import type { IConstant } from "@/utils/constants";
 import type { FormData } from "./form";
+import type { ColumnType } from "ant-design-vue/es/table";
+import type { DefaultRecordType } from "ant-design-vue/es/vc-table/interface";
 
 // 基础类型
 export type BasicData = string | number | boolean
@@ -48,6 +50,14 @@ export interface PaginationData {
   total?: number;
   page: number;
   pageSize: number;
+}
+
+// 表格参数
+export interface TableColumnsProps extends ColumnType<DefaultRecordType> {
+  type?: 'index';
+  echoArr?: IConstant[];
+  children?: TableColumnsProps[];
+  tooltipKey?: string; // 提示文本键名
 }
 
 // 表格参数
