@@ -63,8 +63,6 @@ specifiers:
   vue: ^3.3.4
   vue-router: ^4.2.5
   vue-tsc: ^1.0.12
-  vxe-table: ^4.5.13
-  xe-utils: ^3.5.14
 
 dependencies:
   '@ant-design/icons-vue': 6.1.0_vue@3.3.4
@@ -80,8 +78,6 @@ dependencies:
   pinia: 2.1.7_typescript@4.9.4+vue@3.3.4
   vue: 3.3.4
   vue-router: 4.2.5_vue@3.3.4
-  vxe-table: 4.5.13_vue@3.3.4+xe-utils@3.5.14
-  xe-utils: 3.5.14
 
 devDependencies:
   '@commitlint/cli': 16.3.0
@@ -2793,10 +2789,6 @@ packages:
       domhandler: 5.0.3
       entities: 4.4.0
     dev: true
-
-  /dom-zindex/1.0.1:
-    resolution: {integrity: sha512-M/MERVDZ8hguvjl6MAlLWSLYLS7PzEyXaTb5gEeJ+SF+e9iUC0sdvlzqe91MMDHBoy+nqw7wKcUOrDSyvMCrRg==}
-    dev: false
 
   /dom7/3.0.0:
     resolution: {integrity: sha512-oNlcUdHsC4zb7Msx7JN3K0Nro1dzJ48knvBOnDPKJ2GV9wl1i5vydJZUSyOfrkKFDZEud/jBsTk92S/VGSAe/g==}
@@ -6244,17 +6236,6 @@ packages:
       '@vue/server-renderer': 3.3.4_vue@3.3.4
       '@vue/shared': 3.3.4
 
-  /vxe-table/4.5.13_vue@3.3.4+xe-utils@3.5.14:
-    resolution: {integrity: sha512-CKsyUhDYIcO4TSXoO0I2YVkKEWjQLUq24PN6MhmFmvyFRdfj80cgLZ4iEjihLieW4aRqPcLHqkw83hCAyzvO8w==}
-    peerDependencies:
-      vue: ^3.2.28
-      xe-utils: ^3.5.0
-    dependencies:
-      dom-zindex: 1.0.1
-      vue: 3.3.4
-      xe-utils: 3.5.14
-    dev: false
-
   /w3c-xmlserializer/4.0.0:
     resolution: {integrity: sha512-d+BFHzbiCx6zGfz0HyQ6Rg69w9k19nviJspaj4yNscGjrHu94sVP+aRm75yEbCh+r2/yR+7q6hux9LVtbuTGBw==}
     engines: {node: '>=14'}
@@ -6404,10 +6385,6 @@ packages:
       utf-8-validate:
         optional: true
     dev: true
-
-  /xe-utils/3.5.14:
-    resolution: {integrity: sha512-Xq6mS8dWwHBQsQUEBXcZYSaBV0KnNLoVWd0vRRDI3nKpbNxfs/LSCK0W21g1edLFnXYfKqg7hh5dakr3RtYY0A==}
-    dev: false
 
   /xml-name-validator/4.0.0:
     resolution: {integrity: sha512-ICP2e+jsHvAj2E2lIHxa5tjXRlKDJo4IdvPvCXbXQGdzSfmSpNVyIKMvoZHjDY9DP0zV17iI85o90vRFXNccRw==}

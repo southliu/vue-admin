@@ -1,4 +1,3 @@
-import type { VxeColumnProps, VxeColumnPropTypes } from "vxe-table";
 import type { IConstant } from "@/utils/constants";
 import type { FormData } from "./form";
 import type { ColumnType } from "ant-design-vue/es/table";
@@ -57,13 +56,6 @@ export interface TableColumnsProps extends ColumnType<DefaultRecordType> {
   type?: 'index';
   echoArr?: IConstant[];
   children?: TableColumnsProps[];
-  tooltipKey?: string; // 提示文本键名
-}
-
-// 表格参数
-export interface TableProps extends VxeColumnProps {
-  slots?: VxeColumnPropTypes.Slots;
-  echoArr?: IConstant[];
   tooltipKey?: string; // 提示文本键名
 }
 

@@ -16,6 +16,10 @@
       :columns="tableColumns"
       :isLoading="isLoading"
     >
+      <template #status="{ record }">
+        {{ record.status ? '开启' : '关闭' }}
+      </template>
+
       <template #operate="{ record }">
         <BasicBtn
           v-if="checkPermission(pagePermission.permission)"

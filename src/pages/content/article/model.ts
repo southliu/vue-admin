@@ -1,5 +1,5 @@
 import type { FormList } from "#/form";
-import type { TableProps } from "#/public";
+import type { TableColumnsProps } from "#/public";
 import { FORM_REQUIRED } from "@/utils/config";
 import CustomizeInput from "./components/CustomizeInput.vue";
 
@@ -32,29 +32,28 @@ export const searchList: FormList[] = [
 ];
 
 // 表格数据
-export const tableColumns: TableProps[] = [
+export const tableColumns: TableColumnsProps[] = [
   {
     title: 'ID',
-    field: 'id'
+    dataIndex: 'id'
   },
   {
     title: '用户名',
-    field: 'username',
+    dataIndex: 'username',
   },
   {
     title: '标题',
-    field: 'title'
+    dataIndex: 'title'
   },
   {
     title: '内容',
-    field: 'content'
+    dataIndex: 'content'
   },
   {
     title: '操作',
-    field: 'operate',
-    minWidth: 160,
-    showOverflow: false,
-    slots: { default: 'operate' }
+    dataIndex: 'operate',
+    width: 160,
+    ellipsis: false,
   }
 ];
 
