@@ -12,14 +12,9 @@
     </template>
 
     <BasicTable
-      :data="handleFlatMenu(tableData)"
+      :data="tableData"
       :columns="tableColumns"
       :isLoading="isLoading"
-      :options="{
-        treeConfig: { transform: true },
-        expandConfig: { reserve: true },
-        rowConfig: { keyField: 'id' },
-      }"
     >
       <template v-slot:operate='{ record }'>
         <UpdateBtn
@@ -71,7 +66,6 @@ import { onActivated, reactive, shallowRef, ref } from 'vue';
 import { UpdateBtn, DeleteBtn, BasicBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { checkPermission } from "@/utils/permissions";
-import { handleFlatMenu } from '@/utils/menu';
 import {
   searchList,
   createList,

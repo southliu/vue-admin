@@ -1,81 +1,78 @@
 <template>
-  <div :id="id" class="vxe-table">
-    <Table
-      :maxHeight="tableHeight"
-      v-bind="gridOptions"
-      :loading="isLoading"
-      :minHeight="40"
-      :data="data"
-    >
-      <Column
-        v-for="item in handleColumns(columns)"
-        :key="item.field"
-        v-bind="item"
+  <Table
+    :id="id"
+    size="middle"
+    :rowKey="rowKey"
+    :loading="isLoading"
+    :rowSelection="rowSelection"
+    bordered
+    :pagination="false"
+    :columns="(handleColumns(columns) as ColumnsType)"
+    :dataSource="tableData"
+    :scroll="{ y: tableHeight }"
+    @resizeColumn="handleResizeColumn"
+  >
+    
+    <template #bodyCell="{ column, record, index }">
+      <span v-if="(column as TableColumnsProps)?.type === 'index'">
+        {{ index }}
+      </span>
+
+      <span
+        v-else-if="(column as TableColumnsProps).echoArr"
+        :title="handleEchoArr(record?.[column.dataIndex as string] ?? '', (column as TableColumnsProps)?.echoArr as DefaultOptionType[]) ?? ''"
+        :style="`color: ${handleEchoColor(record?.[column.dataIndex as string] ?? '', (column as TableColumnsProps)?.echoArr as DefaultOptionType[])}`"
       >
-        <template v-if="!item.type" #default="{ row, rowIndex }">
-          <template v-if="item.slots">
-            <slot
-              v-for="slot in slotList"
-              :key="slot"
-              :name="item.slots?.[slot]"
-              :record="row"
-              :rowIndex="rowIndex"
-            />
-          </template>
+        {{ handleEchoArr(record?.[column.dataIndex as string] ?? '', (column as TableColumnsProps)?.echoArr as DefaultOptionType[]) ?? EMPTY_VALUE }}
+      </span>
 
-          <template v-if="!item.slots">
-            <span
-              v-if="item.echoArr"
-              :title="handleEchoArr(row?.[item.field as string] ?? '', item.echoArr) ?? ''"
-              :style="`color: ${handleEchoColor(row?.[item.field as string] ?? '', item.echoArr)}`"
-            >
-              {{ handleEchoArr(row?.[item.field as string] ?? '', item.echoArr) ?? EMPTY_VALUE }}
-            </span>
+      <TooltipText
+        v-else-if="(column as TableColumnsProps).tooltipKey"
+        :text="record?.[column.dataIndex as string]"
+        :tooltipText="record?.[(column as TableColumnsProps).tooltipKey as string]"
+      />
 
-            <TooltipText
-              v-else-if="item.tooltipKey"
-              :text="row?.[item.field as string]"
-              :tooltipText="row?.[item.tooltipKey as string]"
-            />
-
-            <span v-else :title="row?.[item.field as string] ?? ''">
-              {{ row?.[item.field as string] ?? EMPTY_VALUE }}
-            </span>
-          </template>
-        </template>
-      </Column>
-    </Table>
-  </div>
+      <slot
+        v-else
+        :name="column.dataIndex"
+        :record="record"
+        :rowIndex="index"
+      />
+    </template>
+  </Table>
 </template>
 
 <script lang="ts" setup>
-import type { TableData, TableProps } from '#/public';
-import type {
-  VxeTableProps,
-  VxeColumnPropTypes,
-  VxeTableEventProps
-} from 'vxe-table';
+import type { ColumnsType } from 'ant-design-vue/es/table';
+import type { TableData, TableColumnsProps } from '#/public';
+import type { DefaultOptionType } from 'ant-design-vue/es/select';
+import type { TableProps } from 'ant-design-vue';
 import {
   ref,
-  reactive,
+  watch,
   onMounted,
   onUnmounted
 } from 'vue';
-import { Table, Column } from 'vxe-table';
+import { Table } from 'ant-design-vue';
+import { useDebounceFn } from '@vueuse/core';
 import { useTableHeight } from './hooks/useTableHeight';
 import { handleEchoArr, handleEchoColor } from '@/utils/helper';
-import { useDebounceFn } from '@vueuse/core';
 import { EMPTY_VALUE } from '@/utils/config';
 import TooltipText from '../TooltipText/index.vue';
 
-interface DefineProps extends VxeTableProps, VxeTableEventProps {
+defineOptions({
+  name: 'BasicTable'
+});
+
+interface DefineProps extends Omit<TableProps, 'columns'> {
   id?: string;
+  rowKey?: string;
   data: TableData[];
-  columns: TableProps[];
+  columns: ColumnsType;
   isLoading?: boolean;
   offsetHeight?: number;
   isResize?: boolean;
-  options?: VxeTableProps;
+  rowSelection?: TableProps['rowSelection'];
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {
@@ -83,19 +80,11 @@ const props = withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
   offsetHeight: 0,
   id: 'table',
+  rowKey: 'id'
 });
 
-type SlotsKey = keyof VxeColumnPropTypes.Slots;
-
 const tableHeight = ref(0);
-// 插槽列表
-const slotList: SlotsKey[] = [
-  'default',
-  'header',
-  'footer',
-  'filter',
-  'edit'
-];
+const tableData = ref(props.data || []);
 
 onMounted(() => {
   getTableHeight();
@@ -110,68 +99,9 @@ onUnmounted(() => {
   }
 });
 
-/** 获取props全部方法 */
-type FunctionProps = { [key: string]: unknown };
-const getAllFunction = () => {
-  const result: FunctionProps = {};
-
-  for (const key in props) {
-    const pref = key.substring(0, 2);
-
-    // 如果是方法
-    if (pref === 'on' && (props as FunctionProps)[key]) {
-      result[key] = (props as FunctionProps)[key];
-    }
-  }
-
-  return result;
-};
-
-// 表格参数
-const gridOptions = reactive<VxeTableProps>({
-  ...getAllFunction(),
-  border: true, // 边框
-  showOverflow: true, // 内容过长时显示为省略号
-  showHeaderOverflow: true, // 表头所有内容过长时显示为省略号
-  autoResize: true, // 自动监听父元素的变化去重新计算表格
-  // stripe: true, // 斑马纹
-  size: 'small', // 表格尺寸
-  rowConfig: {
-    useKey: true, // 是否需要为每一行的 VNode 设置 key 属性
-    isHover: true, // 当鼠标移到行时，是否要高亮当前行
-    isCurrent: true // 当鼠标点击行时，是否要高亮当前行
-  },
-  sortConfig: {
-    trigger: 'cell'
-  },
-  columnConfig: {
-    resizable: true // 每一列是否启用列宽调整
-  },
-  scrollX: {
-    enabled: true // 横向虚拟滚动配置
-  },
-  scrollY: {
-    enabled: true // 纵向虚拟滚动配置
-  },
-  ...props.options,
+watch(() => props.data, value => {
+  tableData.value = value || [];
 });
-
-/**
- * 处理表格数据，为空显示'-'
- * @param array - 表格列值
- */
-const handleColumns = (array?: TableProps[]) => {
-  if (!array) return undefined;
-
-  for (let i = 0; i < array.length; i++) {
-    const item = array[i];
-    item.field = item.field?.trim() || '';
-    // 初始化最小宽度70
-    item.minWidth = item.minWidth || 50;
-  }
-
-  return array;
-};
 
 /** 获取表格高度 */
 const getTableHeight = () => {
@@ -191,5 +121,42 @@ const startResize = () => {
 /** 结束监听滚动事件 */
 const stopResize = () => {
   window.removeEventListener('resize', handleSize);
+};
+
+/** 列拖拽 */
+const handleResizeColumn: TableProps['onResizeColumn'] = (w, col) => {
+  col.width = w;
+  const newTableData = [...tableData.value];
+
+  for (let i = 0; i < newTableData?.length; i++) {
+    const item = newTableData[i];
+    if (item.dataIndex === col.dataIndex) {
+      item.width = w;
+      break;
+    }
+  }
+  
+  tableData.value = newTableData;
+};
+
+/**
+ * 处理表格数据，为空显示'-'
+ * @param array - 表格列值
+ */
+const handleColumns = (array?: ColumnsType) => {
+  if (!array) return undefined;
+
+  for (let i = 0; i < array.length; i++) {
+    const item = array[i];
+    item.key = item.key?.toString()?.trim() || '';
+    // 初始化最小宽度70
+    item.width = item.width || 50;
+    // 列拖拽
+    item.resizable = item.resizable ?? true;
+    // 是否自动省略
+    item.ellipsis = item.ellipsis ?? true;
+  }
+
+  return array;
 };
 </script>

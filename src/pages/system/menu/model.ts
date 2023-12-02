@@ -1,5 +1,5 @@
 import type { FormList } from "#/form";
-import type { TableProps } from "#/public";
+import type { TableColumnsProps } from "#/public";
 import type { DefaultOptionType } from 'ant-design-vue/lib/select';
 import { FORM_REQUIRED } from "@/utils/config";
 import { MENU_TYPE } from "@/utils/constants";
@@ -41,51 +41,49 @@ export const searchList: FormList[] = [
 ];
 
 // 表格数据
-export const tableColumns: TableProps[] = [
+export const tableColumns: TableColumnsProps[] = [
   {
     title: 'ID',
-    field: 'id',
-    treeNode: true,
-    minWidth: 150
+    dataIndex: 'id',
+    width: 150
   },
   {
     title: '中文名称',
-    field: 'menuName',
-    minWidth: 100
+    dataIndex: 'menuName',
+    width: 100
   },
   {
     title: '接口权限',
-    field: 'permissions',
-    minWidth: 180
+    dataIndex: 'permissions',
+    width: 180
   },
   {
     title: '菜单路由',
-    field: 'menuRoute',
-    minWidth: 180
+    dataIndex: 'menuRoute',
+    width: 180
   },
   {
     title: '菜单类型',
-    field: 'menuType',
+    dataIndex: 'menuType',
     echoArr: MENU_TYPE,
-    minWidth: 100
+    width: 100
   },
   {
     title: '客户端',
-    field: 'clientName',
-    minWidth: 100
+    dataIndex: 'clientName',
+    width: 100
   },
   {
     title: '排序',
-    field: 'sortNum',
-    minWidth: 80
+    dataIndex: 'sortNum',
+    width: 80
   },
   {
     title: '操作',
-    field: 'operate',
-    minWidth: 320,
+    dataIndex: 'operate',
+    width: 320,
     fixed: 'right',
-    showOverflow: false,
-    slots: { default: 'operate' }
+    ellipsis: false,
   }
 ];
 
