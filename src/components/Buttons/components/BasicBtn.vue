@@ -7,6 +7,10 @@
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
+    <template #icon>
+      <slot name="icon" />
+    </template>
+
     <slot />
   </Button>
 </template>

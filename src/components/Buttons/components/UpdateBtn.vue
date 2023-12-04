@@ -6,6 +6,10 @@
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
+    <template #icon>
+      <slot name="icon" />
+    </template>
+
     <span>{{ content || '编辑' }}</span>
   </Button>
 </template>

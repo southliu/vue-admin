@@ -16,7 +16,7 @@
         class="text-white ml-3 text-xl font-bold truncate"
         :class="{ 'hidden': isCollapsed }"
       >
-        楚秀售后系统
+        后台系统
       </span>
     </div>
     <div class="menu-height overflow-y-auto">

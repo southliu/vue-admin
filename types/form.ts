@@ -10,7 +10,9 @@ import type {
   UploadProps,
   RateProps,
   SliderProps,
-  CascaderProps
+  CascaderProps,
+  FormProps,
+  FormItemProps
 } from "ant-design-vue";
 import type { ServerResult } from './public';
 import type { RuleObject } from 'ant-design-vue/lib/form';
@@ -120,18 +122,16 @@ export type FormRule = RuleObject & {
 };
 
 // 表单数据
-export type FormList = {
+export interface FormList extends Omit<FormItemProps, 'labelCol' | 'wrapperCol'> {
   name: string | string[]; // 表单域字段
   label: string; // 标签
   unit?: string; // 单位
-  slotName?: string; // 插槽名称
   placeholder?: string | string[]; // 占位符
   hidden?: boolean; // 是否隐藏
   rules?: FormRule[]; // 规则
-  labelCol?: number; // label宽度
-  wrapperCol?: number; // 内容宽度
+  labelCol?: number | string | FormProps['labelCol']; // label宽度
+  wrapperCol?: number | string | FormProps['wrapperCol']; // 内容宽度
   component: ComponentType; // 组件
   componentProps?: ComponentProps; // 组件参数
   render?: unknown; // 自定义渲染
-  description?: string; // 描述
 }

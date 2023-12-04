@@ -106,7 +106,11 @@ export function getComponentProps(
       return {
         defaultValue: dateValue,
         'onUpdate:value': (value: Dayjs | string) => {
-          const format = (data?.format || DATE_FORMAT) as string;
+          const format = (
+            (item?.componentProps as DatePickerProps)?.valueFormat
+            || (item?.componentProps as DatePickerProps)?.format
+            || DATE_FORMAT
+          ) as string;
           setData(key, (value as Dayjs).format(format));
         }
       };
@@ -122,10 +126,14 @@ export function getComponentProps(
         'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
           if (value?.length < 2) return setData(key, []);
 
-          const format = ((data as DatePickerProps)?.format || DATE_FORMAT) as string;
+          const format = (
+            (item?.componentProps as DatePickerProps)?.valueFormat
+            || (item?.componentProps as DatePickerProps)?.format
+            || DATE_FORMAT
+          ) as string;
           const newValue = [
-            (value as [Dayjs, Dayjs])[0].format(format),
-            (value as [Dayjs, Dayjs])[1].format(format)
+            (value as [Dayjs, Dayjs])?.[0]?.format(format),
+            (value as [Dayjs, Dayjs])?.[1]?.format(format)
           ];
           setData(key, newValue);
         }
