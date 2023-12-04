@@ -6,7 +6,7 @@
       :layout="layout"
       :model="formState"
       :labelCol="labelCol"
-      :wrapper-col="wrapperCol"
+      :wrapperCol="wrapperCol"
       :labelAlign="labelAlign"
       :validateMessages="validateMessages"
       @finish="onFinish"
@@ -21,7 +21,7 @@
         :class="{ '!hidden': item.hidden }"
       >
         <BasicComponents
-          v-if="item.component !== 'slot' && !item.slotName"
+          v-if="item.component !== 'slot'"
           class="min-w-100px"
           :item="item"
           v-model:data="formState"
@@ -29,7 +29,7 @@
           @pressEnter="onFinish"
         />
 
-        <slot v-else :name="item.slotName" />
+        <slot v-else :name="item.name" />
 
         <div
           v-if="item.description"

@@ -8,7 +8,11 @@
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
-    <span>{{ content || '删除' }}</span>
+    <template v-if="isIcon" #icon>
+      <DeleteOutlined />
+    </template>
+
+    <span>{{ content }}</span>
   </Button>
 </template>
 
@@ -16,7 +20,7 @@
 import type { ButtonProps } from 'ant-design-vue/lib/button';
 import { createVNode, useAttrs } from 'vue';
 import { Button, Modal } from 'ant-design-vue';
-import { ExclamationCircleOutlined } from '@ant-design/icons-vue';
+import { ExclamationCircleOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 
 interface DefineEmits {
   (e: 'click'): void;
@@ -26,12 +30,15 @@ const emit = defineEmits<DefineEmits>();
 
 interface DefineProps extends ButtonProps {
   isLoading?: boolean;
+  isIcon?: boolean;
   content?: string;
+  message?: string; // 删除提示语
   type?: ButtonProps['type']
 }
 
-withDefaults(defineProps<DefineProps>(), {
+const props = withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
+  content: '删除'
 });
 
 const attrs = useAttrs();
@@ -42,7 +49,7 @@ const onClick = () => {
   modal.confirm({
     title: '提示',
     icon: createVNode(ExclamationCircleOutlined),
-    content: '确定要删除吗?',
+    content: props.message || `确定要${props.content}吗?`,
     okText: '确认',
     okType: 'danger',
     cancelText: '取消',

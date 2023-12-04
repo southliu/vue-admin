@@ -16,11 +16,11 @@
         :name="handleFilterTrim(item.name)"
         :label="item.label"
         :rules="item.rules"
-        :labelCol="{ style: { width: `${ item.labelCol }px` } }"
-        :wrapperCol="{ style: { width: `${ item.wrapperCol }px` } }"
+        :labelCol="handleLabelCol(item.labelCol)"
+        :wrapperCol="handleWrapperCol(item.wrapperCol)"
       >
         <BasicComponents
-          v-if="item.component !== 'slot' && !item.slotName"
+          v-if="item.component !== 'slot'"
           class="min-w-100px"
           :item="item"
           :data="formState"
@@ -28,7 +28,7 @@
           @pressEnter="onFinish"
         />
 
-        <slot v-else :name="item.slotName" />
+        <slot v-else :name="item.name" />
       </FormItem>
 
       <FormItem v-if="isSearch">
@@ -75,6 +75,7 @@ import { Form, FormItem, Button } from 'ant-design-vue';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useDebounceFn } from '@vueuse/core';
 import { filterEmptyValue, handleFilterTrim } from '@/utils/helper';
+import { handleLabelCol, handleWrapperCol } from './utils/helper';
 import BasicComponents from '../Form/BasicComponents.vue';
 
 type FinishFun = (values: FormData) => void

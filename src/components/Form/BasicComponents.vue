@@ -13,7 +13,7 @@
           ...item.componentProps
       }"
     />
-    <span v-if="item.unit" class="ml-5px">
+    <span v-if="item.unit" class="ml-5px whitespace-nowrap">
       {{ item.unit }}
     </span>
   </div>
