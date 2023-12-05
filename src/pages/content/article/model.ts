@@ -65,7 +65,10 @@ export const createList: FormList[] = [
     rules: FORM_REQUIRED,
     component: 'Input',
     componentProps: {
-      maxlength: 32
+      maxlength: 32,
+      style: {
+        width: '90%'
+      }
     }
   },
   {
@@ -74,7 +77,10 @@ export const createList: FormList[] = [
     rules: FORM_REQUIRED,
     component: 'Input',
     componentProps: {
-      maxlength: 32
+      maxlength: 32,
+      style: {
+        width: '90%'
+      }
     }
   },
   {
@@ -84,12 +90,33 @@ export const createList: FormList[] = [
     component: 'customize',
     render: CustomizeInput,
     componentProps: {
-      maxlength: 32
+      maxlength: 32,
+      style: {
+        width: '90%'
+      }
+    }
+  },
+  {
+    label: 'DEMO',
+    name: 'demo',
+    unit: '单位',
+    extra: '我是说明,我是说明.',
+    component: 'Input',
+    componentProps: {
+      maxlength: 32,
+      style: {
+        width: '90%'
+      }
     }
   },
   {
     label: '内容',
     name: 'content',
-    component: 'Editor'
+    component: 'Editor',
+    componentProps: {
+      style: {
+        width: '90%'
+      }
+    }
   }
 ];

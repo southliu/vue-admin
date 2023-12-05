@@ -1,7 +1,8 @@
 <template>
-  <div>
+  <div class="w-full">
     <Input
       v-bind="attrs"
+      style="width: 100%"
       :value="value"
       allowClear
       @change="onChange"

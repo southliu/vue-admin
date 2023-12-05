@@ -1,7 +1,7 @@
 <template>
   <Table
     :id="id"
-    size="middle"
+    :size="size"
     :rowKey="rowKey"
     :loading="isLoading"
     :rowSelection="rowSelection"
@@ -12,18 +12,17 @@
     :scroll="{ y: tableHeight }"
     @resizeColumn="handleResizeColumn"
   >
-    
     <template #bodyCell="{ column, record, index }">
       <span v-if="(column as TableColumnsProps)?.type === 'index'">
-        {{ index }}
+        {{ index + 1 }}
       </span>
 
       <span
         v-else-if="(column as TableColumnsProps).echoArr"
-        :title="handleEchoArr(record?.[column.dataIndex as string] ?? '', (column as TableColumnsProps)?.echoArr as DefaultOptionType[]) ?? ''"
-        :style="`color: ${handleEchoColor(record?.[column.dataIndex as string] ?? '', (column as TableColumnsProps)?.echoArr as DefaultOptionType[])}`"
+        :title="getEchoContent(record, column)"
+        :style="getEchoStyle(record, column)"
       >
-        {{ handleEchoArr(record?.[column.dataIndex as string] ?? '', (column as TableColumnsProps)?.echoArr as DefaultOptionType[]) ?? EMPTY_VALUE }}
+        {{ getEchoContent(record, column, EMPTY_VALUE) }}
       </span>
 
       <TooltipText
@@ -80,7 +79,8 @@ const props = withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
   offsetHeight: 0,
   id: 'table',
-  rowKey: 'id'
+  rowKey: 'id',
+  size: 'middle'
 });
 
 const tableHeight = ref(0);
@@ -112,6 +112,34 @@ const getTableHeight = () => {
 // 滚动事件防抖
 const handler = () => getTableHeight();
 const handleSize = useDebounceFn(handler, 200);
+
+/**
+ * 获取回显内容
+ * @param record - 当前行数据
+ * @param column - 表格列的配置
+ */
+const getEchoContent = (
+  record: Record<string, unknown>,
+  column: TableColumnsProps,
+  empty = ''
+) => {
+  return handleEchoArr(
+    record?.[column.dataIndex as string] ?? '',
+    (column as TableColumnsProps)?.echoArr as DefaultOptionType[]
+  ) ?? empty;
+};
+
+/**
+ * 获取回显样式
+ * @param record - 当前行数据
+ * @param column - 表格列的配置
+ */
+const getEchoStyle = (record: Record<string, unknown>, column: TableColumnsProps) => {
+  return `color: ${handleEchoColor(
+    record?.[column.dataIndex as string] ?? '',
+    (column as TableColumnsProps)?.echoArr as DefaultOptionType[]
+  )}`;
+};
 
 /** 开始监听滚动事件 */
 const startResize = () => {
