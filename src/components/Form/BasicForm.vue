@@ -14,6 +14,7 @@
     >
       <FormItem
         v-for="item in list"
+        v-bind="(item as FormItemProps)"
         :key="`${item.name}`"
         :name="handleFilterTrim(item.name)"
         :label="item.label"
@@ -30,13 +31,6 @@
         />
 
         <slot v-else :name="item.name" />
-
-        <div
-          v-if="item.description"
-          class="text-#999 text-14px mt-3px"
-        >
-          {{ item.description }}
-        </div>
       </FormItem>
 
       <slot name="otherBtn"></slot>
@@ -45,7 +39,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormInstance, FormProps } from 'ant-design-vue';
+import type { FormInstance, FormItemProps, FormProps } from 'ant-design-vue';
 import type { FormData, FormList } from '#/form';
 import { ref, watch } from 'vue';
 import { Form, FormItem } from 'ant-design-vue';
