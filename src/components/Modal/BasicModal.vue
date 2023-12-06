@@ -3,7 +3,7 @@
     :open="isOpen"
     :width="isFullscreen ? '100%' : width"
     :layout="layout"
-    :mask-closable="false"
+    :maskClosable="false"
     :loading="isLoading"
     v-bind="attrs"
     :wrapClassName="isFullscreen ? 'full-modal' : ''"

@@ -40,7 +40,11 @@ export function createVitePlugins() {
         AntDesignVueResolver()
       ]
     }),
-    Pages({}),
+    Pages({
+      exclude: [
+        '**/components/*.vue'
+      ]
+    }),
     // 包分析
     visualizer({
       gzipSize: true,

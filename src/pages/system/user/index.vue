@@ -15,6 +15,12 @@
       :data="tableData"
       :columns="tableColumns"
       :isLoading="isLoading"
+      :pagination="{
+        current: pagination.page,
+        pageSize: pagination.pageSize,
+        total: pagination.total,
+        onChange: handlePagination,
+      }"
     >
       <template #status="{ record }">
         {{ record.status ? '开启' : '关闭' }}
@@ -42,16 +48,6 @@
         />
       </template>
     </BasicTable>
-
-    <template #footer>
-      <BasicPagination
-        :page="pagination.page"
-        :pageSize="pagination.pageSize"
-        :total="pagination.total"
-        :isLoading="isLoading"
-        @handleChange="handlePagination"
-      />
-    </template>
   </BasicContent>
 
   <BasicModal
@@ -106,7 +102,6 @@ import {
 } from '@/servers/system/user';
 import BasicContent from '@/components/Content/BasicContent.vue';
 import BasicTable from '@/components/Table/BasicTable.vue';
-import BasicPagination from '@/components/Pagination/BasicPagination.vue';
 import BasicSearch from '@/components/Search/BasicSearch.vue';
 import BasicForm from '@/components/Form/BasicForm.vue';
 import BasicModal from '@/components/Modal/BasicModal.vue';

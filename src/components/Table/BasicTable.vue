@@ -6,7 +6,7 @@
     :loading="isLoading"
     :rowSelection="rowSelection"
     bordered
-    :pagination="false"
+    :pagination="handleFilterPagination(pagination)"
     :columns="(handleColumns(columns) as ColumnsType)"
     :dataSource="tableData"
     :scroll="{ y: tableHeight }"
@@ -42,7 +42,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { ColumnsType } from 'ant-design-vue/es/table';
+import type { ColumnsType, TablePaginationConfig } from 'ant-design-vue/es/table';
 import type { TableData, TableColumnsProps } from '#/public';
 import type { DefaultOptionType } from 'ant-design-vue/es/select';
 import type { TableProps } from 'ant-design-vue';
@@ -186,5 +186,28 @@ const handleColumns = (array?: ColumnsType) => {
   }
 
   return array;
+};
+
+/**
+ * 显示总数
+ * @param total - 总数
+ */
+ const showTotal = (total: number): string => {
+  return `共 ${total || 0} 条数据`;
+};
+
+/**
+ * 处理分页参数
+ * @param obj - 分页数据
+ */
+const handleFilterPagination = (obj?: false | TablePaginationConfig) => {
+  if (!obj) return false;
+
+  return {
+    showSizeChanger: true,
+    showQuickJumper: true,
+    showTotal: () => showTotal(obj.total || 0),
+    ...obj,
+  };
 };
 </script>

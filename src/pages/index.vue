@@ -57,7 +57,7 @@ const getUserInfo = async () => {
 const getUserMenu = async (permissions: string[]) => {
   try {
     isLoading.value = true;
-    const { code, data } = await getSystemMenuTree({ isLayout: true });
+    const { code, data } = await getSystemMenuTree({ isFirst: true });
     if (Number(code) !== 200) return;
     const menuData = handleFilterApiMenu(data, permissions);
     setMenus(menuData);
