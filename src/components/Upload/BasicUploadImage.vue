@@ -123,7 +123,10 @@ const beforeUpload: UploadProps['beforeUpload'] = (file) => {
         }
       }
     }
-    if (!isFileOrPng) message.error('只能上传图片格式文件!');
+    if (!isFileOrPng) {
+      message.error('只能上传图片格式文件!');
+      return false;
+    }
   }
   const isMaxFileSize = file.size / 1024 / 1024 < props.fileSize;
   if (!isMaxFileSize) {

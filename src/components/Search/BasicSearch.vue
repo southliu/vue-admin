@@ -31,7 +31,7 @@
         <slot v-else :name="item.name" />
       </FormItem>
 
-      <FormItem v-if="isSearch">
+      <FormItem v-if="isSearch && list?.length">
         <Button
           type="primary"
           htmlType="submit"

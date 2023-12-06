@@ -73,28 +73,3 @@ const onChange = (page: number, pageSize: number) => {
   emit('handleChange', page, pageSize);
 };
 </script>
-
-<style lang="less">
-.ant-pagination-item {
-  background-color: #f4f4f5 !important;
-  margin-right: 7px !important;
-}
-
-.ant-pagination-item-active {
-  background-color: #0960bd!important;
-}
-
-.ant-pagination-item-active a {
-  color: #fff !important;
-}
-
-.ant-pagination-prev {
-  margin-right: 7px !important;
-  background-color: #f4f4f5 !important;
-}
-
-.ant-pagination-next {
-  margin-right: 7px !important;
-  background-color: #f4f4f5 !important;
-}
-</style>

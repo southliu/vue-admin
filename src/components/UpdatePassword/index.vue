@@ -75,7 +75,7 @@ import type { FormInstance } from 'ant-design-vue';
 import type { FormData } from '#/form';
 import { ref } from 'vue';
 import { Form, FormItem, InputPassword, message } from 'ant-design-vue';
-import { PASSWORD_RULE } from '@/utils/config';
+import { PASSWORD_RULE } from '@/utils/verify';
 import { useDebounceFn } from '@vueuse/core';
 import BasicModal from '../Modal/BasicModal.vue';
 import PasswordStrength from '../PasswordStrength/index.vue';

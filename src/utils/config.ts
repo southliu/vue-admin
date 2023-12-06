@@ -30,12 +30,6 @@ export const FILE_API = `${ENV === 'development' ? '/api' : URL}/authority/file/
 export const ADD_TITLE = '新增';
 export const EDIT_TITLE = (name: string, title?: string) => `编辑${ title ?? '' }${ name ? `(${name})` : '' }`;
 
-// 密码规则
-export const PASSWORD_RULE = {
-  pattern: /^(?=.*\d)(?=.*[a-zA-Z])[\da-zA-Z~!@#$%^&*+\.\_\-*]{6,30}$/,
-  message: '密码为6-30位必须包含字母和数字!'
-};
-
 // 生成路由排除内容，不带后缀名转换成“/文件名/”格式
 export const ROUTER_EXCLUDE = [
   '/login',

@@ -2,6 +2,7 @@ import type { FormList } from "#/form";
 import type { TableColumnsProps } from "#/public";
 import { FORM_REQUIRED } from "@/utils/config";
 import { OPEN_CLOSE } from "@/utils/constants";
+import { PHONE_RULE } from "@/utils/verify";
 
 // 权限前缀
 const permissionPrefix = '/authority/user';
@@ -103,6 +104,18 @@ export const createList: FormList[] = [
     component: 'Input',
     componentProps: {
       maxlength: 32
+    }
+  },
+  {
+    label: '电话',
+    name: 'phone',
+    rules: [
+      { required: true },
+      PHONE_RULE
+    ],
+    component: 'Input',
+    componentProps: {
+      maxlength: 20
     }
   },
   {

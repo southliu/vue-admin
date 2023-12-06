@@ -95,22 +95,6 @@ watch(() => [props.modelValue, props.value], () => {
 const beforeUpload: UploadProps['beforeUpload'] = (file) => {
   const acceptArr = props.accept?.split(',');
   acceptArr.forEach((item) => item?.trim());
-  let isFileOrPng = acceptArr.includes(file.type);
-
-  if (!isFileOrPng) {
-    for (let i = 0; i < acceptArr?.length; i++) {
-      const item = acceptArr[i];
-      if (item.includes('.')) {
-        const newArr = item?.split('.');
-        const newType = newArr?.[newArr?.length - 1] || '';
-        if (file.type.includes(newType)) {
-          isFileOrPng = true;
-          break;
-        }
-      }
-    }
-    if (!isFileOrPng) message.error('只能上传文件格式不正确!');
-  }
   const isMaxFileSize = file.size / 1024 / 1024 < props.fileSize;
   if (!isMaxFileSize) {
     message.error(`文件不能大于${props.fileSize}MB!`);
@@ -123,7 +107,7 @@ const beforeUpload: UploadProps['beforeUpload'] = (file) => {
     return false;
   }
 
-  return isFileOrPng && isMaxFileSize;
+  return isMaxFileSize;
 };
 
 /**

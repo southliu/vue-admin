@@ -15,6 +15,12 @@
       :data="tableData"
       :columns="tableColumns"
       :isLoading="isLoading"
+      :pagination="{
+        current: pagination.page,
+        pageSize: pagination.pageSize,
+        total: pagination.total,
+        onChange: handlePagination,
+      }"
     >
       <template #operate="{ record }">
         <UpdateBtn
@@ -30,16 +36,6 @@
         />
       </template>
     </BasicTable>
-
-    <template #footer>
-      <BasicPagination
-        :page="pagination.page"
-        :pageSize="pagination.pageSize"
-        :total="pagination.total"
-        :isLoading="isLoading"
-        @handleChange="handlePagination"
-      />
-    </template>
   </BasicContent>
 </template>
 
@@ -58,7 +54,6 @@ import { storeToRefs } from 'pinia';
 import { getArticlePage, deleteArticle } from '@/servers/content/article';
 import BasicContent from '@/components/Content/BasicContent.vue';
 import BasicTable from '@/components/Table/BasicTable.vue';
-import BasicPagination from '@/components/Pagination/BasicPagination.vue';
 import BasicSearch from '@/components/Search/BasicSearch.vue';
 
 defineOptions({
