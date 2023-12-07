@@ -1,5 +1,5 @@
 <template>
-  <div id="searches" class="pt-4 pb-1">
+  <BasicCard id="searches" isMarginBottom>
     <Form
       ref="formRef"
       labelAlign="left"
@@ -59,7 +59,7 @@
 
       <slot name="other"></slot>
     </Form>
-  </div>
+  </BasicCard>
 </template>
 
 <script lang="ts" setup>
@@ -77,6 +77,7 @@ import { useDebounceFn } from '@vueuse/core';
 import { filterEmptyValue, handleFilterTrim } from '@/utils/helper';
 import { handleLabelCol, handleWrapperCol } from './utils/helper';
 import BasicComponents from '../Form/BasicComponents.vue';
+import BasicCard from '../Card/BasicCard.vue';
 
 type FinishFun = (values: FormData) => void
 

@@ -10,7 +10,7 @@ export function useTableHeight(id = 'table', offsetHeight = 0) {
 
   // 屏幕可见区域高度 - 内容高度 - 底部高度 - 高度偏移量 = 表格高度
   const containerInnerHeight = height - tableHeight - footerHeight - offsetHeight; // 表格高度
-  const result = containerInnerHeight - 100;
+  const result = containerInnerHeight - 120;
 
   return [result];
 }

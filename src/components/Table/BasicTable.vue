@@ -8,7 +8,7 @@
     bordered
     :pagination="handleFilterPagination(pagination)"
     :columns="(handleColumns(columns) as ColumnsType)"
-    :dataSource="tableData"
+    :dataSource="handleFilterTableData(tableData)"
     :scroll="{ y: tableHeight }"
     @resizeColumn="handleResizeColumn"
   >
@@ -45,6 +45,7 @@
 import type { ColumnsType, TablePaginationConfig } from 'ant-design-vue/es/table';
 import type { TableData, TableColumnsProps } from '#/public';
 import type { DefaultOptionType } from 'ant-design-vue/es/select';
+import type { ColumnType } from "ant-design-vue/es/table";
 import type { TableProps } from 'ant-design-vue';
 import {
   ref,
@@ -194,6 +195,24 @@ const handleColumns = (array?: ColumnsType) => {
  */
  const showTotal = (total: number): string => {
   return `共 ${total || 0} 条数据`;
+};
+
+/**
+ * 过滤表格数据
+ * @param data - 表格数据
+ */
+const handleFilterTableData = (data: TableData[]) => {
+  for (let i = 0; i < data?.length; i++) {
+    const item = data[i];
+
+    for (let j = 0; j < props.columns?.length; j++) {
+      const column = props.columns[j] as ColumnType;
+      const key = String(column.dataIndex);
+      item[key] = item[key] ?? EMPTY_VALUE;
+    }
+  }
+
+  return data;
 };
 
 /**
