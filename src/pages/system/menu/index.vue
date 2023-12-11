@@ -5,11 +5,16 @@
         :list="searchList"
         :data="searchData"
         :isLoading="isLoading"
-        :isCreate="checkPermission(pagePermission.create)"
-        @onCreate="onCreate"
         @handleFinish="handleSearch"
       />
     </template>
+
+    <BtnRow>
+      <CreateBtn
+        v-if="checkPermission(pagePermission.create)"
+        @click="onCreate"
+      />
+    </BtnRow>
 
     <BasicTable
       :data="tableData"
@@ -19,13 +24,13 @@
       <template v-slot:operate='{ record }'>
         <UpdateBtn
           v-if="checkPermission(pagePermission.update)"
-          class="mr-2"
+          class="btn-space"
           :isLoading="isCreateLoading"
           @click="onUpdate(record)"
         />
         <DeleteBtn
           v-if="checkPermission(pagePermission.delete)"
-          class="mr-2"
+          class="btn-space"
           :isLoading="isLoading"
           @click="handleDelete(record.id)"
         />
@@ -63,7 +68,7 @@ import type { BasicFormProps } from '@/components/Form/model';
 import type { CreateData, TableData } from '#/public';
 import { message } from 'ant-design-vue';
 import { onActivated, reactive, shallowRef, ref } from 'vue';
-import { UpdateBtn, DeleteBtn, BasicBtn } from '@/components/Buttons';
+import { UpdateBtn, DeleteBtn, BasicBtn, CreateBtn } from '@/components/Buttons';
 import { ADD_TITLE, EDIT_TITLE } from '@/utils/config';
 import { checkPermission } from "@/utils/permissions";
 import {
@@ -79,6 +84,7 @@ import {
   updateSystemMenu,
   deleteSystemMenu
 } from '@/servers/system/menu';
+import BtnRow from '@/components/BtnRow/index.vue';
 import BasicContent from '@/components/Content/BasicContent.vue';
 import BasicTable from '@/components/Table/BasicTable.vue';
 import BasicSearch from '@/components/Search/BasicSearch.vue';

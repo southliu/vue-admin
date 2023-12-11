@@ -60,7 +60,8 @@ const optionFilterLabel = computed(() => {
 });
 
 watch(() => [props.modelValue, props.value], () => {
-  selectValue.value = props.modelValue ?? props.value;
+  const value = props.modelValue ?? props.value;
+  selectValue.value = value !== '' ? value : undefined;
 });
 
 watch(() => [

@@ -12,13 +12,14 @@
       <DeleteOutlined />
     </template>
 
-    <span>{{ content }}</span>
+    <slot v-if="slots.default" />
+    <span v-else>{{ content }}</span>
   </Button>
 </template>
 
 <script lang="ts" setup>
 import type { ButtonProps } from 'ant-design-vue/lib/button';
-import { createVNode, useAttrs } from 'vue';
+import { createVNode, useAttrs, useSlots } from 'vue';
 import { Button, Modal } from 'ant-design-vue';
 import { ExclamationCircleOutlined, DeleteOutlined } from '@ant-design/icons-vue';
 
@@ -41,6 +42,7 @@ const props = withDefaults(defineProps<DefineProps>(), {
   content: '删除'
 });
 
+const slots = useSlots();
 const attrs = useAttrs();
 const [modal, contextHolder] = Modal.useModal();
 

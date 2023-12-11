@@ -10,13 +10,14 @@
       <slot name="icon" />
     </template>
 
-    <span>{{ content || '编辑' }}</span>
+    <slot v-if="slots.default" />
+    <span v-else>{{ content }}</span>
   </Button>
 </template>
 
 <script lang="ts" setup>
 import type { ButtonProps } from 'ant-design-vue/lib/button';
-import { useAttrs } from 'vue';
+import { useAttrs, useSlots } from 'vue';
 import { Button } from 'ant-design-vue';
 
 interface DefineEmits {
@@ -33,8 +34,10 @@ interface DefineProps extends ButtonProps {
 
 withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
+  content: '编辑'
 });
 
+const slots = useSlots();
 const attrs = useAttrs();
 
 /** 点击编辑 */

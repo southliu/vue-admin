@@ -1,5 +1,9 @@
 <template>
-  <BasicCard id="searches" isMarginBottom>
+  <BasicCard
+    v-if="!!list?.length"
+    id="searches"
+    :isMarginBottom="!!list?.length"
+  >
     <Form
       ref="formRef"
       labelAlign="left"
@@ -31,10 +35,11 @@
         <slot v-else :name="item.name" />
       </FormItem>
 
-      <FormItem v-if="isSearch && list?.length">
+      <template v-if="isSearch && list?.length">
         <Button
           type="primary"
           htmlType="submit"
+          class="btn-space"
           :loading="isLoading"
         >
           <template #icon>
@@ -42,20 +47,20 @@
           </template>
           <span>{{ searchText }}</span>
         </Button>
-      </FormItem>
+      </template>
 
-      <FormItem v-if="isCreate">
+      <template v-if="isClear && list?.length">
         <Button
-          v-if="isCreate"
-          type="primary"
-          @click="onCreate"
+          v-if="isClear"
+          class="btn-space"
+          @click="onClear"
         >
           <template #icon>
-            <PlusOutlined />
+            <ClearOutlined />
           </template>
-          <span>{{ createText }}</span>
+          <span>{{ clearText }}</span>
         </Button>
-      </FormItem>
+      </template>
 
       <slot name="other"></slot>
     </Form>
@@ -72,10 +77,10 @@ import type { ColProps } from 'ant-design-vue';
 import type { ValidateErrorEntity } from 'ant-design-vue/lib/form/interface';
 import { watch, ref } from 'vue';
 import { Form, FormItem, Button } from 'ant-design-vue';
-import { SearchOutlined, PlusOutlined } from '@ant-design/icons-vue';
 import { useDebounceFn } from '@vueuse/core';
 import { filterEmptyValue, handleFilterTrim } from '@/utils/helper';
 import { handleLabelCol, handleWrapperCol } from './utils/helper';
+import { SearchOutlined, ClearOutlined } from '@ant-design/icons-vue';
 import BasicComponents from '../Form/BasicComponents.vue';
 import BasicCard from '../Card/BasicCard.vue';
 
@@ -83,7 +88,6 @@ type FinishFun = (values: FormData) => void
 
 interface DefineEmits {
   (e: 'handleFinish', params: FormData): void;
-  (e: 'onCreate'): void;
 }
 
 const emit = defineEmits<DefineEmits>();
@@ -94,15 +98,17 @@ interface DefineProps {
   wrapperCol?: Partial<ColProps>;
   isLoading?: boolean;
   isSearch?: boolean;
-  isCreate?: boolean;
-  createText?: string; // 新增文本
+  isClear?: boolean;
+  initSearch?: FormData; // 初始化搜索
   searchText?: string; // 搜索文本
+  clearText?: string; // 清除文本
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {
   isSearch: true,
-  createText: '新增',
-  searchText: '搜索'
+  isClear: true,
+  clearText: '清除',
+  searchText: '搜索',
 });
 
 const formRef = ref<FormInstance>();
@@ -165,9 +171,10 @@ const setFromState = (key: string | string[], value: unknown) => {
   }
 };
 
-/** 点击新增 */
-const onCreate = () => {
-  emit('onCreate');
+/** 点击清除 */
+const onClear = () => {
+  const value = props.initSearch ? { ...props.initSearch } : {};
+  emit('handleFinish', value);
 };
 
 /**

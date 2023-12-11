@@ -71,7 +71,8 @@ onMounted(() => {
 });
 
 watch(() => [props.modelValue, props.value], () => {
-  selectValue.value = props.modelValue ?? props.value;
+  const value = props.modelValue ?? props.value;
+  selectValue.value = value !== '' ? value : undefined;
 
   // 首次有值获取API接口
   if ((selectValue.value) && treeData.value?.length === 0) {
