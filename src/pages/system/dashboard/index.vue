@@ -5,9 +5,8 @@
         :labelCol="70"
         :list="searchList"
         :data="searchData"
+        :initSearch="initSearch"
         :isLoading="isLoading"
-        :isSearch="true"
-        :isCreate="false"
         @handleFinish="handleSearch"
       />
     </template>
@@ -51,12 +50,15 @@ const datum = ref<DashboardResult>({
   data: {}
 });
 
-// 搜索数据
-const searchData = ref<FormData>({
+// 初始化搜索
+const initSearch = {
   pay_date: dayjs().format(DATE_FORMAT),
   all_pay: true,
   package_types: [0]
-});
+};
+
+// 搜索数据
+const searchData = ref<FormData>({ ...initSearch });
 
 onActivated(() => {
   handleSearch(searchData.value);

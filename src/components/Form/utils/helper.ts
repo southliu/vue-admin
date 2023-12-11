@@ -104,6 +104,7 @@ export function getComponentProps(
     case 'DatePicker': {
       const dateValue = compData ? dayjs(compData as string) : undefined;
       return {
+        value: dateValue,
         defaultValue: dateValue,
         'onUpdate:value': (value: Dayjs | string) => {
           const format = ((item?.componentProps as DatePickerProps)?.format || DATE_FORMAT) as string;
@@ -117,6 +118,7 @@ export function getComponentProps(
       const rangeValue: [Dayjs, Dayjs] | undefined = (compData as [string, string])?.length > 1 && (compData as [string, string])?.[0] ?
         [dayjs((compData as [string, string])[0]), dayjs((compData as [string, string])[1])] : undefined;
       return {
+        value: rangeValue,
         defaultValue: rangeValue,
         format: [DATE_FORMAT, DATE_FORMAT],
         'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {

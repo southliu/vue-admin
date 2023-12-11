@@ -5,11 +5,16 @@
         :list="searchList"
         :data="searchData"
         :isLoading="isLoading"
-        :isCreate="checkPermission(pagePermission.create)"
-        @onCreate="onCreate"
         @handleFinish="handleSearch"
       />
     </template>
+
+    <BtnRow>
+      <CreateBtn
+        v-if="checkPermission(pagePermission.create)"
+        @click="onCreate"
+      />
+    </BtnRow>
 
     <BasicTable
       :data="tableData"
@@ -25,7 +30,7 @@
       <template #operate="{ record }">
         <UpdateBtn
           v-if="checkPermission(pagePermission.update)"
-          class="mr-2"
+          class="btn-space"
           :isLoading="isCreateLoading"
           @click="onUpdate(record)"
         />
@@ -45,13 +50,14 @@ import type { TableData, PaginationData } from '#/public';
 import { useRouter } from 'vue-router';
 import { message } from 'ant-design-vue';
 import { onActivated, reactive, ref } from 'vue';
-import { UpdateBtn, DeleteBtn } from '@/components/Buttons';
+import { UpdateBtn, DeleteBtn, CreateBtn } from '@/components/Buttons';
 import { pagePermission, searchList, tableColumns } from './model';
 import { checkPermission } from '@/utils/permissions';
 import { usePublicStore } from '@/stores/public';
 import { PAGE_SIZE } from '@/utils/config';
 import { storeToRefs } from 'pinia';
 import { getArticlePage, deleteArticle } from '@/servers/content/article';
+import BtnRow from '@/components/BtnRow/index.vue';
 import BasicContent from '@/components/Content/BasicContent.vue';
 import BasicTable from '@/components/Table/BasicTable.vue';
 import BasicSearch from '@/components/Search/BasicSearch.vue';
