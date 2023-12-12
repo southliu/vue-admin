@@ -4,6 +4,7 @@
       :is="Comp"
       :placeholder="placeholder"
       allowClear
+      class="min-w-100px max-w-500px"
       v-bind="{
         ...getComponentProps(
             item,

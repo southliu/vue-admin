@@ -17,6 +17,7 @@
     </div>
 
     <div class="flex items-center">
+      <Github />
       <GlobalSearch />
       <Fullscreen />
       <Theme />
@@ -72,6 +73,7 @@ import {
 import Fullscreen from '@/components/Fullscreen/index.vue';
 import GlobalSearch from '@/components/GlobalSearch/index.vue';
 import Theme from '@/components/Theme/index.vue';
+import Github from '@/components/Github/index.vue';
 import Avatar from '@/assets/images/avatar.png';
 import TopMenu from './TopMenu.vue';
 import Nav from './Nav.vue';
