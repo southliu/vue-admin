@@ -1,8 +1,8 @@
 <template>
   <contextHolder />
   <Button
-    danger
     :loading="isLoading"
+    :danger="isDanger"
     v-bind="attrs"
     :type="type || 'primary'"
     :class="`btn ${attrs.class}`"
@@ -34,11 +34,13 @@ interface DefineProps extends ButtonProps {
   isIcon?: boolean;
   content?: string;
   message?: string; // 删除提示语
+  isDanger?: boolean;
   type?: ButtonProps['type']
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
+  isDanger: true,
   content: '删除'
 });
 
