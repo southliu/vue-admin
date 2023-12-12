@@ -61,7 +61,7 @@
 
           <div class="w-full h-full flex items-center justify-center">
             <Icon
-              class="flex items-center justify-center change text-lg cursor-pointer"
+              class="flex items-center justify-center change-icon text-lg cursor-pointer"
               :class="{ 'animate-spin': isRefresh }"
               icon="ant-design:reload-outlined"
               @click="handleRefresh()"
@@ -80,7 +80,7 @@
         <Dropdown :trigger="['click']" @openChange="handleDropdownChange">
           <div class="w-36px h-36px flex items-center justify-center">
             <Icon
-              class="flex items-center justify-center change text-lg cursor-pointer transition-all transform "
+              class="flex items-center justify-center change-icon text-lg cursor-pointer transition-all transform "
               :class="{ 'rotate-180': isDropdown, 'rotate-0': !isDropdown }"
               icon="ant-design:down-outlined"
             />
@@ -107,13 +107,13 @@
           <div class="w-full h-full flex items-center justify-center">
             <Icon
               v-show="isMaximize"
-              class="flex items-center justify-center change text-lg cursor-pointer"
+              class="flex items-center justify-center change-icon text-lg cursor-pointer"
               icon="ant-design:compress-outlined"
               @click="handleMaximize()"
             />
             <Icon
               v-show="!isMaximize"
-              class="flex items-center justify-center change text-lg cursor-pointer"
+              class="flex items-center justify-center change-icon text-lg cursor-pointer"
               icon="ant-design:expand-outlined"
               @click="handleMaximize()"
             />

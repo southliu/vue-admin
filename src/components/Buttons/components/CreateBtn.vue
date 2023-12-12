@@ -6,7 +6,7 @@
     :class="`btn ${attrs.class}`"
     @click="onClick"
   >
-    <template #icon>
+    <template v-if="isIcon" #icon>
       <PlusOutlined />
     </template>
 
@@ -30,11 +30,13 @@ const emit = defineEmits<DefineEmits>();
 interface DefineProps extends ButtonProps {
   isLoading?: boolean;
   content?: string;
+  isIcon?: boolean;
   type?: ButtonProps['type']
 }
 
 withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
+  isIcon: true,
   content: '新增'
 });
 

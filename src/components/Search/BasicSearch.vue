@@ -53,6 +53,7 @@
         <Button
           v-if="isClear"
           class="btn-space"
+          :loading="isLoading"
           @click="onClear"
         >
           <template #icon>

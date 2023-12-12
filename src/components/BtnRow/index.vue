@@ -9,14 +9,44 @@
             :key="item.value"
           >
             <slot v-if="item.isSlot" :name="item.value" />
-            <BasicBtn
-              v-else-if="checkPermission(item.permission)"
-              v-show="(isShow || minShowNum > index)"
-              class="btn-space"
-              @click="handleClick(item.value)"
-            >
-              {{ item.label }}
-            </BasicBtn>
+
+            <template v-else-if="checkPermission(item.permission) && (isShow || minShowNum > index)">
+              <CreateBtn
+                v-if="item.type === 'create'"
+                class="btn-space"
+                :isIcon="item.isIcon ?? true"
+                :content="item.label"
+                :type="item.btnType"
+                @click="handleClick(item.value)"
+              />
+
+              <UpdateBtn
+                v-else-if="item.type === 'update'"
+                class="btn-space"
+                :content="item.label"
+                :type="item.btnType"
+                @click="handleClick(item.value)"
+              />
+
+              <DeleteBtn
+                v-else-if="item.type === 'delete'"
+                class="btn-space"
+                :isIcon="item.isIcon ?? true"
+                :isDanger="item.isDanger ?? true"
+                :content="item.label"
+                :type="item.btnType"
+                @click="handleClick(item.value)"
+              />
+
+              <BasicBtn
+                v-else
+                class="btn-space"
+                :type="item.btnType"
+                @click="handleClick(item.value)"
+              >
+                {{ item.label }}
+              </BasicBtn>
+            </template>
           </div>
 
           <BasicBtn
@@ -40,7 +70,7 @@
 <script lang="ts" setup>
 import type { BtnRowList } from './model';
 import { ref, computed } from 'vue';
-import { BasicBtn } from '../Buttons';
+import { BasicBtn, CreateBtn, DeleteBtn, UpdateBtn } from '../Buttons';
 import { checkPermission } from '@/utils/permissions';
 import { LeftOutlined, RightOutlined } from '@ant-design/icons-vue';
 
