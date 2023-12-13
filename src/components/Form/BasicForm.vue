@@ -23,7 +23,6 @@
       >
         <BasicComponents
           v-if="item.component !== 'slot'"
-          class="min-w-100px"
           :item="item"
           v-model:data="formState"
           :setData="setFromState"
