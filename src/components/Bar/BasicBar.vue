@@ -18,7 +18,7 @@
       <slot v-if="slots.title" name="title" />
 
       <span v-else class="text-15px">
-        {{ title }}
+        {{ title ?? handleInitTitle() }}
       </span>
     </div>
 
@@ -45,7 +45,7 @@ const emit = defineEmits<DefineEmits>();
 
 interface DefineProps {
   isBack?: boolean;
-  title: string;
+  title?: string;
   prevUrl?: string; // 上级链接
 }
 
@@ -67,5 +67,10 @@ const onBack = () => {
     closeTabs(route.fullPath);
     router.push(props.prevUrl as string);
   }
+};
+
+/** 初始化标题 */
+const handleInitTitle = () => {
+  return route.query?.id ? '编辑' : '新增';
 };
 </script>

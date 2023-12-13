@@ -19,7 +19,7 @@
         <template #tab>
           <Dropdown :trigger="['contextmenu']">
             <div
-              class="flex items-center justify-between w-full px-3 py-1 mr-0 border border-light-900"
+              class="dropdown-item flex items-center justify-between w-full px-3 py-1 mr-0 border border-light-900"
               :class="{
                 'bg-blue-700': isActive(item.key),
                 '!text-white': isActive(item.key)
@@ -373,5 +373,12 @@ defineExpose({
   width: calc(100% - 110px);
   height: 34px;
   padding-bottom: 0;
+}
+
+.theme-dark {
+  .dropdown-item {
+    border-color: #5b5b5b !important;
+    color: #FFFFFFD9 !important;
+  }
 }
 </style>

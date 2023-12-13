@@ -114,9 +114,8 @@ export const createList: FormList[] = [
     name: 'content',
     component: 'Editor',
     componentProps: {
-      class: 'max-w-1000px',
       style: {
-        maxWidth: '800px'
+        width: '90%'
       }
     }
   }
