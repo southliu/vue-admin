@@ -259,6 +259,12 @@ defineExpose({
   border-bottom: 1px solid #eee;
 }
 
+.theme-dark {
+  .header-driver, .layout-header {
+    border-bottom-color: #5b5b5b !important;
+  }
+}
+
 .menu {
   position: fixed;
   top: 0;
