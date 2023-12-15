@@ -1,4 +1,4 @@
-import type { DashboardResult } from '@/pages/system/dashboard/model';
+import type { DashboardResult } from '@/pages/dashboard/model';
 import { request } from '@/servers/request';
 
 /**

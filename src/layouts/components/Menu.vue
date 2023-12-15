@@ -1,7 +1,7 @@
 <template>
   <div class="py-1 box-border transition-all overflow-hidden z-2">
     <div
-      class="flex content-center px-5 py-2 cursor-pointer"
+      class="flex justify-center items-center px-5 py-2 cursor-pointer"
       :class="{ 'justify-center': isCollapsed }"
       @click="onClickLogo"
     >

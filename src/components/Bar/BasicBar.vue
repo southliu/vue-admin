@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full px-5 py-10px flex items-center justify-between b-b border-#ececec">
+  <div class="bar w-full px-5 py-10px flex items-center justify-between b-b border-#ececec">
     <div class="flex items-center">
       <div v-if="isBack" class="flex items-center">
         <Button
@@ -30,7 +30,7 @@
 import { useSlots } from 'vue';
 import { Icon } from '@iconify/vue';
 import { Button } from 'ant-design-vue';
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
 import { useTabStore } from "@/stores/tabs";
 
 defineOptions({
@@ -54,18 +54,16 @@ const props = withDefaults(defineProps<DefineProps>(), {
 });
 
 const slots = useSlots();
-const router = useRouter();
 const route = useRoute();
 const tabStore = useTabStore();
-const { closeTabs } = tabStore;
+const { closeTabGoNext } = tabStore;
 
 /** 点击返回 */
 const onBack = () => {
   emit('back');
 
   if (props.prevUrl) {
-    closeTabs(route.fullPath);
-    router.push(props.prevUrl as string);
+    closeTabGoNext(route.fullPath, props.prevUrl);
   }
 };
 
@@ -74,3 +72,11 @@ const handleInitTitle = () => {
   return route.query?.id ? '编辑' : '新增';
 };
 </script>
+
+<style lang="less" scoped>
+.theme-dark {
+  .bar {
+    border-bottom-color: #414141 !important;
+  }
+}
+</style>

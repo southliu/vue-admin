@@ -1,26 +1,28 @@
 <template>
- <Button class="mr-10px" @click="handleClick">
-    <template #icon>
+  <Button class="mr-10px" @click="handleClick">
+    <div class="flex items-center">
       <Icon
-        class="text-17px"
+        class="mr-5px mb-1px"
         icon='entypo:export'
       />
-    </template>
-    <span>导出</span>
- </Button>
+      <span>导出</span>
+    </div>
+  </Button>
 </template>
-
+ 
 <script lang="ts" setup>
 import { Button } from 'ant-design-vue';
-
+import { Icon } from '@iconify/vue';
+ 
 interface DefineEmits {
   (e: 'click'): void;
 }
 
 const emit = defineEmits<DefineEmits>();
-
-// 处理点击事件
-const handleClick = () => {
-  emit('click');
-};
-</script>
+ 
+ // 处理点击事件
+ const handleClick = () => {
+   emit('click');
+ };
+ </script>
+ 
