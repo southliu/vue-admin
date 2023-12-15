@@ -6,7 +6,7 @@ import { ROUTER_EXCLUDE } from "@/utils/config";
  * 路由转为Keepalive
  * @param route - 路由
  */
-export function routeToKeepalive(route: String): string {
+export function routeToKeepalive(route: string): string {
   if (typeof route !== "string") return '';
 
   let result = '';

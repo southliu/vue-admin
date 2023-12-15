@@ -9,7 +9,7 @@
       class="whitespace-nowrap"
     >
       <span
-        class="#000000d9 text-14px"
+        class="text-14px"
         :class="{
           'opacity-60': index < list.length - 1
         }"

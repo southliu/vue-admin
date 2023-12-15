@@ -261,7 +261,7 @@ defineExpose({
 
 .theme-dark {
   .header-driver, .layout-header {
-    border-bottom-color: #5b5b5b !important;
+    border-bottom-color: #414141 !important;
   }
 }
 

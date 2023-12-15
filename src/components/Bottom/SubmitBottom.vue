@@ -1,9 +1,10 @@
 <template>
   <div class='
+    submit-bottom
+    theme-bg
     bg-white
     absolute
     flex
-    justify-end
     left-0
     right-0
     bottom-0
@@ -16,17 +17,17 @@
     z-999
   '>
     <Button
-      danger
-      class="mr-10px"
-      @click="goBack"
-    >
-      返回
-    </Button>
-    <Button
       type="primary"
+      class="mr-10px"
       @click="handleSubmit"
     >
       提交
+    </Button>
+    <Button
+      danger
+      @click="goBack"
+    >
+      返回
     </Button>
     <slot></slot>
   </div>
@@ -45,3 +46,11 @@ withDefaults(defineProps<DefineProps>(), {
   isLoading: false,
 });
 </script>
+
+<style lang="less" scoped>
+.theme-dark {
+  .submit-bottom {
+    border-top-color: #414141 !important;
+  }
+}
+</style>

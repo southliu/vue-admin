@@ -377,7 +377,7 @@ defineExpose({
 
 .theme-dark {
   .dropdown-item {
-    border-color: #5b5b5b !important;
+    border-color: #414141 !important;
     color: #FFFFFFD9 !important;
   }
 }
