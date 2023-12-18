@@ -14,7 +14,7 @@ export const FORM_REQUIRED = [{ required: true }]; // 表单必填校验
 
 // 日期格式化
 export const DATE_FORMAT = 'YYYY/MM/DD';
-export const TIME_FORMAT = 'YYYY/MM/DD hh:mm:ss';
+export const TIME_FORMAT = 'YYYY/MM/DD HH:mm:ss';
 
 // 分页总数
 export const PAGE_SIZE = 20;
