@@ -103,33 +103,31 @@ export function getComponentProps(
     // 时间
     case 'DatePicker': {
       const dateValue = compData ? dayjs(compData as string) : undefined;
+      const format = ((item?.componentProps as DatePickerProps)?.format || DATE_FORMAT) as string;
       return {
         value: dateValue,
         defaultValue: dateValue,
+        valueFormat: format,
+        format,
         'onUpdate:value': (value: Dayjs | string) => {
-          const format = ((item?.componentProps as DatePickerProps)?.format || DATE_FORMAT) as string;
-          setData(key, (value as Dayjs).format(format));
+          setData(key, value);
         }
       };
     }
 
     // 时间区间
     case 'RangePicker': {
+      const format = ((item?.componentProps as DatePickerProps)?.format || DATE_FORMAT) as string;
       const rangeValue: [Dayjs, Dayjs] | undefined = (compData as [string, string])?.length > 1 && (compData as [string, string])?.[0] ?
         [dayjs((compData as [string, string])[0]), dayjs((compData as [string, string])[1])] : undefined;
       return {
         value: rangeValue,
         defaultValue: rangeValue,
-        format: [DATE_FORMAT, DATE_FORMAT],
+        valueFormat: format,
+        format,
         'onUpdate:value': (value: [Dayjs, Dayjs] | [string, string]) => {
           if (value?.length < 2) return setData(key, []);
-
-          const format = ((item?.componentProps as DatePickerProps)?.format || DATE_FORMAT) as string;
-          const newValue = [
-            (value as [Dayjs, Dayjs])?.[0]?.format(format),
-            (value as [Dayjs, Dayjs])?.[1]?.format(format)
-          ];
-          setData(key, newValue);
+          setData(key, value);
         }
       };
     }
