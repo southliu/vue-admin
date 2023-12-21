@@ -94,14 +94,19 @@ export function recursiveData<T extends IRecursiveChildren<T>, U>(
  * 处理回显数据
  * @param arr - 数组
  */
-export function handleEchoArr(value: unknown, arr: IConstant[] | DefaultOptionType[]) {
+export const handleEchoArr = (
+  value: unknown,
+  arr: IConstant[] | DefaultOptionType[],
+  key = 'value'
+) => {
+  if ([undefined, null, ''].includes(value as undefined)) return;
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
-    if (item.value === value) {
+    if (item[key] === value) {
       return item.label;
     }
   }
-}
+};
 
 /**
  * 处理回显颜色
@@ -167,3 +172,50 @@ export function setTitle(title: string) {
   const value = `${title ? title + '-' : ''}${TITLE_SUFFIX}`;
   document.title = value;
 }
+
+/**
+ * 获取字符串UTF-16码元总和
+ * @param data - 表格字段值
+ */
+const getStrCodeNum = (data: string) => {
+  let result = 0;
+if ([undefined, null, ''].includes(data)) return result;
+
+if (typeof data !== 'string') {
+  data = (data as Number)?.toString?.();
+}
+
+for (let i = 0; i < data?.length; i++) {
+  const item = data[i];
+  result += item?.charCodeAt?.(0) || 0;
+}
+
+return result;
+};
+
+/**
+* 处理表格排序
+* @param key - 表格字段名
+* @param directions - 升序降序
+*/
+interface TableSorterProps {
+a: TableData;
+b: TableData;
+key: string;
+directions?: 'ascend' | 'descend'
+}
+export const handleTableSorter = ({
+a, b, key, directions = 'ascend'
+}: TableSorterProps) => {
+let result = 0;
+const aNum = getStrCodeNum(a?.[key] as string);
+const bNum = getStrCodeNum(b?.[key] as string);
+
+if (directions === 'ascend') {
+  result = aNum - bNum;
+} else {
+  result = bNum - aNum;
+}
+
+return result;
+};
