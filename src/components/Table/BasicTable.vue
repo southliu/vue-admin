@@ -9,7 +9,7 @@
     :pagination="handleFilterPagination(pagination)"
     :columns="(handleColumns(columns) as ColumnsType)"
     :dataSource="tableData"
-    :scroll="{ y: tableHeight }"
+    :scroll="{ y: tableHeight, x: scrollX }"
     @resizeColumn="handleResizeColumn"
   >
     <template #bodyCell="{ column, record, index }">
@@ -86,10 +86,12 @@ const props = withDefaults(defineProps<DefineProps>(), {
 });
 
 const tableHeight = ref(0);
+const scrollX = ref(300);
 const tableData = ref(props.data || []);
 
 onMounted(() => {
   getTableHeight();
+  getScrollX();
   if (props.isResize) {
     startResize();
   }
@@ -105,10 +107,34 @@ watch(() => props.data, value => {
   tableData.value = value || [];
 });
 
+/** 获取x轴数据 */
+function getScrollX() {
+  let result = 0;
+
+  for (let i = 0; i < props.columns?.length; i++) {
+    const item = props.columns[i];
+    let width: string | number = item.width || item.maxWidth || item.minWidth || 50;
+
+    if (typeof width === 'string') {
+      if (width.includes('%')) {
+        width = width.substring(0, width.length - 1);
+      }
+      if (width.includes('px')) {
+        width = width.substring(0, width.length - 2);
+      }
+      width = Number(width);
+    }
+
+    result += width;
+  }
+
+  scrollX.value = result || 300;
+}
+
 /** 获取表格高度 */
 const getTableHeight = () => {
   const [height] = useTableHeight(props.id, props.offsetHeight);
-  tableHeight.value = height;
+  tableHeight.value = height < 150 ? 150 : height;
 };
 
 // 滚动事件防抖
@@ -178,7 +204,6 @@ const handleColumns = (array?: ColumnsType) => {
 
   for (let i = 0; i < array.length; i++) {
     const item = array[i];
-    item.key = item.key?.toString()?.trim() || '';
     // 初始化最小宽度70
     item.width = item.width || 50;
     // 列拖拽
