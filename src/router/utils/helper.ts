@@ -1,6 +1,8 @@
 import type { RouteRecordRaw } from "vue-router";
 import { firstCapitalize } from "@/utils/helper";
 import { ROUTER_EXCLUDE } from "@/utils/config";
+import { message } from "ant-design-vue";
+import axios from "axios";
 
 /**
  * 路由转为Keepalive
@@ -51,3 +53,19 @@ export function layoutRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
 
   return layouts;
 }
+
+/**  版本监控 */
+export const versionCheck = async () => {
+  // if (import.meta.env.MODE === 'development') return;
+  const response = await axios.get('version.json');
+  console.log('response:', response)
+  if (process.env.VITE_APP_VERSION !== response.data.version) {
+    message.info({
+      content: '发现新内容，自动更新中...',
+      key: 'reload',
+      onClose: () => {
+        window.location.reload();
+      }
+    });
+  }
+};

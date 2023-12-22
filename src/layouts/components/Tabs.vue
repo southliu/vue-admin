@@ -9,7 +9,6 @@
         marginTop: '3px'
       }"
       :tabBarGutter="5"
-      @change="onChange"
     >
       <TabPane
         class="overflow-auto"
@@ -17,7 +16,7 @@
         :key="item.key"
       >
         <template #tab>
-          <Dropdown :trigger="['contextmenu']">
+          <Dropdown :trigger="['contextmenu']" @click="onChange(item.url)">
             <div
               class="dropdown-item flex items-center justify-between w-full px-3 py-1 mr-0 border border-light-900"
               :class="{
@@ -212,14 +211,6 @@ watch(() => route.fullPath, value => {
 watch(() => menuList.value, () => {
   if (tabs.value?.length === 0) {
     handleAddTab();
-  }
-});
-
-// 监听选中标签
-watch(activeKey, value => {
-  // 当选中贴标签不等于当前路由则跳转
-  if (value && value !== route.fullPath) {
-    router.push(value);
   }
 });
 

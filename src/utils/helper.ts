@@ -1,6 +1,6 @@
 import type { FormData } from "#/form";
 import type { IConstant } from "./constants";
-import type { ArrayData } from "#/public";
+import type { ArrayData, TableData } from "#/public";
 import type { DefaultOptionType } from "ant-design-vue/es/select";
 import { TITLE_SUFFIX } from "./config";
 

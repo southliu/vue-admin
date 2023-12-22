@@ -63,7 +63,7 @@ const onBack = () => {
   emit('back');
 
   if (props.prevUrl) {
-    closeTabGoNext(route.fullPath, props.prevUrl);
+    closeTabGoNext(route.path, props.prevUrl);
   }
 };
 

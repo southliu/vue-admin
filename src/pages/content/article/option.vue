@@ -104,7 +104,7 @@ const handleSubmit = () => {
 const goBack = (isRefresh?: boolean) => {
   if (isRefresh) setRefreshPage(true);
   router.push(fatherPath);
-  closeTabGoNext(route.fullPath, fatherPath);
+  closeTabGoNext(route.path, fatherPath);
 };
 
 /**

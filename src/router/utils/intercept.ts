@@ -5,9 +5,9 @@ import { message } from "ant-design-vue";
 import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
-import { routeToKeepalive } from "./helper";
 import { useMenuStore } from "@/stores/menu";
 import { getFirstMenu } from '@/utils/menu';
+import { versionCheck } from "./helper";
 import NProgress from 'nprogress';
 import pinia from '../../stores';
 
@@ -19,7 +19,8 @@ NProgress.configure({ showSpinner: false });
  */
 export function routerIntercept(router: Router) {
     // 路由拦截
-  router.beforeEach((to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+    await versionCheck();
     const { getToken } = useToken();
     const token = getToken();
     NProgress.start();
@@ -32,8 +33,7 @@ export function routerIntercept(router: Router) {
     const { permissions } = storeToRefs(userStore);
 
     // 转为keepalive形式
-    const cacheRoute = routeToKeepalive(to.path);
-    addCacheRoutes(cacheRoute);
+    addCacheRoutes(to.path);
 
     // 无token返回登录页
     if (!token && to.path !== '/login') {

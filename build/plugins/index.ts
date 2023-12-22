@@ -2,6 +2,7 @@ import type { Plugin } from 'vite';
 import { AntDesignVueResolver } from 'unplugin-vue-components/resolvers';
 import { presetUno, presetAttributify, presetIcons } from 'unocss';
 import { timePlugin } from './time';
+import { versionUpdatePlugin } from './version';
 import { visualizer } from 'rollup-plugin-visualizer';
 import vue from '@vitejs/plugin-vue';
 import AutoImport from 'unplugin-auto-import/vite';
@@ -12,7 +13,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import viteCompression from 'vite-plugin-compression';
 import Pages from 'vite-plugin-pages';
 
-export function createVitePlugins() {
+export function createVitePlugins(currentTimeVersion: number) {
   // 插件参数
   const vitePlugins: (Plugin | Plugin[])[] = [
     vue(),
@@ -51,7 +52,11 @@ export function createVitePlugins() {
       brotliSize: true,
     }),
     // 打包时间
-    timePlugin()
+    timePlugin(),
+    // 版本控制
+    versionUpdatePlugin({
+			version: currentTimeVersion,
+    })
   ];
 
   return vitePlugins;

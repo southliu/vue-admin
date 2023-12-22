@@ -146,6 +146,7 @@ export function searchMenuValue(data: SearchMenuProps): SideMenu[] {
 interface GetMenuByKeyResult {
   label: string;
   key: string;
+  url: string;
   nav: string[];
 }
 interface GetMenuByKeyProps {
@@ -163,6 +164,7 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
   if (!fatherNav) fatherNav = [];
   if (!result?.key) result = {
     key: '',
+    url: '',
     label: '',
     nav: []
   };
@@ -198,7 +200,7 @@ export function getMenuByKey(data: GetMenuByKeyProps): GetMenuByKeyResult | unde
     ) {
       fatherNav.push(menus[i].label);
       const { label, key } = menus[i];
-      if (key) result = { label, key, nav: fatherNav };
+      if (key) result = { label, key, url: key, nav: fatherNav };
     }
   }
 
