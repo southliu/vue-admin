@@ -106,6 +106,7 @@ watch(() => sideMenuList.value, () => {
 
 // 监听路径
 watch(() => route.path, value => {
+  if (!value || value === '/loading') return;
   handleMenuOpen();
   handleSetTitle(sideMenuList.value, value);
 });

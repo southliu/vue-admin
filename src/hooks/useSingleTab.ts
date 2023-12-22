@@ -100,9 +100,9 @@ export function useSingleTab(
    * 添加标签
    * @param path - 路径
    */
-  const handleTitleAndTab = (path = route.fullPath) => {
+  const handleTitleAndTab = (fullPath = route.fullPath) => {
     // 当值为空时匹配路由
-    if (path === '/' || !menuList.value?.length) return;
+    if (fullPath === '/' || !menuList.value?.length) return;
 
     const nav = handleGetNav();
     const title = handleGetTitle();
@@ -111,7 +111,8 @@ export function useSingleTab(
 
     const newTab = {
       label: title,
-      key: path,
+      url: fullPath,
+      key: route.path,
       nav
     };
     // 展开菜单
