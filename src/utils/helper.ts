@@ -95,15 +95,18 @@ export function recursiveData<T extends IRecursiveChildren<T>, U>(
  * @param arr - 数组
  */
 export const handleEchoArr = (
-  value: unknown,
+  data: unknown,
   arr: IConstant[] | DefaultOptionType[],
-  key = 'value'
+  options?: { label: string, value: string }
 ) => {
-  if ([undefined, null, ''].includes(value as undefined)) return;
+  if ([undefined, null, ''].includes(data as undefined)) return;
+  const label = options?.label || 'label';
+  const value = options?.value || 'value';
+
   for (let i = 0; i < arr.length; i++) {
     const item = arr[i];
-    if (item[key] === value) {
-      return item.label;
+    if (String(item[value]) === String(data)) {
+      return item[label];
     }
   }
 };

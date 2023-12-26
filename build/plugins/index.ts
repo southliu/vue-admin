@@ -13,7 +13,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx';
 import viteCompression from 'vite-plugin-compression';
 import Pages from 'vite-plugin-pages';
 
-export function createVitePlugins(currentTimeVersion: number) {
+export function createVitePlugins() {
   // 插件参数
   const vitePlugins: (Plugin | Plugin[])[] = [
     vue(),
@@ -54,9 +54,7 @@ export function createVitePlugins(currentTimeVersion: number) {
     // 打包时间
     timePlugin(),
     // 版本控制
-    versionUpdatePlugin({
-			version: currentTimeVersion,
-    })
+    versionUpdatePlugin()
   ];
 
   return vitePlugins;
