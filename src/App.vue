@@ -12,8 +12,9 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { storeToRefs } from 'pinia';
+import { VERSION } from './utils/config';
 import { usePublicStore } from '@/stores/public';
 import { ConfigProvider, theme } from 'ant-design-vue';
 import zhCN from 'ant-design-vue/es/locale/zh_CN';
@@ -33,5 +34,17 @@ onMounted(() => {
   if (document?.getElementById('first')) {
     (document.getElementById('first') as HTMLElement).style.display = 'none';
   }
+
+  // 关闭时去除版本信息
+  window.addEventListener('unload', handleClearVersion);
 });
+
+onUnmounted(() => {
+  window.removeEventListener('unload', handleClearVersion);
+});
+
+/** 清空版本 */
+const handleClearVersion = () => {
+  localStorage.removeItem(VERSION);
+};
 </script>

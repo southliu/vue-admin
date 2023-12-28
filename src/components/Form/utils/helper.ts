@@ -5,6 +5,7 @@ import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface'
 import type { Dayjs } from 'dayjs';
 import { PLEASE_ENTER, PLEASE_SELECT, DATE_FORMAT } from '@/utils/config';
 import dayjs from 'dayjs';
+import { getDeepNestedObj } from '@/utils/helper';
 
 /**
  * 生成占位符
@@ -21,25 +22,6 @@ export function createPlaceholder(component: ComponentType): string | string[] {
 }
 
 /**
- * 获取嵌套数据
- * @param arr - 键值数组
- * @param obj - 表单数据对象
- */
-const getDeepNested = (arr: string[], obj: Record<string, unknown>) => {
-  try {
-    for (let i = 0; i < arr.length; i++) {
-      const key = arr[i]?.trim();
-      if (!key || !obj || !obj[key]) return '';
-      if (arr.length - 1 === i) return obj[key];
-      obj = obj[key] as Record<string, unknown>;
-    }
-    return '';
-  } catch(e) {
-    console.warn('嵌套数据解析异常:', e);
-  }
-};
-
-/**
  * 获取组件属性
  * @param item - 组件项
  * @param data - 数据对象
@@ -51,14 +33,7 @@ export function getComponentProps(
   setData: (key: string | string[], value: unknown) => void
 ) {
   const key = item.name;
-  let compData: unknown;
-
-  // 当key存在逗号时，分割数据
-  if (Array.isArray(key)) {
-    compData = getDeepNested(key, data);
-  } else {
-    compData = data[key];
-  }
+  const compData = getDeepNestedObj(key, data);
 
   switch (item.component) {
     // 富文本

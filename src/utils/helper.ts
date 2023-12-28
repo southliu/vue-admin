@@ -182,43 +182,69 @@ export function setTitle(title: string) {
  */
 const getStrCodeNum = (data: string) => {
   let result = 0;
-if ([undefined, null, ''].includes(data)) return result;
+  if ([undefined, null, ''].includes(data)) return result;
 
-if (typeof data !== 'string') {
-  data = (data as Number)?.toString?.();
-}
+  if (typeof data !== 'string') {
+    data = (data as Number)?.toString?.();
+  }
 
-for (let i = 0; i < data?.length; i++) {
-  const item = data[i];
-  result += item?.charCodeAt?.(0) || 0;
-}
+  for (let i = 0; i < data?.length; i++) {
+    const item = data[i];
+    result += item?.charCodeAt?.(0) || 0;
+  }
 
-return result;
+  return result;
 };
 
 /**
-* 处理表格排序
-* @param key - 表格字段名
-* @param directions - 升序降序
-*/
+ * 处理表格排序
+ * @param key - 表格字段名
+ * @param directions - 升序降序
+ */
 interface TableSorterProps {
-a: TableData;
-b: TableData;
-key: string;
-directions?: 'ascend' | 'descend'
+  a: TableData;
+  b: TableData;
+  key: string | string[];
+  directions?: 'ascend' | 'descend'
 }
 export const handleTableSorter = ({
-a, b, key, directions = 'ascend'
+  a, b, key, directions = 'ascend'
 }: TableSorterProps) => {
-let result = 0;
-const aNum = getStrCodeNum(a?.[key] as string);
-const bNum = getStrCodeNum(b?.[key] as string);
+  let result = 0;
+  const aNum = getStrCodeNum(getDeepNestedObj(key, a) as string);
+  const bNum = getStrCodeNum(getDeepNestedObj(key, b) as string);
 
-if (directions === 'ascend') {
-  result = aNum - bNum;
-} else {
-  result = bNum - aNum;
-}
+  if (directions === 'ascend') {
+    result = aNum - bNum;
+  } else {
+    result = bNum - aNum;
+  }
 
-return result;
+  return result;
+};
+
+/**
+ * 获取嵌套数据
+ * @param keys - 键值数组
+ * @param obj - 表单数据对象
+ */
+export const getDeepNestedObj = (keys: string[] | string, obj: Record<string, unknown>) => {
+  if (!Array.isArray(keys)) return obj?.[keys] ?? '';
+
+  try {
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]?.trim();
+      const errorData = [undefined, null, ''];
+      if (
+        !obj ||
+        errorData.includes(key) ||
+        errorData.includes(obj[key] as undefined)
+      ) return '';
+      if (keys.length - 1 === i) return obj[key];
+      obj = obj[key] as Record<string, unknown>;
+    }
+    return '';
+  } catch(e) {
+    console.warn('嵌套数据解析异常:', e);
+  }
 };

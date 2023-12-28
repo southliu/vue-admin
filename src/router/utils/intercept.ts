@@ -1,12 +1,11 @@
 import type { Router } from "vue-router";
-import type { NavigationGuardNext, RouteLocationNormalized } from 'vue-router';
 import { useToken } from '@/hooks/useToken';
 import { message } from "ant-design-vue";
 import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useMenuStore } from "@/stores/menu";
-import { getFirstMenu } from '@/utils/menu';
+import { getFirstMenu, getMenuByKey } from '@/utils/menu';
 import { versionCheck } from "./helper";
 import NProgress from 'nprogress';
 import pinia from '../../stores';
@@ -19,7 +18,7 @@ NProgress.configure({ showSpinner: false });
  */
 export function routerIntercept(router: Router) {
     // 路由拦截
-  router.beforeEach(async (to: RouteLocationNormalized, from: RouteLocationNormalized, next: NavigationGuardNext) => {
+  router.beforeEach(async (to, from, next) => {
     await versionCheck();
     const { getToken } = useToken();
     const token = getToken();
@@ -29,11 +28,28 @@ export function routerIntercept(router: Router) {
     const tabStore = useTabStore(pinia);
     const menuStore = useMenuStore();
     const { menuList } = storeToRefs(menuStore);
-    const { addCacheRoutes } = tabStore;
     const { permissions } = storeToRefs(userStore);
+    const {
+      addCacheRoutes,
+      setActiveKey,
+      setNav,
+      addTabs
+    } = tabStore;
 
     // 转为keepalive形式
     addCacheRoutes(to.path);
+
+    const menuByKeyProps = {
+      menus: menuList.value,
+      permissions: permissions.value,
+      key: to.path
+    };
+    const newItems = getMenuByKey(menuByKeyProps);
+    if (newItems?.key) {
+      setActiveKey(newItems.key);
+      setNav(newItems.nav);
+      addTabs(newItems);
+    }
 
     // 无token返回登录页
     if (!token && to.path !== '/login') {
