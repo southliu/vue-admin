@@ -3,15 +3,15 @@
     class="h-40px flex items-center justify-between px-6 py-6px box-border transition-all"
   >
     <div class="flex items-center">
-      <div class="text-lg cursor-pointer" @click="toggleCollapsed">
+      <div class="flex items-center text-lg cursor-pointer" @click="toggleCollapsed">
         <MenuUnfoldOutlined v-if="isCollapsed" />
         <MenuFoldOutlined v-else />
       </div>
 
-      <Nav
+      <!-- <Nav
         className="ml-15px"
         :list="nav"
-      />
+      /> -->
 
       <TopMenu />
     </div>
@@ -55,7 +55,7 @@ import { useRouter } from 'vue-router';
 import { useToken } from '@/hooks/useToken';
 import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
-import { storeToRefs } from 'pinia';
+// import { storeToRefs } from 'pinia';
 import { Modal } from 'ant-design-vue';
 import {
   Menu,
@@ -76,7 +76,7 @@ import Theme from '@/components/Theme/index.vue';
 import Github from '@/components/Github/index.vue';
 import Avatar from '@/assets/images/avatar.png';
 import TopMenu from './TopMenu.vue';
-import Nav from './Nav.vue';
+// import Nav from './Nav.vue';
 
 // 下拉菜单枚举
 enum Dropdowns {
@@ -108,7 +108,7 @@ const {
   clearCacheRoutes,
   setActiveKey
 } = tabStore;
-const { nav } = storeToRefs(tabStore);
+// const { nav } = storeToRefs(tabStore);
 
 /** 收缩菜单 */
 const toggleCollapsed = () => {

@@ -4,16 +4,20 @@
       <div
         v-for="item in list"
         :key="item.value"
-        class="item px-20px py-18px"
-        :class="{
-          'cursor-pointer': list?.length > 1,
-          'active relative text-#FF5f00': active === item.value || list.length === 1
-        }"
-        @click="handleClick(item.value)"
+        v-show="!item.hidden"
       >
-        <span class="text-16px">
-          {{ item.label }}
-        </span>
+        <div
+          class="item px-20px py-18px"
+          :class="{
+            'cursor-pointer': list?.length > 1,
+            'active relative text-#FF5f00': active === item.value || list.length === 1
+          }"
+          @click="handleClick(item.value)"
+        >
+          <span class="text-16px">
+            {{ item.label }}
+          </span>
+        </div>
       </div>
     </div>
 
@@ -22,6 +26,7 @@
 </template>
 
 <script lang="ts" setup>
+import type { TabData } from './model';
 import { ref } from 'vue';
 
 defineOptions({
@@ -34,11 +39,9 @@ interface DefineEmits {
 
 const emit = defineEmits<DefineEmits>();
 
-type ListArr = { label: string, value?: string | number };
-
 interface DefineProps {
   defaultActive?: string;
-  list: ListArr[];
+  list: TabData[];
 }
 
 const props = withDefaults(defineProps<DefineProps>(), {});
