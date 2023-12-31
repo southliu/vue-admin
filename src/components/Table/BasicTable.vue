@@ -37,7 +37,10 @@
         :record="record"
         :rowIndex="index"
       >
-        {{ record?.[column.dataIndex as string] ?? EMPTY_VALUE }}
+        {{
+          ![undefined, null, ''].includes(record?.[column.dataIndex as string]) ?
+          record?.[column.dataIndex as string] : EMPTY_VALUE
+        }}
       </slot>
     </template>
   </Table>

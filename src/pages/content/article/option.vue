@@ -12,8 +12,7 @@
 
     <SubmitBottom
       :isLoading="isLoading"
-      :goBack="() => goBack()"
-      :handleSubmit="handleSubmit"
+      @submit="handleSubmit"
     />
   </BasicContent>
 </template>

@@ -63,7 +63,7 @@ export function routerIntercept(router: Router) {
   });
 
   // 路由结束处理
-  router.afterEach(() => {
+  router.afterEach((to) => {
     NProgress.done();
   });
 }
