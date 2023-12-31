@@ -5,6 +5,7 @@ export type ThemeType = 'light' | 'dark';
 interface StateData {
   isRefreshPage: boolean;
   themeType: ThemeType;
+  version: string;
 }
 
 export const usePublicStore = defineStore({
@@ -12,6 +13,7 @@ export const usePublicStore = defineStore({
   state: () => ({
     isRefreshPage: false,
     themeType: 'light',
+    version: ''
   } as StateData),
   actions: {
     /**
@@ -27,6 +29,13 @@ export const usePublicStore = defineStore({
      */
     setTheme(themeType: ThemeType) {
       this.themeType = themeType;
+    },
+    /**
+     * 设置版本号
+     * @param version - 路由数据
+     */
+    setVersion(version: string) {
+      this.version = version;
     },
   },
 });
