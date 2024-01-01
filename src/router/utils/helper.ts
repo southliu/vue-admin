@@ -1,6 +1,6 @@
 import type { RouteRecordRaw } from "vue-router";
 import { firstCapitalize } from "@/utils/helper";
-import { ROUTER_EXCLUDE, VERSION } from "@/utils/config";
+import { ROUTER_EXCLUDE } from "@/utils/config";
 import { message } from "ant-design-vue";
 import axios from "axios";
 
@@ -51,18 +51,20 @@ export function layoutRoutes(routes: RouteRecordRaw[]): RouteRecordRaw[] {
 }
 
 /**  版本监控 */
-export const versionCheck = async () => {
+export const versionCheck = async (
+  versionStore: string,
+  setVersion: (str: string) => void
+) => {
   if (import.meta.env.MODE === 'development') return;
-  const versionLocal = localStorage.getItem(VERSION);
   const { data: { version } } = await axios.get('version.json');
 
   // 首次进入则缓存本地数据
-  if (!versionLocal) {
-    return localStorage.setItem(VERSION, String(version));
+  if (!versionStore) {
+    return setVersion(String(version));
   }
 
-  if (versionLocal !== String(version)) {
-    localStorage.setItem(VERSION, String(version));
+  if (versionStore !== String(version)) {
+    setVersion(String(version));
     message.info({
       content: '发现新内容，自动更新中...',
       key: 'reload',

@@ -5,6 +5,7 @@ import { useTabStore } from '@/stores/tabs';
 import { useUserStore } from '@/stores/user';
 import { storeToRefs } from 'pinia';
 import { useMenuStore } from "@/stores/menu";
+import { usePublicStore } from "@/stores/public";
 import { getFirstMenu, getMenuByKey } from '@/utils/menu';
 import { versionCheck } from "./helper";
 import NProgress from 'nprogress';
@@ -17,24 +18,27 @@ NProgress.configure({ showSpinner: false });
  * @param router - 路由对象
  */
 export function routerIntercept(router: Router) {
-    // 路由拦截
+  const publicStore = usePublicStore();
+  const userStore = useUserStore(pinia);
+  const tabStore = useTabStore(pinia);
+  const menuStore = useMenuStore();
+  const { version } = storeToRefs(publicStore);
+  const { menuList } = storeToRefs(menuStore);
+  const { permissions } = storeToRefs(userStore);
+  const { setVersion } = publicStore;
+  const {
+    addCacheRoutes,
+    setActiveKey,
+    setNav,
+    addTabs
+  } = tabStore;
+
+  // 路由拦截
   router.beforeEach(async (to, from, next) => {
-    await versionCheck();
+    await versionCheck(version.value, setVersion);
     const { getToken } = useToken();
     const token = getToken();
     NProgress.start();
-
-    const userStore = useUserStore(pinia);
-    const tabStore = useTabStore(pinia);
-    const menuStore = useMenuStore();
-    const { menuList } = storeToRefs(menuStore);
-    const { permissions } = storeToRefs(userStore);
-    const {
-      addCacheRoutes,
-      setActiveKey,
-      setNav,
-      addTabs
-    } = tabStore;
 
     // 转为keepalive形式
     addCacheRoutes(to.path);
