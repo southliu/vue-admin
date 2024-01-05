@@ -3,9 +3,9 @@ import type { WangEditorProps } from '@/components/WangEditor/model';
 import type { DatePickerProps } from 'ant-design-vue';
 import type { CheckboxChangeEvent } from 'ant-design-vue/lib/checkbox/interface';
 import type { Dayjs } from 'dayjs';
+import { getDeepNestedObj } from '@/utils/helper';
 import { PLEASE_ENTER, PLEASE_SELECT, DATE_FORMAT } from '@/utils/config';
 import dayjs from 'dayjs';
-import { getDeepNestedObj } from '@/utils/helper';
 
 /**
  * 生成占位符

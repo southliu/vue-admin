@@ -69,7 +69,11 @@ export const versionCheck = async (
       content: '发现新内容，自动更新中...',
       key: 'reload',
       onClose: () => {
-        window.location.reload();
+        let timer: NodeJS.Timeout | null = setTimeout(() => {
+          clearTimeout(timer as NodeJS.Timeout);
+          timer = null;
+          window.location.reload();
+        }, 60000);
       }
     });
   }
