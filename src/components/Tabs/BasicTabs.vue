@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import type { TabData } from './model';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 defineOptions({
   name: 'BasicTabs'
@@ -47,6 +47,10 @@ interface DefineProps {
 const props = withDefaults(defineProps<DefineProps>(), {});
 
 const active = ref(props?.defaultActive || props.list?.[0]?.value || '');
+
+watch(() => props.defaultActive, value => {
+  active.value = value || '';
+});
 
 /**
  * 处理点击事件

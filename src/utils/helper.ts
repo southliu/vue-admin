@@ -3,6 +3,7 @@ import type { IConstant } from "./constants";
 import type { ArrayData, TableData } from "#/public";
 import type { DefaultOptionType } from "ant-design-vue/es/select";
 import { TITLE_SUFFIX } from "./config";
+import dayjs from "dayjs";
 
 /**
  * 首字母大写
@@ -197,6 +198,18 @@ const getStrCodeNum = (data: string) => {
 };
 
 /**
+ * 时间转时间戳
+ * @param data - 表格字段值
+ */
+const handleDateToNum = (data: string) => {
+  if (data) {
+    return dayjs(data as string).valueOf() || 0;
+  }
+
+  return 0;
+};
+
+/**
  * 处理表格排序
  * @param key - 表格字段名
  * @param directions - 升序降序
@@ -205,15 +218,27 @@ interface TableSorterProps {
   a: TableData;
   b: TableData;
   key: string | string[];
-  directions?: 'ascend' | 'descend'
+  directions?: 'ascend' | 'descend';
+  type?: 'date';
 }
 export const handleTableSorter = ({
-  a, b, key, directions = 'ascend'
+  a,
+  b,
+  key,
+  directions = 'ascend',
+  type
 }: TableSorterProps) => {
   let result = 0;
-  const aNum = getStrCodeNum(getDeepNestedObj(key, a) as string);
-  const bNum = getStrCodeNum(getDeepNestedObj(key, b) as string);
+  let aNum = 0, bNum = 0;
 
+  // 如果是时间类型
+  if (type === 'date') {
+    aNum = handleDateToNum(getDeepNestedObj(key, a) as string);
+    bNum = handleDateToNum(getDeepNestedObj(key, b) as string);
+  } else {
+    aNum = getStrCodeNum(getDeepNestedObj(key, a) as string);
+    bNum = getStrCodeNum(getDeepNestedObj(key, b) as string);
+  }
   if (directions === 'ascend') {
     result = aNum - bNum;
   } else {
