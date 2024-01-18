@@ -11,6 +11,7 @@
     :dataSource="tableData"
     :scroll="{ y: tableHeight, x: scrollX }"
     @resizeColumn="handleResizeColumn"
+    @change="onChange"
   >
     <template #bodyCell="{ column, record, index }">
       <span v-if="(column as TableColumnsProps)?.type === 'index'">

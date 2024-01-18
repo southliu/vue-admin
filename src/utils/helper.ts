@@ -104,11 +104,22 @@ export const handleEchoArr = (
   const label = options?.label || 'label';
   const value = options?.value || 'value';
 
-  for (let i = 0; i < arr.length; i++) {
-    const item = arr[i];
-    if (String(item[value]) === String(data)) {
-      return item[label];
+  if (Array.isArray(data)) {
+    const result: string[] = [];
+
+    for (let i = 0; i < data?.length; i++) {
+      const item = data[i];
+
+      for (let j = 0; j < arr?.length; j++) {
+        const arrItem = arr[j];
+        
+        if (String(arrItem[value]) === String(item)) {
+          result.push(arrItem[label]);
+        }
+      }
     }
+
+    return result?.join(',');
   }
 };
 
