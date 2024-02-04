@@ -84,9 +84,9 @@ watch(() => [props.modelValue, props.value], () => {
 const getApiData = async () => {
   if (!props.api) return;
   try {
-    const { api, params, apiResultKey } = props;
+    const { api, params, params2, params3, apiResultKey } = props;
     isLoading.value = true;
-    const { code, data } = await api(params);
+    const { code, data } = await api(params, params2, params3);
     if (Number(code) !== 200) return;
     let result = apiResultKey ? (data as { [apiResultKey: string]: unknown })?.[apiResultKey] : data;
 

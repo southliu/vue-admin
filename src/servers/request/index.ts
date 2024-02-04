@@ -2,6 +2,7 @@ import { message } from 'ant-design-vue';
 import { getLocalInfo, removeLocalInfo } from '@/utils/local';
 import { TOKEN } from '@/utils/config';
 import { router } from '@/router';
+import { useUserStore } from '@/stores/user';
 import axios from 'axios';
 import AxiosRequest from './request';
 
@@ -38,8 +39,10 @@ function creteRequest(url: string) {
       responseInterceptors(res) {
         const { data } = res;
         // 权限不足
-        if (data?.code === 401) {
+        if (data?.code === 401 && !location.href?.includes('/login')) {
           removeLocalInfo(TOKEN);
+          const { setPermissions } = useUserStore();
+          setPermissions([]);
           router.push('/login');
           handleError(data?.message || '权限不足，请重新登录！');
           return res;
@@ -55,8 +58,10 @@ function creteRequest(url: string) {
       },
       responseInterceptorsCatch(err) {
         // 权限不足
-        if (err?.response?.status === 401 || err.response?.data?.code === 401) {
+        if ((err?.response?.status === 401 || err.response?.data?.code === 401) && !location.href?.includes('/login')) {
           removeLocalInfo(TOKEN);
+          const { setPermissions } = useUserStore();
+          setPermissions([]);
           router.push('/login');
           handleError(err.response?.data?.message || '权限不足，请重新登录！');
           return err;
