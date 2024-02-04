@@ -73,12 +73,14 @@ export type ComponentType = DefaultDataComponents |
                           EditorComponents |
                           PasswordStrength
 
-export type ApiFun = (params?: unknown) => Promise<ServerResult>
+export type ApiFun = (params?: unknown, params2?: unknown, params3?: unknown) => Promise<ServerResult>
 
 // api参数
 export interface ApiSelectParam {
   api?: ApiFun;
-  params?: object;
+  params?: unknown;
+  params2?: unknown;
+  params3?: unknown;
   apiResultKey?: string; // 接口返回值的key值，枚举接口特殊处理
   spliceLabel?: [string, string]; // 拼接名称
   onUpdate?: (value: SelectValue, list: unknown[]) => void;
@@ -90,7 +92,7 @@ export type ApiSelectProps = ApiSelectParam & SelectProps
 // ApiTreeSelect
 export type ApiTreeSelectProps = ApiSelectParam & TreeSelectProps
 
-export type BasicSelectParam = Omit<ApiSelectParam, 'api' | 'params' | 'apiResultKey'>
+export type BasicSelectParam = Omit<ApiSelectParam, 'api' | 'params' | 'params2' | 'params3' | 'apiResultKey'>
 
 // BasicSelect
 export type BasicSelectProps = BasicSelectParam & SelectProps

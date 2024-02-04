@@ -2,7 +2,8 @@ import type { FormData } from "#/form";
 import type { IConstant } from "./constants";
 import type { ArrayData, TableData } from "#/public";
 import type { DefaultOptionType } from "ant-design-vue/es/select";
-import { TITLE_SUFFIX } from "./config";
+import { getLocalInfo } from "./local";
+import { TITLE_SUFFIX, TOKEN } from "./config";
 import dayjs from "dayjs";
 
 /**
@@ -283,4 +284,23 @@ export const getDeepNestedObj = (keys: string[] | string, obj: Record<string, un
   } catch(e) {
     console.warn('嵌套数据解析异常:', e);
   }
+};
+
+/**
+ * 导出额外参数
+ * @param params - 参数
+ */
+export const handleExportParams = (params?: Record<string, unknown>) => {
+  const token = getLocalInfo(TOKEN);
+  let suffix = `authorization=${token}`;
+
+  for (const key in params) {
+    if ([null, undefined, ''].includes(params[key] as undefined)) {
+      continue;
+    }
+
+    suffix += `&${key}=${params[key]}`;
+  }
+
+  return suffix;
 };
