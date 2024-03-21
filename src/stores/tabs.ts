@@ -107,7 +107,7 @@ export const useTabStore = defineStore({
           this.closeTabs(this.cacheCloseTabKey);
           this.cacheCloseTabKey = '';
         }
-      } else if (tab.url !== this.tabs[hasIndex].url) {
+      } else if (tab.url !== this.tabs[hasIndex].url || tab.label !== this.tabs[hasIndex].label) {
         this.closeTabs(tab.key);
 
         let timer: NodeJS.Timeout | null = setTimeout(() => {
