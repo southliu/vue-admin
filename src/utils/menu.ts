@@ -9,7 +9,7 @@ export function getOpenMenuByRouter(router: string): string[] {
   const arr = splitPath(router), result: string[] = [];
 
   // 取第一个单词大写为新展开菜单key
-  if (arr.length > 0) result.push(arr[0]);
+  if (arr.length > 0) result.push(`/${arr[0]}`);
 
   // 当路由处于多级目录时
   if (arr.length > 2) {
@@ -255,7 +255,7 @@ export const handleFilterApiMenu = (
   for (let i = 0; i < list?.length; i++) {
     const item = list[i];
     let children: SideMenu[] = [];
-    const { menuName, permissions, id, menuType } = item;
+    const { menuName, permissions, menuIcon, id, menuType } = item;
     let { menuRoute } = item;
 
     // 无权限则跳过
@@ -291,6 +291,7 @@ export const handleFilterApiMenu = (
       key: menuRoute || permissions,
       label: menuName,
       rule: permissions,
+      icon: menuIcon,
       children
     };
     result.push(params);

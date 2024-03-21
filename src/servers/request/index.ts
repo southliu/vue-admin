@@ -39,11 +39,11 @@ function creteRequest(url: string) {
       responseInterceptors(res) {
         const { data } = res;
         // 权限不足
-        if (data?.code === 401 && !location.href?.includes('/login')) {
+        if (data?.code === 401 && !location.href?.includes('/login?state=401')) {
           removeLocalInfo(TOKEN);
           const { setPermissions } = useUserStore();
           setPermissions([]);
-          router.push('/login');
+          router.push('/login?state=401');
           handleError(data?.message || '权限不足，请重新登录！');
           return res;
         }
@@ -62,7 +62,7 @@ function creteRequest(url: string) {
           removeLocalInfo(TOKEN);
           const { setPermissions } = useUserStore();
           setPermissions([]);
-          router.push('/login');
+          router.push('/login?state=401');
           handleError(err.response?.data?.message || '权限不足，请重新登录！');
           return err;
         }

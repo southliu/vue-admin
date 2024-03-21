@@ -9,6 +9,7 @@ export interface SystemMenuTree {
   enable?: boolean;
   id: string;
   menuType: number;
+  menuIcon?: string;
   link?: boolean;
   menuName: string;
   menuNameEn: string;

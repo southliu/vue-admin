@@ -79,8 +79,9 @@ import { message } from 'ant-design-vue';
 import { onMounted, reactive, ref } from 'vue';
 import { UserOutlined, LockOutlined } from '@ant-design/icons-vue';
 import { login } from '@/servers/login';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 import { setTitle } from '@/utils/helper';
+import { useTabStore } from '@/stores/tabs';
 import { useToken } from '@/hooks/useToken';
 import { useMenuStore } from '@/stores/menu';
 import { useUserStore } from '@/stores/user';
@@ -101,10 +102,13 @@ import NProgress from 'nprogress';
 import PageLoading from '@/components/Loading/PageLoading.vue';
 
 setTitle('登录');
+const route = useRoute();
 const router = useRouter();
+const tabStore = useTabStore();
 const userStore = useUserStore();
 const menuStore = useMenuStore();
 const { setUserInfo, setPermissions } = userStore;
+const { closeAllTab } = tabStore;
 const { setMenus } = menuStore;
 const { setToken } = useToken();
 const [_, RemoveWatermark] = useWatermark();
@@ -120,6 +124,11 @@ onMounted(() => {
   NProgress.done();
   // 清除水印
   RemoveWatermark();
+
+  // 如果是无权限退出，清除标签选择
+  if (route.query?.state === '401') {
+    closeAllTab();
+  }
 });
 
 /** 获取用户菜单 */

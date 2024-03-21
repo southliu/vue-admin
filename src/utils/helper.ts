@@ -122,6 +122,13 @@ export const handleEchoArr = (
 
     return result?.join(',');
   }
+
+  for (let i = 0; i < arr?.length; i++) {
+    const item = arr[i];
+    if (String(item.value) === String(data)) {
+      return item.label;
+    }
+  }
 };
 
 /**
