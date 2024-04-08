@@ -32,6 +32,19 @@
         :tooltipText="record?.[(column as TableColumnsProps).tooltipKey as string]"
       />
 
+      <span
+        v-else-if="(column as TableColumnsProps).customRender"
+      >
+        {{ (column as TableColumnsProps)?.customRender?.({
+          text: record?.[column.dataIndex as string],
+          value: record?.[column.dataIndex as string],
+          column,
+          record,
+          index,
+          renderIndex: column.dataIndex as number
+        }) ?? EMPTY_VALUE }}
+      </span>
+
       <slot
         v-else
         :name="column.dataIndex"
